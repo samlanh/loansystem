@@ -519,3 +519,8 @@ body .main-menu .navigation li.has-sub > a:not(.mm-next):after {
 body .main-menu .navigation li.open > a:not(.mm-next):after {
     transform: rotate(90deg);
 }
+#menu a {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
