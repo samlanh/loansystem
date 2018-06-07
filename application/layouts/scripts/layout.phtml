@@ -194,17 +194,27 @@
 							</div>
 							<div style="clear:both;"></div>
 							<?php }?>
-							<?php 
-							$db = new Application_Model_DbTable_DbUsers();
-	            			$rs = $db->getAccessUrl($module,$controller,$action);
-	            			echo $this->layout()->content;
-// 	            			if(!empty($rs) OR $action=='changepassword'){
-// 	            				echo $this->layout()->content;
-// 	            			}else{
-// 	            				echo $this->layout()->content;
-// 	            				echo $this->render('pagenotfund.phtml');
-// 	            			}
-            			 ?>
+							<?php if($module!='home') {?>
+							<section class="inputmask">
+								<div class="row">
+							    	<div class="col-sm-12">
+							    	<?php }?>
+										<?php 
+										$db = new Application_Model_DbTable_DbUsers();
+				            			$rs = $db->getAccessUrl($module,$controller,$action);
+				            			echo $this->layout()->content;
+			// 	            			if(!empty($rs) OR $action=='changepassword'){
+			// 	            				echo $this->layout()->content;
+			// 	            			}else{
+			// 	            				echo $this->layout()->content;
+			// 	            				echo $this->render('pagenotfund.phtml');
+			// 	            			}
+			            			 ?>
+			            			 <?php if($module!='home') {?>
+			            			 </div>
+			            		</div>
+			            	</section>
+            			 <?php }?>
             			 <?php 
 			               	if($module=='report' AND $action!='rpt-paymentschedules'){
 			              ?>
