@@ -1,0 +1,55 @@
+<?php 
+	$frm = $this->formFilter;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$url_copy = $this->baseUrl()."/installment/product/copy/id/";
+?>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+</script>
+<title><?php echo $tr->translate("PRODUCT");?></title>
+<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+   <table width="100%">
+	   <tr>  
+	        <td><?php echo $frm->getElement("adv_search");?></td>
+	   		<td> <?php echo $frm->getElement('branch_id');?></td>
+	   		<td><?php echo $frm->getElement("product_type");?></td>
+	   		<td><?php echo $frm->getElement("category");?></td>
+	   </tr>
+	   <tr>
+	   		<td><?php echo $frm->getElement('start_date');?></td>
+	   		<td><?php echo $frm->getElement('end_date');?></td>
+	   		<td><?php echo $frm->getElement('status');?></td>
+	   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+	   </tr>
+	</table>
+</form>
+<?php echo $this->list; ?>
+<script>
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+		
+			var m = "clicked: " + key;
+			 if(key=="copy"){
+				url='<?php echo $url_copy;?>';
+			}
+			gotoAction();
+			//window.console && console.log(m) || alert(m); 
+		},
+		items: {
+			"copy": {name: "<?php echo $tr->translate("Copy");?>", icon: "copy", accesskey: "c o p y"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
+</script>

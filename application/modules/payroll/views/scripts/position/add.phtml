@@ -1,0 +1,76 @@
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate('POSITION_INFO'));
+?>	
+<?php  $techer= $this->frm_position;?>
+<form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'position','action'=>'Add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				/*if(dijit.byId('province').get('value')==''){
+					alert('Province required');
+					return false;
+			    }*/
+					dijit.byId("save_close").set("disabled",true);
+					dijit.byId("save_new").set("disabled",true);
+				return true;
+			} else {
+				return false;
+			}
+</script>
+<table cellspacing="10" width="50%" style="margin: 0 auto;">
+	<tr>
+		<td>
+		<fieldset>
+					<legend align="center"><strong><?php echo $tr->translate("ADD_POSITION");?></strong></legend>
+					
+					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
+						<tr>
+							<td><?php echo $tr->translate("POSITION_KH")?></td>
+							<td><?php  echo $techer->getElement('position_kh');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("POSITION_EN")?></td>
+							<td><?php  echo $techer->getElement('position_en');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php  echo $techer->getElement('status');?></td>
+						</tr>
+						<tr>
+						  	<td>
+						  	</td>
+						  	<td>
+						  	 	<input type="hidden" name="exchangefrom" value="2" />
+								<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
+								<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
+								<input type="button" onclick="submitDataClose()" value="save_close" name="save_close" id="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+									iconClass="dijitEditorIcon dijitEditorIconSave" />
+								<input type="submit" value="save_new" name="save_new" id="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
+									iconClass="dijitEditorIcon dijitEditorIconSave" />
+						  	</td>
+						</tr>
+					</table>	
+		</fieldset>
+		</td>
+	</tr>
+</table>	
+</form>
+<script>
+function submitDataClose(){
+	if(dijit.byId('add_techer').validate()) {
+		dijit.byId('save_close').set('disabled',true);
+		dijit.byId('save_new').set('disabled',true);
+		var url_submit = '<?php echo $this->url(array('module'=>'payroll','controller'=>'position','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("add_techer"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/payroll/position";
+			},
+			error: function(e) {
+			}
+		});
+	}
+}
+</script>

@@ -1,0 +1,83 @@
+	<?php
+	$tr=Application_Form_FrmLanguages::getCurrentlanguage();
+	$request=Zend_Controller_Front::getInstance()->getRequest();
+	$action = $request->getActionName();
+	$baseurl  = $this->baseUrl();
+	$session_user=new Zend_Session_Namespace('authloan');
+	$arr_module = $session_user->arr_acl;
+	
+	$menu = array();
+$module = '';
+$controller=array();
+$newarray=array();
+	if(!empty($arr_module)){
+		foreach ($arr_module as $key => $rs){
+			$lblcontroller = $rs['label'];
+			if($rs['controller']=='index' AND $rs['module']=='group' ){
+				$lblcontroller='CLIENT_INFO';
+			}
+			if($rs['controller']=='index' AND $rs['module']=='loan' ){
+				$lblcontroller='IL_DISBURSE';
+			}
+			if($rs['module']=='installment' AND $rs['controller']=='index'){
+				$lblcontroller='INSTALLMENT_MNG';
+			}
+			
+			if($module!=$rs['module']){
+				$newarray= array($rs['controller']=>$tr->translate(strtoupper($lblcontroller)));
+				$menu[$rs['module']]= $newarray;
+				$old_module=$rs['module'];
+			}else{
+				$newarray= array_merge($newarray,array($rs['controller']=>$tr->translate(strtoupper($lblcontroller))));
+			    $menu[$rs['module']] = $newarray;
+			}
+			$module=$rs['module'];
+		}
+	}
+	$arr_param_menu = $menu;   
+// 	print_r($arr_param_menu);exit();
+	$module = $request->getModuleName();
+	$controller = $request->getControllerName();
+?>
+<div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow pt-10 " data-scroll-to-active="true">
+	<div class="button-make-loan mb-10">
+		<a href="<?php echo $this->baseUrl()."/loan/index/add"?>"  class="closebtn-makesale"  ><i class="fa fa-plus" aria-hidden="true"></i> <?php echo $tr->translate("Make Loan Disburse");?> </a>
+	</div>
+    <div class="main-menu-content">
+		<ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+		   <!-- 
+		   <li class="nav-item has-sub">
+		       <a href="#"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.page_layouts.main">ចំណាត់ថ្នាក់ចំណាយ</span></a>
+		           <ul class="menu-content">
+		       	    	<li><a class="menu-item" href="/maffsystem/expenses">INDEX</a></li>
+		                 <li><a class="menu-item" href="/maffsystem/expenses/category">ប្រភេទការចំណាយ</a></li>
+		          </ul>
+		  </li>
+		    -->
+		    <?php foreach ($arr_param_menu[$request->getModuleName()] as $param =>$url){
+		    	$uri=$this->baseUrl().'/'.$module.'/'.$param;
+		    	?>
+		  <li class="nav-item <?php if($param==$controller){ echo "active";}?>">
+		  	<a href="<?php echo $uri;?>"><i class="la la-user"></i><span class="menu-title" data-i18n="nav.dash.main"><?php echo $url;?></span></a>
+		  </li>
+		  <?php }?>
+		</ul>
+	</div>
+</div>
+<!-- 
+<div id="header-left">
+<ul>
+<?php 
+// 	if($request->getModuleName()!='default' AND $action!='changepassword' ){
+// 		$dc=new Application_Model_Decorator();					
+// 		$class="current-left";					
+// 		$menu=$dc->getMenuLeft($arr_param_menu[$request->getModuleName()],$request->getControllerName(),$request->getModuleName());
+// 		if($menu) echo $menu;	
+// 	}				
+?>
+	</ul>																
+	</div>
+	 -->
+	<style>
+	.current-left{  background: none repeat scroll 0 0 #EDF7F8 !important;}
+	</style>

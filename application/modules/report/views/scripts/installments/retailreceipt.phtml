@@ -1,0 +1,278 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
+$purchase = $this->purchase;
+$purchaseDetail = $this->purchaseDetail;
+$gender=array(
+		1=>'ប្រុស',
+		2=>'ស្រី',
+		3=>'ផ្សេងៗ',
+		);
+?>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+</script>
+<div style="width:100%; margin:0 auto;">
+	<div style=" width:25cm; height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+			<div id="divPrint" class="print" style="text-align:center; widht:100% ">
+			<style>
+				.style {
+					line-height: 18px;
+					font-size: 12px !important;
+				}
+				th {
+					padding: 3px;
+				}
+				td.bill-ship-bg {
+					background: #ccc;
+					padding: 3px 10px;
+				}
+				td.tel_header p {
+					display: inline-block;
+				}
+				#boder-td{
+					border: 1px solid #000;
+				}
+				span.labelBorderBottom {
+				    border-bottom: dashed 1px #00f;
+				    min-width: 30px;
+				    display: inline-block;
+					line-height: 9px;
+					text-align: center;
+				}
+				span.paddingLeft {
+				    display: block;
+				    padding-left: 25%;
+				}
+				span.paddingLeft2 {
+				    padding-left: 13%;
+					    display: block;
+				}
+				</style>
+				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; color: #0540e6;">
+					<tbody>
+						<tr style="text-align:center; line-height:25px; font-size:16px; font-family:'Khmer OS Muol Light'; ">
+							  <td align="center" valign="top" width="20%"><span><img src="<?php echo $this->baseUrl()?>/images/Filed other.zip.png" style="width: 80%;"></span>
+							  </td>
+							  <td align="center" valign="bottom" width="60%" ><span >ព្រះរាជាណាចក្រកម្ពុជា<p />
+							  ជាតិ សាសនា ព្រះមហាក្សត្រ</span>
+							  <p/><u><span">ប័ណ្ណលក់<p />ទោចក្រយានយន្ដ</span></u>
+							  </td>
+							  <td align="center" valign="top" width="20%" >
+							  <span><img src="<?php echo $this->baseUrl()?>/images/honda_dream_2017.png" style="width: 80%;"></span>
+							  <br />Tel: 086 300 747
+							  </td>
+						</tr>
+						
+						<tr>
+							<td colspan="3">
+								<table  style=" text-align: center; width:100%; color: #0540e6;">
+									<tbody>
+										
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						
+						<tr>
+						<td colspan="3" align="left" style="line-height: 30px; font-size:14px; color:inherit; ">
+							<table style="width:100%;  color:inherit; white-space: nowrap;">
+								<tr>
+									<td>ខ្ញុំបាទ-នាងខ្ញុំឈ្មោះ</td>
+									<td width="60%" align="left"><span class="labelBorderBottom" style="min-width:100%;"><span class="labelValue" id="LBclientName"><strong><?php echo $purchase['supplier_name'];?></strong></span></span></td>
+									<td>&nbsp;ភេទ&nbsp;</td>
+									<td width="10%">​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientGender"><strong><?php echo $gender[$purchase['supplierSex']];?></strong>&nbsp;</span></span></td>
+									<td>&nbsp;អាយុ&nbsp;</td>
+									<td width="10%">
+									​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientAge">&nbsp;<strong><?php echo $purchase['supplierAge'];?></strong>&nbsp;</span></span>
+									</td>
+									<td>ឆ្នាំ</td>
+								</tr>
+							</table>
+							<table style="width:100%;  color:inherit; white-space: nowrap;">
+								<tr>
+									<td>
+									មុខងារបច្ចុប្បន្ន
+									</td>
+									<td width="90%">
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLOccupation"><strong><?php echo $purchase['supplierOccupation'];?></strong></span></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									ទីលំនៅបច្ចុប្បន្ន
+									</td>
+									<td width="90%">
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLAddress"><strong><?php echo $purchase['supplierAddress'];?></strong></span></span>
+									</td>
+								</tr>
+							</table>
+							<?php if (count($purchaseDetail)==1) foreach ($purchaseDetail as $detail){?>
+							<table style="width:100%;  color:inherit; white-space: nowrap;">
+								<tr>
+									<td>
+										បានលក់ទោចក្រយានយន្ដម៉ាក
+									</td>
+									<td colspan="2">
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLProductMake"><strong><?php echo $detail['item_name'];?></strong></span></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									</td>
+									<td>
+										លេខតួ
+									</td>
+									<td width="70%">
+										<span class="labelBorderBottom" style="min-width:100%;text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLEngine"><strong><?php echo $detail['engine'];?></strong></span></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									</td>
+									<td>
+										លេខម៉ាស៊ីន
+									</td>
+									<td>
+										<span class="labelBorderBottom" style="min-width:100%;text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLEngine"><strong><?php echo $detail['engine'];?></strong></span></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									</td>
+									<td>
+										ពណ៌
+									</td>
+									<td>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLColor"><strong><?php echo $detail['color'];?></strong></span></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									</td>
+									<td>
+										តម្លៃ
+									</td>
+									<td>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLPrice"><strong><?php echo number_format($detail['price'],2);?></strong></span></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									</td>
+									<td>
+										ស្លាកលេខ
+									</td>
+									<td>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span  class="labelValue" id="LBLPlate"><strong><?php echo $detail['frame_no'];?></strong></span></span>
+									</td>
+								</tr>
+							</table>
+							<?php }?>
+							<table style="width:100%;  color:inherit; white-space: nowrap;">
+								<tr>
+									<td>
+									អោយទៅឈ្មោះ
+									</td>
+									<td width="90%">
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLBuyName"><strong><?php echo $purchase['buyerName'];?></strong></span></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									មុខងារបច្ចុប្បន្ន
+									</td>
+									<td width="90%">
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLBuyOccupation"><strong><?php echo $purchase['buyerOccupation'];?></strong></span></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									ទីលំនៅបច្ចុប្បន្ន
+									</td>
+									<td width="90%">
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLBuyAddress"><strong><?php echo $purchase['buyerAddress'];?></strong></span></span>
+									</td>
+								</tr>
+							</table>
+							<table style="width:100%;  color:inherit; white-space: nowrap;">
+								<tr>
+									<td width="10%">
+									</td>
+									<td width="90%">
+										យើងខ្ញុំសូមធានាថា ឯកសារដែលបានបំពេញខាងលើពិតជាត្រឹមត្រូវ <br />
+										បើខុសការពិត យើងខ្ញុំ សូមទទួលខុសត្រូវទាំងស្រុងចំពោះមុខច្បាប់។<br />
+										<span style="padding-left: 30px">
+										<strong>បញ្ជាក់ៈ របស់ទិញហើយ មិនអាចដូចវិញបានទេ</strong>
+										</span>	
+									</td>
+								</tr>
+							</table>
+						</tr>
+						<tr>
+							<td colspan="3" align="right">
+								<span style="color:inherit; font-size: 11px; text-align: right; font-family:'Times New Roman','Khmer OS Battambang';"></span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" align="center">
+								<table  style=" text-align: center; width:100%;  color:inherit; white-space: nowrap; font-size: 14px;">
+									<tr >
+										<td style="width:30%;text-align:center; font-size: 12px; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;"><td>&nbsp;</td>
+										<td align="right">សៀមរាបថ្ងៃទី</td>
+										<td width="10%" style=" text-align:center;  font-weight:200;"> 
+											<span class="labelBorderBottom" style="min-width: 100%;"><?php echo date("d",strtotime($purchase['date']));?></span>
+										</td>
+								  		<td width="5%">
+								  			ខែ
+								  		</td>
+								  		<td width="10%">
+								  			<span class="labelBorderBottom" style="min-width: 100%;"><?php echo date("m",strtotime($purchase['date']));?></span>
+								  		</td>
+								  		<td width="5%">
+								  			ឆ្នាំ
+								  		</td>
+								  		<td width="10%">
+								  			 <span class="labelBorderBottom" style="min-width: 100%;"><?php echo date("Y",strtotime($purchase['date']));?></span>
+								  		</td>
+								   </tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<table  style=" text-align: center; width:100%; color: #0540e6;">
+									<tbody>
+										
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" align="center">
+								<table  style=" color:inherit; text-align: center; line-height: 56px; width:100%;  font-size: 14px;">
+									<tr>
+										<td style="width:25%; text-align:center; font-weight:200;white-space: nowrap;font-weight: bold;">
+										&nbsp;ស្នាមមេដៃអ្នកលក់&nbsp;</td>
+										<td style=" width:25%; text-align:center; font-weight: bold;">&nbsp;សាក្សីអ្នកលក់&nbsp;</td>
+										<td style=" width:25%; text-align:center; font-weight: bold;">&nbsp;សាក្សីអ្នកទិញ&nbsp;</td>
+										<td style=" width:25%; text-align:center; font-weight: bold;">&nbsp;ស្នាមមេដៃអ្នកទិញ&nbsp;</td>
+								   </tr>
+								   <tr>
+								   		<td colspan="4">&nbsp;</td>
+								   </tr>
+								   <tr>
+										<td style="width:25%; text-align:center; font-weight:200;white-space: nowrap;">
+										&nbsp;<?php echo $purchase['supplier_name'];?>&nbsp;</td>
+										<td style=" width:25%; text-align:center; font-weight:200;">&nbsp;&nbsp;</td>
+										<td style=" width:25%; text-align:center; font-weight:200;">&nbsp;&nbsp;</td>
+										<td style=" width:25%; text-align:center; font-weight:200;">&nbsp;<?php echo $purchase['buyerName'];?>&nbsp;</td>
+								   </tr>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+</div>

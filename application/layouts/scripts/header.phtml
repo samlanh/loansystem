@@ -1,0 +1,85 @@
+<?php 
+	  $tr=Application_Form_FrmLanguages::getCurrentlanguage();
+	  $home=$this->url(array('module'=>'home','controller'=>'index','action'=>'index'), null, true);
+	  $group=$this->url(array('module'=>'group','controller'=>'index','action'=>'index'), null, true);
+	  $other=$this->url(array('module'=>'other','controller'=>'index','action'=>'index'), null, true);
+	  $old_report=$this->url(array('module'=>'allreport','controller'=>'index','action'=>'index'), null, true);
+	  $report=$this->url(array('module'=>'report','controller'=>'index','action'=>'index'), null, true);
+	  $loan_view=$this->url(array('module'=>'loan','controller'=>'index','action'=>'index'), null, true);
+	  $accounting_view=$this->url(array('module'=>'accounting','controller'=>'index','action'=>'index'), null, true);
+	  $teller=$this->url(array('module'=>'tellerandexchange','controller'=>'xchanges','action'=>'index'), null, true);
+	  $payroll_view=$this->url(array('module'=>'payroll','controller'=>'index','action'=>'index'), null, true);
+	  $callecterall=$this->url(array('module'=>'callecterall','controller'=>'index','action'=>'index'), null, true);
+	  $capital=$this->url(array('module'=>'capital','controller'=>'index','action'=>'index'), null, true);
+	  $backup=$this->url(array('module'=>'backup','controller'=>'index','action'=>'index'), null, true);
+      $user=$this->url(array('module'=>'user','controller'=>'index','action'=>'index'), null, true);
+      $acl=$this->url(array('module'=>'rsvacl','controller'=>'index','action'=>'index'), null, true);
+      $setting=$this->url(array('module'=>'setting','controller'=>'index','action'=>'index'), null, true);
+      $saving_acc=$this->url(array('module'=>'saving','controller'=>'index','action'=>'index'), null, true);
+      $capital=$this->url(array('module'=>'capital','controller'=>'index','action'=>'index'), null, true);
+      $module=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
+      
+      $session_user=new Zend_Session_Namespace('authloan');
+      $arr_module = $session_user->arr_module;
+      $icon = array(
+      		'home'=>'<i class="fa fa-home" aria-hidden="true"></i>',
+      		'other'=>'<i class="fa fa-bookmark" aria-hidden="true"></i>',
+      		'capital'=>'<i class="fa fa-usd" aria-hidden="true"></i>',
+      		'tellerandexchange'=>'<i class="fa fa-desktop" aria-hidden="true"></i>',
+      		'report'=>'<i class="fa  fa-file-text" aria-hidden="true"></i>',
+      		'reports'=>'<i class="fa  fa-file-text" aria-hidden="true"></i>',
+      		'rsvacl'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
+      		'setting'=>'<i class="fa  fa-cogs" aria-hidden="true"></i>',
+      		'group'=>'<i class="fa fa-users" aria-hidden="true"></i>',
+      		'loan'=>'<i class="fa fa-money" aria-hidden="true"></i>',
+      		'installment'=>'<i class="fa fa-money" aria-hidden="true"></i>',
+      		'pawnshop'=>'<i class="fa fa-money" aria-hidden="true"></i>',
+      		'user'=>'<i class="fa fa-book" aria-hidden="true"></i>',
+      		'transfer'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
+      );
+      $menuleft=array();
+      $class='link';
+      if(!empty($arr_module)){
+      	foreach ($arr_module as $rs){
+      		if($rs==$module){$class='current';}else{$class='link';}
+      		$url =$this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true); ;
+      		$menuleft[$rs]="<li class='$class'><a href='$url'><span class='icon_menu'>$icon[$rs]</span></span><br />".$tr->translate(strtoupper($rs))."</a></li>";
+      	}
+      }
+?>  
+<div id="menu">
+	<ul>
+		<li>
+			<a><img src="<?php echo $this->baseurl()?>/images/cam-app-logo.png" style="max-height:45px"></a>
+		</li>
+		<?php
+// 		$access=0;
+// 		if($access!=''){
+// 			echo 1;
+// 		}else{
+// 			echo 0;
+// 		}
+// 		exit();
+		
+		$session_user=new Zend_Session_Namespace('authloan');
+		$modules_access = $session_user->arr_module;
+			foreach($menuleft as $key=>$value){
+				$access = array_search($key,$modules_access);
+				//if($access!='' OR $access>=0){
+					if($module==$value){
+						echo str_replace('link', 'current',$value);
+					}
+					else{
+						echo $value;
+					}
+				//}
+			} 
+		?>
+		<li style="float: right;">
+			<a href="" class="langiconen" onclick="changeLange(2);"></a>
+		</li>
+		<li style="float: right;  border-left: 1px solid #fff; border-right: 1px solid #fff;">
+		<a href="" class="langiconkh" onclick="changeLange(1);"></a>
+		</li>
+	</ul>
+</div>
