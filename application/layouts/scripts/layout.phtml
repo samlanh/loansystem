@@ -96,11 +96,12 @@
 		}
 		.fullside{ width:98%; height: 30px;}
 		.full{ width:100%;}
+		.dijitButton .dijitButtonNode {
+		    height: 32px;
+		}
 		body, html {font-size:96%; 
 		font-family: Arial,Helvetica,sans-serif,'Kh Battambang','Khmer Battambang';
 		
-		.normal,.alternate{ font-size:90% !important;}
-        
 		*{ padding: 0; margin: 0;}
 		fieldset{ font-family: inherit;}
 		.border{ border: 1px solid #ccc; height: 100%; margin: 5px; padding: 5px;}
@@ -235,7 +236,7 @@
 <style>
 .overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
 .overlay-load {width: 350px;height: 100px;margin: auto;top: 0px;bottom: 0px;position: absolute;left: 0px;right: 0px;
-           border: solid 1px #060522;text-align: center;
+           text-align: center;
            background: #fff url("<?php echo $this->baseUrl()?>/images/loading.gif") 50% 25%;
            background-repeat: no-repeat;          
 }
@@ -245,6 +246,20 @@
 
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 <script>
+/*$(document).ready(function(){
+loadingBlock();
+setTimeout(function () {
+	HideloadingBlock();
+}, 1000);
+});
+
+ */
+function loadingBlock(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+function HideloadingBlock(){
+    document.getElementsByClassName("overlay")[0].style.display="none";
+}
 var url_changelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';
 function changeLange(lang){
 	$.ajax({
@@ -262,12 +277,7 @@ function changeLange(lang){
 		}
 	});
 }
-function loadingBlock(){
-    document.getElementsByClassName("overlay")[0].style.display="block";
-}
-function HideloadingBlock(){
-    document.getElementsByClassName("overlay")[0].style.display="none";
-}
+
 	</script>
 <?php if($module=='report' OR $module=='reports' AND $action!='index'){?>
 <script type="text/javascript">
