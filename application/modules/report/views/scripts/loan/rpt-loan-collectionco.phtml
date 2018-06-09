@@ -131,6 +131,10 @@ $free_day=$key_code['value'];
 	        	$coaTotalWithdminfeer = 0;
 	        	$coaTotalWithadminfeed = 0;
 	        	$coaTotalWithadminfeeb = 0;
+	        	
+	        	$dtotal_adminfeeall=0;
+	        	$rtotal_adminfeeall=0;
+	        	$btotal_adminfeeall=0;
 	        ?>
 <?php 
 $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){?>
@@ -162,6 +166,10 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
      		 <?php $adminfeer = $dbloan->getAdminfeeloanByCO($co_id, 1, $this->search);
      		 		$adminfeed = $dbloan->getAdminfeeloanByCO($co_id, 2, $this->search);
      		 		$adminfeeb = $dbloan->getAdminfeeloanByCO($co_id, 3, $this->search);
+     		 		
+     		 		$dtotal_adminfeeall=$dtotal_adminfeeall+$adminfeed['admin_fee'];
+     		 		$rtotal_adminfeeall=$rtotal_adminfeeall+$adminfeer['admin_fee'];
+     		 		$btotal_adminfeeall=$btotal_adminfeeall+$adminfeeb['admin_fee'];
      		 		
      		 		$totalwithAdminr = $cototal_r +$adminfeer['admin_fee'];
      		 		$totalwithAdmind = $cototal_d +$adminfeed['admin_fee'];
@@ -264,6 +272,10 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
      		 		$totalwithAdminr = $cototal_r +$adminfeer['admin_fee'];
      		 		$totalwithAdmind = $cototal_d +$adminfeed['admin_fee'];
      		 		$totalwithAdminb = $cototal_b +$adminfeeb['admin_fee'];
+     		 		
+     		 		$dtotal_adminfeeall=$dtotal_adminfeeall+$adminfeed['admin_fee'];
+     		 		$rtotal_adminfeeall=$rtotal_adminfeeall+$adminfeer['admin_fee'];
+     		 		$btotal_adminfeeall=$btotal_adminfeeall+$adminfeeb['admin_fee'];
      		 ?>
 				<tr class="style hover" style="font-family: 'Khmer OS Content';white-space: nowrap;background: #cadee3;">
 					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php //echo $tr->translate("TOTAL");?>&nbsp;</td>
@@ -301,38 +313,36 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
                     <?php }?>
                     <th style="font-size: 12px;"><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("SERVICE_CHARGE");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("ADMIN_FEE");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("TOTAL");?></th>
                 </tr>
 				</thead>
                  <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
-                    <?php if($level==1){?>   
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
-                    <?php }?>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d5,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($total_d,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format( $dtotal_adminfeeall,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($total_d+$dtotal_adminfeeall,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
-                    <?php if($level==1){?>   
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
-                    <?php }?>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r3,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r5,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($total_r,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($rtotal_adminfeeall,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($total_r+$rtotal_adminfeeall,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-                    <?php if($level==1){?>   
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
-                   <?php }?>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b5,2);?>&nbsp;</td>
-                   <td>&nbsp;&nbsp;<?php echo number_format($total_b,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($btotal_adminfeeall,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($total_b+$btotal_adminfeeall,2);?>&nbsp;</td>
                 </tr>
               </table>
 	            <br />
