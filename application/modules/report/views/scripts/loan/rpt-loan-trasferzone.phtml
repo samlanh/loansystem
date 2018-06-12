@@ -1,50 +1,44 @@
-<?php $filter = $this->frm_search;
-$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-$url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
-$url_client = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
-$type = array(1=>$tr->translate("COTOC0"),2=>$tr->translate("CLIENTTOC0"),3=>"LOANTOCO");
-
- 
-
+<?php 
+	$filter = $this->frm_search;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
+	$url_client = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
+	$type = array(1=>$tr->translate("COTOC0"),2=>$tr->translate("CLIENTTOC0"),3=>"LOANTOCO");
 ?>
 <meta charset="utf-8">
 <title><?php echo $tr->translate("RPT_TRASFER_LOAN");?></title>
 <script>
 dojo.require("dijit.form.DateTextBox");
 </script>
-<div style="width:100%; margin:0 auto; clear:both;">
-	<div style=" width:28cm;padding:0px 0.5cm;">
-		<form method="post">
-			<table style="width:100%; margin: 0 auto;">
-				<tr>
-					<td><?php echo $filter->getElement('adv_search');?></td>
-					<td><?php echo $filter->getElement('branch_name');?></td>
-					<!-- <td><?php //echo $filter->getElement('client_name');?></td> -->
-					<td><?php echo $filter->getElement('co_code');?></td>
-						<td><?php echo $filter->getElement('start_date');?></td>
-					<td><?php echo $filter->getElement('end_date');?></td>
-					<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-					<td></td>
-				</tr>
-			</table>
-		</form>
-	</div>
-</div>
-<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">	
+	<form method="post">
+		<table style="width:100%; margin: 0 auto;">
+			<tr>
+				<td><?php echo $filter->getElement('adv_search');?></td>
+				<td><?php echo $filter->getElement('branch_name');?></td>
+				<!-- <td><?php //echo $filter->getElement('client_name');?></td> -->
+				<td><?php echo $filter->getElement('co_code');?></td>
+					<td><?php echo $filter->getElement('start_date');?></td>
+				<td><?php echo $filter->getElement('end_date');?></td>
+				<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+				<td></td>
+			</tr>
+		</table>
+	</form>
 <div id="divPrint" style="width: 100%;">
 <style>
-.style{
-	line-height: 20px;font-size: 10px !important;
-	font-family: 'Khmer OS Battambang';
-}
-th{padding: 5px;}
-table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
-table { page-break-inside:auto }
-  tr{ page-break-inside:avoid; page-break-after:auto; }
-#header {
-  display: table-header-group;
-  page-break-inside:avoid; page-break-after:auto;
-}
+	.style{
+		line-height: 20px;font-size: 10px !important;
+		font-family: 'Khmer OS Battambang';
+	}
+	th{padding: 5px;}
+	table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
+	table { page-break-inside:auto }
+	  tr{ page-break-inside:avoid; page-break-after:auto; }
+	#header {
+	  display: table-header-group;
+	  page-break-inside:avoid; page-break-after:auto;
+	}
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>

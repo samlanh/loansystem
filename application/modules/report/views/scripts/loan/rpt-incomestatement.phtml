@@ -7,23 +7,18 @@ $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង
 <script>
 dojo.require("dijit.form.DateTextBox");
 </script>
-<div style="width:100%; margin:0 auto; clear:both;">
-	<div style=" width:28cm;padding:0px 0.5cm;">
-		<form method="post">
-			<table style="font-family: 'Khmer OS Content'; width:100%;" >
-				<tr>
-			   			<td><?php echo $frm->getElement('branch_id');?></td>
-			   			<td><?php echo $frm->getElement('currency_type');?></td>
-			   			<td><?php echo $frm->getElement('start_date');?></td>
-			   			<td><?php echo $frm->getElement('end_date');?></td>
-			   			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-			   	</tr>
-			</table>
-		</form>
-	</div>
-</div>
-
-<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">	
+	<form method="post">
+		<table style="font-family: 'Khmer OS Content'; width:100%;" >
+			<tr>
+	   			<td><?php echo $frm->getElement('branch_id');?></td>
+	   			<td><?php echo $frm->getElement('currency_type');?></td>
+	   			<td><?php echo $frm->getElement('start_date');?></td>
+	   			<td><?php echo $frm->getElement('end_date');?></td>
+	   			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+		   	</tr>
+		</table>
+	</form>
 <div id="divPrint" style="width: 100%;">
 	<style>
 	.style{
@@ -40,30 +35,24 @@ dojo.require("dijit.form.DateTextBox");
 	
 .styleover:hover{ background: #ccc; }
 table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
-ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
-th{padding: 5px;}
+ul li{list-style: none;line-height: 25px; font-weight: bold;}
+th{padding: 2px;}
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
     	<td align="center">
         	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
             	<tr>
-                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" style="height: 85px;max-width: 100%;"></td>
                 	<td width="60%" valign="top">
                 		<ul>
-	                		<li style="text-align:center; font-size:18px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-							<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOANINCOMESTAEMENT");?></li>
+	                		<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+							<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOANINCOMESTAEMENT");?></li>
 	                		<li style="text-align:center; font-size:14px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
 	                </td>
                     <td width="20%"></td>
                 </tr> 
-                <tr>
-                	<td colspan="3" style="font-size: 12px;">
-                		<?php echo $tr->translate("ADDRESS_COMPANY");?>
-						<br /><?php echo $tr->translate("TEL_COMPANY");?>
-		              </td>
-		        </tr>  
             </table>
         </td>
     </tr>    
