@@ -190,8 +190,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     				if($option_pay==4){
     					$total_interest=0;
     				}
-    			}
-    
+    			}       			
     			$record_id = $rsloan['id'];//$data["mfdid_".$i];
     			if($record_id!=""){
     				if($option_pay==1 OR $option_pay==2 OR $option_pay==3 OR $option_pay==4){//បង់ធម្មតា

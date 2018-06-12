@@ -118,7 +118,7 @@
 									<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($installmentPrice,2);//.' '.$row['currency_type']; ?>&nbsp;</td>
 									<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['duration']);//.$row['termborrow'];?>&nbsp;</td>
 									<td style="white-space:nowrap; text-align: center;">&nbsp;<?php echo $row['total_principaid']- $row['paid'];?>&nbsp;</td>
-									<td>&nbsp;<?php echo (round(($total_receive/$installmentPrice),2)*100).' %'; ?>&nbsp;</td>
+									<td>&nbsp;<?php echo ($installmentPrice==0)?$total_receive:(round(($total_receive/$installmentPrice),2)*100).' %'; ?>&nbsp;</td>
 									<td>&nbsp;<?php echo number_format(($installmentPrice-$total_receive),2);?>&nbsp;</td>
 								</tr>
 							<?php }?>

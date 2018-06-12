@@ -446,7 +446,7 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
 	   	FROM
 	   	`ln_ins_sales_install` AS s,
 	   	`ln_ins_client` AS c
-	   	WHERE c.`client_id` = s.`customer_id` AND s.status=1 ";
+	   	WHERE c.`client_id` = s.`customer_id` AND s.status=1 AND s.selling_type=2 ";
    	if($search['branch_id']>0){
    		$where.=" AND `s`.`branch_id` = ".$search['branch_id'];
    	}
