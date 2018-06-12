@@ -6,52 +6,51 @@ echo $this->headTitle($tr->translate("RPTGENERALSALE"));
 <script>
 	dojo.require("dijit.form.DateTextBox");
 </script>
-<form	action=""	dojoType="dijit.form.Form" method="post">
-	<table style="width: 100%">
-		<tr>
-			<td><?php echo $frm->getElement("adv_search");?></td>
-			<td><?php echo $frm->getElement("branch_id");?></td>
-			<td><?php echo $frm->getElement("customer");?></td>
-			<td><?php echo $frm->getElement("start_date");?></td>
-			<td><?php echo $frm->getElement("end_date");?></td>
-			<td> <?php echo $frm->getElement("status");?></td>
-			<td>
-				<button iconclass="dijitIconSearch" dojoType="dijit.form.Button"  showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-			</td> 
-		</tr> 
-	</table>
-</form>
+<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">
+	<form action=""	dojoType="dijit.form.Form" method="post">
+		<table style="width: 100%;margin: 0 auto;">
+			<tr>
+				<td><?php echo $frm->getElement("adv_search");?></td>
+				<td><?php echo $frm->getElement("branch_id");?></td>
+				<td><?php echo $frm->getElement("customer");?></td>
+				<td><?php echo $frm->getElement("start_date");?></td>
+				<td><?php echo $frm->getElement("end_date");?></td>
+				<td> <?php echo $frm->getElement("status");?></td>
+				<td>
+					<button iconclass="dijitIconSearch" dojoType="dijit.form.Button"  showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+				</td> 
+			</tr> 
+		</table>
+	</form>
 <style>
 .noneprint{
 	display: table-cell !important; 
 }
 </style>
-<div style="width:100%; margin:0 auto;">
-	<div style=" min-width:29cm; min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.25cm;" >
-		<div id="divPrint">
-			<style>
-				.style{
-					line-height: 20px;font-size: 12px !important;
-					font-family: 'Khmer OS Battambang';
-				}
-				table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
-				th{padding: 5px;}
-				.hover:hover{ background:#ccc;}
-				a.repLink{
-					color: #000;
-					text-decoration: none;
-				}
-				table { page-break-inside:auto }
-				  tr{ page-break-inside:avoid; page-break-after:auto; }
-				#header {
-				  display: table-header-group;
-				  page-break-inside:avoid; page-break-after:auto;
-				}
-				a.repLink.btn {
-				    color: #008;
-				    font-weight: 600;
-				}
-			</style>
+<div id="divPrint">
+		<style>
+			.style{
+				line-height: 20px;font-size: 12px !important;
+				font-family: 'Khmer OS Battambang';
+			}
+			table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
+			th{padding: 5px;}
+			.hover:hover{ background:#ccc;}
+			a.repLink{
+				color: #000;
+				text-decoration: none;
+			}
+			table { page-break-inside:auto }
+			  tr{ page-break-inside:avoid; page-break-after:auto; }
+			#header {
+			  display: table-header-group;
+			  page-break-inside:avoid; page-break-after:auto;
+			}
+			a.repLink.btn {
+			    color: #008;
+			    font-weight: 600;
+			}
+		</style>
 			<table width="100%" >
 				<thead>
 				<tr>
@@ -132,17 +131,16 @@ echo $this->headTitle($tr->translate("RPTGENERALSALE"));
 			    </tr>
 			</table>
 			<br />
-			 <table align="center" width="100%">
-			 <thead>
-			   <tr style="font-size: 14px;">
-			        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
-			        <th></th>
-			        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
-			        <th></th>
-			        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
-			   </tr>
+			<table align="center" width="100%">
+			 	<thead>
+				   <tr style="font-size: 14px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
 			  </thead>
-			</table>
-		</div>
+		   </table>
 	</div>
 </div>
