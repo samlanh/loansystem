@@ -256,9 +256,7 @@
 					               	$coamn_b3 = $coamn_b3+$rs['penalize_paid'];
 					               	$coamn_b5 = $coamn_b5+$rs['service_paid'];
 					               	$cototal_b=$coamn_b1+$coamn_b2+$coamn_b3+$coamn_b5;
-					               	
 					               }?>
-			               
 			<?php  }?>
 					<?php if (!empty($co_id)){?>
 			 			<?php 	$adminfeer = $dbloan->getAdminfeeloanByCO($co_id, 1, $this->search);
@@ -298,6 +296,35 @@
 			                </tr>
 			               <?php }?>
 					</table>
+					<?php if(!empty($this->rs_adminfee)){?>
+					<br />
+					<table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
+						<?php 
+						$co_id=0;
+						foreach($this->rs_adminfee as $key=> $rsadmin){
+							if($rsadmin['currency_type']==1){
+								$rtotal_adminfeeall=$rtotal_adminfeeall+$rsadmin['admin_fee'];
+							}elseif($rsadmin['currency_type']==2){
+								$dtotal_adminfeeall=$dtotal_adminfeeall+$rsadmin['admin_fee'];
+							}else{
+								$btotal_adminfeeall=$btotal_adminfeeall+$rsadmin['admin_fee'];
+							}
+							if($co_id!=$rsadmin["co_id"]){
+						?>
+						<tr style="background:#ccd9ff">
+							<td>&nbsp;&nbsp;<?php echo $rsadmin['co_name'];?></td>
+							<td>&nbsp;&nbsp;<?php echo $tr->translate("ADMIN_FEE");?></td>
+						</tr>
+						<?php }?>
+						<tr>
+							<td>&nbsp;<?php echo ($rsadmin['currency_name']);?></td>
+							<td>&nbsp;<?php echo number_format($rsadmin['admin_fee'],2);?></td>
+						</tr>
+						<?php 
+						$co_id = $rsadmin["co_id"];
+						}?>
+					</table>
+					<?php }?>
 					<br />
 			             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
 			                <thead>

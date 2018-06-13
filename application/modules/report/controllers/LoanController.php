@@ -353,6 +353,9 @@ function rptLoanDisburseAction(){//release all loan
 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	
 	$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
+	$this->view->rs_adminfee =$db->getAdminfeeloanGroupByCO($search);
+	
+	
 	$this->view->date_show=$search['end_date'];
 	$this->view->start_date=$search['start_date'];
 	$this->view->search = $search;

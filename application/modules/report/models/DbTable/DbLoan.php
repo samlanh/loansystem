@@ -2151,12 +2151,44 @@ AND cl.client_id = $client_id )";
       	if($search['branch_id']>0){
       		$where.=" AND `branch_id`= ".$search['branch_id'];
       	}
-      
       	
       	$from_date =(empty($search['start_date']))? '1': " date_release >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
       	$where.= " AND ".$from_date." AND ".$to_date;
       	return $db->fetchRow($sql.$where);
+      }
+      function getAdminfeeloanGroupByCO($coID,$currency_type,$search){
+      	$db = $this->getAdapter();
+      
+      	$from_date =(empty($search['start_date']))? '1': " date_input >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " date_input <= '".$search['end_date']." 23:59:59'";
+      	$where_payemnt = " WHERE ".$from_date." AND ".$to_date;
+      	
+      	
+      	$db = $this->getAdapter();
+      	$sql = "SELECT SUM(admin_fee) AS admin_fee,SUM(other_fee) AS other_fee,currency_type,
+      		co_id,
+      		(SELECT CONCAT(curr_namekh,'-',`ln_currency`.`symbol`) FROM `ln_currency` WHERE (`ln_currency`.`id` = `currency_type` ) LIMIT 1) AS `currency_name`,
+      		(SELECT co_khname FROM `ln_co` WHERE ln_co.co_id=ln_loan.co_id LIMIT 1) as co_name
+      			FROM
+      		ln_loan WHERE status=1 AND co_id NOT IN 
+      		(SELECT co_id FROM `ln_client_receipt_money` $where_payemnt ) ";
+      	$where ='';
+      	if($search['branch_id']>0){
+      		$where.=" AND `branch_id`= ".$search['branch_id'];
+      	}
+      	if($search['co_id']>0){
+      		$where.=" AND `co_id`= ".$search['co_id'];
+      	}
+      	if($search['co_id']>0){
+      		$where.=" AND `co_id`= ".$search['co_id'];
+      	}
+      	 
+      	$from_date =(empty($search['start_date']))? '1': " date_release >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
+      	$where.= " AND ".$from_date." AND ".$to_date;
+      	$where.=" GROUP BY co_id,currency_type";
+      	return $db->fetchAll($sql.$where);
       }
  }
 
