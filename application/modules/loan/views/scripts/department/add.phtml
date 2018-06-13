@@ -3,58 +3,65 @@
 	echo $this->headTitle($tr->translate('DEPARMENT_INFO'));
 ?>	
 <?php  $frm= $this->frm_department;?>
-<form  id='add_techer' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">			
-			if(this.validate()) {
-				/*if(dijit.byId('province').get('value')==''){
-					alert('Province required');
-					return false;
-			    }*/
-                 dijit.byId("save_close").set("disabled",true);
-				 dijit.byId("save_new").set("disabled",true);
-				return true;
-			} else {
-				return false;
-			}
-</script>
-<table cellspacing="10" width="50%" style="margin: 0 auto;">
-	<tr>
-		<td>
-		<fieldset>
-					<legend class="mainblog" align="center"><strong><?php echo $tr->translate("ADD_DEPARMENT_INFO");?></strong></legend>
-					
-					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
-						<tr>
-							<td><?php echo $tr->translate("DEPARTMENT_KH")?></td>
-							<td><?php  echo $frm->getElement('department_kh');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("DEPARTMENT_EN")?></td>
-							<td><?php  echo $frm->getElement('department_en');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php  echo $frm->getElement('status');?></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<input type="hidden" name="exchangefrom" value="2" />
+<div class="card">
+	<div class="card-content collapse show">
+			<form  id='add_techer' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+				<script type="dojo/method" event="onSubmit">			
+					if(this.validate()) {
+               		  dijit.byId("save_close").set("disabled",true);
+						 dijit.byId("save_new").set("disabled",true);
+						return true;
+					} else {
+						return false;
+					}
+				</script>
+				<div class="card-box">
+               		<div class="col-sm-12 border-botom">
+		    			<div class="col-sm-8 pd-0">
+		    				<h4 class="m-b-0"><i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('ADD_DEPARMENT_INFO');?></h4>
+	    			</div>
+	    			<div class="col-sm-4 text-right">
+	    			</div>
+	    		</div>
+	    		<div class="card-box">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+		                <div class="form-group">
+		                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DEPARTMENT_KH");?> :
+		                   </label>
+		                    <div class="col-md-7 col-sm-7 col-xs-12">
+		                    	<?php echo $frm->getElement('department_kh');?>
+		                   </div>
+		                </div>
+		                <div class="form-group">
+		                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DEPARTMENT_EN");?> :
+		                   </label>
+		                    <div class="col-md-7 col-sm-7 col-xs-12">
+		                    	<?php echo $frm->getElement('department_en');?>
+		                   </div>
+		                </div>
+		                <div class="form-group">
+		                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> :
+		                   </label>
+		                    <div class="col-md-7 col-sm-7 col-xs-12">
+		                    	<?php echo $frm->getElement('status');?>
+		                   </div>
+		                </div>
+		                 <div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+		    				<input type="hidden" name="exchangefrom" value="2" />
 								<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
 								<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
 								<input type="button" onclick="submitDataClose()" value="save_close" name="save_close" id="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
 									iconClass="dijitEditorIcon dijitEditorIconSave" />
 								<input type="submit" value="save_new" name="save_new"  id="save_new"  label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
 									iconClass="dijitEditorIcon dijitEditorIconSave" />
-							</td>
-						</tr>
-					</table>	
-					`
-		</fieldset>
-		</td>
-	</tr>
-</table>	
-</form>
+			    		</div>
+		            </div>
+		         </div>
+	           	
+	    	</div>
+			</form>
+	</div>
+</div>
 <script>
 	function submitDataClose(){
 		if(dijit.byId('add_techer').validate()) {

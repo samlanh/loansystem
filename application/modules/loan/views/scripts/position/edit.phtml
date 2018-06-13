@@ -1,45 +1,56 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('POSITION_INFO'));
+	echo $this->headTitle($tr->translate('EDIT_POSITION'));
 ?>	
 <?php  $techer= $this->frm_position;?>
-<form  id='add_techer' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">			
+<div class="card">
+	<div class="card-content collapse show">
+		<form  id='add_techer' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-				/*if(dijit.byId('province').get('value')==''){
-					alert('Province required');
-					return false;
-			    }*/
 				return true;
 			} else {
 				return false;
 			}
 </script>
-<table cellspacing="10" width="50%" style="margin: 0 auto;">
-	<tr>
-		<td>
-		<fieldset>
-					<legend class="mainblog" align="center"><strong><?php echo $tr->translate("EDIT_POSITION");?></strong></legend>
-					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
-						<tr>
-							<td><?php echo $tr->translate("POSITION_KH")?><?php echo $techer->getElement('id');?></td>
-							<td><?php  echo $techer->getElement('position_kh');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("POSITION_EN")?></td>
-							<td><?php  echo $techer->getElement('position_en');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php  echo $techer->getElement('status');?></td>
-						</tr>
-						<tr>
-						    <td></td>
-						    <td><input type="submit" value="រក្សាទុក" label="រក្សាទុក" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> </td>
-						</tr>
-					</table>	
-		</fieldset>		
-		</td>
-	</tr>
-</table>	
-</form>
+			<div class="card-box">
+               		<div class="col-sm-12 border-botom">
+		    			<div class="col-sm-8 pd-0">
+		    				<h4 class="m-b-0"><i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('EDIT_POSITION');?></h4>
+	    			</div>
+	    			<div class="col-sm-4 text-right">
+	    			</div>
+	    		</div>
+	    	</div>
+	    	<div class="card-box">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("POSITION_KH");?> :
+	                   </label>
+	                    <div class="col-md-7 col-sm-7 col-xs-12">
+	                    	<?php echo $techer->getElement('position_kh');?><?php echo $techer->getElement('id');?>
+	                   </div>
+	                </div>
+	              
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("POSITION_EN");?> :
+	                   </label>
+	                    <div class="col-md-7 col-sm-7 col-xs-12">
+	                    	<?php echo $techer->getElement('position_en');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> :
+	                   </label>
+	                    <div class="col-md-7 col-sm-7 col-xs-12">
+	                    	<?php echo $techer->getElement('status');?>
+	                   </div>
+	                </div>
+	                <div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+		    			<input type="submit" value="រក្សាទុក" label="<?php echo $tr->translate("SAVE");?>" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+	    		</div>
+	             </div>
+	          </div>
+		</form>
+	</div>
+</div>
