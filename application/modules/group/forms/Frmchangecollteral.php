@@ -73,7 +73,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
     			'queryExpr'=>'*${0}*',
     	));
     	$rows = $db->getAllBranchName();
-    	$options=array(''=>"---Select Branch Name---");
+    	$options=array(''=>$this->tr->translate("Choose Branch"));
     	if(!empty($rows))
     		foreach($rows AS $row){
     		$options[$row['br_id']]=$row['branch_namekh'];
@@ -85,7 +85,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$db = new Application_Model_DbTable_DbGlobal();
 		$co_name = new Zend_Dojo_Form_Element_FilteringSelect('co_name');
 		$rows = $db ->getAllCOName();
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>$this->tr->translate("SELECT_CO_NAME"),-1=>$this->tr->translate("ADD_NEW"));
 		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
 		$co_name->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',

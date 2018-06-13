@@ -1216,7 +1216,8 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	$db = $this->getAdapter();
   	$sql = " CALL `stGetAllClientType`($group_type)";
   	$result = $db->fetchAll($sql);
-  	$options=array(''=>"------Select Client Code-Name------");
+  	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+  	$options=array(''=>$tr->translate("PLEASE_SELECT"));
   	if($opt!=null){
 		if(!empty($result))foreach($result AS $row){
 			if($group_type==1){
