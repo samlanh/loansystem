@@ -266,7 +266,8 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	$sql = " call stGetAllCOName();";
    	$db = $this->getAdapter();
    	$rows =  $db->fetchAll($sql);
-   	$options = array(''=>'----Select Credit Officer ----','-1'=>'Add New');
+   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+   	$options = array(''=>$tr->translate("SELECT_CREDIT_OFFICER"),'-1'=>$tr->translate("ADD_NEW"));
    	if(!empty($rows)){
    	if($option!=null){
    			foreach($rows as $rs){
@@ -537,7 +538,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    public function getAllDegree($id=null){
    	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
    	$opt_degree = array(
-   			''=>$this->tr->translate("----ជ្រើសរើស----"),
+   			''=>$this->tr->translate($tr->translate("SELECT_DEGREE")),
    			1=>$this->tr->translate("Diploma"),
    			2=>$this->tr->translate("Associate"),
    			3=>$this->tr->translate("Bechelor"),
@@ -669,8 +670,9 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		$sql.=" AND id = $id LIMIT 1";
   	}
   	$rows = $db->fetchAll($sql);
+  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
   	if($option!=null){
-  		$options=array(''=>"----ជ្រើសរើស----");
+  		$options=array(''=>$tr->translate("PLEASE_SELECT"));
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['id']]=($row['displayby']==1)?$row['position_kh']:$row['position_en'];
   		}
@@ -687,9 +689,10 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	if($id!=null){
   		$sql.=" AND id = $id LIMIT 1";
   	}
+  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
   	$rows = $db->fetchAll($sql);
   	if($option!=null){
-  		$options=array(''=>"----ជ្រើសរើស----",'-1'=>"Add New");
+  		$options=array(''=>$tr->translate("SELECT_DEPARTMENT"),'-1'=>$tr->translate("ADD_NEW"));
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['id']]=($row['displayby']==1)?$row['department_kh']:$row['department_kh'];
   		}

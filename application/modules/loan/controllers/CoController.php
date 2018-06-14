@@ -109,13 +109,13 @@ class Loan_CoController extends Zend_Controller_Action {
    		try{
    			$db_co->addCreditOfficer($_data);
    				if(!empty($_data['save_close'])){
-   					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/co/index');
+   					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/co/index');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/co/add');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/co/add');
 				}
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/co/add');
+				Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/co/add');
    		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+   			Application_Form_FrmMessage::message("INSERT_FAIL");
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
@@ -135,9 +135,9 @@ class Loan_CoController extends Zend_Controller_Action {
    		$_data = $this->getRequest()->getPost();
    		try{
    			$db_co->addCreditOfficer($_data);
-   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/loan/co');
+   			Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS !",'/loan/co');
    		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+   			Application_Form_FrmMessage::message("EDIT_FAIL");
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}

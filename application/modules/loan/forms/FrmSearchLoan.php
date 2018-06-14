@@ -99,7 +99,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
+		$opt = array(-1=>$this->tr->translate("SELECT_CURRENCY_TYPE"),2=>$this->tr->translate("DOLLAR"),1=>$this->tr->translate("REILS"),3=>$this->tr->translate("BATH"));
 		$_currency_type->setMultiOptions($opt);
 		$_currency_type->setValue($request->getParam("currency_type"));
 		
@@ -113,7 +113,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 		));
 		$options = $db->getAllPaymentMethod(null,1);
-		$options[-1]="--Select Repayment Method--";
+		$options[-1]=$this->tr->translate("SELECT_PAYMENT_METHOD");
 		$_repayment_method->setMultiOptions($options);
 		$opt_method = $request->getParam("repayment_method");
 		if(empty($opt_method)){
@@ -181,7 +181,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options=array(-1=>'---Select Branch---');
+		$options=array(-1=>$this->tr->translate("Choose Branch"));
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}

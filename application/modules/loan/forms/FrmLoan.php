@@ -459,7 +459,7 @@ public function init()
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options=array(''=>'---Select Branch---');
+		$options=array(''=>$this->tr->translate("Choose Branch"));
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
