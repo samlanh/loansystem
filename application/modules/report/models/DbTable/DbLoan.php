@@ -816,7 +816,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$end_date = $search['end_date'];
       
       	$db = $this->getAdapter();
-      	$sql = "SELECT *,SUM(total_capital) FROM v_loanreleased WHERE status = 1 ";
+      	$sql = "SELECT *,SUM(total_capital) as total_capital FROM v_loanreleased WHERE status = 1 ";
       	$where ='';
       	if(!empty($search['advance_search'])){
       		$s_where = array();
@@ -2190,6 +2190,31 @@ AND cl.client_id = $client_id )";
       	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
       	$where.= " AND ".$from_date." AND ".$to_date;
       	$where.=" GROUP BY co_id,currency_type";
+      	return $db->fetchAll($sql.$where);
+      }
+      
+      function getPawnshowDisburse($search){
+      	$db = $this->getAdapter();
+      	$sql="SELECT
+			p.*,
+			SUM(p.`release_amount`) AS total_release,
+			SUM(p.`admin_fee`) AS total_adminfee,
+			p.`currency_type`
+			 FROM `ln_pawnshop` AS p
+			 WHERE p.`status` =1
+      	";
+      	$where="";
+      	$from_date =(empty($search['start_date']))? '1': " p.`date_release` >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " p.`date_release` <= '".$search['end_date']." 23:59:59'";
+      	$where = " AND ".$from_date." AND ".$to_date;
+      	 
+      	if($search['currency_type']>0){
+      		$where.= " AND p.`currency_type` = ".$search['currency_type'];
+      	}
+      	if($search['branch_id']>0){
+      		$where.=" AND p.`branch_id`= ".$search['branch_id'];
+      	}
+      	$where.="  GROUP BY p.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
  }

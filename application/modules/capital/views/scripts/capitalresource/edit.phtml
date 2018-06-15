@@ -2,66 +2,96 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm;
 ?>
+<title><?php echo $tr->translate('EDIT_CAPITAL');?></title>
 <style>	
 .fullside {
 	width: 100%;
 	height: 30px;
 }
 </style>
-<form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'capitalresource','action'=>'edit')); ?>" 
-				dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">			
+<div class="card">
+	<div class="card-content collapse show">
+		<form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'capitalresource','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				dijit.byId("save_close").set("disabled",true);
 				return true;
 			}else {
 				return false;
 			}
-</script>
-<table cellspacing="10" class='fullside'>
-	<tr>
-		<td>
-				<fieldset>
-					<legend><strong>Form Add Capital</strong></legend>
-					<table cellspacing="10"  width="100%">
-						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $frm->getElement('brance')?></td>
-							<td>Date</td>	
-							<td><?php echo $frm->getElement('date')?></td>
-							<td><?php echo $tr->translate("Stutas")?></td>
-							<td><?php echo $frm->getElement('status')?></td>
-						</tr>
-						<tr>
-							<td>ប្រាក់ដុល្លា</td>
-							<td><?php echo $frm->getElement('usa')?></td>
-							<td>ប្រាក់រៀល</td>
-							<td><?php echo $frm->getElement('reil')?></td>
-							<td>ប្រាក់បាត</td>	
-							<td><?php echo $frm->getElement('bath')?></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>	
-							<td></td>
-							<td>Note</td>
-							<td><?php echo $frm->getElement('note');echo $frm->getElement('id');?></td>
-							
-						</tr>
-					</table>
-				</fieldset>
-				
-		</td>
-	</tr>		
-	<tr>
-	
-			<td align="center">
-			<input type="submit" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-						
-	</tr>	
-</table>
-</form>
+			</script>
+			<div class="card-box">
+               	<div class="col-sm-12 border-botom">
+		    		<div class="col-sm-8 pd-0">
+		    			<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('EDIT_CAPITAL');?></h4>
+	    			</div>
+	    			<div class="col-sm-4 text-right">
+	    			</div>
+	    		</div>
+	    	</div>
+	    	<div class="card-box">
+	        	<div class="col-md-6 col-sm-6 col-xs-12">
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH");?> <span class="required">*</span> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('brance')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('date')?>
+	                   </div>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ប្រាក់ដុល្លា");?> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('usa')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ប្រាក់រៀល");?> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('reil')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ប្រាក់បាត");?> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('bath')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('note');echo $frm->getElement('id');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('status')?>
+	                   </div>
+	                </div>
+	                <div class="clearfix"></div>
+				    <div class="card-box">
+		               	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+		               			<input type="submit" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			    		</div>
+			    	</div>
+	            </div>
+	        </div>
+		</form>
+	</div>
+</div>
+
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");

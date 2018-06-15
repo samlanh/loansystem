@@ -46,6 +46,10 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 			$db_acc = new Capital_Model_DbTable_DbCapitalResource();
 			try {
 				$db = $db_acc->addCapitalResource($data);
+				if (!empty($data['save_close'])){
+					Application_Form_FrmMessage::message("INSERT_SUCCESS");
+					$this->_redirect("/capital/capitalresource");
+				}
 				Application_Form_FrmMessage::message("INSERT_SUCCESS");
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
@@ -80,6 +84,9 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 	 	$this->view->rsexpense= $db->getAllExpenseReport($search);//call frome model
 	 	$this->view->LoanFee_list =$db->getAdminFeeOnly($search);
 	 	$this->view->rsloandisburse =$db->getALLLLoanDisburseAmount($search);//get all loan amount 
+	 	
+	 	$this->view->rspawndisburse = $pawnshpincome = $db->getPawnshowDisburse($search);
+	 	$this->view->rspawnincome = $pawnshpincome = $db->incomePawnshop($search);
 	 	
 }
 	function editAction(){

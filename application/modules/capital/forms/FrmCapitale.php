@@ -10,7 +10,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$brance = new Zend_Dojo_Form_Element_FilteringSelect('brance');
 		$brance->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
+				'class'=>'fullside',
 				'required' =>'true',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
@@ -25,6 +25,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		
 		$date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$date->setAttribs(array(
+				'class'=>'fullside',
 				'dojoType'=>'dijit.form.DateTextBox',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
 		));
@@ -35,6 +36,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
+				'class'=>'fullside',
 		));
 		$options= array(1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);
@@ -49,14 +51,14 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$usa->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'placeHolder'   =>  '0',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'Onkeyup'	=>	'validateTransfer(1);',
 		));
 		$usa->setValue(0);
 		$bath=new Zend_Dojo_Form_Element_NumberTextBox('bath');
 		$bath->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'required'	=> true,
 				'Onkeyup'	=>	'validateTransfer(2);'
 		));
@@ -65,7 +67,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$reil->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'placeHolder'   =>  '0',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'required'	=> true,
 				'Onkeyup'	=>	'validateTransfer(3);'
 		));
@@ -77,14 +79,14 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$usabank->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'placeHolder'   =>  '0',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'Onkeyup'	=>	'validateTransfer(1);',
 		));
 		$usabank->setValue(0);
 		$bathbank=new Zend_Dojo_Form_Element_NumberTextBox('bathbank');
 		$bathbank->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'required'	=> true,
 				'Onkeyup'	=>	'validateTransfer(2);'
 		));
@@ -93,7 +95,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$reilbank->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'placeHolder'   =>  '0',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'required'	=> true,
 				'Onkeyup'	=>	'validateTransfer(3);'
 		));
@@ -161,6 +163,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				'OnChange' => 'statusCheck();',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
+				'class'	=>	'fullside',
 		));
 		$options= array(-1=>"ជ្រើសរើស ស្ថានភាព",1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);
@@ -247,6 +250,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$btnSearch->setAttribs(array(
 				'dojoType'=>'dijit.form.Button',
 				'iconclass'=>'dijitIconSearch',
+				'class'	=>	'fullside',
 				'label'	=>	'Search'));
 		if($_data!=null){
 			$brance_from->setValue($_data['from_branch']);
@@ -270,7 +274,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$brance = new Zend_Dojo_Form_Element_FilteringSelect('brance');
 		$brance->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				//'class'=>'fullside',
+				'class'=>'fullside',
 				'required' =>'true',
 				'OnChange'	=>	'getAmounts();',
 				'autoComplete'=>"false",
@@ -286,6 +290,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 	
 		$date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$date->setAttribs(array(
+				'class'=>'fullside',
 				'dojoType'=>'dijit.form.DateTextBox',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
 		));
@@ -293,6 +298,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$date->setValue(date('Y-m-d'));
 		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_stutas ->setAttribs(array(
+				'class'=>'fullside',
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
@@ -302,15 +308,16 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		
 		$note=new Zend_Dojo_Form_Element_Textarea('note');
 		$note->setAttribs(array(
+				'class'=>'fullside',
 				'dojoType'=>'dijit.form.Textarea',
 				'class'=>'fullside',
 				'style'=>'width:100%;min-height:60px; font-size:18px;'));
 		
 		$usa=new Zend_Dojo_Form_Element_NumberTextBox('usa');
 		$usa->setAttribs(array(
+				'class'=>'fullside',
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'placeHolder'   =>  '0',
-				'class'	=>	'td',
 				'Onkeyup'	=>	'validateTransfer(1);',
 		));
 		$usa->setValue(0);
@@ -318,7 +325,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$bath=new Zend_Dojo_Form_Element_NumberTextBox('bath');
 		$bath->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'required'	=> true,
 				'Onkeyup'	=>	'validateTransfer(2);'
 		));
@@ -328,7 +335,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$reil->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'placeHolder'   =>  '0',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'required'	=> true,
 				'Onkeyup'	=>	'validateTransfer(3);'
 		));
@@ -337,19 +344,19 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$dollar_current = new Zend_Dojo_Form_Element_NumberTextBox("dollar_current");
 		$dollar_current->setAttribs(array(
 			'dojoType'	=>	'dijit.form.NumberTextBox',
-			'class'		=>	'td',
+			'class'=>'fullside',
 		));
 		
 		$bath_current = new Zend_Dojo_Form_Element_NumberTextBox("bath_current");
 		$bath_current->setAttribs(array(
 			'dojoType'	=>	'dijit.form.NumberTextBox',
-			'class'		=>	'td'
+			'class'=>'fullside',
 		));
 		
 		$reil_current = new Zend_Dojo_Form_Element_NumberTextBox("reil_current");
 		$reil_current->setAttribs(array(
 			'dojoType'	=>	'dijit.form.NumberTextBox',
-			'class'		=>	'td'
+			'class'=>'fullside',
 		));
 		
 		
@@ -357,7 +364,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$usabank->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'placeHolder'   =>  '0',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'Onkeyup'	=>	'validateTransfer(1);',
 		));
 		$usabank->setValue(0);
@@ -365,7 +372,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$bathbank=new Zend_Dojo_Form_Element_NumberTextBox('bathbank');
 		$bathbank->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'required'	=> true,
 				'Onkeyup'	=>	'validateTransfer(2);'
 		));
@@ -375,7 +382,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$reilbank->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'placeHolder'   =>  '0',
-				'class'	=>	'td',
+				'class'=>'fullside',
 				'required'	=> true,
 				'Onkeyup'	=>	'validateTransfer(3);'
 		));
@@ -384,21 +391,21 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$dollar_currentbank = new Zend_Dojo_Form_Element_NumberTextBox("dollarbank_current");
 		$dollar_currentbank->setAttribs(array(
 				'dojoType'	=>	'dijit.form.NumberTextBox',
-				'class'		=>	'td',
+				'class'=>'fullside',
 				'readonly'=>true,
 		));
 		
 		$bath_currentbank = new Zend_Dojo_Form_Element_NumberTextBox("bathbank_current");
 		$bath_currentbank->setAttribs(array(
 				'dojoType'	=>	'dijit.form.NumberTextBox',
-				'class'		=>	'td',
+				'class'=>'fullside',
 				'readonly'=>true,
 		));
 		
 		$reil_currentbank = new Zend_Dojo_Form_Element_NumberTextBox("reilbank_current");
 		$reil_currentbank->setAttribs(array(
 				'dojoType'	=>	'dijit.form.NumberTextBox',
-				'class'		=>	'td',
+				'class'=>'fullside',
 				'readonly'=>true,
 		));
 		
@@ -455,6 +462,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
+				'class'	=>	'fullside',
 		));
 		$options= array(-1=>"ជ្រើសរើស ស្ថានភាព",1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);
@@ -462,12 +470,13 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		
 		$date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$date->setAttribs(array(
+				'class'	=>	'fullside',
 				'dojoType'=>'dijit.form.DateTextBox',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
 		));
 		$date->setValue(date('Y-m-d'));
 		$search = new Zend_Dojo_Form_Element_TextBox("search");
-		$search->setAttribs(array('dojoType' => 'dijit.form.TextBox','placeHolder'=> '',));
+		$search->setAttribs(array('dojoType' => 'dijit.form.TextBox','placeHolder'=> '','class'	=>	'fullside',));
 		$search->setValue($request->getParam("search"));
 		
 		$_start_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');

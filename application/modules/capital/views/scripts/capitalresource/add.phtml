@@ -2,6 +2,7 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm;
 ?>
+<title><?php echo $tr->translate("ADD_CAPITAL")?></title>
 <style>	
 .fullside {
 	width: 100%;
@@ -10,86 +11,174 @@ $frm = $this->frm;
 .td{width:128px !important;} 
 .tds{width:114px !important;}
 </style>
-<form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'capitalresource','action'=>'add')); ?>" 
-				dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">			
+<div class="card">
+	<div class="card-content collapse show">
+		<form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'capitalresource','action'=>'add')); ?>" dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				branch_id = dijit.byId('brance').get('value');
 				if(branch_id==0){
 					alert("សូមជ្រើសរើសសាខា");dijit.byId('brance').focus();return false;
 				}
 				dijit.byId("save_new").set("disabled",true);
+				dijit.byId("cancel").set("disabled",true);
 				return true;
 			}else{
 				return false;
 			}
-</script>
-<table cellspacing="10" class='fullside'>
-	<tr>
-		<td>
-				<fieldset>
-					<legend class="mainblog"><strong><?php echo $tr->translate("ADD_CAPITAL")?></strong></legend>
-					<table cellspacing="10"  width="100%">
-						<tr><td colspan="8" bgcolor="#dbe7ff"><?php echo $tr->translate("CAPITAL_ON_HAND")?></td></tr>
-						<tr>
-							<td nowrap><?php echo $tr->translate("BRANCH")?></td>
-							<td><?php echo $frm->getElement('brance')?></td>
-							<td class="tds"><?php echo $tr->translate("CURRENT_DOLLAR")?></td>
-							<td><?php echo $frm->getElement('dollar_current')?></td>
-							<td class="tds"><?php echo $tr->translate("CURRENT_REIL")?></td>
-							<td><?php echo $frm->getElement('reil_current')?></td>
-							<td class="tds"><?php echo $tr->translate("CURRENT_BATH")?></td>	
-							<td><?php echo $frm->getElement('bath_current')?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("DATE")?></td>	
-							<td><?php echo $frm->getElement('date')?></td>
-							<td><strong><?php echo $tr->translate("EXTRA_DOLLARS")?></strong></td>
-							<td><?php echo $frm->getElement('usa')?></td>
-							<td><strong><?php echo $tr->translate("EXTRA_REIL")?></strong></td>
-							<td><?php echo $frm->getElement('reil')?></td>
-							<td><strong><?php echo $tr->translate("EXTRA_BATH")?></strong></td>	
-							<td><?php echo $frm->getElement('bath')?></td>
-						</tr>
-						<tr><td colspan="8" bgcolor="#dbe7ff"><?php echo $tr->translate("CAPITAL_IN_BANK")?></td></tr>
-						<tr>
-							<td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php echo $frm->getElement('status')?></td>
-							<td><?php echo $tr->translate("CURRENT_DOLLAR")?></td>
-							<td><?php echo $frm->getElement('dollarbank_current')?></td>
-							<td><?php echo $tr->translate("CURRENT_REIL")?></td>
-							<td><?php echo $frm->getElement('reilbank_current')?></td>
-							<td><?php echo $tr->translate("CURRENT_BATH")?></td>	
-							<td><?php echo $frm->getElement('bathbank_current')?></td>
-						</tr>
-						<tr>
-							<td></td><td></td>
-							<td><strong><?php echo $tr->translate("EXTRA_DOLLARS")?></strong></td>
-							<td><?php echo $frm->getElement('usabank')?></td>
-							<td><strong><?php echo $tr->translate("EXTRA_REIL")?></strong></td>
-							<td><?php echo $frm->getElement('reilbank')?></td>
-							<td><strong><?php echo $tr->translate("EXTRA_BATH")?></strong></td>	
-							<td><?php echo $frm->getElement('bathbank')?></td>
-						</tr>
-						<tr>
-							<td colspan="2"></td>
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td colspan="5"><?php echo $frm->getElement('note');?></td>
-						</tr>
-					</table>
-				</fieldset>
-		</td>
-	</tr>		
-	<tr>
-		<td align="center">
-			<input type="submit" value="បោះបង់" label="<?php echo $tr->translate("CANCEL")?>" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
-			<input type="submit" value="រក្សាទុកថ្មី" label="<?php echo $tr->translate("SAVENEW")?>" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-		</td>
-	</tr>	
-	<tr>
-		<td>
-		
-			<?php $r1=0; $r2=0;$d1=0;$d2=0;$b1=0;$b2=0;
+			</script>
+			<div class="card-box">
+               	<div class="col-sm-12 border-botom">
+		    		<div class="col-sm-8 pd-0">
+		    			<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('ADD_CAPITAL');?></h4>
+	    			</div>
+	    			<div class="col-sm-4 text-right">
+	    			</div>
+	    		</div>
+	    	</div>
+	    	<div class="card-box">
+	        	<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CAPITAL_ON_HAND");?> 
+	                   </label>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH");?> <span class="required">*</span> :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('brance')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENT_DOLLAR");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('dollar_current')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENT_REIL");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('reil_current')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENT_BATH");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('bath_current')?>
+	                   </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('date')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EXTRA_DOLLARS");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('usa')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EXTRA_REIL");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('reil')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EXTRA_BATH");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('bath')?>
+	                   </div>
+	                </div>
+	            </div>
+	            <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CAPITAL_IN_BANK");?> 
+	                   </label>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENT_DOLLAR");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('dollarbank_current')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENT_REIL");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('reilbank_current')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENT_BATH");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('bathbank_current')?>
+	                   </div>
+	                </div>
+	                
+	                 <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EXTRA_DOLLARS");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('usabank')?>
+	                   </div>
+	                </div>
+	                 <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EXTRA_REIL");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('reilbank')?>
+	                   </div>
+	                </div>
+	                 <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EXTRA_BATH");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('bathbank')?>
+	                   </div>
+	                </div>
+	            </div>
+	             <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("OTHER_INFO");?> 
+	                   </label>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('note')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label  col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>  :
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('status')?>
+	                   </div>
+	                </div>
+	            </div>
+	       </div>
+	       <div class="clearfix"></div>
+		    <div class="card-box">
+               	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+		    			<input type="submit" value="<?php echo $tr->translate("SAVECLOSE")?>" label="<?php echo $tr->translate("SAVECLOSE")?>" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
+					<input type="submit" value="រក្សាទុកថ្មី" label="<?php echo $tr->translate("SAVENEW")?>" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+	    		</div>
+	    	</div>
+	    	<div class="card-box">
+	    		<?php $r1=0; $r2=0;$d1=0;$d2=0;$b1=0;$b2=0;
 				$disburse_dollar = 0;$disburse_reil = 0;$disburse_bath = 0;
 				$saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
             ?>
@@ -99,11 +188,11 @@ $frm = $this->frm;
                 <?php 
                 	if($row['curr_type']==1){
 		               		$disburse_reil=$disburse_reil+$row['total_capital'];
-		               }elseif($row['curr_type']==2){
-							$disburse_dollar=$disburse_dollar+$row['total_capital'];
-		               }else{
+		            }elseif($row['curr_type']==2){
+						$disburse_dollar=$disburse_dollar+$row['total_capital'];
+		              }else{
 							$disburse_bath=$disburse_bath+$row['total_capital'];
-		               }
+		            }
 		         ?>
                 <?php }?>           
             <?php }?> 
@@ -183,6 +272,54 @@ $frm = $this->frm;
 	                }
                ?>
                 <?php }?>
+                
+                <?php 
+                $pawn_disbursR = 0;
+                $pawn_disbursD = 0;
+                $pawn_disbursB = 0;
+                
+                $pawn_adminR = 0;
+                $pawn_adminD = 0;
+                $pawn_adminB = 0;
+                if (!empty($this->rspawndisburse)) foreach ($this->rspawndisburse as $rs){
+                	if($rs['currency_type']==1){
+                		$pawn_disbursR = $pawn_disbursR+$rs["total_release"];
+                		$pawn_adminR = $pawn_adminR+$rs["total_adminfee"];
+                	}elseif($rs['currency_type']==2){
+                		$pawn_disbursD = $pawn_disbursD+$rs["total_release"];
+                		$pawn_adminD = $pawn_adminD+$rs["total_adminfee"];
+                	}else{
+                		$pawn_disbursB = $pawn_disbursB+$rs["total_release"];
+                		$pawn_adminB = $pawn_adminB+$rs["total_adminfee"];
+                	}
+                	
+                }
+                
+                $pawn_interestr=0;
+                $pawn_penalizer=0;
+                
+                $pawn_interestd=0;
+                $pawn_penalized=0;
+                
+                $pawn_interestb=0;
+                $pawn_penalizeb=0;
+                if (!empty($this->rspawnincome)) foreach ($this->rspawnincome as $pwin){
+                	if($pwin['currency_type']==1){//riel
+                		$pawn_interestr=$pawn_interestr+$pwin['total_interestpaid'];
+                		$pawn_penalizer=$pawn_penalizer+$pwin['total_penalizepaid'];
+//                 		$income['pawn_servicefeer']=$pwin['total_servicepaid'];
+                	}elseif($pwin['currency_type']==2){//dollar
+                		$pawn_interestd=$pawn_interestd+$pwin['total_interestpaid'];
+                		$pawn_penalized=$pawn_penalized+$pwin['total_penalizepaid'];
+//                 		$income['pawn_servicefeed']=$pwin['total_servicepaid'];
+                	}else{//bath
+                		$pawn_interestb=$pawn_interestb+$pwin['total_interestpaid'];
+                		$pawn_penalizeb=$pawn_penalizeb+$pwin['total_penalizepaid'];
+//                 		$income['pawn_servicefeeb']=$pwin['total_servicepaid'];
+                	}
+                }
+                
+                ?>
 			<table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                  <tr bgcolor="#94b0e8" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:11px;font-family: 'Khmer OS Content';">
                     <td rowspan="2"><?php echo $tr->translate("CURRENT_TYPE");?></td>
@@ -192,6 +329,7 @@ $frm = $this->frm;
                     <td colspan="<?php echo $colspan;?>"><?php echo $tr->translate("ចំណូលពីការប្រមូលសរុប");?>(+)</td>
                     <td rowspan="2"><?php echo $tr->translate("កម្ចីទំលាក់");?>(-)</td>
                     <th colspan="2"><?php echo $tr->translate("INCOME_FROMLOAN_DISBURSE");?>(+)</th>
+                     <td colspan="4"><?php echo $tr->translate("បញ្ចាំ");?></td>
                     <td rowspan="2"><?php echo $tr->translate("ចំណូល-ចំណាយ");?>(+/-)</td>
                     <td rowspan="2"><?php echo $tr->translate("TOTAL");?>(+/-)</td>
                 </tr>
@@ -201,6 +339,11 @@ $frm = $this->frm;
                     <td><?php echo $tr->translate("ប្រាក់ពិន័យសរុប");?></td>
                     <th><?php echo $tr->translate("AMIN_FEE");?></th>
                     <th><?php echo $tr->translate("OTHER_FEE");?></th>
+                    
+                    <td ><?php echo $tr->translate("ទម្លាក់បញ្ចាំ");?>(-)</td>
+                    <td ><?php echo $tr->translate("សេវារដ្ឋបាលបញ្ចាំ");?>(+)</td>
+                    <td><?php echo $tr->translate("ប្រាក់ការសរុប");?>(+)</td>
+                    <td><?php echo $tr->translate("ប្រាក់ពិន័យសរុប");?>(+)</td>
                 </tr>
                 <tr class="style" style=" line-height: 24px; font-size:11px; font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
@@ -208,10 +351,18 @@ $frm = $this->frm;
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($disburse_dollar,2);?>&nbsp;</td>
+                    
                     <td>&nbsp;&nbsp;<?php echo number_format($d1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($d2,2);?>&nbsp;</td>
+                    
+                     <!-- pawn -->
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_disbursD,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_adminD,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_interestd,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_penalized,2);?>&nbsp;</td>
+                    
                     <td>&nbsp;&nbsp;<?php echo number_format($total_dd-$amt_d,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($d1+$d2+$total_d+$total_dd-$amt_d-$disburse_dollar,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($d1+$d2+$total_d+$total_dd-$amt_d-$disburse_dollar-$pawn_disbursD+($pawn_adminD+$pawn_interestd+$pawn_penalized),2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
@@ -219,10 +370,19 @@ $frm = $this->frm;
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_r2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_r3,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($disburse_reil,2);?>&nbsp;</td>
+                    
+                    
                     <td>&nbsp;&nbsp;<?php echo number_format($r1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($r2,2);?>&nbsp;</td>
+                    
+                     <!-- pawn -->
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_disbursR,2);?>&nbsp;</td>
+                     <td>&nbsp;&nbsp;<?php echo number_format($pawn_adminR,2);?>&nbsp;</td>
+                     <td>&nbsp;&nbsp;<?php echo number_format($pawn_interestr,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_penalizer,2);?>&nbsp;</td>
+                    
                     <td>&nbsp;&nbsp;<?php echo number_format($total_rr-$amt_r,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($r1+$r2+$total_r+$total_rr-$amt_r-$disburse_reil,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($r1+$r2+$total_r+$total_rr-$amt_r-$disburse_reil-$pawn_disbursR+($pawn_adminR+$pawn_interestr+$pawn_penalizer),2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
@@ -230,16 +390,24 @@ $frm = $this->frm;
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($disburse_bath,2);?>&nbsp;</td>
+                  
                    <td>&nbsp;&nbsp;<?php echo number_format($b1,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($b2,2);?>&nbsp;</td>
+                   
+                   <!-- pawn -->
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_disbursB,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_adminB,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_interestb,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pawn_penalizeb,2);?>&nbsp;</td>
+                    
                    <td>&nbsp;&nbsp;<?php echo number_format($total_bb-$amt_b3,2);?>&nbsp;</td>
-                   <td>&nbsp;&nbsp;<?php echo number_format($b1+$b2+$total_b+$total_bb-$amt_b3-$disburse_bath,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($b1+$b2+$total_b+$total_bb-$amt_b3-$disburse_bath-$pawn_disbursB+($pawn_adminB+$pawn_interestb+$pawn_penalizeb),2);?>&nbsp;</td>
                 </tr>
               </table>
-		</td>
-	</tr>
-</table>
-</form>
+	    	</div>
+		</form>
+	</div>
+</div>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");
