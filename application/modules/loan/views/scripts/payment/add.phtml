@@ -1433,7 +1433,8 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 						var timeDiff = ( collect_date.getTime()-payment_date.getTime() );
 						var amount_day = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 						if(amount_day>0){
-							interest = interest+((parseFloat($('#outstanding_'+arrays[i]).val())*interest_rate/term_amountday/100)*amount_day);
+							interest = interest+parseFloat($('#interest_'+arrays[i]).val());//only for battambang
+							//interest = interest+((parseFloat($('#outstanding_'+arrays[i]).val())*interest_rate/term_amountday/100)*amount_day);// work 100% for other
 						}
 					}
 				}

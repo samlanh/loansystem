@@ -139,7 +139,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     						'is_completed'=>1,
     						'status'=>0,
     						'amount_day'=>0,
-    						'is_extraloan'=>1,
+    						'is_extraloan'=>0,
     						'installment_amount'=>$start_id+1,
     						'payment_id'=>$receipt_id,
     				);

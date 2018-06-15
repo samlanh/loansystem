@@ -99,7 +99,7 @@ td p{ margin-top:0px !important;}
                				<td colspan="9" align="center" style="font-family: Khmer OS Battambang;font-size: 14px;"><?php echo !empty($row['noted'])?$row['noted']:"អតិថិជនបានខ្ចីបន្ថែមចំនួន ";?><?php echo $row['principal_permonth']?> នៅថ្ងៃទី <?php echo date("d-m-Y",strtotime($row['date_payment']));?> </td>
                			</tr>
                			<?php }else{?>
-               			<tr>
+               			<tr style="background: #94c3f3;font-weight: bold;">
                				<td colspan="9" align="center" style="font-family: Khmer OS Battambang;font-size: 14px;">អតិថិជនបានបង់ប្រាក់រំលស់ដើមចំនួន <?php echo $row['principal_permonth']?> នៅថ្ងៃទី <?php echo date("d-m-Y",strtotime($row['date_payment']));?> </td>
                			</tr>
                			<?php }?>

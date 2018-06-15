@@ -2157,7 +2157,7 @@ AND cl.client_id = $client_id )";
       	$where.= " AND ".$from_date." AND ".$to_date;
       	return $db->fetchRow($sql.$where);
       }
-      function getAdminfeeloanGroupByCO($coID,$currency_type,$search){
+      function getAdminfeeloanGroupByCO($search){
       	$db = $this->getAdapter();
       
       	$from_date =(empty($search['start_date']))? '1': " date_input >= '".$search['start_date']." 00:00:00'";
@@ -2171,7 +2171,9 @@ AND cl.client_id = $client_id )";
       		(SELECT CONCAT(curr_namekh,'-',`ln_currency`.`symbol`) FROM `ln_currency` WHERE (`ln_currency`.`id` = `currency_type` ) LIMIT 1) AS `currency_name`,
       		(SELECT co_khname FROM `ln_co` WHERE ln_co.co_id=ln_loan.co_id LIMIT 1) as co_name
       			FROM
-      		ln_loan WHERE status=1 AND co_id NOT IN 
+      		ln_loan WHERE status=1 
+      		AND admin_fee>0
+      		AND co_id NOT IN 
       		(SELECT co_id FROM `ln_client_receipt_money` $where_payemnt ) ";
       	$where ='';
       	if($search['branch_id']>0){

@@ -109,7 +109,6 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 				                    <th>&nbsp;<?php echo $tr->translate("PAYMENTED");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("BALANCE");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("DATE");?>&nbsp;</th>
-				                    <th class="noneprint" style="display: none;">&nbsp;<?php echo $tr->translate("");?>&nbsp;</th>
 				                </tr>
 			                </thead>
 			                <?php 
@@ -118,13 +117,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			                    if(!empty($this->sale)) 
 			                	foreach ($this->sale as $key => $rs){ 
 				                	$gTotalSell = $gTotalSell + $rs["selling_price"];
-			                  		$schedule="";
-			                  		$link='<a title="'.$tr->translate("INVOICE").'" class="repLink btn" target="_blank" href="'.$this->baseUrl()."/report/installments/saleinvoice/id/".$rs["id"].'">'.$tr->translate("INVOICE").'</a>';
 				                	if ($rs["selling_type"]==2){
-				                		$schedule=$tr->translate("Schedule Payment");
-				                		$link='<a title="'.$tr->translate("INVOICE").'" class="repLink btn" target="_blank" href="'.$this->baseUrl()."/report/installments/saleinvoice/id/".$rs["id"].'">'.$tr->translate("INVOICE").'</a>';
-				                		$link.='&nbsp;/&nbsp;<a title="'.$schedule.'" class="repLink btn" target="_blank" href="'.$this->baseUrl()."/report/installments/saleschedule/id/".$rs["id"].'">'.$schedule.'</a>';
-										$link.='&nbsp;/&nbsp;<a title="'.$tr->translate("AGREEMENT").'" class="repLink btn" target="_blank" href="'.$this->baseUrl()."/report/installments/agreement/id/".$rs["id"].'">'.$tr->translate("AGREEMENT").'</a>';
 				                	}
 			                    ?>
 			                    <?php 
@@ -134,7 +127,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			                     	<td colspan="15" align="center" style="font-weight: 600; "><?php echo $rs["branch_namekh"];?></td>
 			                     </tr>
 			                    <?php }$location = $rs['branch_id'];?>
-				                <tr class="style hover" style="line-height:20px; ">
+				                <tr oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;" class="context-menu-one style hover" style="line-height:20px; ">
 				               		<td style="font-size: 12px; text-align: center;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["sale_no"];?></td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["client_number"];?></td>
@@ -149,7 +142,6 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 				               		<td align="right">&nbsp;<?php echo number_format($rs["paid"],2);?>&nbsp;</td>
 				               		<td align="right">&nbsp;<?php echo number_format($rs["balance"],2);?>&nbsp;</td>
 				               		<td align="center">&nbsp;<?php  echo date("d-M-Y",strtotime($rs["date_sold"]));?>&nbsp;</td>
-				               		<td class="noneprint" style="display: none;" align="center">&nbsp;<?php echo $link;?>&nbsp;</td>
 				                </tr>
 			                <?php }?>
 			                	<tr style="font-weight: 600;border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
@@ -174,3 +166,35 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			</table>
 		</div>
 </div>
+<script>
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+			var m = "clicked: " + key;
+			if(key=="agreement"){
+				url='<?php echo $this->baseUrl()."/report/installments/agreement/id/";?>';
+			}else if(key=="schedule"){
+				url='<?php echo $this->baseUrl()."/report/installments/saleschedule/id/";?>';
+			}
+			else if(key=="invoice"){
+				url='<?php echo $this->baseUrl()."/report/installments/saleinvoice/id/";?>';
+			}
+			gotoAction();
+		},
+		items: {
+			"schedule": {name: "<?php echo $tr->translate("SCHEDULE_PAYMENT");?>", icon: "fa-calendar"},
+			"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text", accesskey: "c"},
+			"invoice": {name: "<?php echo $tr->translate("INVOICE");?>", icon: "fa-money", accesskey: "c o p y"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}</script>

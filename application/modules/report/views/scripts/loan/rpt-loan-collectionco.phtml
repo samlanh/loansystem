@@ -91,7 +91,6 @@
 			                 <th rowspan="2" style="white-space:nowrap; border-right:3px double black; "><?php echo $tr->translate("PAY_DATE");?></th>
 			                 <th rowspan="2"><?php echo $tr->translate("INPUT_DATE");?></th>
 			                 <th rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></th>
-			                 <th rowspan="2"><?php echo $tr->translate("BALANCE");?></th>
 					   	</tr>
 					   	<tr class="style"  bgcolor="#ccc" style="text-align:center;font-weight:bold; line-height: 24px; background:#ccd9ff;  font-size:12px; white-space: nowrap; ">
 			                <td><?php echo $tr->translate("PRINCIPLE");?></td>                   
@@ -194,8 +193,8 @@
 			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeeb['admin_fee'],2)." ฿";?>&nbsp;</td>
 			                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminb,2)." ฿";?>&nbsp;</td>
 			                </tr>
-			                <tr >
-								<td colspan="15" style=" border-left: solid 1px #fff; border-right: solid 1px #fff;">&nbsp;</td>
+			                <tr>
+								<td colspan="14" style=" border-left: solid 1px #fff; border-right: solid 1px #fff;">&nbsp;</td>
 							</tr>
 			                 <?php 
 					        	$coamt_r1 = 0;
@@ -234,7 +233,6 @@
 			               		<td style="font-size: 12px;text-align: center;"><?php echo date("d-M-Y",strtotime($rs["date_payment"]));?></td>
 			               		<td style="font-size: 12px;text-align: center;"><?php echo date("d-M-Y",strtotime($rs["date_input"]));?></td>
 			               		<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
-			               		<td style="font:bolder 12px Arial;">&nbsp;<?php echo number_format(@$rs['total_payment']-@$rs['total_paymentpaid'],2);echo $rs['currency_type'];?>&nbsp;</td>
 			                </tr>
 			                <?php if($rs['curr_type']==1){
 					               	$coamt_r1 = $coamt_r1+$rs['principal_paid'];

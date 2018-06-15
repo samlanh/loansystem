@@ -86,7 +86,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       }
       public function getPaymentSchedule($id){
       	$db=$this->getAdapter();
-      	$sql = "SELECT * FROM `ln_pawnshop_detail` WHERE pawn_id = $id ";
+      	$sql = "SELECT * FROM `ln_pawnshop_detail` WHERE pawn_id = $id ORDER BY installment_amount ASC,date_payment ASC ";
       	return $db->fetchAll($sql);
       }
       public function getAllDailyLoan($search = null){//rpt-loan-released/

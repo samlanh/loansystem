@@ -15,36 +15,36 @@
 dojo.require("dijit.form.DateTextBox");
 </script>
 <title><?php echo $tr->translate("PAWN_DISBURSE");?></title>
-<form method="post">
-	<table style="width:28.7cm; margin: 0 auto;">
-		<tr>
-			<td><?php echo $filter->getElement('adv_search');?></td>
-			<td><?php echo $filter->getElement('branch_id');?></td>
-			<td><?php echo $filter->getElement('members');?></td>
-			<td><?php echo $filter->getElement('product_id');?></td>
-		</tr>
-		<tr>
-		    <td><?php echo $filter->getElement('currency_type');?></td>
-			<td><?php echo $filter->getElement('start_date');?></td>
-			<td><?php echo $filter->getElement('end_date');?></td>
-			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-		</tr>
-	</table>
-</form>
+<div style="min-height:26cm; margin:0 auto; padding:0.2cm 0.2cm 0cm 0.2cm">	
+	<form method="post">
+		<table style="width:100%; margin: 0 auto;">
+			<tr>
+				<td><?php echo $filter->getElement('adv_search');?></td>
+				<td><?php echo $filter->getElement('branch_id');?></td>
+				<td><?php echo $filter->getElement('members');?></td>
+				<td><?php echo $filter->getElement('product_id');?></td>
+			</tr>
+			<tr>
+			    <td><?php echo $filter->getElement('currency_type');?></td>
+				<td><?php echo $filter->getElement('start_date');?></td>
+				<td><?php echo $filter->getElement('end_date');?></td>
+				<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+			</tr>
+		</table>
+	</form>
 <style>
 .noneprint{
 	display: table-cell !important; 
 }
 </style>
-<div style="min-width:33cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
-	<div id="divPrint" style="width: 100%;">
+<div id="divPrint" style="width: 100%;">
 	<style>
 			.style{
 				line-height: 30px;font-size: 12px !important;
 				font-family: 'Khmer OS Battambang';
 			}
 			table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
-			th{padding: 5px;}
+			th{padding: 1px;}
 			table { page-break-inside:auto }
 			tr{ page-break-inside:avoid; page-break-after:auto; }
 			#header {
