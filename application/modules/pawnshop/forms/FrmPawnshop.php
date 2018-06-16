@@ -46,7 +46,6 @@ public function init()
 		$admin_fee->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'readOnly'=>true
 		));
 		
 		$dbs = new Loan_Model_DbTable_DbLoanIL();

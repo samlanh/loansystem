@@ -41,7 +41,7 @@
 	<div id="divPrint">
 		<style>
 			.style{
-				line-height: 20px;font-size: 13px !important;
+				line-height: 20px;font-size: 10px !important;
 				font-family: 'Khmer OS Battambang';
 			}
 			table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
@@ -205,7 +205,7 @@
 			               				$amount_lateday=$total_day/(60*60*24)-$free_day;
 			               				$total_late_day=$total_day/(60*60*24);
 			               			}else {
-			               				$total_day=strtotime($end_dat)-strtotime($rs['last_pay_date']);
+			               				$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
 			               				$total_late_day=$total_day/(60*60*24);
 			               				$amount_lateday=$total_day/(60*60*24);
 			               			}

@@ -123,6 +123,7 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 		(SELECT first_name FROM `rms_users` WHERE id=c.user_id) AS user_name,
 		s.customer_id,
 		c.`level` AS reschdule_time,
+		s.release_amount,
 		(s.`release_amount`-c.`extra_loan`) as pawnbalancce
 		
 		 FROM `ln_pawnshop_reschedule` AS c,
