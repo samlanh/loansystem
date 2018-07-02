@@ -116,7 +116,7 @@ class Pawnshop_Model_DbTable_DbReschedule extends Zend_Db_Table_Abstract
     				
     		);
     		$this->_name = 'ln_pawnshop_reschedule';
-    		$this->insert($datagroup);//add group loan
+    		$reschedule_id = $this->insert($datagroup);//add group loan
     		
     		
     		$session_transfer=new Zend_Session_Namespace();
@@ -230,6 +230,16 @@ class Pawnshop_Model_DbTable_DbReschedule extends Zend_Db_Table_Abstract
 					}
     			}
     		}
+    		
+    		$this->_name='ln_pawnshop';
+    		$datagroup = array('date_line'=>$next_payment);
+    		$where =" id= ".$loan_id;
+    		$this->update($datagroup, $where);
+    		
+    		$this->_name = 'ln_pawnshop_reschedule';
+    		$datagroup = array('date_line'=>$next_payment);
+    		$where =" id= ".$reschedule_id;
+    		$this->update($datagroup, $where);
     		$db->commit();
     		
     	}catch (Exception $e){

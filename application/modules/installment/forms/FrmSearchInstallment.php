@@ -118,7 +118,7 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 		}
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		if($request->getModuleName()=='installment'){
-			unset($options['3']);unset($options['5']);
+			unset($options['5']);
 			unset($options['6']);
 		}
 		$_repayment_method->setMultiOptions($options);

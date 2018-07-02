@@ -217,14 +217,11 @@ function getAllAccount(index){
 		handleAs:"json",
 		load: function(option) {
 			 dojo.html.set(dojo.byId("acc_label"+index), '<select Onchange="getParentByAccount('+r+')" name="account_id'+index+'" dojoType="dijit.form.FilteringSelect" >'
-					    +option+'</select>', {
-					      parseContent: true,
-					      onBegin: function() {
-					        //dojo.require('dijit.form.FilteringSelect');
-					        //this.inherited("onBegin", arguments);
-					      }
-					  });
-		
+			    +option+'</select>', {
+			      parseContent: true,
+			      onBegin: function() {
+			      }
+			  });
 		},
 		error: function(err) {
 			alert(err);

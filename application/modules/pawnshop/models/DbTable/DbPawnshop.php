@@ -201,7 +201,13 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 						}
 					}
 				}
+				
+				$this->_name='ln_pawnshop';
+				$datagroup = array('date_line'=>$next_payment);
+				$where =" id= ".$loan_id;
+				$this->update($datagroup, $where);
     			$db->commit();
+    			
     	}catch (Exception $e){
     		$db->rollBack();
     		Application_Form_FrmMessage::message("INSERT_FAIL");

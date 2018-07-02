@@ -91,7 +91,7 @@ class Report_Model_DbTable_DbpawnCollect extends Zend_Db_Table_Abstract
     		$s_where[] = " loan_number LIKE '%{$s_search}%'";
     		$where .=' AND ( '.implode(' OR ',$s_where).')';
     	}
-    	$order=" ORDER BY currency_type ASC, date_payment DESC";
+    	$order=" ORDER BY currency_type ASC, date_payment ASC";
     	return $db->fetchAll($sql.$where.$order);
     }
 	public function latepayment($search=null){

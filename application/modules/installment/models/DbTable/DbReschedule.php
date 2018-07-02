@@ -203,7 +203,26 @@ public function addRescheduleInstallment($data){
 						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
 					}
 					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
-				}elseif($payment_method==4){//fixed payment full last period yes
+				}elseif ($payment_method==3){
+					$pri_permonth = $data['total_amount']/($data['duration']);
+					$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
+					if($i!=1){
+						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
+						if($i==$loop_payment){
+							$pri_permonth = $remain_principal;
+						}
+						$start_date = $next_payment;
+						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+						//$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
+				
+					}else{
+						$next_payment = $data['first_payment'];
+						$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+					}
+					$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
+					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//$amount_day;
+				}
+				elseif($payment_method==4){//fixed payment full last period yes
 					$total_day=0;
 					if($i!=1){
 						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា

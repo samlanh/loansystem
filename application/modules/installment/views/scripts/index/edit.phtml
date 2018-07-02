@@ -109,6 +109,10 @@
 			 		</td>
 			 	</tr>
 			 	<tr>
+			 		<td><?php echo $tr->translate('YEAR');?></td>
+			 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="year" id="year" value="" type="text"></td>
+			 	</tr>
+			 	<tr>
 			 		<td><?php echo $tr->translate('Power Engine');?></td>
 			 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="power" id="power" value="" type="text"></td>
 			 	</tr>
@@ -381,6 +385,7 @@
 										<tr class="style" align="center" style=" font-family:'Times New Roman','Khmer OS Muol Light'; background-color: #1E8449; color: #ffffff; padding: 2px 0px">
 											<td style="font-size:12px !important;">&nbsp;បរិយាយ<br>DESCRIPTION&nbsp;</td>
 											<td>&nbsp;ប្រភេទ<br>MODEL&nbsp;</td>
+											<td>&nbsp;ឆ្នាំ<br>Year&nbsp;</td>
 											<td>&nbsp;<span style="white-space: nowrap;">កម្លាំងម៉ាស៊ីន</span><br>POWER&nbsp;</td>
 											<td>&nbsp;ពណ៌<br>COLOR&nbsp;</td>
 											<td>&nbsp;<span style="white-space: nowrap;">លេខម៉ាស៊ីន</span><br>ENGNE N<sup>0</sup>&nbsp;</td>
@@ -392,6 +397,7 @@
 										<tr style="line-height:30px; font-size:12px; ">
 											<td align="center">&nbsp;<span id="LBDescription"></span>&nbsp;</td>
 											<td align="center">&nbsp;<span id="LBModel"></span>&nbsp;</td>
+											<td align="center">&nbsp;<span id="LBLYear"></span>&nbsp;</td>
 											<td>&nbsp;<span id="LBPower"></span>&nbsp;</td>
 											<td>&nbsp;<span id="LBColor"></span>&nbsp;</td>
 											<td align="center">&nbsp;<span id="LBEngineNo"></span>&nbsp;</td>
@@ -399,6 +405,7 @@
 											<td align="right">&nbsp;<span id="LBPrice"></span>&nbsp;</td>
 										</tr>
 										 <tr style="line-height:30px; font-size:12px; " >
+											<td align="center">&nbsp;&nbsp;</td>
 											<td align="center">&nbsp;&nbsp;</td>
 											<td align="center">&nbsp;&nbsp;</td>
 											<td>&nbsp;&nbsp;</td>
@@ -412,12 +419,13 @@
 											<td align="center">&nbsp;&nbsp;</td>
 											<td>&nbsp;&nbsp;</td>
 											<td>&nbsp;&nbsp;</td>
+											<td>&nbsp;&nbsp;</td>
 											<td align="center">&nbsp;&nbsp;</td>
 											<td align="right">&nbsp;&nbsp;</td>
 											<td align="right">&nbsp;&nbsp;</td>
 										</tr>
 										<tr style="line-height:16px; font-size:12px; " >
-											<td valign="top" colspan="4" rowspan="3" style="border-left: 1px solid #ffffff; border-bottom:#fff solid 1px; padding: 5px 3px;">
+											<td valign="top" colspan="5" rowspan="3" style="border-left: 1px solid #ffffff; border-bottom:#fff solid 1px; padding: 5px 3px;">
 												<p style="font-size: 10px; text-align: left; line-height: 22px;  color: red;  font-family:'Times New Roman','Khmer OS Muol Light';">
 												<span style="text-decoration: underline;">ចំណាំៈ</span>
 												-អតិថិជនបានពិនិត្យ ត្រឹមត្រូវរួចហើយ
@@ -509,6 +517,7 @@ function showInvoice(){
 	if(dijit.byId('frm_add_tran').validate()) {
 		dojo.byId('LBinvoice').innerHTML=dijit.byId('sale_no').get('value');
 		dojo.byId('LBDescription').innerHTML=dijit.byId('product_name').attr('displayedValue');
+		dojo.byId('LBLYear').innerHTML=dijit.byId('year').get('value');
 		dojo.byId('LBModel').innerHTML=dijit.byId('category_id').attr('displayedValue');
 		dojo.byId('LBPower').innerHTML=dijit.byId('power').get('value');
 		dojo.byId('LBColor').innerHTML=dijit.byId('color').get('value');

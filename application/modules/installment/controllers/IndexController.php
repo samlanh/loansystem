@@ -151,17 +151,6 @@ class Installment_IndexController extends Zend_Controller_Action {
 			exit();
 		}
 	}	
-	
-// 	public function addloanAction(){
-// 		if($this->getRequest()->isPost()){
-// 			$data=$this->getRequest()->getPost();
-// 			$db = new Loan_Model_DbTable_DbLoan();
-// 			$id = $db->addNewLoanGroup($data);
-// 			$suc = array('sms'=>'ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
-// 			print_r(Zend_Json::encode($suc));
-// 			exit();
-// 		}
-// 	}
 	public function viewAction(){
 		$id = $this->getRequest()->getParam('id');
 		$db_g = new Application_Model_DbTable_DbGlobal();

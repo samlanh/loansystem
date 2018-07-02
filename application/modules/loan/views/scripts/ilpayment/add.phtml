@@ -818,7 +818,7 @@ function getLaonPayment(type){
 				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 					+'<thead><tr><th class="tdheader"><?php echo $tr->translate('NO');?></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('បង់លើក');?></th>'
-					+'<th class="tdheader"><input type="checkbox" OnChange="checkAll();" name="check_all" id="check_all" /></th>'
+					+'<th class="tdheader" align="center"><input type="checkbox" OnChange="checkAll();" name="check_all" id="check_all" /></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('CLIENT_NO');?></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('CUSTOMER_NAME');?></th>'
 					+'<th class="tdheader" colspan="2"><?php echo $tr->translate('PAY_DATE');?></th>'
@@ -869,18 +869,18 @@ function getLaonPayment(type){
 									tem+= '<tr id=tr_'+inx+' style="background-color:none">';
 									tem += '<td>&nbsp;'+num+'</td>';
 									tem += '<td align="center">&nbsp;'+amount_completed+'</td>';
-									tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" checked="checked"/></td>';
+									tem += '<td align="center">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" checked="checked"/></td>';
 								}else{
 									if(inx==1){
 										tem+= '<tr id=tr_'+inx+' style="background-color:none">';
 										tem += '<td>&nbsp;'+num+'</td>';
 										tem += '<td align="center">&nbsp;'+amount_completed+'</td>';
-										tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" checked="checked"/></td>';
+										tem += '<td align="center">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" checked="checked"/></td>';
 									}else{
 										tem+= '<tr id=tr_'+inx+' style="background-color:#eee">';
 										tem += '<td>&nbsp;'+num+'</td>';
 										tem += '<td align="center">&nbsp;'+amount_completed+'</td>';
-										tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" onclick="return false" onkeydown="return false" /></td>';
+										tem += '<td align="center">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" onclick="return false" onkeydown="return false" /></td>';
 									}
 								}
 							}else{
@@ -888,12 +888,12 @@ function getLaonPayment(type){
 									tem+= '<tr id=tr_'+inx+' style="background-color:none">';
 									tem += '<td>&nbsp;'+num+'</td>';
 									tem += '<td align="center">&nbsp;'+amount_completed+'</td>';
-									tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" checked="checked"/></td>';
+									tem += '<td align="center">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" checked="checked"/></td>';
 								}else{
 									tem+= '<tr id=tr_'+inx+' style="background-color:none">';
 									tem += '<td>&nbsp;'+num+'</td>';
 									tem += '<td align="center">&nbsp;'+amount_completed+'</td>';
-									tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" /></td>';
+									tem += '<td align="center">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" /></td>';
 								}
 							}
 						    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
