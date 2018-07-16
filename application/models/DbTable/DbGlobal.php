@@ -1847,5 +1847,19 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	$monthKH = empty($khmermonth[$month])?"":$khmermonth[$month];
   	return $monthKH;
   }
+  function getNumberInkhmer($number){
+  	$khmernumber = array("០","១","២","៣","៤","៥","៦","៧","៨","៩");
+  	$spp = str_split($number);
+  	$num="";
+  	foreach ($spp as $ss){
+  		 
+  		if (!empty($khmernumber[$ss])){
+  			$num.=$khmernumber[$ss];
+  		}else{
+  			$num.=$ss;
+  		}
+  	}
+  	return $num;
+  }
 }
 ?>
