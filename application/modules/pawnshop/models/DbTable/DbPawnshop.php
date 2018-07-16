@@ -24,6 +24,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 	    		receipt_num,CONCAT(release_amount,
 	    		(SELECT symbol FROM `ln_currency` WHERE id =ln_pawnshop.currency_type LIMIT 1)) AS currency_type,
 	    		admin_fee,
+	    		(SELECT payment_nameen FROM `ln_payment_method` WHERE id = payment_method LIMIT 1) AS payment_method,
 	    		CONCAT(total_duration,(SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code = term_type )) term_type,
 				interest_rate,
 				(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=ln_pawnshop.product_id limit 1) as product_name,
@@ -110,7 +111,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 						'create_date'=>date("Y-m-d"),
 						'total_duration'=>$data['period'],
 						'first_payment'=>$data['first_payment'],
-						'payment_method'=>1,
+						'payment_method'=>$data['repayment_method'],
 						'holiday'=>2,
 						'user_id'=>$this->getUserId(),
 						'currency_type'=>$data['currency_type'],
@@ -132,43 +133,83 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 				$remain_principal = $data['total_amount'];
 				$old_pri_permonth = 0;
 				$old_interest_paymonth = 0;
+				$interest_paymonth = 0;
 				$old_amount_day = 0;
 				$next_payment = $data['first_payment'];
 				$curr_type = $data['currency_type'];
-				
+				$payment_method = $data['repayment_method'];
 				$str_next = $dbtable->getNextDateById($data['payment_term'],2);
 				$start_date = $data['release_date'];
 				$from_date =  $data['release_date'];
+				$amount_day = 0;
 				$borrow_term = $dbtable->getSubDaysByPaymentTerm($data['payment_term'],null);//return amount day for payterm
 				
 				$this->_name='ln_pawnshop_detail';
 				for($i=1;$i<=$data['period'];$i++){
-					$pri_permonth=0;
-					if($i==$data['period']){//check here
-						$old_pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
-						$remain_principal = $pri_permonth;//$remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-					}
-					if($i!=1){
-						$start_date = $next_payment;
-						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+					if($payment_method==1){
+						$pri_permonth = $data['total_amount']/($data['period']);
+						$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
+						if($i!=1){
+							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}
+								
+							if($i==$data['period']){//check condition here//for end of record only
+								$pri_permonth= $remain_principal ;
+							}
+							$start_date = $next_payment;
+							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+							$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
+							$interest_paymonth = $remain_principal*($data['interest_rate']/100/30)*$amount_day;//here
+						}else{
+							$next_payment = $data['first_payment'];
+							$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+							$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
+							$interest_paymonth = $remain_principal*($data['interest_rate']/100/30)*$amount_day;
+						}
+						$old_pri_permonth = $pri_permonth;
+					}elseif($payment_method==2){
+						$pri_permonth=0;
+						if($i==$data['period']){//check here
+							$old_pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
+							$remain_principal = $pri_permonth;//$remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
+						}
+						if($i!=1){
+							$start_date = $next_payment;
+							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+							$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
+						}else{
+							$next_payment = $data['first_payment'];
+							$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+							$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
+						}
+						if($data['interest_type']==1){//interest by percentage
+							    $interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
+							if($data['payment_term']==3){//for month
+								$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//by day or month check 30
+							}
+						}else{//interest by fixed
+							if($data['payment_term']==3){//for month
+								$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
+							}else{//day
+								$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
+							}
+						}
+					}elseif($payment_method==3){//flat rate
+						$pri_permonth = $data['total_amount']/($data['period']);
+						$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
+						if($i!=1){
+							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
+							if($i==$data['period']){
+								$pri_permonth = $remain_principal;
+							}
+							$start_date = $next_payment;
+							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+						}else{
+							$next_payment = $data['first_payment'];
+							$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+						}
 						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-					}else{
-						$next_payment = $data['first_payment'];
-						$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
-						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-					}
-// 					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;
-					if($data['interest_type']==1){//interest by percentage
-						    $interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
-						if($data['payment_term']==3){//for month
-							$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//by day or month check 30
-						}
-					}else{//interest by fixed
-						if($data['payment_term']==3){//for month
-							$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
-						}else{//day
-							$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
-						}
+						$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//$amount_day;
+						$old_pri_permonth = $pri_permonth;
 					}
 					
 					$datapayment = array(
@@ -231,7 +272,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     				'create_date'=>date("Y-m-d"),
     				'total_duration'=>$data['period'],
     				'first_payment'=>$data['first_payment'],
-    				'payment_method'=>1,
+    				'payment_method'=>$data['repayment_method'],
     				'term_type'=>$data['payment_term'],
     				'admin_fee'=>$data['admin_fee'],
     				'interest_type'=>$data['interest_type'],
@@ -274,6 +315,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     		$this->delete($where);
     
     		$remain_principal = $data['total_amount'];
+    		$payment_method = $data['repayment_method'];
     		$old_pri_permonth = 0;
     		$old_interest_paymonth = 0;
     		$old_amount_day = 0;
@@ -286,33 +328,74 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     
     		$this->_name='ln_pawnshop_detail';
     		for($i=1;$i<=$data['period'];$i++){
-    			$pri_permonth=0;
-    			if($i==$data['period']){//check here
-    				$old_pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
-    				$remain_principal = $pri_permonth;//$remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-    			}
-    			if($i!=1){
-    				$start_date = $next_payment;
-    				$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
-    				$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-    			}else{
-    				$next_payment = $data['first_payment'];
-    				$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
-    				$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-    			}
+    			if($payment_method==1){
+    				$pri_permonth = $data['total_amount']/($data['period']);
+    				$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
+    				if($i!=1){
+    					$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}
     			
-    			  if($data['interest_type']==1){//interest by percentage
-						    $interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
-						if($data['payment_term']==3){//for month
-							$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//by day or month check 30
-						}
-					}else{//interest by fixed
-						if($data['payment_term']==3){//for month
-							$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
-						}else{//day
-							$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
-						}
-					}
+    					if($i==$data['period']){//check condition here//for end of record only
+    						$pri_permonth= $remain_principal ;
+    					}
+    					$start_date = $next_payment;
+    					$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+    					$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
+    					$interest_paymonth = $remain_principal*($data['interest_rate']/100/30)*$amount_day;//here
+    				}else{
+    					$next_payment = $data['first_payment'];
+    					$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+    					$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
+    					$interest_paymonth = $remain_principal*($data['interest_rate']/100/30)*$amount_day;
+    				}
+    				$old_pri_permonth = $pri_permonth;
+    			}elseif($payment_method==2){
+	    			$pri_permonth=0;
+	    			if($i==$data['period']){//check here
+	    				$old_pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
+	    				$remain_principal = $pri_permonth;//$remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
+	    			}
+	    			if($i!=1){
+	    				$start_date = $next_payment;
+	    				$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+	    				$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
+	    			}else{
+	    				$next_payment = $data['first_payment'];
+	    				$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+	    				$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
+	    			}
+	    			
+	    			  if($data['interest_type']==1){//interest by percentage
+							    $interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
+							if($data['payment_term']==3){//for month
+								$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//by day or month check 30
+							}
+							
+						}else{//interest by fixed
+							if($data['payment_term']==3){//for month
+								$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
+							}else{//day
+								$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
+							}
+					 }
+    			 }
+				 elseif($payment_method==3){//flat rate
+				 	$pri_permonth = $data['total_amount']/($data['period']);
+				 	$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
+				 	if($i!=1){
+				 		$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
+				 		if($i==$data['period']){
+				 			$pri_permonth = $remain_principal;
+				 		}
+				 		$start_date = $next_payment;
+				 		$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+				 	}else{
+				 		$next_payment = $data['first_payment'];
+				 		$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+				 	}
+				 	$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
+				 	$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//$amount_day;
+				 	$old_pri_permonth = $pri_permonth;
+				 }
     				$datapayment = array(
     					'pawn_id'=>$loan_id,
     					'outstanding'=>$remain_principal,
@@ -329,7 +412,6 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     					'amount_day'=>$amount_day,
     					'installment_amount'=>$i
     			);
-    				
     			$this->insert($datapayment);
     				
     			$amount_collect=0;
@@ -379,6 +461,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 				$old_amount_day = 0;
 				$next_payment = $data['first_payment'];
 				$curr_type = $data['currency_type'];
+				$payment_method = $data['repayment_method'];
 				
 				$str_next = $dbtable->getNextDateById($data['payment_term'],2);
 				$start_date = $data['release_date'];
@@ -387,31 +470,71 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 				$borrow_term = $dbtable->getSubDaysByPaymentTerm($data['payment_term'],null);//return amount day for payterm
 				$this->_name='ln_pawnshoptest';
 				for($i=1;$i<=$data['period'];$i++){
-					$pri_permonth=0;
-					if($i==$data['period']){//check here
-						$old_pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
-						$remain_principal = $pri_permonth;
-					}
-					if($i!=1){
-						$start_date = $next_payment;
-						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+					if($payment_method==1){
+						$pri_permonth = $data['total_amount']/($data['period']);
+						$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
+						if($i!=1){
+							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}
+							
+							if($i==$data['period']){//check condition here//for end of record only
+								$pri_permonth= $remain_principal ;
+							}
+							$start_date = $next_payment;
+							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+							$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
+							$interest_paymonth = $remain_principal*($data['interest_rate']/100/30)*$amount_day;//here
+						}else{
+							$next_payment = $data['first_payment'];
+							$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+							$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
+							$interest_paymonth = $remain_principal*($data['interest_rate']/100/30)*$amount_day;
+						}
+						$old_pri_permonth = $pri_permonth;
+				    }
+					elseif($payment_method==2){
+						$pri_permonth=0;
+						if($i==$data['period']){//check here
+							$old_pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
+							$remain_principal = $pri_permonth;
+						}
+						if($i!=1){
+							$start_date = $next_payment;
+							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+							$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
+						}else{
+							$next_payment = $data['first_payment'];
+							$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+							$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
+						}
+						if($data['interest_type']==1){//interest by percentage
+							    $interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
+							if($data['payment_term']==3){//for month
+								$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//by day or month check 30
+							}
+						}else{//interest by fixed
+							if($data['payment_term']==3){//for month
+								$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
+							}else{//day
+								$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
+							}
+						}
+					}elseif($payment_method==3){//flat rate
+						$pri_permonth = $data['total_amount']/($data['period']);
+						$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
+						if($i!=1){
+							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
+							if($i==$data['period']){
+								$pri_permonth = $remain_principal;
+							}
+							$start_date = $next_payment;
+							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+						}else{
+							$next_payment = $data['first_payment'];
+							$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
+						}
 						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-					}else{
-						$next_payment = $data['first_payment'];
-						$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
-						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-					}
-					if($data['interest_type']==1){//interest by percentage
-						    $interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
-						if($data['payment_term']==3){//for month
-							$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//by day or month check 30
-						}
-					}else{//interest by fixed
-						if($data['payment_term']==3){//for month
-							$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
-						}else{//day
-							$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
-						}
+						$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//$amount_day;
+						$old_pri_permonth = $pri_permonth;
 					}
 					
 					$datapayment = array(

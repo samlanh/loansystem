@@ -943,7 +943,9 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       		$where.=" AND `branch_id`= ".$search['branch_id'];
       	}
       	if(!empty($search['start_date']) or !empty($search['end_date'])){
-      		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
+      		$from_date =(empty($search['start_date']))? '1': " `date_release` >= '".$search['start_date']." 00:00:00'";
+      		$to_date = (empty($search['end_date']))? '1': " `date_release` <= '".$search['end_date']." 23:59:59'";
+      		$where = " AND ".$from_date." AND ".$to_date;
       	}
       	
       	$dbp = new Application_Model_DbTable_DbGlobal();

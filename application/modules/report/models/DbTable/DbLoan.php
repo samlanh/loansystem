@@ -2122,11 +2122,11 @@ AND cl.client_id = $client_id )";
       }
       function incomeAdminFeePawnshop($search){
       	$db = $this->getAdapter();
-      	$sql="SELECT SUM(p.`admin_fee`) AS tAdminfee, p.`currency_type` FROM `ln_pawnshop` AS p WHERE p.`status`=1
-      	";
+      	$sql="SELECT SUM(p.`admin_fee`) AS tAdminfee, p.`currency_type` 
+      			FROM `ln_pawnshop` AS p WHERE p.`status`=1 AND (admin_fee>0) ";
       	$where="";
-      	$from_date =(empty($search['start_date']))? '1': " p.`create_date` >= '".$search['start_date']." 00:00:00'";
-      	$to_date = (empty($search['end_date']))? '1': " p.`create_date` <= '".$search['end_date']." 23:59:59'";
+      		$from_date =(empty($search['start_date']))? '1': " p.`date_release` >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " p.`date_release` <= '".$search['end_date']." 23:59:59'";
       	$where = " AND ".$from_date." AND ".$to_date;
       	 
       	if($search['currency_type']>0){

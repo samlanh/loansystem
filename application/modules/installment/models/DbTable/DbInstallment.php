@@ -291,7 +291,6 @@ public function addSaleInstallment($data){
 						}
 						$start_date = $next_payment;
 						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
-						//$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
 				
 					}else{
 						$next_payment = $data['first_payment'];

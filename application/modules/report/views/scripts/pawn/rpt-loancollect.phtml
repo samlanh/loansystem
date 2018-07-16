@@ -107,11 +107,10 @@
 		                	    $amt_d5 = 0;$total_b=0;
 		                	    $amn_b1 = 0;
 		                	    $amn_b2 = 0;$amt_b1=0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;$total_d=0;
-		                	    $saving_r=0;$saving_b=0;$saving_d=0;
+		                	  
 		                	    $result=0;
 		
 		                	    $dbc = new Application_Model_DbTable_DbGlobal();
-								$dbl = new Loan_Model_DbTable_DbLoanILPayment();
 				           ?>
 			               <?php if(!empty($tran))foreach($tran as $key =>$row){
 				               	$loan_number = $row["loan_number"];
@@ -149,11 +148,11 @@
 			                    else {
 			                    	$total_late=($row['principle_after']+$row['total_interest_after']);
 			                    }
-		// 	                    $penelize = $row['penelize']+$result;
 			                    $penelize=0;
 			                    echo str_replace('.00', '', number_format($penelize,2));?>&nbsp;
 			                    </td>
-			                    <td><strong style="font-family:'arial';"><?php $total_payment =$row['principle_after']+$row['total_interest_after'];
+			                    <td><strong style="font-family:'arial';"><?php 
+			                    	$total_payment =$row['principle_after']+$row['total_interest_after'];
 			                    	echo str_replace('.00', '', number_format($total_payment,2))." ".$row['currencyname'];?></strong></td>
 			                    <td>&nbsp;0&nbsp;</td>
 			                    <td>&nbsp;&nbsp;</td>
@@ -179,19 +178,8 @@
 											$amn_b4 = $amn_b4+$total_payment;
 											$total_b=$amn_b4;
 						               }
-				               ?>
-			                <?php }?>
-			                
-			                
-			                <?php 
-		                     
-		                	 $amt_d1 = 0;$amt_d2 = 0;
-		                	 $amn_b1 = 0; $amn_b2 = 0; 
-		                	 $pene_amr=0; $pene_amb=0;$pene_amd=0;
-		                	 $serv_amr=0;$serv_amb=0;$serv_amd=0;
-		                	 $saving_r=0; $saving_b=0; $saving_d=0;
-		                	 $result=0;
-		                ?>
+			               }
+				         ?>
 		                <?php $i=1; $currentlate = 0;?>
 		                <tr class="style hover" style=" line-height: 24px; font-size:11px; font-family: 'Khmer OS Content'; white-space: nowrap;">
 		                	<td colspan="14" style=" background: #ccd9ff; text-align: center;">&nbsp;<strong><?php echo$tr->translate("REPORT_LOAN_LATE");?></strong>&nbsp;</td>
@@ -218,7 +206,6 @@
 			               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
 			               				$result=$total_pay*($interest_penalty*(($rs['interest_rate']/100)/30))*($amount_lateday);
 			               			}
-			               			//$penelize = $db->roundhundred(0+$result, $rs['curr_type']);
 			               			$penelize=0;
 			               			$total_payment =$rs['principle_after']+$rs['total_interest_after'];
 		               			?>
@@ -246,17 +233,14 @@
 				               if($rs['curr_type']==1){
 				               		$amt_r1 = $amt_r1+$rs['principle_after'];
 				               		$amt_r3 = $amt_r3+$rs['total_interest_after'];
-				               		$pene_amr=$pene_amr+$penelize;
 				               		$amt_r4 = $amt_r4+$total_payment;
 				               }elseif($rs['curr_type']==2){
 									$amt_d1 = $amt_d1+$rs['principle_after'];
-									$amt_d3 = $amt_d3+$rs['total_interest_after'];
-									$pene_amd=$pene_amd+$penelize;
+									$amt_d2 = $amt_d2+$rs['total_interest_after'];
 									$amt_d4 = $amt_d4+$total_payment;
 				               }else{
 									$amt_b1 = $amt_b1+$rs['principle_after'];
 									$amn_b3 = $amn_b3+$rs['total_interest_after'];
-									$pene_amb= $pene_amb+$penelize;
 									$amn_b4 = $amn_b4+$total_payment;
 				               }
 				               $amount_days = strtotime($this->list_end_dates)-strtotime($rs["date_payment"]);
@@ -282,8 +266,7 @@
 		                 <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
 		                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
-		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
-		                    <!--<td>&nbsp;&nbsp;<?php echo number_format($pene_amd,2);?>&nbsp;</td> -->
+		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d4,2);?>&nbsp;</td>
 		                </tr>
 		                 <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
@@ -296,7 +279,6 @@
 		                   <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($amt_b1,2);?>&nbsp;</td>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
-		                    <!--<td>&nbsp;&nbsp;<?php echo number_format($pene_amb,2);?>&nbsp;</td>-->
 		                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b4,2);?>&nbsp;</td>
 		                </tr>
 		              </table> 

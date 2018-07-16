@@ -909,6 +909,10 @@ dojo.ready(function(){
 		dijit.byId("branch_id").attr("value",<?php echo $this->rsloan['branch_id'];?>);
 		dijit.byId("loan_number").attr("value",<?php echo $this->rsloan['id'];?>);
 	}
+	<?php if($this->leveluser!=1){?>
+		dijit.byId('total_interest').attr('readOnly',true);
+		dijit.byId('collect_date').attr('readOnly',true);
+	<?php }?>
 });
 function filterLoanNumber(){
 	 dijit.byId('loan_number').query.branch_id = dijit.byId('branch_id').get('value');
@@ -1193,12 +1197,15 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		}
 		total_penalty= roundhundred(total_penalty);
 		interest= roundhundred(interest);
-		//dijit.byId("penalize_amount").attr("value",total_penalty);//use
 		dijit.byId("os_amount").attr("value",principal_permonth);
 		dijit.byId("total_interest").attr("value",interest);
 		dijit.byId("total_payment").attr("value",principal_permonth+interest+total_penalty);
 		
 		calTotal();
+		<?php if($this->leveluser!=1){?>
+			dijit.byId('total_interest').attr('readOnly',true);
+			dijit.byId('collect_date').attr('readOnly',true);
+		<?php }?>
 	}catch(err){
 		
 	}

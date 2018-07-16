@@ -186,6 +186,7 @@ public function init()
 				'onchange'=>'chechPaymentMethod()'
 		));
 		$options = $db->getAllPaymentMethod(null,1);
+		unset($options[4]);unset($options[5]);unset($options[6]);
 		$_repayment_method->setMultiOptions($options);
 		
 		$pro_type=new Zend_Dojo_Form_Element_FilteringSelect('product_id');
@@ -317,6 +318,8 @@ public function init()
 			$_amount->setValue($data['release_amount']);
 			$_period->setValue($data['total_duration']);
 			$_rate->setValue($data['interest_rate']);//
+			
+			$_repayment_method->setValue($data['payment_method']);
 			
 			$pro_type->setValue($data['product_id']);
 			$description->setValue($data['product_description']);

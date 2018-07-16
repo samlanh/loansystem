@@ -40,9 +40,15 @@ $newarray=array();
 	$controller = $request->getControllerName();
 ?>
 <div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow pt-10 " data-scroll-to-active="true">
+	<?php 
+	$db = new Application_Model_DbTable_DbUsers();
+	$rs = $db->getAccessUrl("loan","index","add");
+	if(!empty($rs)){
+	?>
 	<div class="button-make-loan mb-10">
 		<a href="<?php echo $this->baseUrl()."/loan/index/add"?>"  class="closebtn-makesale"  ><i class="fa fa-plus" aria-hidden="true"></i> <?php echo $tr->translate("Make Loan Disburse");?> </a>
 	</div>
+	<?php }?>
     <div class="main-menu-content">
 		<ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 		   <!-- 
@@ -54,7 +60,7 @@ $newarray=array();
 		          </ul>
 		  </li>
 		    -->
-		    <?php foreach ($arr_param_menu[$request->getModuleName()] as $param =>$url){
+		    <?php if(!empty($arr_param_menu[$request->getModuleName()]))foreach ($arr_param_menu[$request->getModuleName()] as $param =>$url){
 		    	$uri=$this->baseUrl().'/'.$module.'/'.$param;
 		    	?>
 		  <li class="nav-item <?php if($param==$controller){ echo "active";}?>">

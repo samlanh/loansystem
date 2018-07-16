@@ -206,8 +206,8 @@ input.btn_borwse_image {
 						<td><?php echo $frm->getElement('admin_fee');?></td>
                    </tr>
                    <tr>
-	                	<td><?php echo $tr->translate("TERM_INSTALL")?></td>
-					   	<td><?php echo $frm->getElement('payment_term');?></td>
+		                <td><?php echo $tr->translate("PAMENT_METHOD")?></td>
+						<td><?php echo $frm->getElement('repayment_method');?></td>
                    </tr>
                </table>
 		</td>
@@ -215,6 +215,10 @@ input.btn_borwse_image {
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("ILLOAN_INFO")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+						 <tr>
+		                	<td><?php echo $tr->translate("TERM_INSTALL")?></td>
+						   	<td><?php echo $frm->getElement('payment_term');?></td>
+	                   </tr>
 						 <tr>
 		                	   <td><strong><?php echo $tr->translate("PAWNSHOP_DURATION")?></strong></td>
 							   <td><?php echo $frm->getElement('period');?></td>
@@ -625,6 +629,8 @@ dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 dojo.require("dijit.form.Textarea");
+function chechPaymentMethod(){
+}
 function submintss(){
 	 dijit.byId('save_close').set('disabled',true); 
 	 dijit.byId('save_closereceipt').set('disabled',true);

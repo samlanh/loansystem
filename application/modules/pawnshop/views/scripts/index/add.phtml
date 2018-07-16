@@ -198,13 +198,17 @@ input.btn_borwse_image {
 						<td><?php echo $frm->getElement('admin_fee');?></td>
                    </tr>
                    <tr>
-	                	<td><?php echo $tr->translate("TERM_INSTALL")?></td>
-					   	<td><?php echo $frm->getElement('payment_term');?></td>
+		                <td><?php echo $tr->translate("PAMENT_METHOD")?></td>
+						<td><?php echo $frm->getElement('repayment_method');?></td>
                    </tr>
                </table>
 		</td>
 		<td style="border:1px solid #ccc;">
 			<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+                   <tr>
+	                	<td><?php echo $tr->translate("TERM_INSTALL")?></td>
+					   	<td><?php echo $frm->getElement('payment_term');?></td>
+                   </tr>
                    <tr>
                 	   <td><strong><?php echo $tr->translate("PAWNSHOP_DURATION")?></strong></td>
 					   <td><?php echo $frm->getElement('period');?></td>
@@ -260,7 +264,7 @@ input.btn_borwse_image {
 	/*padding:5px 2px; */
 }
 </style>
-	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="lbl_schedule" style="width:1000px">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="lbl_schedule" style="z-index:1000;width:1000px">
 		<div class="print" style="text-align:center;">
 		<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='save_close' id='save_closereceipt'  value='saveclose' dojoType="dijit.form.Button"
 					 iconClass="dijitIconDelete"/>
@@ -605,6 +609,9 @@ input.btn_borwse_image {
 	</div>
 </div>
 <script type="text/javascript">	
+function chechPaymentMethod(){
+	
+}
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -851,6 +858,7 @@ require(["dojo/ready"], function(ready){
 		dijit.byId('currency_type').attr('value',2);
 		dijit.byId("receipt_num").set("readOnly",true);
 		dijit.byId('payment_term').attr('value',3);
+		dijit.byId('repayment_method').attr('value',2);
 	});
 	new dijit.form.FilteringSelect({
 	store: client_store,

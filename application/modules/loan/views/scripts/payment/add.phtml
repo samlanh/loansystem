@@ -1007,8 +1007,6 @@ function showReciept(data){
 	document.getElementById('lbl_collect_date').innerHTML = noDate+"/"+monthNames[date.getMonth()]+"/"+year;
 	document.getElementById('lbl_priciple_amount').innerHTML = data.begining_balance;
 	document.getElementById('lbl_os_amount').innerHTML = data.principal_paid;
-	//document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue')+symbal;
-	//document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue')+symbal;
 	document.getElementById('lbl_total_payment').innerHTML = dojo.number.format(data.total_paymentpaid,{places:2});
 	document.getElementById('lbl_note').innerHTML = data.note;
 	//document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue')+symbal;
@@ -1026,11 +1024,8 @@ function showReciept(data){
 	document.getElementById('lbl_collect_date1').innerHTML = noDate+"/"+monthNames[date.getMonth()]+"/"+year;
 	document.getElementById('lbl_priciple_amount1').innerHTML = data.begining_balance;
 	document.getElementById('lbl_os_amount1').innerHTML = data.principal_paid;
-	//document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue')+symbal;
-	//document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue')+symbal;
 	document.getElementById('lbl_total_payment1').innerHTML = dojo.number.format(data.total_paymentpaid,{places:2});
 	document.getElementById('lbl_note1').innerHTML = data.note;
-	//document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue')+symbal;
 	document.getElementById('lbl_amount_receive1').innerHTML = data.interest_paid;
 	document.getElementById('lbl_amount_return1').innerHTML = data.currency_typeshow+" "+dojo.number.format(data.total_paymentpaid,{places:2});
 	document.getElementById('lbl_total_interest1').innerHTML = data.penalize_paid;
@@ -1117,6 +1112,11 @@ dojo.ready(function(){
 		dijit.byId("branch_id").attr("value",<?php echo $this->rsloan['branch_id'];?>);
 		dijit.byId("loan_number").attr("value",<?php echo $this->rsloan['id'];?>);
 	}
+
+	<?php if($this->user_type!=1){?>
+		dijit.byId('total_interest').attr('readOnly',true);
+		dijit.byId('collect_date').attr('readOnly',true);
+	<?php }?>
 });
 function filterLoanNumber(){
 	//alert(dijit.byId('branch_id').get('value'));
@@ -1414,7 +1414,6 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 					interest = 0;
 				}else if(payOption==4){
 					principal_permonth_late = principal_permonth_late+parseFloat($('#principal_permonth_'+arrays[i]).val());
-					
 				}
 			 }
 			if(payOption==4){////បង់ផ្តាច់
@@ -1437,13 +1436,11 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 						var amount_day = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 						if(amount_day>0){
 							interest = interest+parseFloat($('#interest_'+arrays[i]).val());//only for battambang
-							//interest = interest+((parseFloat($('#outstanding_'+arrays[i]).val())*interest_rate/term_amountday/100)*amount_day);// work 100% for other
 						}
 					}
 				}
 			}
 		}
-		
 		if(payOption==4){
 			dijit.byId('total_interest').attr('readOnly',false);
 			if(total_latedate>0){
@@ -1454,9 +1451,7 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 			if(installment_no<=4){
 				total_penalty=$("#interest_before1").val();
 			}
-			
 		}else if(payOption==1 && total_latedate>0){
-			//total_penalty = (principal_permonth+interest)*(interest_penalty*interest_rate/term_amountday/100)*total_latedate;
 			total_penalty=0;//above is used by for loan at battambang ot use
 		}
 		total_penalty= roundhundred(total_penalty);
@@ -1465,6 +1460,10 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		dijit.byId("os_amount").attr("value",principal_permonth);
 		dijit.byId("total_interest").attr("value",interest);
 		dijit.byId("total_payment").attr("value",principal_permonth+interest+total_penalty);
+		<?php if($this->user_type!=1){?>
+			dijit.byId('total_interest').attr('readOnly',true);
+			dijit.byId('collect_date').attr('readOnly',true);
+		<?php }?>
 		calTotal();
 	}catch(err){
 	}
