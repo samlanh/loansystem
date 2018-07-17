@@ -244,7 +244,6 @@ class Pawnshop_Model_DbTable_DbReschedule extends Zend_Db_Table_Abstract
     		
     	}catch (Exception $e){
     		    $db->rollBack();
-    		    echo $e->getMessage();exit();
     		    Application_Form_FrmMessage::message("INSERT_FAIL");
     		    Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
