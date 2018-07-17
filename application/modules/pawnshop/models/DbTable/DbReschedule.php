@@ -112,6 +112,7 @@ class Pawnshop_Model_DbTable_DbReschedule extends Zend_Db_Table_Abstract
     				
     				'term_type'=>$data['payment_term'],
     				'interest_type'=>$data['interest_type'],
+    				'admin_fee'=>$data['admin_fee'],
 //     				'receipt_num'=>$data['receipt_num'],
     				
     		);

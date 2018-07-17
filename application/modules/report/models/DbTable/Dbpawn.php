@@ -588,8 +588,10 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       	if($search['members']>0){
       		$where.=" AND `crm`.`client_id` = ".$search['members'];
       	} 
-      	if($search['product_id']>0){
-      		$where.=" AND (SELECT `l`.`product_id` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) = ".$search['product_id'];
+      	if (!empty($search['product_id'])){
+	      	if($search['product_id']>0){
+	      		$where.=" AND (SELECT `l`.`product_id` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) = ".$search['product_id'];
+	      	}
       	}
 		if(!empty($search['adv_search'])){
 // 			$s_search = addslashes(trim($search['adv_search']));
@@ -2510,6 +2512,25 @@ AND cl.client_id = $client_id )";
       
       	$sql.=" ORDER BY `crm`.`id` DESC LIMIT 1";
       	return $db->fetchRow($sql);
+      }
+      
+      function getAdminFeeByReschedule($search){
+      	$db = $this->getAdapter();
+      	$sql="SELECT SUM(ps.`admin_fee`) AS total_adminfee,ps.`currency_type` FROM `ln_pawnshop_reschedule` AS ps 
+				WHERE 1
+				";
+      	$where ="";
+      	if($search['branch_id']>0){
+      		$where.=" AND ps.`branch_id` = ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$from_date =(empty($search['start_date']))? '1': " ps.`create_date` >= '".$search['start_date']." 00:00:00'";
+      		$to_date = (empty($search['end_date']))? '1': " ps.`create_date` <= '".$search['end_date']." 23:59:59'";
+      		$where.= " AND ".$from_date." AND ".$to_date;
+      	}
+      	
+      	$where.=" GROUP BY ps.`currency_type`";
+      	return $db->fetchAll($sql.$where);
       }
  }
 

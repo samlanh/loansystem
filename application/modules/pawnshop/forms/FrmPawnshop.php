@@ -304,6 +304,12 @@ public function init()
 				'class'=>'fullside',
 		));
 		
+		$_admin_fee = new Zend_Dojo_Form_Element_NumberTextBox('admin_fee');
+		$_admin_fee->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+		));
+		$_admin_fee->setValue(0);
 		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
@@ -337,7 +343,9 @@ public function init()
 				$admin_fee,$_loan_codes,$_members,
 				$_client_code,$_branch_id,$_currency_type,$_amount,$_rate,$_releasedate
 				,$_payterm,$_status,$_period,$_repayment_method,$_intest_type,$_loan_code,
-				$_dateline,$_id));
+				$_dateline,$_id,
+				$_admin_fee
+				));
 		return $this;
 		
 	}	
