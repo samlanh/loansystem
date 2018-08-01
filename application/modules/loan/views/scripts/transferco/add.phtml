@@ -14,119 +14,163 @@
 		text-align: center;	
 		height: 30px;		
 	}
+.form-group.noteblog {
+    background: #e6eefc;
+    padding: 10px;
+    border: solid 1px #eee;
+}
+.form-group.noteblog ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
 </style>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'transferco','action'=>'add')); ?>" 
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+               	<div class="col-sm-12 border-botom">
+		    		<div class="col-sm-8 pd-0">
+		    			<h4 class="m-b-0"><i class="fa fa-exchange " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('TRANSFER_CO_CO');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+    	<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'transferco','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">			
-  if(this.validate()) {
-    if(dijit.byId('branch_name').get('value')==''){
-     alert('Please Select Branch');
-     dijit.byId('branch_name').focus();
-     return false;
-   	}
-    if(dijit.byId('co_code').get('value')==''){
-     alert('Please Select CO Code');
-     dijit.byId('co_code').focus();
-     return false;
-   	}
-	if(dijit.byId('formc_co').get('value')==''){
-     alert('Please Select CO Name');
-     dijit.byId('formc_co').focus();
-     return false;
-   	}
-	if(dijit.byId('to_co_code').get('value')==''){
-     alert('Please Select To CO Code');
-     dijit.byId('to_co_code').focus();
-     return false;
-   	}
-	if(dijit.byId('to_co').get('value')==''){
-     alert('Please Select To CO Name');
-     dijit.byId('to_co').focus();
-     return false;
-   	}
-	if(dijit.byId('formc_co').get('value')== dijit.byId('to_co').get('value')){
-		alert("can not transfer the same co");
-		dijit.byId('to_co').focus();
-		return false;
-	}
-    dijit.byId("btn_save").set("disabled",true);
-    dijit.byId("btn_save_close").set("disabled",true);
-    return true;
-   }else {
-    return false;
-   }
-</script>
-<fieldset  style="background: #e0ebff">
-<table cellspacing="10" class='fullside'>
-	<legend class="mainblog" align="center"><strong><?php echo $tr->translate('TRANSFER_CO_CO');?></strong></legend>
-	<tr>
-		<td width="33%;" valign="top">
-		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
-			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="10"  >
-			    <tr>
-					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-					<td><?php  echo $frm->getElement('branch_name');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("FROM_CO")?></td>
-					<td><?php  echo $frm->getElement('co_code');?></td>
-			    </tr>
-			    <tr>
-			  		<td><?php echo $tr->translate("FROM_CO")?></td>
-					<td><?php  echo $frm->getElement('formc_co');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("NOTE")?></td>
-					<td><?php  echo $frm->getElement('Note');?></td>
-			    </tr>
-			</table>
-		</fieldset>	
-		</td>
-		<td width="33%;" valign="top">
-		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('CO_INFO');?></strong></legend>
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="10"  >
-			 	<tr>
-					<td><?php echo $tr->translate("TO_CO")?></td>
-					<td><?php  echo $frm->getElement('to_co_code');?></td>
-				</tr>
-			 	<tr >
-					<td><?php echo $tr->translate("TO_CO")?></td>
-					<td><?php  echo $frm->getElement('to_co');?></td>
-				</tr>
-			    <tr>	
-					<td><?php echo $tr->translate("DATE")?></td>
-					<td><?php  echo $frm->getElement('Date');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("STATUS")?></td>
-					<td><?php  echo $frm->getElement('status');?></td>
-				</tr>
-			</table>
-		</fieldset>
-		</td>
-		<td>
-			<fieldset style="min-height: 153px;background: #f3feff;">
-		        <legend style="text-align: center;"><strong>សម្គាល់</strong></legend>
-		        	<span>&nbsp;រាល់ទិ&#8203;ន្នន័យទាំងអស់នឹងត្រូវបានផ្ទេរពី COចាស់មក CO ថ្មីដូចជា ៖</span>
-	        		<ul style="padding-left:5px;">
-			        	<li>១. ប្រាក់បានបង់ពីមុន ទាំងអស់</li>
-			        	<li>២. កម្ចីដែលបានទំលាក់ទាំងអស់</li>
-			        	<li>៣. តារាងកាលវិភាគដែលត្រូវបង់ ទាំងអស់</li>
-		        	</ul>
-            </fieldset>
-		</td>
-	</tr>
-	<tr>
-		<td align="center" colspan="2">
-			<input type="button" onclick="submitDataClose()" value="រក្សាទុក & ចាកចេញ" name="btn_save_close" id="btn_save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<input type="submit" value="រក្សាទុក" name="btn_save" id="btn_save" label="<?php echo $tr->translate('SAVENEW');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
-		</td>
-	</tr>	
-</table>
-</fieldset>
-</form>
+			<script type="dojo/method" event="onSubmit">			
+  			if(this.validate()) {
+   				 if(dijit.byId('branch_name').get('value')==''){
+     				alert('Please Select Branch');
+     				dijit.byId('branch_name').focus();
+     				return false;
+   				 }
+    			if(dijit.byId('co_code').get('value')==''){
+     				alert('Please Select CO Code');
+     				dijit.byId('co_code').focus();
+     				return false;
+   				}
+				if(dijit.byId('formc_co').get('value')==''){
+    				 alert('Please Select CO Name');
+     				dijit.byId('formc_co').focus();
+    				 return false;
+   				}
+				if(dijit.byId('to_co_code').get('value')==''){
+     				alert('Please Select To CO Code');
+     				dijit.byId('to_co_code').focus();
+     				return false;
+   				}
+				if(dijit.byId('to_co').get('value')==''){
+    	 			alert('Please Select To CO Name');
+     				dijit.byId('to_co').focus();
+     				return false;
+   				}
+				if(dijit.byId('formc_co').get('value')== dijit.byId('to_co').get('value')){
+					alert("can not transfer the same co");
+					dijit.byId('to_co').focus();
+					return false;
+				}
+    			dijit.byId("btn_save").set("disabled",true);
+    			dijit.byId("btn_save_close").set("disabled",true);
+    			return true;
+   			}else {
+    			return false;
+  			 }
+		</script>
+			<div class="card-box">
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("BRANCH_INFO");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NAME");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php  echo $frm->getElement('branch_name');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("FROM_CO");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php  echo $frm->getElement('co_code');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("FROM_CO");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php  echo $frm->getElement('formc_co');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php  echo $frm->getElement('Note');?>
+	                   </div>
+	                </div>
+	             </div>
+	             <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CO_INFO");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TO_CO");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php  echo $frm->getElement('to_co_code');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TO_CO");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php  echo $frm->getElement('to_co');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php  echo $frm->getElement('Date');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php  echo $frm->getElement('status');?>
+	                   </div>
+	                </div>
+	             </div>
+	             <div class="col-md-4 col-sm-4 col-xs-12">
+	             	<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("សម្គាល់");?> 
+	                   </label>
+	                </div>
+					<div class="form-group noteblog">
+			        	<span>&nbsp;រាល់ទិ&#8203;ន្នន័យទាំងអស់នឹងត្រូវបានផ្ទេរពី COចាស់មក CO ថ្មីដូចជា ៖</span>
+		        		<ul >
+				        	<li>១. ប្រាក់បានបង់ពីមុន ទាំងអស់</li>
+				        	<li>២. កម្ចីដែលបានទំលាក់ទាំងអស់</li>
+				        	<li>៣. តារាងកាលវិភាគដែលត្រូវបង់ ទាំងអស់</li>
+			        	</ul>
+					</div>
+				</div>
+	         </div>
+	         <div class="card-box">
+	         	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+		    			<input type="button" onclick="submitDataClose()" value="រក្សាទុក & ចាកចេញ" name="btn_save_close" id="btn_save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+						<input type="submit" value="រក្សាទុក" name="btn_save" id="btn_save" label="<?php echo $tr->translate('SAVENEW');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+		    		</div>
+	         </div>
+		</form>
+    </div>
+ </div>
+
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 	function getClientInfo(type){

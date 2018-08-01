@@ -144,7 +144,9 @@ class Loan_BadloanController extends Zend_Controller_Action {
 		$frm = $fm->FrmBadLoan($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_loan = $frm;
-	
+		$db = new Application_Model_DbTable_DbGlobal();
+		$this->view->allclient = $db->getAllClient();
+		$this->view->allclient_number = $db->getAllClientNumber();
 		 
 	}
 	public function getloaninfoAction(){
