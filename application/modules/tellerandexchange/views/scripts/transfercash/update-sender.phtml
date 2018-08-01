@@ -1,0 +1,93 @@
+<?php
+$this->headTitle('Currency Smart | Update Sender'); 
+echo $this->headTitle();
+$frm_sender = $this->frm_sender;
+?>
+
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require('dijit.form.Form');	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.FilteringSelect');
+	dojo.require('dijit.form.NumberTextBox');
+</script>
+
+<form action="<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'update-sender')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				if(dojo.byId('password').value != dojo.byId('con_password').value ){
+					alert('សូម​ពិនិត្រ ពាក្យ​​សំងាត់​ទាំង​ 2 របស់​អ្នក មិន​ដូច​គ្នា​ទេ, សូម​បញ្ចូល ​ម្តង​ទៀត..');
+					dojo.byId('password').value = '';
+					dojo.byId('con_password').value = '';
+					dijit.byId('password').focus();
+					return false;
+				}				
+				dojo.byId('agent').value = dijit.byId('agent_id').item.id;
+				return true;
+			}
+
+			return false;
+	</script>
+		
+	<table cellspacing="20" style="margin: 0 auto; width: 550px">
+		<tr>
+			<td>
+				<fieldset>
+					<legend><strong>ព៌ត័មាន អ្នកផ្ញើរប្រាក់</strong></legend>
+					<table cellspacing="5"  width="100%"​​ >
+						<tr>
+							<td align="center" valign="top">
+								<table cellspacing="10" width="100%">
+									<tr>
+										<td>ឈ្មោះអ្នកផ្ញើរ <?php echo $frm_sender->getElement("id");?></td>
+										<td width="65%">
+											<?php echo $frm_sender->getElement("sender_name");?>
+										</td>
+									</tr>
+									<tr>
+										<td>លេខទូរសព្ទ</td>
+										<td>
+											<input type="text" id="tel" placeholder="លេខ​ទូរស័ព្ទ​​អ្នក​ផ្ញើរ"  
+												data-dojo-Type="dijit.form.ValidationTextBox"   
+												data-dojo-props="regExp:'[0-9]{9,10}', 
+												value: '<?php echo $this->tel;?>',
+													 invalidMessage:'លេខ​ទូរស័ព្ទ​​ មិន​ត្រឹម​ត្រូវទេ. មិនមាន​  ចន្លោះ ឬ សញ្ញា​ពិសេស.',
+													 class:'fullside',
+													 name:'tel'" />
+													 
+											<?php //echo $frm_sender->getElement("tel");?>
+										</td>
+									</tr>
+									<tr>
+										<td>អ៊ីមែល</td>
+										<td>
+											<?php echo $frm_sender->getElement("email");?>
+										</td>
+									</tr>
+									<tr>
+										<td>អាសយដ្ឋាន</td>							
+										<td>
+											<?php echo $frm_sender->getElement("address");?>
+										</td>
+									</tr>
+									<tr>
+										<td>ស្ថានការណ៏</td>							
+										<td>
+											<?php echo $frm_sender->getElement("status");?>
+										</td>
+									</tr>
+								</table>
+							</td>							
+						</tr>
+					</table>	
+				</fieldset>
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<input type="submit" value="កែប្រែ" label="កែប្រែ" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+			</td>
+		</tr>
+	</table>	
+	<input type="hidden" id="agent" name="agent" value="0" />	
+</form>

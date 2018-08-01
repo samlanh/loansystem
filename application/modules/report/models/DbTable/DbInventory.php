@@ -479,7 +479,6 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
    }
    public function getAllLnClient($search=null){
    	$db=$this->getAdapter();
-//    	$start_date = $search['start_date'];
    	$end_date = $search['end_date'];
    	$sql = "SELECT 
 		(SELECT   `lb`.`branch_namekh` FROM `ln_branch` `lb`  WHERE (`lb`.`br_id` = l.`branch_id`)  LIMIT 1) AS `branch_namekh`,
@@ -517,8 +516,10 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
 		AND d.`status` = 1 
    		AND d.`is_completed` =0";
    	$where ='';
-   	 
-   	$to_date = (empty($search['end_date']))? '1': " d.`date_payment` = '".$search['end_date']." 00:00:00'";
+   	$str_next = '+2 day';
+   	$search['end_date']=date("Y-m-d", strtotime($search['end_date'].$str_next));
+   	
+   	$to_date = (empty($search['end_date']))? '1': " d.`date_payment` <= '".$search['end_date']." 00:00:00'";
    	$where= " AND  ".$to_date;
    	 
    	if($search['branch_id']>0){

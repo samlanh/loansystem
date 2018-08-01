@@ -308,4 +308,34 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 			}
 			return $options;
 		}
+		public static function getInvoiceWithdraw($type=null){
+			$sub=substr(uniqid(rand(10,1000),false),rand(0,10),6);
+			$date= new Zend_Date();
+			if($type==1){
+				$head="DP-";//deposite
+			}else if($type==2){
+				$head="DL-";//DELAY
+			}elseif($type==3){
+				$head="TR-";//TRANSFER
+			}elseif($type==4){
+				$head="RF-";//REFUND
+			}elseif($type==5){
+				$head="LN-";//loan
+			}elseif($type==6){
+				$head="PO-";//PAYOUT
+			}
+			else{
+				$head="WD-";//withdraw
+			}
+			return strtoupper($head.$sub);
+		}
+// 		public static function getInvoiceNo(){
+// 			return strtoupper(uniqid());
+// 		}
+		public static function getInvoiceOwe(){
+			$sub=substr(uniqid(rand(10,1000),false),rand(0,10),5);
+			$date= new Zend_Date();
+			$head="W".$date->get('YY-MM-d');
+			return $head.$sub;
+		}
 }

@@ -1,0 +1,156 @@
+<?php
+	$this->headTitle('Currency Smart | Transfer page'); 
+	echo $this->headTitle();
+?>	
+<style>
+	#grid{
+	    margin-top: 10px;		
+	}
+	.dojoxGridSortNode{
+		text-align: center;	
+		height: 24px;		
+	}
+</style>
+<?php 
+	//User Access level for redirct url
+	$url = Application_Form_FrmMessage::getUrl("/transfer/index/edited?mt_id=");
+?>
+<script>
+	dojo.require("dojo.store.Memory");
+	dojo.require("dojo.data.ObjectStore");
+	dojo.require("dojox.grid.DataGrid");	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.Form');	
+	dojo.require('dijit.form.FilteringSelect');
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.Dialog");
+	
+	dojo.ready(function(){
+		
+	});
+
+	
+	
+	// Hide the dialog
+	function hideDialog() {		
+		dijit.byId("viewcounter").hide();		
+	}
+
+	//show Dialog
+	function showDialog() {		
+		dijit.byId("viewcounter").show();
+	}
+</script>
+
+<form name="frmlist_mt" action="<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+<table class="fullside" style=" border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 10px 0 10px 0;">
+	<tr>
+	    <td width="25%">  
+			<select name="type_money" id="type_money" dojoType="dijit.form.FilteringSelect" 
+				style="width: 265px; height: 30px;" onChange="document.frmlist_mt.submit();">
+				<option value="-1" <?php if($this->type_money == -1) echo 'selected="selected"';?> >ជ្រើសរើស ប្រភេទ​លុយ</option> 
+				<?php if(!empty($this->currencylist))foreach ($this->currencylist as $key => $cur) : ?>
+					<option value="<?php echo $cur['id'];?>" <?php if($cur['id'] == $this->type_money) echo 'selected'?>><?php echo $cur['name'];?></option>
+				<?php endforeach;?> 
+			</select>	
+	    </td>
+	    <td width="25%">  	
+	    	<select name="status" id="status"  onChange="document.frmlist_mt.submit();" style=" height: 30px;" dojoType="dijit.form.FilteringSelect"> 
+				<option value="-1" <?php if($this->status == -1) echo 'selected="selected"';?> >ជ្រើសរើស ស្ថានការណ៍</option> 
+				<?php if(!empty($this->statuslist)) foreach ($this->statuslist as $key => $st) : ?>
+					<option value="<?php echo $key;?>" <?php if($key == $this->status) echo 'selected'?>><?php echo $st;?></option>
+				<?php endforeach;?>	 
+			</select> 
+	    </td>
+	    <td width="25%" align="right"> 
+	    	<select name="province" id="province"  onChange="document.frmlist_mt.submit();" style=" height: 30px;" dojoType="dijit.form.FilteringSelect"> 
+				<option value="-1" <?php if($this->province == -1) echo 'selected="selected"';?> >ជ្រើសរើស ខេត្ត/ក្រុង</option> 
+				<?php if(!empty($this->province)) foreach ($this->provincelist as $key => $pro) : ?>
+					<option value="<?php echo $pro['id'];?>" <?php if($pro['id'] == $this->province) echo 'selected'?>><?php echo $pro['name'];?></option>
+				<?php endforeach;?>	 
+			</select>  	
+	    </td>
+	    <td width="25%" align="right">  
+			<select name="agent" id="agent"  onChange="document.frmlist_mt.submit();" style=" height: 30px;" dojoType="dijit.form.FilteringSelect"> 
+				<option value="-1" <?php if($this->agent == -1) echo 'selected="selected"';?> >ជ្រើសរើស សាខាមេ</option> 
+				<?php if(!empty($this->agentlist))foreach ($this->agentlist as $key => $ag) : ?>
+					<?php if($this->province == -1):?>
+						<option value="<?php echo $ag['id'];?>" <?php if($ag['id'] == $this->agent) echo 'selected'?>><?php echo $ag['name'];?></option>
+					<?php elseif($ag['province'] == $this->province):?>
+						<option value="<?php echo $ag['id'];?>" <?php if($ag['id'] == $this->agent) echo 'selected'?>><?php echo $ag['name'];?></option>
+					<?php endif;?>
+				<?php endforeach;?>	 
+			</select>	
+	    </td>
+	</tr><tr style="height: 60px;">
+	    <td width="25%">  
+	    	<input type="text" name="txt_search" id="txt_search" placeholder="ឈ្មោះអ្នកផ្ញើរ,លេខ​អ្នកទទួល,ចំនួន"  dojoType="dijit.form.TextBox"
+			 style="width: 265px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>	
+	    </td>
+	    <td width="25%">  	
+	    	<select name="status_loan" id="status_loan"  onChange="document.frmlist_mt.submit();" style=" height: 30px;" dojoType="dijit.form.FilteringSelect"> 
+				<option value="-1" <?php if($this->loan == -1) echo 'selected="selected"';?> >ជ្រើសរើស ស្ថានភាព​ប្រាក់កម្ចី</option> 
+				<?php if(!empty($this->loanlist)) foreach ($this->loanlist as $key => $ln) : ?>
+					<option value="<?php echo $key;?>" <?php if($key == $this->loan) echo 'selected'?>><?php echo $ln;?></option>
+				<?php endforeach;?>	 
+			</select> 
+	    </td>
+	    <td width="25%" align="right">  
+	    	ពី៖&nbsp;
+			<input type="text" name="from_date" id="from_date" value="<?php echo date_format(date_create($this->from_date), "Y-m-d");?>"
+				dojoType="dijit.form.DateTextBox" style="height: 30px; width: 210px;" 
+				rangeMessage="កាល​បរិច្ឆេទ  ពី មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ ដល់"
+				constraints="{datePattern:'dd/MM/yyyy', max:'<?php echo  date_format(date_create($this->to_date), "Y-m-d");?>'}" 
+				onchange="dijit.byId('to_date').constraints.min = arguments[0]; document.frmlist_mt.submit();" />	
+	    </td>
+	    <td width="25%" align="right">  
+	    	ដល់៖&nbsp;
+			<input type="text" name="to_date" id="to_date" value="<?php echo  date_format(date_create($this->to_date), "Y-m-d");?>" 
+				dojoType="dijit.form.DateTextBox" style=" height: 30px; width: 195px;"
+				rangeMessage='កាល​បរិច្ឆេទ  ដល់ មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ ពី' 
+				constraints="{min:'<?php echo date_format(date_create($this->from_date), "Y-m-d");?>', datePattern:'dd/MM/yyyy'}" 
+				onChange="dijit.byId('from_date').constraints.max = arguments[0]; document.frmlist_mt.submit();" />	
+	    </td>
+	</tr><tr>
+		<td colspan="2" >
+			 <button dojoType="dijit.form.Button" showLabel="true" type="button" onclick="showDialog();">បង្ហាញចំនួន​នៃ​ប្រតិបត្តិការណ៍​សរុប</button>
+		</td>
+	    <td colspan="2" align="right">  
+			 <button dojoType="dijit.form.Button" showLabel="true" type="submit">ស្វែង​រក</button>	
+	    </td>
+	</tr>
+</table>
+<table class="fullside">	  	
+	  <tr>
+	  	<td colspan="2"><?php echo $this->list;?></td>
+	  </tr>
+</table>
+</form>
+
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'ចំនួន​នៃ​ប្រតិបត្តិការណ៍​សរុប'" id="viewcounter" >
+		<table border="1" cellpadding="0" cellspacing="0" style="color: #fff; font-size: 2em;">
+			<tr style="background-color: #dddddd; height: 60px; color: #000;">
+				<td align="center" style="font-size: 12px; padding: 0px 5px">ប្រតិបត្តិការណ៍​សរុប<br/>ប្រចាំ​ថ្ងៃ</td>
+				<td align="center" width="200px">ផ្ញើរ</td>
+				<td align="center" width="200px">ផ្ញើររួច</td>
+				<td align="center" width="200px">ទទួល</td>
+				<td align="center" width="200px">បើក​រួច</td>
+			</tr>
+			<tr style="background-color: #012a15; height: 50px;">
+				<td align="center" style="font-size: 12px;">​អ្នកប្រើប្រាស់នេះ</td>
+				<td align="center"><?php echo $this->trancounter['user_send']?></td>
+				<td align="center"><?php echo $this->trancounter['user_sent']?></td>
+				<td align="center"><?php echo $this->trancounter['user_recieved']?></td>
+				<td align="center"><?php echo $this->trancounter['user_paid']?></td>
+			</tr>
+			<tr style="background-color: #016315; height: 50px;">
+				<td align="center" style="font-size: 12px;">គ្រប់​អ្នកប្រើប្រាស់</td>
+				<td align="center"><?php echo $this->trancounter['total_send']?></td>
+				<td align="center"><?php echo $this->trancounter['total_sent']?></td>
+				<td align="center"><?php echo $this->trancounter['total_recieved']?></td>
+				<td align="center"><?php echo $this->trancounter['total_paid']?></td>
+			</tr>
+		</table>
+	</div>
+</div>

@@ -44,7 +44,7 @@ $client = $this->client;
 	<div id="divPrint">
 		<style>
 	.style{
-		line-height: 20px;font-size: 13px !important;
+		line-height: 20px;font-size: 12px !important;
 		font-family: 'Khmer OS Battambang';
 	}
 	table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
@@ -88,8 +88,11 @@ $client = $this->client;
 		                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PHONE")." / ".$tr->translate("ADDRESS");?></th>
 		                    <th rowspan="2"><?php echo $tr->translate("ITEM_NAME");?></th>
 		                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PAID_TIME");?></th>
+		                    <th rowspan="2"><?php echo $tr->translate("LATE_DAY");?></th>
+		                    <th rowspan="2"><?php echo $tr->translate("LATE");?></th>
 		                    <th align="center" colspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PAYMENT");?></th>
 		                    <th rowspan="2" style="text-align:center ;padding:0px 2px;"><strong><?php echo $tr->translate("TOTAL_PAYMENT");?></strong></th>
+		                    <th rowspan="2"><?php echo $tr->translate("PAY_DATE");?></th>
 		                </tr>
 		                <tr class="style" bgcolor="#ccc" style="white-space: nowrap; background: #ccd9ff;">
 		                    <th style="text-align:center ;padding:0px 2px;"><?php echo $tr->translate("OS_AMOUNT");?></th>
@@ -106,9 +109,16 @@ $client = $this->client;
 	                	    $pene_amd=0;
 	                	    $dbc = new Application_Model_DbTable_DbGlobal();
 							$dbl = new Loan_Model_DbTable_DbLoanILPayment();
+							$end_dat = $this->list_end_dates;
 			           ?>
 		               <?php if(!empty($tran))foreach($tran as $key =>$row){
 			               	$loan_number = $row["sale_no"];
+			               
+			               	$total_pay=($row['principle_after']+$row['total_interest_after']);
+			               	$total_day=strtotime($end_dat)-strtotime($row['date_payment']);
+			               	$amount_lateday=$total_day/(60*60*24)-$free_day;
+			               	$total_late_day=$total_day/(60*60*24);
+			               	$currentlate =$total_day/(60*60*24);
 		               	?>
 		               	<tr align="center" style="font-size:9px; height: 20px; white-space:nowrap;" class="style hover">
 		                    <td ><?php echo ($key+1<10)?"0":"";echo $key+1; ?></td>
@@ -120,6 +130,9 @@ $client = $this->client;
 		                    	$day_as_khmer = $dayin_khmer[$str_day];
 		                    ?>
 		                    <td align="center">&nbsp;&nbsp;<?php echo $row["item_name"];?> &nbsp;</td>
+		                    <td align="center">&nbsp;&nbsp;<?php //echo $row["amount_late"]." ដង";?> &nbsp;</td>
+		                    <td align="center">&nbsp;&nbsp;<?php echo  $total_late_day." ថ្ងៃ";?> &nbsp;</td>
+		                   
 		                    <td align="center" style="white-space: nowrap;"><?php echo $row['times']."/".$row['duration'];?>&nbsp;</td>
 		                    <td align="center"><?php echo ($row['principle_after']); ?>&nbsp;</td>
 		                    <td align="center">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest_after'],2));?>&nbsp;</td>
@@ -139,6 +152,7 @@ $client = $this->client;
 		                   ?>
 		                    <strong style="font-family:'arial';"><?php $total_payment =$row['principle_after']+$row['total_interest_after'];
 		                    	echo str_replace('.00', '', number_format($total_payment,2));//." ".$row['currencyname'];?></strong></td>
+		                    <td align="center">&nbsp;&nbsp;<?php echo date_format(date_create($row["date_payment"]),'d-m-Y');?>&nbsp;</td>
 		                </tr>
 			                <?php 
 			                	$penelize =0;
@@ -150,6 +164,7 @@ $client = $this->client;
 			               ?>
 		                <?php }?>
 		            </table>
+		            <!-- 
 		            <div style="font-family:'khmer os battambang';display: block;height: 30px;"><?php echo$tr->translate("REPORT_LOAN_LATE");?></div>
 		            <table  border="1"​ style="margin-top:-30px;border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
 	    			<thead><tr bgcolor="#ccc" class="style" align="center" style="line-height: 24px;font-size:11px; background: #ccd9ff; font-family: 'Khmer OS Content';white-space: nowrap;">
@@ -169,8 +184,8 @@ $client = $this->client;
 	                    <th><?php echo $tr->translate("PAY_DATE");?></th>
 	                </tr></thead>
 	                <?php $i=1; $currentlate = 0;?>
-	               <?php if(!empty($this->loanlate_list))foreach ($this->loanlate_list as $index => $rs){ ?>
-	               		<?php $end_dat = $this->list_end_dates;
+	               <?php /*if(!empty($this->loanlate_list))foreach ($this->loanlate_list as $index => $rs){ ?>
+	               		<?php 	$end_dat = $this->list_end_dates;
 		               			$total_pay=($rs['principle_after']+$rs['total_interest_after']);
 	               				$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
 	               				$amount_lateday=$total_day/(60*60*24)-$free_day;
@@ -181,19 +196,18 @@ $client = $this->client;
 		               				$amount_lateday=0;
 		               				$result=0;
 		               			}
-		               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
-		               				if ($pay_term==1){
-		               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/1)*($amount_lateday);
-		               				}
-		               				if ($pay_term==2){
-		               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/7)*($amount_lateday);
-		               				}
-		               				if ($pay_term==3){
-		               					$result=$total_pay*($interest_penalty*(($rs['interest_rate']/100)/30))*($amount_lateday);
-		               				}
-	
-		               			$total_payment =$rs['principle_after']+$rs['total_interest_after'];
-	               			?>
+               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
+               				if ($pay_term==1){
+               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/1)*($amount_lateday);
+               				}
+               				if ($pay_term==2){
+               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/7)*($amount_lateday);
+               				}
+               				if ($pay_term==3){
+               					$result=$total_pay*($interest_penalty*(($rs['interest_rate']/100)/30))*($amount_lateday);
+               				}
+		               		$total_payment =$rs['principle_after']+$rs['total_interest_after'];
+	               	?>
 	               <?php if($currentlate>0){?>
 	                <tr class="style hover" style=" line-height: 24px; font-size:11px; font-family: 'Khmer OS Content'; white-space: nowrap;">
 	               		<td style="text-align: center;"><?php echo $i++;?></td>
@@ -221,8 +235,9 @@ $client = $this->client;
 			             $amount_days = strtotime($this->list_end_dates)-strtotime($rs["date_payment"]);
 			             $amount_days =  floor($amount_days/(60*60*24));
 	               ?>
-	                <?php }?>
+	                <?php } */?>
 	            </table>
+	             -->
 		    	</td>
 		    </tr>
 		</table>

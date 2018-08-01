@@ -1,0 +1,108 @@
+<?php
+	$this->headTitle('Currency Smart | Sender List'); 
+	echo $this->headTitle();
+	$url = Application_Form_FrmMessage::getUrl("/transfer/index/update-sender?id=");
+?>	
+
+<style>
+	#grid{
+		margin: 0 auto;
+	}
+	.dojoxGridSortNode{
+		text-align: center;	
+		height: 30px;		
+	}
+</style>
+<script>
+	dojo.require("dojo.store.Memory");
+	dojo.require("dojo.data.ObjectStore");
+	dojo.require("dojox.grid.DataGrid");	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.Form');	
+	dojo.require('dijit.form.FilteringSelect');
+	dojo.require('dijit.form.CheckBox');
+	
+	
+	dojo.ready(function(){
+		
+		//Creat data fror show			
+		loadData(<?php print_r($this->senderlist);?>);
+
+
+		
+		dojo.connect(grid, "onRowClick", grid, function(evt){
+			var idx = evt.rowIndex,
+				item = this.getItem(idx);
+
+			window.location = '<?php echo $url;?>' + this.store.getValue(item, "id");
+		});
+	});
+
+
+	function loadData(data){			
+		// create an object store
+		var objectStore = new dojo.store.Memory({
+		       data: data		       
+		 });
+		
+		//load data into data grid
+		grid = new dojox.grid.DataGrid({						
+			store: dojo.data.ObjectStore({objectStore: objectStore}),	
+			autoHeight: true, 		
+			structure: [
+				{ name: "ល.រ", field: "num", width: "40px", cellStyles: "text-align: center;" },
+				{ name: "id", field: "id", hidden: "true" },
+				{ name: "ឈ្មោះអ្នកផ្ញើរ", field: "name", width: "auto" },
+				{ name: "លេខទូរសព្ទ", field: "tel", width: "auto" },
+				{ name: "អ៊ីមែល", field: "email", width: "auto" },
+				{ name: "អាសយដ្ឋាន", field: "address", width: "auto" },
+				{ name: "ស្ថានការណ៍", field: "active", width: "auto" }
+			]
+		}, "grid");
+		grid.startup();
+	}
+	
+</script>
+
+<form name="frmlist_sender" action="<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'sender')); ?>" dojoType="dijit.form.Form" method="post">
+<table class="fullside">	  	
+	  <tr>
+	    <td>
+	    	<input type="text" name="txtsearch" id="txtsearch" placeholder="តាម (នាម​ត្រកូល , នាម​ខ្លួន )"  dojoType="dijit.form.TextBox"
+			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
+			 <button dojoType="dijit.form.Button" showLabel="true" type="submit">ស្វែង​រក</button>
+		</td>
+	    <td align="right">
+	    	<select name="active" id="active"  onChange="document.frmlist_agent.submit();" style=" height: 30px;" dojoType="dijit.form.FilteringSelect"> 
+				<option value="-1" <?php if($this->active == -1) echo 'selected="selected"';?> >ជ្រើសរើស ស្ថានការណ៍</option> 
+				<?php foreach ($this->activelist as $key => $at) : ?>
+					<option value="<?php echo $key;?>" <?php if($key == $this->active) echo 'selected'?>><?php echo $at;?></option>
+				<?php endforeach;?>	 
+			</select>
+		</td>			
+	  </tr>	
+	  <tr>
+	  	<td colspan="2">&nbsp;</td>
+	  </tr>
+	  <tr>
+	  	<td>	  		
+	  		<?php echo $this->result_row;?>
+	  	</td>
+	  	<td align="right" >
+	  		<?php echo $this->rows_per_page;?>
+	  	</td>
+	  </tr>	
+	  <tr>
+	  	<td colspan="2">
+	  		<div id="grid" ></div>
+	  	</td>
+	  </tr>	
+	  <tr>
+	  	<td colspan="2" align="center">
+	  		<div id="navigetion" style="margin: 0 auto;"><?php echo $this->nevigation;?></div>
+	  	</td>
+	  </tr>	  
+</table>
+</form>
+
+

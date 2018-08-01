@@ -1,0 +1,1235 @@
+<?php
+	$this->headTitle('Currency Smart | Transfer edit page'); 
+	echo $this->headTitle();
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+?>	
+<script src="<?php echo $base_url;?>js/help.js"  type="text/javascript"></script>
+<script type="text/javascript">
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require('dijit.form.Form');
+	dojo.require('dijit.form.FilteringSelect');	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.NumberTextBox');
+	dojo.require("dojo.store.Memory");
+	dojo.require("dojo.data.ObjectStore");
+	dojo.require("dijit.form.CheckBox");     
+	dojo.require("dojo.number");
+	dojo.require('dojox.form.BusyButton');
+	dojo.require("dijit.Dialog");
+
+	dojo.ready(function(){		
+		
+		var txtcommission = dojo.byId("commission");
+		dojo.connect(txtcommission, "onkeyup", function(evt){			
+			total();
+	    });		
+
+		dojo.connect(txtcommission, "onblur", function(evt){
+			if(dijit.byId('commission').get('value') > dijit.byId('amount').get('value')){
+				alert("Your amount only " + dijit.byId('amount').get('value'));
+				dijit.byId("commission").focus();				
+			}
+	    });	
+
+		var txtamount = dojo.byId("amount");
+		dojo.connect(txtamount, "onkeyup", function(evt){
+			total();
+	    });	
+
+		var txtrecieve_money = dojo.byId("recieve_money");
+		dojo.connect(txtrecieve_money, "onkeyup", function(evt){
+			return_money();
+	    });	 
+
+		// create an object store
+		//---------agent list--------------//
+		var agent_data = new dojo.store.Memory({
+		       data: <?php print_r(Zend_Json::encode($this->agent));?>
+		 });
+		 
+		new dijit.form.FilteringSelect({
+            store: dojo.data.ObjectStore({objectStore: agent_data}),
+            autoComplete: true,
+            query: {
+            	province: "<?php echo $this->editdata['province'];?>"
+            },            
+            required: true,
+            id: "agent_id",
+            class:'fullside',
+            name: "agent_id",
+            value: "<?php echo $this->editdata['agent_id'];?>",
+            searchAttr: "name",
+            missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខាមេ!",
+            onChange: function() {
+            	filtersubagentdata();            	
+            }
+
+        }, "agent_id");
+        
+		//---------sub agent list--------------//
+		var sub_agent_data = new dojo.store.Memory({
+		       data: <?php print_r(Zend_Json::encode($this->subagent));?>
+		 });
+		 
+		new dijit.form.FilteringSelect({
+	      store: dojo.data.ObjectStore({objectStore: sub_agent_data}),
+	      autoComplete: true,
+	      query: {
+	      	agent_id: "<?php echo $this->editdata['agent_id'];?>"
+	      },            
+	      required: false,	      
+	      class:'fullside',
+	      name: "sub_agent_id",
+	      id: "sub_agent_id",
+	      value: "<?php echo $this->editdata['subagent_id'];?>",
+	      missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខា​កូន!",
+	      searchAttr: "name"	
+	  }, "sub_agent_id");
+
+		//valid commission when transfer recieved
+		disabledCommission(<?php echo $this->editdata['tran_type'];?>);
+
+		CheckIsBank();
+		CheckDebt();
+	});   
+</script>
+<script type="text/javascript">
+	function filteragentdata(){		
+		dijit.byId('agent_id').query.province = dijit.byId('province').value || "*";		
+	}
+
+	function filtersubagentdata(){
+		dijit.byId('sub_agent_id').query.agent_id = dijit.byId('agent_id').item.id || "*";
+	}  
+
+	function return_money(){
+		var rm = parseFloat(dijit.byId('recieve_money').get('value')) - parseFloat(dijit.byId('total').get('value'));
+		dojo.byId("return_money").value = dojo.number.format(rm);
+	}
+		
+	function total(){
+		//alert(dijit.byId('minus').attr('checked'));
+		tt=0;
+		gv=0;
+		amount = dijit.byId('amount').get('value');
+		commission = dijit.byId('commission').get('value');
+		if(isNaN(commission)){
+			commission = 0;
+		}
+		if (dojo.byId("minus").checked){
+			tt = amount;
+			gv = amount - commission;
+		}
+		else{
+			gv = amount;
+			tt = amount + commission;
+		}
+			
+		dojo.byId("total").value = dojo.number.format(tt);
+		dojo.byId("gave").value = dojo.number.format(gv);
+		dojo.byId("recieve_money").value = dojo.number.format(tt);
+		return_money();
+	}
+	
+	function printSave(){		
+		if(dijit.byId('frm_edit_tran').validate()) {
+			if(dijit.byId('recieve_money').get('value') < dijit.byId('total').get('value') || dijit.byId('return_money').get('value') < 0){
+				alert('សូម​ពិនិត្រ ទឹក​ដែល​​ទទួល​បាន​ម្តង ​ទៀត..');
+				dijit.byId('recieve_money').focus();
+				return false;
+			}
+			showDialog();			
+		}
+		
+	}
+	
+	function showDialog() {		
+		//alert(dijit.byId('tran_type').value);
+		dojo.style(dojo.byId('divPrint1'), "display", "none");
+		dojo.style(dojo.byId('divPrint'), "display", "none");
+		if(dijit.byId('status').value == 3){
+			dojo.style(dojo.byId('divPrint1'), "display", "block");			
+			dojo.byId("lblsendername1").innerHTML = dijit.byId("sender").value;					
+			dojo.byId("lblrecievername1").innerHTML = dijit.byId("reciever").value;
+			dojo.byId("lblrecievertel1").innerHTML = dijit.byId("reciever_tel").value;
+			dojo.byId("lblrecieve_money1").innerHTML = dojo.byId("gave").value + " " + dojo.byId('type_money').value;
+			var agentname = dojo.byId('agent_id').value;
+			if (dojo.byId('sub_agent_id').value !== '' ){			
+				agentname += " (" + dojo.byId('sub_agent_id').value + ")";				
+			}
+			dojo.byId("lblagentname1").innerHTML = agentname;
+			dojo.byId("lbltran_date1").innerHTML = dojo.byId("send_date").value;
+		}
+		else{
+			dojo.style(dojo.byId('divPrint'), "display", "block");
+			//dojo.byId("lblinvioice").innerHTML = "ប័ណ្ណ​ផ្ទេរ​ប្រាក់";
+			if(dijit.byId('tran_type').value == 1){
+				dojo.byId("lblinvioice").innerHTML = "ប័ណ្ណ​ទទួល​ប្រាក់";
+			}
+			dojo.byId("lblsendername").innerHTML = dijit.byId("sender").value;		
+			dojo.byId("lblrecievername").innerHTML = dijit.byId("reciever").value;
+			dojo.byId("lblrecievertel").innerHTML = dijit.byId("reciever_tel").value;
+			dojo.byId("lblrecieve_money").innerHTML = dojo.byId("gave").value + " " + dojo.byId('type_money').value;
+			dojo.byId("lblcommission").innerHTML = dojo.byId("commission").value + " " + dojo.byId('type_money').value;
+			dojo.byId("lbltotal").innerHTML = dojo.byId("total").value + " " + dojo.byId('type_money').value;
+			var mkh = new Array('មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូរ');
+			var d = dojo.byId("epx_date").value.split('/');
+			dojo.byId("lblexpdate").innerHTML = d[0] + " " + mkh[(d[1]-1)] +" "+d[2];
+	
+			var addr= dojo.byId('province').value.split(' ');
+			
+			var agentadd = addr[0];
+			var agentname = dojo.byId('agent_id').value;
+			var houseno = dijit.byId('agent_id').item.house_no;
+			var streetno = dijit.byId('agent_id').item.street_no;
+			var block = dijit.byId('agent_id').item.block;
+			var agenttel = dijit.byId('agent_id').item.tel;
+			if (dojo.byId('sub_agent_id').value !== '' ){			
+				agentname = dojo.byId('sub_agent_id').value;
+				houseno = dijit.byId('sub_agent_id').item.house_no;
+				streetno = dijit.byId('sub_agent_id').item.street_no;
+				block = dijit.byId('sub_agent_id').item.block;
+				agenttel = dijit.byId('sub_agent_id').item.tel;
+				agentadd = dijit.byId('sub_agent_id').item.province;
+			}
+			dojo.byId("lbladd").innerHTML = agentadd;
+			dojo.byId("lblstreetno").innerHTML = streetno;
+			dojo.byId("lblhouseno").innerHTML = houseno;
+			dojo.byId("lblblock").innerHTML = block;		
+			dojo.byId("lblagentname").innerHTML = agentname;
+			dojo.byId("lblagenttel").innerHTML = agenttel;
+	
+			if(dijit.byId("tran_type").value == 1){
+				dojo.byId("lblplacestatus").innerHTML = "<?php echo $this->keycode['rpt-transfer-recieve-kh'];?>";
+			}
+			else{
+				dojo.byId("lblplacestatus").innerHTML = "<?php echo $this->keycode['rpt-transfer-send-kh'];?>";			
+			}
+		}    
+		
+		dijit.byId("terms").show();
+	}
+	
+	// Hide the dialog
+	function hideDialog() {		
+		dijit.byId("terms").hide();
+		dijit.byId('frm_edit_tran').submit();
+	}
+	
+	// Force them to provide an answer
+	function doPrint() {
+		id = 'divPrint';
+		if(dijit.byId('status').value == 3){
+			id = 'divPrint1';
+		}
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId(id).innerHTML;
+	    window.frames["print_frame"].window.focus();
+	    window.frames["print_frame"].window.print();
+	    hideDialog();
+	}
+	function CheckDebt(){
+		rs_loan = dijit.byId("loan");
+		if(rs_loan.checked){
+			dijit.byId("rate_perday").set('readOnly', false);
+			getPermissionBySender();
+		}else{
+			dijit.byId("rate_perday").set('readOnly', true);
+		}
+	}
+	function CheckIsBank(){
+		dijit.byId("debt_dollar").attr('value',0);
+		dijit.byId("debt_bath").attr('value',0);
+		dijit.byId("debt_khmer").attr('value',0);
+		dojo.byId("lbl_debt_dollar").innerHTML='សូន្យ ដុល្លា';
+		dojo.byId("lbl_debt_bath").innerHTML='សូន្យ បាត';
+		dojo.byId("lbl_debt_riel").innerHTML='សូន្យ រៀល';
+		
+		is_kbank = dijit.byId("is_kbank");
+		if(is_kbank.checked){
+			sender_id = dijit.byId("sender").get('value');
+			if(sender_id!=''){
+				getAllMoneyKbankBySender();
+				 dijit.byId('popup').set('disabled',true);
+			}
+			
+		}else{
+			checkSender();
+			 dijit.byId('popup').set('disabled',false);
+		}
+	}
+	function showRptDebt(){
+		dojo.byId('lbl_ower').innerHTML=' ('+dijit.byId('sender').get('value')+')';
+		dijit.byId("popuprpt_dabt").show();
+	}
+	var url_getpayment = '<?php echo $this->url(array('module'=>'payment','controller'=>'index','action'=>'get-debt-bysender')); ?>';//for get payment date of sender 
+	function getAllMoneyloanByName(){
+		dojo.xhrPost({
+		    url: url_getpayment,	
+		    content : { 
+			    'sender_name':dijit.byId('sender').get('value'),
+			},		    
+			handleAs:"json", 
+		    load: function(response) {	
+			    //alert(response.length);
+		    	dojo.byId('lbl_showpopup').innerHTML = 'ជំពាក់ប្រាក់ដើម ';
+			    tem='';
+			    tem+='<tr class="bgtop" align="center" style="height: 25px; background: none repeat scroll 0% 0% #C3C2C2; font-weight: bold; font-size: 13px;">';
+			    tem+='<td>&nbsp;ល.រ &nbsp;</td>';
+			    tem+='<td>&nbsp;លេខប្រតិ.&nbsp;</td>';
+			    tem+='<td>&nbsp;ថ្ងែខែជំពាក់ &nbsp;</td>';
+			    tem+='<td>&nbsp;ប្រាក់ &nbsp;</td>';
+			    tem+='<td>&nbsp;ជំពាក់ថ្មី &nbsp;</td>';
+			    tem+='<td>&nbsp;ប្រាក់ដើមសរុប &nbsp;</td>';
+			  	tem+='<td>&nbsp;ការប្រាក់/ខែ&nbsp;</td>';
+			  	tem+='<td>&nbsp;រយៈពេល&nbsp;</td>';
+			  	tem+='<td>&nbsp;ចំនួនការប្រាក់&nbsp; </td>';
+			    tem+='<td>&nbsp;សរុប&nbsp; </td>';
+			    tem+='</tr>';
+			    total_per_tran=0;
+			    _index = 0;
+			    is_set = '';
+			   for(i=0; i<response.length;i++){
+				   _index++;
+				   total_rate=0;
+				  // total_new_debt=0;
+				   amount_rate = 0;
+				   //
+					data = response[i];
+				if(response.length==1){
+						   
+						end = '<?php echo date('Y-m-d');?>';
+						day = countDays(data.send_date,end);
+						
+						amount_rate=0;
+						total_new_debt = data.money;
+						total_per_tran=calculateMoneyWithRate(day,total_new_debt,((data.rate_perday/100)/30));//amount day,capital,rate
+						if(total_per_tran!=0){
+							amount_rate = total_per_tran-total_new_debt;
+							
+						}else{
+							total_per_tran = total_new_debt;
+						}
+						 if(data.amount_type==1){
+								str_curr= "ដុល្លា";
+								dijit.byId('debt_dollar').attr('value',total_per_tran);
+								
+						}else if(data.amount_type==2){
+								str_curr= "បាត";
+								dijit.byId('debt_bath').attr('value',total_per_tran);
+						}else{
+								str_curr= "រៀល";
+								dijit.byId('debt_khmer').attr('value',total_per_tran);
+						}
+						 status = 'ជំពាក់';
+						if(data.status_loan==2){
+									status = 'នៅសល់';
+						}
+					}else{
+							/*if(i+1==response.length){
+								end = '<?php //echo date('Y-m-d');?>';
+							}else{
+								end = response[i+1].send_date;
+							}
+							day = countDays(data.send_date,end);*/
+							
+							if(i>0){
+								if(is_set==data.amount_type){
+									/////////////////
+									if(i+1==response.length){ //if end record
+										end = '<?php echo date('Y-m-d');?>';
+									}else{
+										if(data.amount_type!=response[i+1].amount_type){//if record 1!= record 2
+											end = '<?php echo date('Y-m-d');?>'; //check condition sen
+										}else{
+											end = response[i+1].send_date;
+										}
+									}
+									day = countDays(data.send_date,end);//////////////////////
+									
+									tem_debt = total_per_tran;
+									amount_rate=0;
+									
+								    total_new_debt = dojo.number.round(data.money,2)+tem_debt;//ប្រាក់ដើមបន្ទាប់
+									total_per_tran=calculateMoneyWithRate(day,total_new_debt,((data.rate_perday/100)/30));//amount day,capital,rate
+									if(total_per_tran!=0){
+										amount_rate = total_per_tran-total_new_debt;//if amount day more than 1
+									}else{
+										total_per_tran = total_new_debt; //amount =0;
+									}
+									is_set=response[i].amount_type;
+								}else{
+									if(i+1==response.length){ //if end record
+										end = '<?php echo date('Y-m-d');?>';
+									}else{
+										if(data.amount_type!=response[i+1].amount_type){//if record 1!= record 2
+											end = '<?php echo date('Y-m-d');?>'; //check condition sen
+										}else{
+											end = response[i+1].send_date;
+										}
+									}
+									day = countDays(data.send_date,end);//////////////////////
+									///////////////////////condition with other currencty
+									total_new_debt = dojo.number.round(data.money,2);
+									amount_rate =dojo.number.round(day*(total_new_debt*data.rate_perday/100/30),2);//ការប្រាក់ក្នុងcurrent Tran
+									total_per_tran =dojo.number.round(amount_rate+(total_new_debt),2);
+									is_set=response[i].amount_type;
+								}
+							}else{//if the first record
+								if(data.amount_type != response[i+1].amount_type){//if record 1!= record 2
+									end = '<?php echo date('Y-m-d');?>'; //check condition sen
+								}else{
+									end = response[i+1].send_date;
+								}
+								day = countDays(data.send_date,end);
+								
+								amount_rate=0;
+								total_new_debt = dojo.number.round(data.money,2);
+								total_per_tran=calculateMoneyWithRate(day,total_new_debt,((data.rate_perday/100)/30));//amount day,capital,rate
+								if(total_per_tran!=0){
+									amount_rate = total_per_tran-total_new_debt;//if amount day more than 1
+									
+								}else{
+									total_per_tran = total_new_debt;
+								}
+								tem_day_dollar = end;//end of first end day
+								is_set=response[i].amount_type;
+							}
+							if(response[i].amount_type==1){
+									dijit.byId('debt_dollar').attr('value',total_per_tran);
+									str_curr= "ដុល្លា";
+								//	tmp_date_d = data.send_date;
+									
+							}else if(data.amount_type==2){
+									dijit.byId('debt_bath').attr('value',total_per_tran); 
+									str_curr= "បាត";
+									//tmp_date_b = data.send_date;
+							}else{
+									dijit.byId('debt_khmer').attr('value',total_per_tran);
+									str_curr= "រៀល";
+									//tmp_date_r = data.send_date ;
+							}
+							
+					}
+				//date start,from
+				var a = new Date(data.send_date);
+				var dd = a.getDate();
+				s_fordate= 'ថ្ងៃទី '+dd+'ដល់ '+end;
+				    tem+= '<tr>';
+				    tem += '<td>&nbsp;'+_index+'</td>';
+				    tem += '<td>&nbsp;'+data.invoice_no+'&nbsp;</td>';
+				    tem += '<td style="font-size:14px;white-space: nowrap;">&nbsp;'+s_fordate+'&nbsp;</td>';
+				    tem += '<td style="font-size:12px;">&nbsp;'+str_curr+'&nbsp;</td>';
+				    tem += '<td>&nbsp;'+dojo.number.format(data.money)+'&nbsp;</td>';
+				    tem += '<td>&nbsp;'+dojo.number.format(total_new_debt)+'&nbsp;</td>';
+				    tem += '<td>&nbsp;'+data.rate_perday+' % &nbsp;</td>';
+				    tem += '<td style="font-size:12px;">&nbsp;'+day+' ថ្ងៃ &nbsp;</td>';
+					tem += '<td>&nbsp;'+dojo.number.format(amount_rate)+'&nbsp;</td>';
+				    tem += '<td>&nbsp;'+dojo.number.format(total_per_tran)+' &nbsp;</td>';
+				    tem += '</tr>';
+				}
+				amount_debt_dollar = dijit.byId('debt_dollar').get('value');
+				amount_debt_bath = dijit.byId('debt_bath').get('value');
+				amount_debt_riel = dijit.byId('debt_khmer').get('value');
+
+				amount_debt_dollar = amount_debt_dollar.toString();
+				amount_debt_bath = amount_debt_bath.toString();
+				amount_debt_riel = amount_debt_riel.toString();
+				
+				var dot = amount_debt_dollar.indexOf('.');
+				 if (dot == -1){	
+					 result= read_money_in_khmer(amount_debt_dollar)+"​ ដុល្លាគត់"; 	
+				 }else{
+					   var temp = amount_debt_dollar.split('.');
+				       var before_dot = read_money_in_khmer(temp[0]);
+				       var after_doc = read_money_in_khmer(temp[1]);
+				       result= before_dot + "ដុល្លាអាមេរិក និង"+after_doc+"សេន"; 	
+				}
+				result_bath='';
+				var dot_b = amount_debt_bath.indexOf('.');
+				if (dot_b == -1) {	
+					 result_bath= read_money_in_khmer(amount_debt_bath)+"​ បាតគត់"; 	
+				 }else{
+					   var temp = amount_debt_bath.split('.');
+				       var before_dot = read_money_in_khmer(temp[0]);
+				       var after_doc = read_money_in_khmer(temp[1]);
+				       result_bath= before_dot + "ក្បៀស"+after_doc+"​បាត"; 	
+				}
+				dojo.byId("lbl_debt_dollar").innerHTML = result;//read_money_in_khmer(amount_debt_dollar)+"ដុល្លារ";
+				dojo.byId("lbl_debt_bath").innerHTML = result_bath;//read_money_in_khmer(amount_debt_bath)+"បាត";
+		        dojo.byId("lbl_debt_riel").innerHTML = read_money_in_khmer(amount_debt_riel)+"រៀល";
+				
+				
+				
+				
+				
+			    tem+= '<tr style="border-bottom:none !important;">';
+			    tem += '<td colspan="8" rowspan="3" style="border-bottom:none !important; border-left: medium none;"></td>';
+				tem += '<td class="bgtop bg-box">&nbsp;សរុបជាដុល្លា($)&nbsp;</td>';
+			    tem += '<td class="bgtop bg-box">&nbsp;'+dojo.number.format(amount_debt_dollar)+' &nbsp;</td>';
+			    tem += '</tr>';
+			    tem+= '<tr>';
+				tem += '<td class="bgtop bg-box" align="left" >&nbsp;សរុបជាបាត(B)&nbsp;</td>';
+			    tem += '<td class="bgtop bg-box" align="left" >&nbsp;'+dojo.number.format(amount_debt_bath)+' &nbsp;</td>';
+			    tem += '</tr>';
+			    tem+= '<tr>';
+				tem += '<td class="bgtop bg-box" align="left">&nbsp;សរុបជារៀល(R)&nbsp;</td>';
+			    tem += '<td class="bgtop bg-box" align="left">&nbsp;'+dojo.number.format(amount_debt_riel)+' &nbsp;</td>';
+			    tem += '</tr>';
+			   dojo.html.set(dojo.byId("show_rpt"),tem , {
+				    parseContent: true,
+				     
+				});
+		    },
+		    error: function(err) {
+			    //alert(err);
+		    	//alert("Your message could not be sent, please try again!.");
+		    }
+		});
+	}
+	function calculateMoneyWithRate(amount_day,capital,rate){
+		amount = dojo.number.round(capital,2)+dojo.number.round((capital*rate),2)*amount_day;
+		return dojo.number.round(amount,2);
+		
+		/*amount = 0;
+		for(j=0;j<am_day;j++){
+			if(j==0){
+				amount = capital;
+			}
+			amount = dojo.number.round(amount,2)+dojo.number.round((amount*rate),2);
+		}
+		//alert(dojo.number.round(amount,2));*/
+//		i=0;
+		return dojo.number.round(amount,2);
+	}
+	var url_checkpermisson = '<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'check-permisson')); ?>';//for get payment date of sender 
+function getPermissionBySender(){
+		dojo.xhrPost({
+		    url: url_checkpermisson,	
+		    content : { 
+			    'sender_name': dijit.byId('sender').get('value'),
+			    'money_type': dijit.byId('type_money').get('value'),
+			},		    
+			handleAs:"json", 
+		    load: function(response) {
+			    if(response.status_loan==1){
+			    	curr_type = dijit.byId('type_money').get('displayedValue');
+				    alert('អតិថិជននេះមិនទាន់សងប្រាក់ '+curr_type+' នៅឡើយ !');
+				 }
+			   },error: function(err) {
+			 		    //alert(err);
+			 	    	//alert("Your message could not be sent, please try again!.");
+			 	    }
+	});
+}
+var url_moneyaccount = '<?php echo $this->url(array('module'=>'kbank','controller'=>'withdraw','action'=>'get-moneykbank')); ?>';//for get money form kbank
+function getAllMoneyKbankBySender(){
+		dojo.xhrPost({
+			    url: url_moneyaccount,	
+			    content : { 
+				    'sender_name':dijit.byId('sender').get('value'),
+				},		    
+				handleAs:"json", 
+			    load: function(response) {	
+				    if(response==''){
+					    alert('ឈ្មោះនេះមិនមាន ទឹកប្រាក់ក្នុងគណនី  KBank ទេ !');
+					}
+			    	 dojo.byId('lbl_showpopup').innerHTML = 'ប្រាក់ក្នុងគណនី';
+			    	 for(i=0; i<response.length;i++){
+			    		 data = response[i];
+
+			    		 amount_money = data.money;
+			    		 if(data.money_type==1){
+			    			    dijit.byId('debt_dollar').attr('value',data.money);
+			    			    
+			    			    amount_debt_dollar = amount_money.toString();
+			    			    var dot = amount_debt_dollar.indexOf('.');
+			    			    if (dot == -1) {	
+					 				 result= read_money_in_khmer(amount_debt_dollar)+"​ ដុល្លាគត់"; 	
+					 			 }else{
+					 				   var temp = amount_debt_dollar.split('.');
+					 			       var before_dot = read_money_in_khmer(temp[0]);
+					 			       var after_doc = read_money_in_khmer(temp[1]);
+					 			       result= before_dot + "ដុល្លាអាមេរិក និង"+after_doc+"សេន"; 	
+					 			}
+			    			    dojo.byId("lbl_debt_dollar").innerHTML = result;//read_money_in_khmer(amount_debt_dollar)+"ដុល្លារ";
+						}else if(data.money_type==2){ 
+								dijit.byId('debt_bath').attr('value',amount_money);
+
+								amount_debt_bath = amount_money.toString();
+								dojo.byId("lbl_debt_bath").innerHTML = read_money_in_khmer(amount_debt_bath)+"បាត";
+								
+						}else{
+								dijit.byId('debt_khmer').attr('value',amount_money);
+								amount_money = 0;
+								amount_debt_riel = amount_money.toString();
+								 dojo.byId("lbl_debt_riel").innerHTML = read_money_in_khmer(amount_debt_riel)+"រៀល";
+						}
+					  }
+			    	 getInfoTransferKbank();
+			    },
+			    error: function(err){
+				  //  alert(err);
+			    }
+			});
+		}
+	var url_getkbankinfo = '<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'get-infotransfer')); ?>';//for get money form kbank
+	function getInfoTransferKbank(){
+		dojo.xhrPost({
+				    url: url_getkbankinfo,	
+				    content : { 
+					    'sender_name':dijit.byId('sender').get('value'),
+					},		    
+					handleAs:"json", 
+				    load: function(response) {	
+				    	dijit.byId('province').attr('value',response.recieve_province);
+				    	dijit.byId('agent_id').attr('value',response.agent_id);
+				    	dijit.byId('sub_agent_id').attr('value',response.sub_agent_id);
+				    },
+				    error: function(err){
+					 //   alert(err);
+				    }
+				});
+	}
+	function countAmountDay(start,end){
+		days=countDays(start,end);
+		return days;
+	}
+	function countDays(start,end){
+	var durationperday = 24 * 60 * 60 * 1000;
+	var s_date= moment(start,'YYYY M D');
+	var e_date= moment(end,'YYYY M D');
+	var days = moment.duration(e_date - s_date);
+
+	var amount_day = (days / durationperday);
+	return amount_day;
+
+	}
+	function checkSender(){
+		 sender=dijit.byId('sender').get('value');
+		if(sender==-1){
+			dijit.byId("popupsender").show();
+		}else{
+			getAllMoneyloanByName();
+		} 
+	}
+
+	function disabledCommission(value){
+		dijit.byId("commission").setAttribute('disabled', (value == 1)? true:false);
+		dijit.byId("minus").setAttribute('disabled', (value == 1)? true:false);
+	}
+</script>
+<form id='frm_edit_tran' action="<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'edited')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">
+			if(this.validate()) {
+				if(dijit.byId('recieve_money').get('value') < dijit.byId('total').get('value') || dijit.byId('return_money').get('value') < 0){
+					alert('សូម​ពិនិត្រ ទឹកប្រាក់​​ដែល​​ទទួល​បាន​ម្តង ​ទៀត..');
+					dijit.byId('recieve_money').focus();
+					return false;
+				}if(dijit.byId('sender').get('value')==-1){ alert('សូម​ជ្រើសរើសឈ្មោះអ្នកផ្ញើរ...!'); dijit.byId('sender').focus(); return false;}
+				return true;
+			} else {
+				return false;
+			}
+			
+	</script>
+		
+	<table cellspacing="20" width="100%">
+		<tr>
+			<td colspan="2">
+					<table width="100%">
+						<tr>
+							<td width="240px;"> <input type="button" value="បញ្ជីជំពាក់" label="បញ្ជីជំពាក់" id="popup" dojoType="dijit.form.Button" 
+										iconClass="dijitIconTable" onclick="showRptDebt();"/><label id='lbl_showpopup'>ជំពាក់ប្រាក់ដើម</label>
+							</td>
+								<td align="right">ដុល្លា</td>
+								<td><input id="debt_dollar" name="debt_dollar"  type="text" dojoType="dijit.form.NumberTextBox" style="color: red;"
+													constraints="{pattern: '#,###.##'}"  class="fullside" value="0" readonly>
+								<br /><label id="lbl_debt_dollar" class="small-font"></label>
+								</td>
+							<td align="right">បាត</td> 
+							<td><input id="debt_bath" name="debt_bath" type="text" dojoType="dijit.form.NumberTextBox" style="color: red;"
+												constraints="{ pattern: '#,###.##'}" placeholder="ដុល្លា"   class="fullside"
+												value="0" invalidMessage="ចំនួន​ទឹកប្រាក់​មិន​ត្រឹម​ត្រូវ!" rangeMessage="ចំនួន​ទឹកប្រាក់មិន​អាច​ធំ​ជាង​លុយ​ជំពាក់​ទេ!" readonly>
+								<br /><label id="lbl_debt_bath" class="small-font"></label>				
+							</td>
+								<td align="right">រៀល</td>
+								<td>
+									<input id="debt_khmer" name="debt_khmer" type="text" dojoType="dijit.form.NumberTextBox" style="color: red;"
+													constraints="{ pattern: '#,###.##'}" placeholder="ដុល្លា"   class="fullside"
+													value="0" invalidMessage="ចំនួន​ទឹកប្រាក់​មិន​ត្រឹម​ត្រូវ!" rangeMessage="ចំនួន​ទឹកប្រាក់មិន​អាច​ធំ​ជាង​លុយ​ជំពាក់​ទេ!" readonly>
+									<br /><label id="lbl_debt_riel" class="small-font"></label>			
+								</td>
+						</tr>	
+						<!-- exchage rate -->
+						<tr>
+							<td width="240px;"> 
+								<strong>អត្រាប្តូរប្រាក់</strong>
+							</td>
+								<td align="right"><strong>ដុល្លា-បាត</strong></td>
+								<td><input id="BD" name="BD" value="<?php echo (empty($this->editdata['BD'])==0?$this->editdata['BD']:$this->rate['BD']); ?>"  type="text" dojoType="dijit.form.NumberTextBox" style="color: red;"
+													constraints="{pattern: '#,###.##'}"  class="fullside" value="0" />
+								<br /><label id="lbl_debt_dollar" class="small-font"></label>
+								</td>
+							<td align="right"><strong>ដុល្លា-រៀល</strong></td> 
+							<td><input id="RD" name="RD" type="text" value="<?php echo (empty($this->editdata['RD'])==0?$this->editdata['RD']:$this->rate['RD']);   //echo $this->editdata['RD']; ?>" dojoType="dijit.form.NumberTextBox" style="color: red;"
+												constraints="{ pattern: '#,###.##'}" placeholder="ដុល្លា"   class="fullside"
+												value="0" invalidMessage="ចំនួន​ទឹកប្រាក់​មិន​ត្រឹម​ត្រូវ!" rangeMessage="ចំនួន​ទឹកប្រាក់មិន​អាច​ធំ​ជាង​លុយ​ជំពាក់​ទេ!" />
+								<br /><label id="lbl_debt_bath" class="small-font"></label>				
+							</td>
+								<td align="right"><strong>បាត-រៀល</strong></td>
+								<td>
+									<input id="RB" name="RB" type="text" value="<?php echo (empty($this->editdata['RB'])==0?$this->editdata['RB']:$this->rate['RB']); //$this->editdata['RB']; ?>" dojoType="dijit.form.NumberTextBox" style="color: red;"
+													constraints="{ pattern: '#,###.##'}" placeholder="ដុល្លា"   class="fullside"
+													value="0" invalidMessage="ចំនួន​ទឹកប្រាក់​មិន​ត្រឹម​ត្រូវ!" rangeMessage="ចំនួន​ទឹកប្រាក់មិន​អាច​ធំ​ជាង​លុយ​ជំពាក់​ទេ!" />
+									<br /><label id="lbl_debt_riel" class="small-font"></label>			
+								</td>
+						</tr>		
+					</table>
+			</td>
+		</tr>
+		<tr>
+			<td width="48%">
+				<fieldset style="height: 500px;">
+					<legend><strong>ព៌ត័មាន ទំនាក់ទំនង</strong></legend>
+					<table style="margin: 0 auto;  width: 90%;" cellspacing="10">
+						<tr>
+							<td style="width: 150px">ទូទាត់ប្រាក់ក្នុងKBANK</td>
+							<td><input id="is_kbank" name="is_kbank" onclick="CheckIsBank();" dojoType="dijit.form.CheckBox" value="1"  <?php if( 1  == $this->editdata['is_kbank']) echo 'checked'?> />
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 150px">ប្រភេទ​ប្រតិបត្តិការណ៍</td>
+							<td>
+								<select class='fullside' onchange="disabledCommission(this.value);" disabled name="tran_type" id="tran_type" dojoType="dijit.form.FilteringSelect" missingMessage="អ្នក​ភ្លេច​បំពេញ​  ប្រភេទ​ប្រតិបត្តិការណ៍!" required="true"> 
+									<?php foreach ($this->tran_typelist as $key => $tran) : ?>										
+										<option value="<?php echo $key;?>" <?php if($key == $this->editdata['tran_type']) echo 'selected'?> ><?php echo $tran;?></option>
+									<?php endforeach;?> 
+								</select> 
+							</td>
+						</tr>
+						<tr>
+							<td>ខេត្ត/ក្រុង</td>
+							<td>
+								<select class='fullside' onchange="filteragentdata();"  name="province" required="true" id="province" dojoType="dijit.form.FilteringSelect" missingMessage="អ្នក​ភ្លេច​បំពេញ​  ខេត្ត/ក្រុង​!"> 
+									<?php foreach ($this->provinces as $key => $pro) : ?>
+										<option value="<?php echo $pro['id'];?>" <?php if($pro['id'] == $this->editdata['province']) echo 'selected'?>><?php echo $pro['name'].'  ('.$pro['num'].')';?></option>
+									<?php endforeach;?>									
+								</select> 
+							</td>
+						</tr>
+						<tr>
+							<td>សាខាមេ</td>
+							<td>
+								<input id="agent_id" >
+							</td>
+						</tr>
+						<tr>
+							<td>សាខាកូន</td>
+							<td>
+								<input id="sub_agent_id" >
+							</td>
+						</tr>
+						<tr>
+							<td>ឈ្មោះ​អ្នក​ផ្ញើរ</td>
+							<td>
+							<select class='fullside' name="sender" id="sender" dojoType="dijit.form.FilteringSelect" missingMessage="អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ​អ្នក​ផ្ញើរ!" > 
+									<?php foreach ($this->sender as $key => $sender_name) : ?>										
+										<option value="<?php echo $sender_name['name'];?>" <?php if($sender_name['name'] == $this->editdata['sender_name']) echo 'selected'?> ><?php echo $sender_name['name'];?></option>
+									<?php endforeach;?> 
+							</select> 
+							<input type="hidden" name='old_sender' id='old_sender' value='<?php echo $this->editdata['sender_name']; ?>' />
+							
+								<!-- <input type="text" name="sender" id="sender" placeholder="ឈ្មោះ​អ្នក​ផ្ញើរ" value="<?php echo $this->editdata['sender_name'];?>"
+								class='fullside' dojoType="dijit.form.ValidationTextBox" missingMessage="អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ​អ្នក​ផ្ញើរ!!" />-->
+							</td>
+						</tr>
+						<tr>
+							<td>ឈ្មោះ​អ្នក​ទទួល</td>
+							<td>
+								<input type="text" name="reciever" id="reciever" placeholder="ឈ្មោះ​អ្នក​ទទួល" value="<?php echo $this->editdata['reciever_name'];?>"
+								class='fullside' dojoType="dijit.form.ValidationTextBox" missingMessage="អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ​អ្នក​ទទួល!" />
+							</td>
+						</tr>
+						<tr>
+							<td>លេខ​ទូរស័ព្ទ​​អ្នក​ទទួល</td>
+							<td>
+								<input type="text" id="reciever_tel" placeholder="Your Reciver Telephone"  
+								 data-dojo-Type="dijit.form.ValidationTextBox"   
+								data-dojo-props="regExp:'[0-9]{9,10}', required: true, 
+												 value: '<?php echo $this->editdata['reciever_tel'];?>',
+												 invalidMessage:'លេខ​ទូរស័ព្ទ​​ មិន​ត្រឹម​ត្រូវទេ. មិនមាន​  ចន្លោះ ឬ សញ្ញា​ពិសេស.',
+												 missingMessage:'អ្នក​ភ្លេច​បំពេញ​ លេខ​ទូរស័ព្ទ​​អ្នក​ទទួល!',
+												 class:'fullside',
+												 name:'reciever_tel'"/>
+							</td>
+						</tr>
+						<tr>
+							<td>កាល​បរិច្ឆេទ វេ </td>							
+							<td>
+								<?php 
+									$send_date = date_create($this->editdata['send_date']);	
+									$exp_date = date_create($this->editdata['expire_date']);									
+								?>
+								<input type="text" name="send_date" id="send_date" value="<?php echo  date_format($send_date, 'Y-m-d');?>" 
+								dojoType="dijit.form.DateTextBox" required="true" missingMessage="អ្នក​ភ្លេច​បំពេញ​ កាល​បរិច្ឆេទ វេ!" 
+								  rangeMessage='កាល​បរិច្ឆេទ  វេ មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ ផុតកំណត់​ ' class='fullside'
+								constraints="{datePattern:'dd/MM/yyyy', max:'<?php echo  date_format($exp_date, 'Y-m-d');?>'}" 
+								onchange="dijit.byId('epx_date').constraints.min = arguments[0];" />
+							</td>
+						</tr>
+						<tr>
+							<td>ផុតកំណត់​ត្រឹម​ថ្ងៃ</td>
+							<td>
+								<input type="text" name="epx_date" id="epx_date" value="<?php echo  date_format($exp_date, 'Y-m-d');?>" 
+								dojoType="dijit.form.DateTextBox" required="true" missingMessage="អ្នក​ភ្លេច​បំពេញ​ កាល​បរិច្ឆេទ ផុតកំណត់​!" 
+								 rangeMessage='កាល​បរិច្ឆេទ  ផុតកំណត់​ មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ វេ' class='fullside'
+								constraints="{datePattern:'dd/MM/yyyy', min:'<?php echo  date_format($send_date, 'Y-m-d');?>'}" 
+								onchange="dijit.byId('send_date').constraints.max = arguments[0];"/>
+							</td>
+						</tr>
+					</table>	
+				</fieldset>			
+			</td>
+			<td width="48%">	
+				<fieldset style="height: 500px;">
+					<legend><strong>ព៌ត័មាន ទាក់​ទង នឹង​ ទឹកប្រាក់</strong></legend>			
+					<table style="margin: 0 auto;  width: 90%;" cellspacing='10'>									
+						<tr>
+							<td style="width: 150px">ប្រភេទ​លុយ</td>
+							<td>
+								<select name="type_money" id="type_money" class='fullside' dojoType="dijit.form.FilteringSelect" missingMessage="អ្នក​ភ្លេច​បំពេញ​  ប្រភេទ​លុយ!" required="true"> 
+									<?php foreach ($this->currency as $key => $cur) : ?>
+										<option value="<?php echo $cur['id'];?>" <?php if($cur['id'] == $this->editdata['amount_type']) echo 'selected'?>><?php echo $cur['name'];?></option>
+									<?php endforeach;?> 
+								</select> 
+							</td>
+						</tr>
+						<tr>
+							<td>ចំនួន​ទឹក​ប្រាក់</td>
+							<td>
+								<input type="text" name="amount" id="amount"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="required:true,
+									value: '<?php echo $this->editdata['amount'];?>',
+									name:'amount',
+									constraints:{pattern:'#,###.##'},
+									class:'fullside',
+									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
+									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
+								&nbsp;&nbsp;
+								<input id="loan" name="loan" onclick="CheckDebt();" dojoType="dijit.form.CheckBox" value="1" <?php if( 1  == $this->editdata['status_loan']) echo 'checked'?> />
+								<label for="loan">ជំពាក់</label>
+								
+							</td>
+						</tr>
+						<tr>
+							<td>អត្រាការប្រាក់/ខែ (%)</td>
+							<td><input id="rate_perday" name="rate_perday" type="text" value='<?php echo $this->editdata['rate_perday']?>' dojoType="dijit.form.NumberTextBox"
+												constraints="{pattern: '#,###.##'}"
+												placeholder="ដុល្លា"   class="fullside"
+												value="2" invalidMessage="អត្រាការប្រាក់មិន​ត្រឹម​ត្រូវ!" rangeMessage="អត្រាការប្រាក់មិនអាចលើសពី100បានទេ!" readonly>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">ថ្លៃសេវា</td>
+							<td>
+								<input type="text" name="commission" id="commission"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="required:true,
+									value: '<?php echo $this->editdata['commission'];?>',
+									name:'commission',
+									constraints:{pattern:'#,###.##'},
+									class:'fullside',
+									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ថ្លៃសេវា!',
+									invalidMessage:'ថ្លៃសេវា​ មិន​ត្រឹម​ត្រូវ!'">&nbsp;&nbsp;
+								
+								<input id="minus" name="minus" dojoType="dijit.form.CheckBox" value="1" <?php if( 1  == $this->editdata['cut_service']) echo 'checked'?> 
+									 onChange="total();">
+								<label for="minus">ដក​ទឹក</label>					
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">ថ្លៃសេវា​របស់​សាខា</td>
+							<td>
+								<input type="text" name="commission_agent" id="commission_agent"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="required:true,
+									class:'fullside',
+									constraints:{pattern:'#,###.##'},									
+									name:'commission_agent',
+									value: '<?php echo $this->editdata['commission_agent'];?>',
+									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ថ្លៃសេវា​របស់​សាខា!',
+									invalidMessage:'ថ្លៃសេវា​ មិន​ត្រឹម​ត្រូវ!'">						
+													
+							</td>
+						</tr>
+						<tr>
+							<td>ប្រាក់​ត្រូវបើក</td>
+							<td>
+								<input type="text" name="gave" id="gave"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="								
+									name:'gave',
+									constraints:{pattern:'#,###.##'},
+									class:'fullside',
+									value:'<?php echo $this->editdata['transfer_money'];?>',									
+									disabled:false">
+							</td>
+						</tr>
+						<tr>
+							<td>ប្រាក់​សរុប​</td>
+							<td>
+								<input type="text" name="total" id="total"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="								
+									name:'total',
+									constraints:{pattern:'#,###.##'},
+									class:'fullside',
+									value:'<?php echo $this->editdata['total_money'];?>',
+									disabled:false">
+							</td>
+						</tr>
+						<tr>
+							<td>ប្រាក់​ទទួល​បាន​</td>
+							<td>
+								<input type="text" name="recieve_money" id="recieve_money"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="required:true,									
+									name:'recieve_money',
+									class:'fullside',
+									constraints:{pattern:'#,###.##'},
+									value:'<?php echo $this->editdata['recieved'];?>',
+									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ប្រាក់​ទទួល​បាន​!',
+									invalidMessage:'ប្រាក់​ទទួល​បាន​​ មិន​ត្រឹម​ត្រូវ!'">
+							</td>
+						</tr>
+						<tr>
+							<td>ប្រាក់​អាប់</td>
+							<td>
+								<input type="text" name="return_money" id="return_money"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="								
+									name:'return_money',
+									constraints:{pattern:'#,###.##'},
+									class:'fullside',
+									value:'<?php echo $this->editdata['return_money'];?>',																		
+									disabled:false">
+							</td>
+						</tr>		
+						<tr>
+							<td>ស្ថានការណ៍</td>
+							<td>
+								<select class='fullside' name="status" required="true" id="status" dojoType="dijit.form.FilteringSelect" missingMessage="អ្នក​ភ្លេច​បំពេញ​  ស្ថានការណ៍!" >
+									<?php if($this->editdata['tran_type'] == 0):?>
+										<?php foreach ($this->statuslist as $key => $st) : ?>
+											<?php if($key != 2 && $key != 3 && $key != 5):?>
+												<option value="<?php echo $key;?>" <?php if($key == $this->editdata['status']) echo 'selected'?>><?php echo $st;?></option>
+											<?php endif;?> 
+										<?php endforeach;?>
+									<?php else :?>
+										<?php foreach ($this->statuslist as $key => $st) : ?>
+											<?php if($key != 0 && $key != 1 && $key != 5):?>
+												<option value="<?php echo $key;?>" <?php if($key == $this->editdata['status']) echo 'selected'?>><?php echo $st;?></option>
+											<?php endif;?> 
+										<?php endforeach;?>
+									<?php endif;?> 
+																		
+								</select> 
+							</td>
+						</tr>				
+					</table>	
+				</fieldset>		
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<input type="button" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button" 
+				 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId('frm_edit_tran').submit();"/>
+				<input type="button" value="រក្សាទុក & បោះពុម្ព" label="រក្សាទុក & បោះពុម្ព" id="busyButton" dojoType="dijit.form.Button" 
+					iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="printSave();"/> 							
+			</td>
+		</tr>
+	</table>
+	<input type="hidden" name="invoice_no" value="<?php echo $this->editdata['invoice_no'];?>">
+	<input type="hidden" name="id" value="<?php echo $this->editdata['id'];?>">
+	<input type="hidden" name="tran_type" value="<?php echo $this->editdata['tran_type'];?>">
+</form>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" style="width:7cm;" data-dojo-props="title:'របាយការណ៍ វេ', onCancel:hideDialog" id="terms" >
+		<div id="divPrint" style="width: 7cm; padding: 0px; margin: 0px;">
+			<style>
+				.fontbig{
+					font-size: 12px;	
+				}
+				.fonttel{
+					font-size: 11px;	
+				}
+				.pleft{
+					width: 110px;	
+				}
+				.bg-box{font-weight: bold; font-size: 13px;}
+				.small-font{font-size: 12px;}
+			</style>	
+			<table style="width: 7cm; font-size: 8pt; padding: 0px; margin: 0px; line-height: 15px;">
+				   <tr>
+					   	<td align="center" colspan="3">	
+					   	<table  width="100%" cellspacing="0" cellpadding="0">
+					   		<tr style="line-height:10px;">
+					   			<td width="36%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
+						   		<td width="35%" align="center"><strong style="font-size:16px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['rpt-transfer-title-kh'];?></strong></td>
+								<td width="32%" rowspan="2" style="valign:top;"><img style="align:top; float:right;" src="<?php echo $base_url;?>images/logo-right.png" height="34px;"/></td>
+							</tr>
+							<tr>
+								<td align="center" style="font-family:'KH Koulen';white-space: nowrap;font-size:11px;font-weight:bold; text-align:center;"><b><?php echo $this->keycode['rpt-transfer-title-eng'];?></td>
+					   		</tr>
+					   	</table>
+			            </td>	   	        
+				   </tr> 
+					<tr>
+					   	<td align="center" colspan="3" style="font-family:'KH Koulen';"><?php echo $this->keycode['rpt-transfer-business-meaning-kh'];?></td>	   	        
+					</tr>            
+				   <tr>
+						<td align="center" colspan="3" style="font-size: 8pt;">
+							<?php echo $this->keycode['rpt-transfer-business-meaning-eng'];?><br/>
+							<?php echo $this->keycode['rpt-transfer-location-adr-kh'];?><br/>
+							<strong class="fontbig"><?php echo $this->keycode['rpt-transfer-tel-eng'];?></strong>
+						</td>
+				   </tr>
+				   <tr>
+						<td class="pleft" style="border-bottom:1px solid #000;">
+							<strong style="font-size: 10px;"><label id="lblinvioice">ប័ណ្ណ​ផ្ទេរ​ប្រាក់</label></strong>
+						</td>
+						<td align="right" colspan="2" style="border-bottom:1px solid #000;">
+							ឈ្មោះបុគ្គលិក៖ <?php print($this->user_name);?>
+						</td>
+				   </tr>
+				   <tr>
+						<td>
+							ឈ្មោះ​អ្នក​ផ្ញើរ
+						</td>
+						<td>:</td>
+						<td>
+							<label id="lblsendername"></label>
+						</td>
+				   </tr>
+				   <tr>
+						<td>
+							ឈ្មោះ​អ្នក​ទទួល
+						</td>
+						<td>:</td>
+						<td>
+							<label id="lblrecievername"></label>
+						</td>
+				   </tr>
+				   <tr>
+						<td>
+							លេខ​ទូរស័ព្ទ​​អ្នក​ទទួល
+						</td>
+						<td>:</td>
+						<td>
+							<strong class="fonttel"><label id="lblrecievertel"></label></strong>
+						</td>
+				   </tr>
+				   <tr>
+						<td>
+							ប្រាក់​ត្រូវបើក
+						</td>
+						<td>:</td>
+						<td align="right">
+							<b><label id="lblrecieve_money" class="fontbig"></label></b>
+						</td>
+				   </tr>
+				   <tr>
+						<td>
+							ថ្លៃសេវា
+						</td>
+						<td>:</td>
+						<td align="right">
+							<b><label id="lblcommission" class="fontbig"></label></b>
+						</td>
+				   </tr>
+				   <tr>
+						<td>
+							ប្រាក់​សរុប​
+						</td>
+						<td>:</td>
+						<td align="right">
+							<b><label id="lbltotal" class="fontbig"></label></b>
+						</td>
+				   </tr>
+				   <tr>
+						<td colspan="3">
+							 - <label id="lblplacestatus"></label>៖
+						</td>			
+				   </tr>
+				   <tr>
+						<td colspan="3" style="border: solid #000 1px; text-align: center;">
+							<label id="lbladd"></label>៖ លេខ​ផ្ទះ <label id="lblhouseno"></label> លេខ​ផ្លូវ  <label id="lblstreetno"></label> <br/>
+							<b> <label id="lblblock"></label> </b><br/>
+							 <strong> <label id="lblagentname"></label></strong>   លេខ​ទូរស័ព្ទ  <strong><label id="lblagenttel"></label></strong>
+						</td>			
+				   </tr>
+				   <tr>
+						<td colspan="3" align="right">
+							ផុតកំណត់​ត្រឹម​ថ្ងៃ ទី <label id="lblexpdate"></label>
+						</td>			
+				   </tr>
+				   <tr>
+						<td colspan="3" align="center" style="border-top:1px solid #000;">
+							<label>
+								<?php echo $this->keycode['rpt-transfer-warnning-kh'];?>
+							</label>
+						</td>			
+				   </tr>
+				   <tr style="border:1px solid #000;">
+						<td colspan="3" align="center" style="border-top: 2px dashed #000; padding-top:5px;">
+								<?php echo $this->keycode['comment'];?>
+						</td>			
+				   </tr>
+				   <tr>
+						<td colspan="3">
+							<hr style="background: transparent;border-bottom: 2px dashed #000;" />
+						</td>			
+				   </tr>
+				   <tr>
+						<td>
+							<img src="<?php echo $base_url.$this->keycode['imgPath'];?>" width="50%"/>
+						</td>	
+						<td align='right'  valign="top" colspan="2">
+							<?php echo date("d/m/Y H:i:s");?>
+						</td>
+				   </tr>
+			</table>
+		</div>
+		<div id="divPrint1" style="width: auto; padding: 0px; margin: 0px; display: none;">
+			<style>
+				
+				.fontbig{
+					font-size: 12px;	
+				}
+				.fonttel{
+					font-size: 11px;	
+				}
+				.pleft{
+					width: 110px;	
+				}
+				.bg-box{font-weight: bold; font-size: 13px;}
+				.small-font{font-size: 12px;}
+			</style>	
+			<table style="width: auto; font-size: 8pt; padding: 0px; margin: 0px; line-height: 17px;">
+					<tr>
+					   	<td align="center" colspan="7">	
+				            <strong style="font-size: 18px;"><?php echo $this->keycode['rpt-transfer-title-kh'];?></strong><br/>
+							<b><?php echo $this->keycode['rpt-transfer-title-eng'];?></b><br/>
+			            	<strong class="fontbig"><?php echo $this->keycode['rpt-transfer-tel-eng'];?></strong>		
+			            </td>	   	        
+				   </tr>
+				   <tr>
+					   	<td align="center" colspan="7">	
+					   		<br/>
+				            <strong style="font-size: 18px;"><label>ប័ណ្ណ​បើក​​ប្រាក់បញ្ញើរ</label></strong>		
+			            </td>	   	        
+				   </tr>
+				   <tr>						
+						<td class="field">
+							Nº
+						</td>
+						<td>:</td>
+						<td>
+							<?php printf("%'010s",  $this->editdata['invoice_no']);?>
+						</td>
+				  		<td class="space">&nbsp;</td>
+						<td class="field">
+							ផ្ទេរមកពីសាខា
+						</td>
+						<td>:</td>
+						<td>
+							<strong> <label id="lblagentname1"></label></strong>
+						</td>
+				   </tr>
+				   <tr>
+						<td>
+							ឈ្មោះ​អ្នក​ផ្ញើរ
+						</td>
+						<td>:</td>
+						<td>
+							<b><label id="lblsendername1"></label></b>
+						</td>
+				  		<td>&nbsp;</td>
+						<td>
+							លេខ​​​អ្នក​ទទួល
+						</td>
+						<td>:</td>
+						<td>
+							<strong class="fonttel"><label id="lblrecievertel1"></label></strong>
+						</td>
+				   </tr>
+				   <tr>						
+						<td>
+							ឈ្មោះ​អ្នក​ទទួល
+						</td>
+						<td>:</td>
+						<td>
+							<b><label id="lblrecievername1"></label></b>
+						</td>
+						<td>&nbsp;</td>
+						<td>
+							ថ្ងៃខែម៉ោង
+						</td>
+						<td>:</td>
+						<td>
+							<b class="fontbig"><?php echo date("d/m/Y H:i:s")?></b>
+						</td>
+				   </tr>
+				   <tr>
+						<td>
+							ចំនួន
+						</td>
+						<td>:</td>
+						<td>
+							<b><label id="lblrecieve_money1" class="fontbig"></label></b>
+						</td>
+						<td>&nbsp;</td>
+						<td colspan="3" align="center">
+							ហត្ថលេខា/ស្នាមមេដៃ
+						</td>						
+				   </tr>
+				   <tr>
+						<td>
+							អ្នកបើក
+						</td>
+						<td>:</td>
+						<td>
+							<b><?php print($this->user_name);?></b>
+						</td>
+						<td colspan="4"> </td>
+				   </tr>
+				   <tr>
+						<td>
+							ថ្ងៃខែទទួល
+						</td>
+						<td>:</td>
+						<td>
+							<b><label id="lbltran_date1" class="fontbig"></label></b>
+						</td>
+						<td colspan="4"> </td>
+				   </tr>				   
+			</table>
+		</div>
+		<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>	
+		<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
+				showLabel="false" type="button" onclick="doPrint();">Print</button>
+		<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconCancel"
+				showLabel="false" type="button" onclick="hideDialog();">Cancel</button>
+			
+
+	</div>
+</div>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" style="width:7cm;" data-dojo-props="title:'បញ្ជីជំពាក់ប្រាក់ពីមុន'" id="popuprpt_dabt" >
+		<form id="submit_sender" >
+		<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
+	showLabel="false" type="button" onclick="doPrint('1');">Print</button>
+		<div id="grid_1" >
+			<center><b>របាយការណ៏<label id='lbl_ower'></label>ជំពាក់គិតត្រឹមថ្ងៃ <?php echo date('d-M-Y');?></b></center>
+			<table cellspacing="10" cellpadding="10" id="show_rpt" width="900px" border="1" style="border-collapse: collapse; border: 0px solid #000;">
+			</table>
+			<br /><br />
+		</div>
+		</form>
+	</div>
+</div>

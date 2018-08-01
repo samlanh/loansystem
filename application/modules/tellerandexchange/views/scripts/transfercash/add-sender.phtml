@@ -1,0 +1,74 @@
+<?php
+$this->headTitle('Currency Smart | Add Sender'); 
+echo $this->headTitle();
+$frm_sender = $this->frm_sender;
+?>
+
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require('dijit.form.Form');	
+	dojo.require('dijit.form.Button');
+	dojo.require('dijit.form.FilteringSelect');
+</script>
+
+<form action="<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'add-sender')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+		
+	<table cellspacing="20" style="margin: 0 auto; width: 550px">
+		<tr>
+			<td>
+				<fieldset>
+					<legend><strong>ព៌ត័មាន អ្នកផ្ញើរប្រាក់</strong></legend>
+					<table cellspacing="5"  width="100%"​​ >
+						<tr>
+							<td align="center" valign="top">
+								<table cellspacing="10" width="100%">
+									<tr>
+										<td>ឈ្មោះអ្នកផ្ញើរ</td>
+										<td width="65%">
+											<?php echo $frm_sender->getElement("sender_name");?>
+										</td>
+									</tr>
+									<tr>
+										<td>លេខទូរសព្ទ</td>
+										<td>
+												<input type="text" id="tel" placeholder="លេខ​ទូរស័ព្ទ​​អ្នក​ផ្ញើរ"  
+									 data-dojo-Type="dijit.form.ValidationTextBox"   
+									data-dojo-props="regExp:'[0-9]{9,10}', 
+													 invalidMessage:'លេខ​ទូរស័ព្ទ​​ មិន​ត្រឹម​ត្រូវទេ. មិនមាន​  ចន្លោះ ឬ សញ្ញា​ពិសេស.',
+													 class:'fullside',
+													 name:'tel'"/>
+											<?php //echo $frm_sender->getElement("tel");?>
+										</td>
+									</tr>
+									<tr>
+										<td>អ៊ីមែល</td>
+										<td>
+											<?php echo $frm_sender->getElement("email");?>
+										</td>
+									</tr>
+									<tr>
+										<td>អាសយដ្ឋាន</td>							
+										<td>
+											<?php echo $frm_sender->getElement("address");?>
+										</td>
+									</tr>
+									<tr>
+										<td>ស្ថានការណ៏</td>							
+										<td>
+											<?php echo $frm_sender->getElement("status");?>
+										</td>
+									</tr>
+								</table>
+							</td>							
+						</tr>
+					</table>	
+				</fieldset>
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+			</td>
+		</tr>
+	</table>	
+</form>

@@ -100,7 +100,7 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 				'placeholder'=>$this->tr->translate("ស្ថានការ")));
-		$opt_status = array(''=>'ជ្រើសរើស ស្ថានការ','1'=>'ដំណើការ','2'=>'មិនដំណើការ');
+		$opt_status = array(''=>'ជ្រើសរើស ស្ថានការ','1'=>'ដំណើការ','0'=>'មិនដំណើការ');
 		$status->setMultiOptions($opt_status);
 		
 		$submit = new Zend_Dojo_Form_Element_SubmitButton("btn_submit");
