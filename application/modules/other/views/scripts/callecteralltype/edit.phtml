@@ -6,48 +6,68 @@ $frm = $this->Form_Frmcallecterall;
 	dojo.require("dijit.form.DateTextBox");
 </script>
 <title> <?php echo $tr->translate("COLLECTERALL_TYPE")?></title>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'other','controller'=>'callecteralltype','action'=>'edit')); ?>" 
+
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+ 			<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('CALLECTERALLTYPE');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+		<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'other','controller'=>'callecteralltype','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">			
-			if(this.validate()) {
-				//return false;
-				return true;
-			}else {
-				return false;
-			}
-</script>
-<table cellspacing="10" width="45%" style="margin: 0 auto;">
-	<tr>
-		<td>
-		<fieldset>
-		<legend align="center" ><strong><?php echo $tr->translate("CALLECTERALLTYPE")?></strong></legend>
-		<table style="margin: 0 auto; width: 100%;" cellspacing="10" >
-					​<tr>
-						<td><?php echo $tr->translate("NAME_KH")?></td>
-						<td><?php echo $frm->getElement('title_kh')?><?php echo $frm->getElement('id')?></td>								
-					</tr>
-					<tr>
-						<td><?php echo $tr->translate("NAME_ENG")?></td>
-						<td><?php echo $frm->getElement('title_en')?></td>	
-					</tr>
-					<tr>
-						<td><?php echo $tr->translate("DATE")?></td>
-						<td><?php echo $frm->getElement('date')?></td>
-					</tr>
-					<tr>
-						<td><?php echo $tr->translate("STATUS")?></td>
-						<td><?php echo $frm->getElement('status')?></td>
-					</tr>
-					<tr>
-						<td align="center" colspan="2">
-							<input type="reset" iconClass="dijitIconClear" label="<?php echo $tr->translate('CLEAR');?>"dojoType="dijit.form.Button"/>
+			<script type="dojo/method" event="onSubmit">			
+				if(this.validate()) {
+					return true;
+				}else {
+					return false;
+				}
+			</script>
+			<div class="card-box">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME_KH");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('title_kh')?><?php echo $frm->getElement('id')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME_ENG");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('title_en')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('date')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('status')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+		                <div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+		                	<input type="reset" iconClass="dijitIconClear" label="<?php echo $tr->translate('CLEAR');?>"dojoType="dijit.form.Button"/>
 							<input type="submit" value="btn_save_close" name="btn_save_close"  id="btn_save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
 								iconClass="dijitEditorIcon dijitEditorIconSave" />
-						</td>
-					</tr>	
-				</table>	
-		</fieldset>		
-		</td>
-	</tr>
-</table>
-</form>
+			    		</div>
+		    		 </div>
+	            </div>
+	         </div>
+		</form>
+	</div>
+</div>
+
+

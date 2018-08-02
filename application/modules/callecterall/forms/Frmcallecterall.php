@@ -18,11 +18,11 @@ Class Callecterall_Form_Frmcallecterall extends Zend_Dojo_Form {
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
-				'onkeyup'=>'this.submit()',
+				'onkeyup'=>'this.submit()','class'=>'fullside'
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		$status_search=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
-		$status_search->setAttribs(array('dojoType'=>$this->filter));
+		$status_search->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside'));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),

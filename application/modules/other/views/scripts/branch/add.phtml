@@ -27,6 +27,7 @@
     cursor: pointer;
     background: #fbf9f9;
     border: 1px solid #e8e8e8;
+        cursor: pointer;
 }
 .button_browse span {
     line-height: 33px;
@@ -50,94 +51,139 @@ input.btn_borwse_image {
     margin: 0 auto;
 }
 </style>
-<form id="frm_branch" action="<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data" >
-	 <script type="dojo/method" event="onSubmit">			
-			if(this.validate()) {
-               dijit.byId("save_new").set("disabled",true);
-			   dijit.byId("save_close").set("disabled",true);
-				return true;
-			} else {
-				return false;
-			}
-	</script>
-	<fieldset>
-	<table cellspacing="10" style="margin: 0 auto; width:100%">
-		<legend ><strong><?php echo $tr->translate("ADD_BRANCH");?></strong></legend>
-		<tr>
-		<td width="66%;" valign="top">
-			 <fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("BRANCH_NAME")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-						<tr>
-							<td><?php echo $tr->translate("BRANCH_CODE")?></td>
-							<td><?php echo $frm->getElement("branch_code");?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php echo $frm->getElement("branch_namekh");?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("SHOPNAME")?></td>
-							<td><?php echo $frm->getElement("branch_nameen");?></td>
-						</tr>
-						<tr>
-							 <td><?php echo $tr->translate("DESCRIPTION")?></td>
-							 <td><?php echo $frm->getElement("description");?></td>								
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("BRANCH_NOTE")?></td>
-							<td><?php echo $frm->getElement("branch_note");?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("BRANCH_STATUS")?></td>
-							<td><?php echo $frm->getElement("branch_status");?></td>
-						</tr>
-				</table>
-			</fieldset>	
-			<div style="text-align: center;">
-				<input type="reset" value="សំអាត" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" />
-										<input type="button" onclick="submitDataClose()" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
-											iconClass="dijitEditorIcon dijitEditorIconSave" />
-										<input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
-											iconClass="dijitEditorIcon dijitEditorIconSave" />
-			</div>
-		</td>
-		<td width="33%;" valign="top">
-			 <fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("BRANCH_ADDRESS")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-						<tr>
-							<td><?php echo $tr->translate("PREFIX_CODE");?></td>
-							<td><?php echo $frm->getElement("prefix_code");?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("PHONE")?></td>
-							<td><?php echo $frm->getElement("branch_tel");?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("BRANCH_ADDRESS")?></td>
-							<td><?php echo $frm->getElement("br_address");?></td>
-						</tr>
-				</table>
-			</fieldset>	
-			<fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("BRANCH_IMAGE")?></strong></legend>
-				 <div class="account-image">
-					<div class="image-box">
-						<img id="profile_wiew" src="<?php echo $this->baseUrl().'/images/no-image.png';?>" alt=""  />
-					</div>
-					<div class="button_browse">
-					<div id='preview'></div>	
-							<span>Upload <span ><i class="fa fa-camera" aria-hidden="true"></i></span></span>
-							<input class="btn_borwse_image" type="file" id="photo" name="photo" />
-					</div>
-				</div>
-			</fieldset>	
-		</td>
-	</tr>
-	</table>	
-</fieldset>
-</form>
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+ 			<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-university" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('ADD_BRANCH');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+		<form id="frm_branch" action="<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data" >
+			 <script type="dojo/method" event="onSubmit">			
+				if(this.validate()) {
+               		dijit.byId("save_new").set("disabled",true);
+			   		dijit.byId("save_close").set("disabled",true);
+					return true;
+				} else {
+					return false;
+				}
+			</script>
+			<div class="card-box">
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("BRANCH_NAME");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_CODE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">	
+	                   		<?php echo $frm->getElement("branch_code");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NAME");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("branch_namekh");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SHOPNAME");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("branch_nameen");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DESCRIPTION");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("description");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NOTE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("branch_note");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_STATUS");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("branch_status");?>
+	                   </div>
+	                </div>
+	             </div>
+	             <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("BRANCH_ADDRESS");?> 
+	                   </label>
+	                </div>
+	                <legend align="center" ><strong><?php echo $tr->translate("")?></strong></legend>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PREFIX_CODE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("prefix_code");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PHONE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("branch_tel");?>
+	                   </div>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_ADDRESS");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("br_address");?>
+	                   </div>
+	                </div>
+	                
+	             </div>
+	             <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("BRANCH_IMAGE");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <div class="col-md-12 col-sm-12 col-xs-12">
+	                   		<div class="account-image">
+								<div class="image-box">
+									<img id="profile_wiew" src="<?php echo $this->baseUrl().'/images/no-image.png';?>" alt=""  />
+								</div>
+								<div class="button_browse">
+								<div id='preview'></div>	
+										<span>Upload <span ><i class="fa fa-camera" aria-hidden="true"></i></span></span>
+										<input class="btn_borwse_image" type="file" id="photo" name="photo" />
+								</div>
+							</div>
+	                   </div>
+	                </div>
+	             </div>
+	         </div>
+	         <div class="card-box">
+	        	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+	        		<input type="reset" value="សំអាត" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear" />
+					<input type="button" onclick="submitDataClose()" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
+						iconClass="dijitEditorIcon dijitEditorIconSave" />
+					<input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
+						iconClass="dijitEditorIcon dijitEditorIconSave" />
+	    		</div>
+	        </div>
+		</form>
+	</div>
+</div>
+		
 <script>
 function submitDataClose(){
 	if(dijit.byId('frm_branch').validate()) {

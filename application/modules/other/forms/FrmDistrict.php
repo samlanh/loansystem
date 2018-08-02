@@ -21,13 +21,14 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
+				'class'=>'fullside',
 				'placeholder'=>$this->tr->translate("SEARCH_DISTRICT_INFO")
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		
 		
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('search_status');
-		$_status_search->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>false,'queryExpr'=>'*${0}*',));
+		$_status_search->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside','autoComplete'=>false,'queryExpr'=>'*${0}*',));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),

@@ -12,17 +12,31 @@ $frm = $this->frm_transfer;
 	<div class="card-content collapse show">
     	<div class="card-box">
     		<form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'transferzone','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
-			   	<table width="100%">
-			  	<tr>
-			  	    <td><?php  echo $frm->getElement('note');?></td>
-			  		<td><?php  echo $frm->getElement('branch_name');?></td>
-			  		<td><?php  echo $frm->getElement('co_code');?></td>	
-			  		<td><?php echo $frm->getElement('start_date');?></td>
-			  		<td><?php echo $frm->getElement('end_date');?></td>
-			  		<td><?php echo $frm->getElement('status');?></td>
-			  		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-			  	</tr>
-			  </table>
+			   	<div class="form-group">
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php  echo $frm->getElement('note');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php  echo $frm->getElement('branch_name');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php  echo $frm->getElement('co_code');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('status');?>
+			   		</div>
+			   	</div>
+			   	<div class="form-group">
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('start_date');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('end_date');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+			   		</div>
+			   	</div>
 			</form>
     	</div>
     	<div class="card-box">
