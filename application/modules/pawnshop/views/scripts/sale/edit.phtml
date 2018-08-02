@@ -23,115 +23,394 @@
 	require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog",
 				"dijit/form/Textarea"]);
 </script>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'sale','action'=>'edit')); ?>" 
-				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-	<script type="dojo/method" event="onSubmit">			
-		if(this.validate()) {
-			return true;
-		}else {
-			return false;
-		}
-	</script>
-	<table width="100%" style="margin-top:0px;">
-		<tr>
-			<td width="50%" valign="top">
-				<fieldset>
-					<legend><strong><?php echo $tr->translate("CLIENT_INFO")?></strong></legend>
-						<table cellspacing="5"  width="100%" style="margin-top: -10px;">
-						   <tr>
-								<td width="150px"><?php echo $tr->translate("BRANCH_NAME")?></td>
-								<td>
-									<select <?php if ($currentlevel!=1){ echo 'readonly="readonly"';}?> dojoType="dijit.form.FilteringSelect" name="branch_id" id="branch_id" onchange="getProductByBranch()" class="fullside" >
-										<option value=""><?php echo $tr->translate('Choose Customer');?></option>
-										<?php if(!empty($this->branch)){foreach ($this->branch as $branch){?>
-										<option value="<?php echo $branch['id']?>" <?php if($branch['id']==$this->row['branch_id']){echo "selected='selected'";}?>><?php echo $branch['name']?></option>
-										<?php }}?>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td><strong><?php echo $tr->translate("CUSTOMER_NAME")?></strong></td>
-								<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" id="customer_name" name="customer_name" value="<?php echo $this->row['customer_name'];?>" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("TEL")?></td>
-								<td><input dojoType="dijit.form.TextBox" class="fullside" id="tel" name="tel" value="<?php echo $this->row['tel'];?>" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("SEX")?></td>
-								<td>
-									<select dojoType="dijit.form.FilteringSelect" class="fullside" name="gender" id="gender" >
-										<option value="1" <?php if($this->row['gender']==1){echo "selected='selected'";}?>>Male</option>
-										<option value="2" <?php if($this->row['gender']==2){echo "selected='selected'";}?>>Female</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("DOB")?></td>
-								<td><input dojoType="dijit.form.DateTextBox" constraints="{datePattern:'dd/MM/yyyy'}" class="fullside" id="dob" name="dob" value="<?php echo $this->row['dob'];?>" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("ADDRESS")?></td>
-								<td><input dojoType="dijit.form.TextBox" class="fullside" id="address" name="address" value="<?php echo $this->row['address'];?>" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("NATION_ID")?></td>
-								<td><input dojoType="dijit.form.TextBox" class="fullside" id="nation_id" name="nation_id" value="<?php echo $this->row['nationid_no'];?>" type="text"></td>
-							</tr>
-					</table>
-			</fieldset>
-			</td>
-			<td width="50%" valign="top">
-				<fieldset>
-					<legend><strong><?php echo $tr->translate("PRODUCT_DESCRIPTION")?></strong></legend>
-						<table cellspacing="5"  width="100%" style="margin-top: -10px;">
-							<tr>
-								<td width="150px"><strong><?php echo $tr->translate("INVOICE_NO")?></strong></td>
-								<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" id="invoice_no" name="invoice_no" value="<?php echo $this->row['invoice_no'];?>" type="text"></td>
-							</tr>
-							<tr>
-								<td><strong><?php echo $tr->translate("PRODUCT_NAME")?></strong></td>
-								<td><input id="product_id" /><?php ////echo $frm->getElement('product_id');?></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("SELLING_PRICE")?>($)</td>
-								<td><input dojoType="dijit.form.NumberTextBox" class="fullside" id="unit_price" name="unit_price" value="<?php echo $this->row['selling_price'];?>" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("DESCRIPTION")?></td>
-								<td><input  dojoType="dijit.form.TextBox" class="fullside" id="description" name="description" value="<?php echo $this->row['description'];?>" type="text"></td>
-							</tr>
-							<tr>
-								<td><?php echo $tr->translate("SELLING_DATE")?></td>
-								<td><input constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" id="selling_date" name="selling_date" value="<?php echo $this->row['selling_date'];?>" type="text"></td>
-							</tr>
-							
-							<tr>
-								<td><?php echo $tr->translate("STATUS")?></td>
-								<td>
-									<select dojoType="dijit.form.FilteringSelect" class="fullside" name="status" id="status" >
-										<option value="1" <?php if($this->row['status']==1){echo "selected='selected'";}?>>Active</option>
-										<option value="0" <?php if($this->row['status']==0){echo "selected='selected'";}?>>Deactive</option>
-									</select>
-								</td>
-							</tr>
-							
-						</table>
-				</fieldset>
-			</td>
-		</tr>
-		<tr>
-			<td align="center" colspan="2">
-				<input type="submit" label="<?php echo $tr->translate("GO_EDIT")?>" name='savenew' id="save_new" value='savenew' dojoType="dijit.form.Button"
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+        	<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('PAWN_SALE');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+		<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'sale','action'=>'edit')); ?>" 
+						dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">			
+				if(this.validate()) {
+					return true;
+				}else {
+					return false;
+				}
+			</script>
+			<div class="card-box">
+	    		<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CLIENT_INFO");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NAME");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<select <?php if ($currentlevel!=1){ echo 'readonly="readonly"';}?> dojoType="dijit.form.FilteringSelect" name="branch_id" id="branch_id" onchange="getProductByBranch()" class="fullside" >
+								<option value=""><?php echo $tr->translate('Choose Customer');?></option>
+								<?php if(!empty($this->branch)){foreach ($this->branch as $branch){?>
+								<option value="<?php echo $branch['id']?>" <?php if($branch['id']==$this->row['branch_id']){echo "selected='selected'";}?>><?php echo $branch['name']?></option>
+								<?php }}?>
+							</select>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_NAME");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" id="customer_name" name="customer_name" value="<?php echo $this->row['customer_name'];?>" type="text">
+	                   </div>
+	                </div>	
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TEL");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.TextBox" class="fullside" id="tel" name="tel" value="<?php echo $this->row['tel'];?>" type="text">
+	                   </div>
+	                </div>	
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SEX");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+							<select dojoType="dijit.form.FilteringSelect" class="fullside" name="gender" id="gender" >
+								<option value="1" <?php if($this->row['gender']==1){echo "selected='selected'";}?>><?php echo $tr->translate("MALE");?></option>
+								<option value="2" <?php if($this->row['gender']==2){echo "selected='selected'";}?>><?php echo $tr->translate("FEMALE");?></option>
+							</select>
+	                   </div>
+	                </div>	
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DOB");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.DateTextBox" constraints="{datePattern:'dd/MM/yyyy'}" class="fullside" id="dob" name="dob" value="<?php echo $this->row['dob'];?>" type="text">
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ADDRESS");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.TextBox" class="fullside" id="address" name="address" value="<?php echo $this->row['address'];?>" type="text">
+	                   </div>
+	                </div>	
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NATION_ID");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.TextBox" class="fullside" id="nation_id" name="nation_id" value="<?php echo $this->row['nationid_no'];?>" type="text">
+	                   </div>
+	                </div>		
+	            </div>
+	            <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("PRODUCT_DESCRIPTION");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("INVOICE_NO");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" id="invoice_no" name="invoice_no" value="<?php echo $this->row['invoice_no'];?>" type="text">
+	                   </div>
+	                </div>	
+	                
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PRODUCT_NAME");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input id="product_id" /><?php ////echo $frm->getElement('product_id');?>
+	                   </div>
+	                </div>	
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SELLING_PRICE");?> ($)
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.NumberTextBox" class="fullside" id="unit_price" name="unit_price" value="<?php echo $this->row['selling_price'];?>" type="text">
+	                   </div>
+	                </div>	
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DESCRIPTION");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input  dojoType="dijit.form.TextBox" class="fullside" id="description" name="description" value="<?php echo $this->row['description'];?>" type="text">
+	                   </div>
+	                </div>	
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SELLING_DATE");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" id="selling_date" name="selling_date" value="<?php echo $this->row['selling_date'];?>" type="text">
+	                   </div>
+	                </div>	
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<select dojoType="dijit.form.FilteringSelect" class="fullside" name="status" id="status" >
+								<option value="1" <?php if($this->row['status']==1){echo "selected='selected'";}?>><?php echo $tr->translate("ACTIVE");?> </option>
+								<option value="0" <?php if($this->row['status']==0){echo "selected='selected'";}?>><?php echo $tr->translate("DEACTIVE");?> </option>
+							</select>
+	                   </div>
+	                </div>	
+	            </div>
+	        </div>
+	        <div class="clearfix"></div>
+			<div class="card-box">
+               	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+		    			<input type="submit" label="<?php echo $tr->translate("GO_EDIT")?>" name='savenew' id="save_new" value='savenew' dojoType="dijit.form.Button"
 					 iconClass="dijitIconNewTask"/>
-				<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' id="save_view"  value='savenew' dojoType="dijit.form.Button"
-					 iconClass="dijitIconNewTask"/>
-			</td>
-		</tr>	
-	</table>
-</form>
+						<input type="button" onclick="showReceipt();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' id="save_view"  value='savenew' dojoType="dijit.form.Button"
+							 iconClass="dijitIconNewTask"/>
+	    		</div>
+	    	</div>
+		</form>
+	</div>
+</div>
 
 
+<script>
+
+	function showReceipt(){
+		 dojo.byId("lb_customername").innerHTML = dijit.byId("customer_name").get('value');
+		 dojo.byId("lb_tel").innerHTML = dijit.byId("tel").get('value');
+		 dojo.byId("lb_gender").innerHTML = dijit.byId("gender").attr('displayedValue');
+		 //dojo.byId("lb_dob").innerHTML = dijit.byId("dob").get('value');
+		 //dojo.byId("lb_address").innerHTML = dijit.byId('address').get('value');
+		 dojo.byId("lb_nation_id").innerHTML =dijit.byId('nation_id').get('value');
+		 
+		 dojo.byId("lb_invoice_no").innerHTML =dijit.byId("invoice_no").get('value');
+		 dojo.byId("lb_product_id").innerHTML =dijit.byId("product_id").attr('displayedValue');
+		 dojo.byId("lb_unit_price").innerHTML = "$ " + dijit.byId("unit_price").get('value');
+		 dojo.byId("lb_description").innerHTML =dijit.byId("description").get('value');
+		 //dojo.byId("lb_selling_date").innerHTML =dijit.byId("selling_date").attr('displayedValue');
+
+		 /*
+		 dojo.byId("lb_customer_name1").innerHTML = dijit.byId("customer_name").get('value');
+		 dojo.byId("lb_tel1").innerHTML = dijit.byId("tel").get('value');
+		 dojo.byId("lb_gender1").innerHTML = dijit.byId("gender").attr('displayedValue');
+		 dojo.byId("lb_dob1").innerHTML = dijit.byId("dob").get('value');
+		 dojo.byId("lb_address1").innerHTML = dijit.byId('address').get('value');
+		 dojo.byId("lb_nation_id1").innerHTML =dijit.byId('nation_id').get('value');
+		 
+		 dojo.byId("lb_invoice_no1").innerHTML =dijit.byId("invoice_no").get('value');
+		 dojo.byId("lb_product_id1").innerHTML =dijit.byId("product_id").attr('displayedValue');
+		 dojo.byId("lb_unit_price1").innerHTML =dijit.byId("unit_price").get('value');
+		 dojo.byId("lb_description1").innerHTML =dijit.byId("description").get('value');
+		 dojo.byId("lb_selling_date1").innerHTML =dijit.byId("selling_date").attr('displayedValue');
+		 */
+		 
+		 dijit.byId("frm_receipt").show();
+	}
+	
+		
+	function hideDialog() {		
+		dijit.byId("frm_receipt").hide();
+	}	
+		
+	function printReceipt() {
+		window.frames["print_frame"].document.body.innerHTML = dojo.byId('invoicePrint').innerHTML;
+		window.frames["print_frame"].window.focus();
+		window.frames["print_frame"].window.print();
+		hideDialog();
+		dijit.byId("frm_add_tran").submit();
+	}	
+
+</script>
+<style>
+	.print tr td{
+	}
+	.myblog{display: none !important;}
+</style>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'វិក្ក័យបត្រ', onCancel:hideDialog" id="frm_receipt" style="width:1000px">
+		<div style=" width:15cm; height:21cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+			<div id="invoicePrint" class="print" style="text-align:center; widht:100% ">
+			<style>
+				.style {
+					line-height: 18px;
+					font-size: 12px !important;
+				}
+				th {
+					padding: 3px;
+				}
+				td.bill-ship-bg {
+					background: #ccc;
+					padding: 3px 10px;
+				}
+				td.tel_header p {
+					display: inline-block;
+				}
+				#boder-td{
+					border: 1px solid #000;
+				}
+				span.labelBorderBottom {
+				    border-bottom: dashed 1px #00f;
+				    min-width: 30px;
+				    display: inline-block;
+					line-height: 9px;
+					text-align: center;
+				}
+				</style>
+				<!-- header -->
+				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; ">
+					<tbody>
+						<tr style="text-align:center; line-height:16px; font-size:12px; font-family:'Khmer OS Muol Light'; ">
+							  <td align="center" valign="top" width="20%"><span><img src="<?php echo $this->baseUrl()?>/images/Filed other.zip.png" style="width: 80%;"></span>
+							  </td>
+							  <td align="center" valign="top" width="60%" ><span style="color: blue;">ព្រះរាជាណាចក្រកម្ពុជា<br>
+							  ជាតិ សាសនា ព្រះមហាក្សត្រ</span><br>
+							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 14px;">ហាងម៉ូតូ យុក សុខហួង</span>
+							  </td><p>
+							  <td align="center" valign="top" width="20%" ><span><img src="<?php echo $this->baseUrl()?>/images/honda_dream_2017.png" style="width: 80%;"></span>
+							  </td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<table  style=" text-align: center; width:100%;">
+									<tbody>
+										<tr style="text-align:center; line-height:16px; font-size:10px; font-family:'Khmer OS Muol Light';" >
+											 <td align="left" valign="top" width="20%" >
+												<span><img src="<?php echo $this->baseUrl()?>/images/honda_motorycles_st_blazey_mx.png" style="width: 70%; margin-top: 0px;"></span>
+												<div>
+													<label style="line-height: 12px; font-size:12px; color: red;">
+													Tel:&nbsp;012 72 74 04<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0888 72 74 04<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;095 75 38 44
+													</label>
+												</div>
+											 </td>
+											  <td width="60%" valign="top">
+												<span><p>មានលក់ម៉ូតូ គ្រប់ប្រភេទ នឹងមួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
+											</td>
+											  <td align="center" valign="middle" width="20%">
+												<span style="color: red; font-size:16px; font-family:'Times New Roman','Khmer OS Battambang';" id="lb_invoice_no">&nbsp;00000</span>
+											</td>
+										</tr>
+										<tr style="text-align:center; line-height:20px; color: red; font-size:14px; font-family:'Times New Roman','Khmer OS Battambang';">
+											 <td colspan="3">
+												<table  style=" text-align: left; width:100%;">
+													<tr>
+														<td width="35%" valign="top" style="line-height: 16px; font-size:12px; color: red;" >
+															<span>អាសយដ្ឋាន: ភូមិស្លរក្រាម <br />សង្កាត់ស្លរក្រាម ក្រុងសៀមរាប <br /> ស្ពានហ្រ្គងអូតែល, ផ្លូវមាត់ស្ទឹង (ខាងកើតសណ្ឋាគារអាម៉ាន់សារ៉ា)</span>
+														</td>
+														<td align="center" valign="top"><span style="color: blue; font-size: 14px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក្កយបត្រ<br />INVOICE</span></td>
+														<td width="35%" valign="top">
+															<table width="100%" border="1" cellspacing="0" align="right" style=" border-collapse:collapse; border:solid 1px #000; font-size: 10px; color: #000; ">
+																<tr align="center">
+																	<td style="width: 30%; font-size: 12px;">សៀវភៅលេខ</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																</tr>
+																<tr align="center">
+																	<td style="width: 30%; font-size: 12px;">បង្កាន់ដៃពន្ឋលេខ</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																</tr>
+																<tr align="center">
+																	<td style="width: 30%; font-size: 12px;">ស្លាកលេខ</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" align="left"  style="line-height: 16px; font-size:12px; color: blue;">
+							បានលក់ជូន អតិថិជនឈ្មោះ<span class="labelBorderBottom" style="min-width: 50%;"><span class="labelValue" id="lb_customername"></span></span>ភេទ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="lb_gender">&nbsp;</span></span>អាយុ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="">&nbsp;</span></span>
+							លេខអត្តសញ្ញាណប័ណ្ណ<span class="labelBorderBottom" style="min-width: 40%;"><span class="labelValue" id="lb_nation_id"></span></span>ភូមិ<span class="labelBorderBottom" style="min-width: 35%;"><span class="labelValue" id="LBclientVillage"></span></span>
+							ឃុំ<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientComune"></span></span>ស្រុក<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientDistrict"></span></span>ខេត្ត<span class="labelBorderBottom" style="min-width: 27.5%;"><span class="labelValue" id="LBclientProvince"></span></span>
+							លេខទូរស័ព្ទ<span class="labelBorderBottom" style="min-width: 87.5%;"><span class="labelValue" id="lb_tel"></span></span>
+							</td>		
+						</tr>
+						<tr>
+							<td colspan="3" style="text-align:left;">
+								
+								<table id="exportExcel" border="1"  style="border-collapse: collapse; border:solid 1px #000;   font-size: 10px; white-space: normal;" width="100%" cellspacing="0">
+									<thead>
+										<tr class="style" align="center" style=" font-family:'Times New Roman','Khmer OS Muol Light'; background-color: #1E8449; color: #ffffff; padding: 2px 0px">
+											<td>&nbsp;ប្រភេទ<br>MODEL&nbsp;</td>
+											<td style="min-width: 100px;">&nbsp;តម្លៃ<br>PRICE&nbsp;</td>
+											<td>&nbsp;បរិយាយ<br>DESCRIPTION&nbsp;</td>
+										</tr>		
+									</thead>
+									<tbody>	
+										<tr style="line-height:16px; font-size:10px; ">
+											<td align="center">&nbsp;<span id="lb_product_id"></span>&nbsp;</td>
+											<td align="center">&nbsp;<span id="lb_unit_price"></span>&nbsp;</td>
+											<td align="center">&nbsp;<span id="lb_description"></span>&nbsp;</td>
+										</tr>
+										 <tr style="line-height:16px; font-size:10px; " >
+											<td align="center">&nbsp;&nbsp;</td>
+											<td align="center">&nbsp;&nbsp;</td>
+											<td align="center">&nbsp;&nbsp;</td>
+										</tr>
+										<tr style="line-height:16px; font-size:10px; " >
+											<td align="center">&nbsp;&nbsp;</td>
+											<td align="center">&nbsp;&nbsp;</td>
+											<td align="center">&nbsp;&nbsp;</td>
+										</tr>
+										<tr style="line-height:16px; font-size:12px; " >
+											<td valign="top"  rowspan="3" style="border-left: 1px solid #ffffff; border-bottom:#fff solid 1px; padding: 5px 3px;">
+												<p style="font-size: 10px; text-align: left; line-height: 22px;  color: red;  font-family:'Times New Roman','Khmer OS Muol Light';">
+												<span style="text-decoration: underline;">ចំណាំៈ</span>
+												&nbsp;-អតិថិជនបានពិនិត្យ ត្រឹមត្រូវរួចហើយ
+												<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-ទំនិញទិញហើយមិនអាចដូរវិញបានទេ
+												<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-NO REFUND
+												</p>
+											</td>	
+											<td colspan="1" align="right" style="font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">សរុប/TOTAL:&nbsp;&nbsp;</td>
+											<td align="right"  style="font-size:14px; line-height:28px; background-color: #D2B4DE; " >&nbsp;<span id="lb_unit_price"></span>&nbsp;</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" align="right">
+								<span style="color: blue; font-size: 10px; text-align: right; font-family:'Times New Roman','Khmer OS Battambang';"><p></p></span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" align="center">
+								<table  style=" text-align: center; width:100%;">
+									<tr style="font-size: 10px;">
+										<td style="width:50%; color: blue; text-align:center; font-size: 12px; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;"><td>&nbsp;</td>
+										<td style=" width:50%; color: blue; text-align:center; font-size: 12px; font-weight:200;">ថ្ងៃ ទី<span class="labelBorderBottom" style="min-width: 25%;"><span class="labelValue" id="LBDate"></span></span>ខែ<span class="labelBorderBottom" style="min-width: 25%;"><span class="labelValue" id="LBMonth"></span></span>ឆ្នាំ <span class="labelBorderBottom" style="min-width: 15%;"><span class="labelValue" id="LBYear"></span></span></td>
+								   </tr>
+									<tr style="font-size: 10px;">
+										<td style="width:50%; color: blue; text-align:center; font-size: 10px; font-family:'Times New Roman','Khmer OS Muol Light';font-weight:200;white-space: nowrap; ">ស្នាមមេដៃអ្នកទិញ  / <strong>CUSTOMER'S THUMB PRINT</strong><td>&nbsp;</td>
+										<td style=" width:50%; color: blue; text-align:center; font-size: 10px; font-family:'Times New Roman','Khmer OS Muol Light';font-weight:200;">ហេត្ថលេខាអ្នកលក់ / <strong>SELLER'S SIGNATURE</strong></td>
+								   </tr>
+								</table>
+							</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<table widht="100%" >
+			<tr>
+				<td colspan="3" align="center">
+					<input type="button" onclick="hideDialog();" label="<?php echo $tr->translate("CLOSE");?>" id='close' name='close' value='close' dojoType="dijit.form.Button"
+						iconClass="dijitIconClose"/>
+					<input type="button" onclick="printReceipt();" label="<?php echo $tr->translate("SAVE_PRINT");?>" id='saveprint' name='saveprint' value='saveprint' dojoType="dijit.form.Button"
+						iconClass="dijitIconNewTask"/>
+				</td>
+			</tr>
+		</table>
+	</div>
+ </div>
 <script type="text/javascript">
 dojo.require("dojo.data.ItemFileWriteStore"); 
 dojo.require("dojo.NodeList-manipulate");
@@ -235,9 +514,6 @@ function getDayName(day){
 	    weekday[5] = "សុក្រ";
 	    weekday[6] = "សៅរ៍";
 	    return weekday[day];
-}
-function hideDialog() {		
-	dijit.byId("frm_client").hide();
 }
 function loading(){
     document.getElementsByClassName("overlay")[0].style.display="block";
