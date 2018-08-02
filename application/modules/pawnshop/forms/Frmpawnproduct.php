@@ -63,9 +63,9 @@ Class Pawnshop_Form_Frmpawnproduct extends Zend_Dojo_Form {
 		
 		$_display=  new Zend_Form_Element_Textarea('description');
 		$_display->setAttribs(array(
-				//'dojoType'=>'dijit.form.Textarea',
+				'dojoType'=>'dijit.form.Textarea',
 				'class'=>'fullside',
-				'style'=>'height:125px !important;'));
+				'style'=>'min-height:100px !important;'));
 	
 		$date_call = new Zend_Dojo_Form_Element_DateTextBox('date');
 		$date_call->setAttribs(array(
