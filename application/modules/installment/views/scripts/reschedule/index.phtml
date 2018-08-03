@@ -9,30 +9,61 @@
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dojo.data.ItemFileWriteStore"); 
 </script>
-<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
-   <table width="100%">
-	   <tr>  
-	        <td><?php echo $frm->getElement("adv_search");?></td>
-	   		<td> <?php echo $frm->getElement('branch_id');?></td>
-	   		<td><?php echo $frm->getElement("member");?></td>
-	   		<td><?php echo $frm->getElement("repayment_method");?></td>
-	   		<td><input id="category_id" /></td>
-	   </tr>
-	   <tr>
-	   		<td><select dojoType="dijit.form.FilteringSelect" class="fullside"  name="selling_type" id="selling_type" >
- 					<option value="-1"><?php echo $tr->translate('ជ្រើសរើសប្រភេទលក់');?></option>
- 					<option value="1"><?php echo $tr->translate('ទិញដាច់');?></option>
- 					<option value="2"><?php echo $tr->translate('បង់រំលស់');?></option>
- 				</select>
- 			</td>
-	   		<td><?php echo $frm->getElement('start_date');?></td>
-	   		<td><?php echo $frm->getElement('end_date');?></td>
-	   		<td><?php echo $frm->getElement('status');?></td>
-	   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-	   </tr>
-	</table>
-</form>
-	<?php echo $this->list;?>
+<div class="card pb-10 pt-10 pl-10 pr-10">
+	<div class="card-content collapse show">
+    	<div class="card-box">
+    		<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+			   <div class="form-group">
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement("adv_search");?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('branch_id');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement("member");?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement("repayment_method");?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<input id="category_id" />
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   		</div>
+			   	</div>
+			   	<div class="form-group">
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<select dojoType="dijit.form.FilteringSelect" class="fullside"  name="selling_type" id="selling_type" >
+		 					<option value="-1"><?php echo $tr->translate('ជ្រើសរើសប្រភេទលក់');?></option>
+		 					<option value="1"><?php echo $tr->translate('ទិញដាច់');?></option>
+		 					<option value="2"><?php echo $tr->translate('បង់រំលស់');?></option>
+		 				</select>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('start_date');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('end_date');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('status');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   		</div>
+			   	</div>
+			</form>
+    	</div>
+    	<div class="card-box">
+    		<?php echo $this->list;?>
+    	</div>
+    </div>
+</div>
+
+	
 <script>
 	function getmemberIdGroup(){
 		customer_code= dijit.byId('customer_code').get('value');

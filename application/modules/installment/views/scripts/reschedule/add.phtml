@@ -1,9 +1,10 @@
 <?php
-	$this->headTitle('Edit Installment'); 
-	echo $this->headTitle();
+	
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	$this->headTitle($tr->translate('LOAN_RESCHEDULE'));
+	echo $this->headTitle();
 ?>
 <div class="overlay">
 	<div class="overlay-load">
@@ -17,155 +18,216 @@
 		dojo.require("dojo.data.ItemFileWriteStore"); 
 		dojo.require("dojo.data.ObjectStore");
    </script>
-<form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-		<script type="dojo/method" event="onSubmit">			
-		if(this.validate()) {
-		   client = dijit.byId('member').get('value');
-           branch_id = dijit.byId('branch_id').get('value');
-		    if (branch_id=='' || branch_id==-1){
-		  	   alert('Please Select Branch Name!');
-			   dijit.byId('branch_id').focus();
-			   return false;
-		    }
-			if (client=='' || client==-1){
-				alert('Please Select Client Name !');
-				dijit.byId('member').focus();
-				return false;
-			}
-			    dijit.byId('saveclose').set('disabled',true);
-				return true;
-			}else {
-				return false;
-			}
-	</script>
-<fieldset style="background: #e0ebff">
-<table width="100%" style="margin-top:0px;" cellspacing="10">
-     <legend class="mainblog" ><strong><?php echo $tr->translate("LOAN_RESCHEDULE")?></strong></legend>
-	<tr>
-		<td width="33%;" valign="top">
-			 <fieldset >
-				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
-						<tr>
-					        <td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php echo $frm->getElement('branch_id');?>
-								<input type="hidden" name="id" id="id" value="<?php echo $this->datarow['id'];?>" />
-							</td>
-					    </tr>
-					    <tr>
-					 		<td><?php echo $tr->translate('SALE_NO');?></td>
-					 		<td><input id="sale_no" /></td>
-					 	</tr>
-					    <tr >
-							<td><?php echo $tr->translate("CLIENT_NUM")?></td>
-							<td><input id="customer_code" /></td>
-						</tr>
-						<tr>
-							<td><strong><?php echo $tr->translate("CUSTOMER_NAME")?></strong></td>
-							<td><input id="member" />
-							</td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td>
-								<input dojoType="dijit.form.TextBox" class="fullside" name="note" id="note" >
-							</td>
-						</tr>
-						<tr>
-					 		<td><strong><?php echo $tr->translate('CATEGORY');?></strong></td>
-					 		<td><input id="category_id" /></td>
-					 	</tr>
-					 	<tr>
-					 		<td><strong><?php echo $tr->translate('ITEM_NAME');?></strong></td>
-					 		<td><input id="product_name" />
-					 			<input type="hidden" name="old_prodcut" value="<?php echo $this->datarow['product_id'];?>" />
-					 		</td>
-					 	</tr>
-				</table>
-			</fieldset>	
-		</td>
-		<td width="33%;" valign="top">
-			 <fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("PAYMENT_INFO")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
-						<tr>
-					 		<td><strong><?php echo $tr->translate('DAY_PAYMENT');?></strong></td>
-					 		<td><input constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="paid_date" id="paid_date" ></td>
-					 	</tr>
-					 	<tr>
-					 		<td><?php echo $tr->translate('TOTAL_PAYMENTED');?></td>
-					 		<td><input dojoType="dijit.form.NumberTextBox" class="fullside" name="paid_amount" id="paid_amount" value="" type="text"></td>
-					 	</tr>
-						<tr>
-					 		<td><strong><?php echo $tr->translate('RESCHEDULE_DATE');?></strong></td>
-					 		<td><input onchange="setFirstPaymentAndDateLine();" constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="date_sold" id="date_sold" ></td>
-					 	</tr>
-						<tr>
-					 		<td><strong><?php echo $tr->translate('LOANOUTSTADING');?></strong></td>
-					 		<td><input readonly required="1" dojoType="dijit.form.NumberTextBox" class="fullside"  name="outstanding" id="outstanding" value="" type="text"></td>
-					 	</tr>
-					 	<tr>
-					 		<td><strong><?php echo $tr->translate('MORE_LOAN');?></strong></td>
-					 		<td><input onkeyup="calCulateBalane();" dojoType="dijit.form.NumberTextBox" required="1" class="fullside"  name="extra_loan" id="extra_loan" value="" type="text" onkeyup="calCulateBalane();" ></td>
-					 	</tr>
-					 	<tr>
-					 		<td><?php echo $tr->translate('NOTE');?></td>
-					 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="noted" id="noted" >
-					 			<input type="hidden" name="selling_type" id="selling_type" value="2" />
-					 		</td>
-					 	</tr>
-					 	<tr>
-					 		<td><strong><?php echo $tr->translate('TOTAL_AMOUNT');?></strong></td>
-					 		<td><input dojoType="dijit.form.NumberTextBox" class="fullside" readonly="readonly" name="balance" id="balance" value="" type="text"></td>
-					 	</tr>
-				</table>
-			</fieldset>	
-		</td>
-		<td width="33%;" valign="top">
-			<fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;white-space: nowrap;" cellspacing="5"  >
-					 	 <tr>
-					 		<td><?php echo $tr->translate('អាត្រាការប្រាក់(%)');?></td>
-					 		<td><input onkeyup="setDefaultPaymentAmount();"  dojoType="dijit.form.NumberTextBox" class="fullside"  name="interest_rate" id="interest_rate" ></td>
-					 	</tr>
-					 	<tr>
-					 		<td><?php echo $tr->translate('រយៈពេលខ្ចី(ខែ)');?></td>
-					 		<td><input onkeyup="calCulateFirstPayment();" dojoType="dijit.form.NumberTextBox" class="fullside"  name="duration" id="duration" ></td>
-					 	</tr>
-					 	<tr>
-					    	<td><strong><?php echo $tr->translate("REPAYMENT_TYPE")?></strong></td>
-							<td><?php echo $frm->getElement('repayment_method');?></td>
-					     </tr>
-					     <tr>
-					    	<td><?php echo $tr->translate("AMOUNT_GRAICE_PARIOD")?></td>
-							<td><input readonly dojoType="dijit.form.NumberTextBox" class="fullside" name="fixed_payment" id="fixed_payment" ></td>
-					     </tr>
-					 	<tr>
-					 		<td><?php echo $tr->translate('ថ្ងៃបង់ប្រាក់ដំបូង');?></td>
-					 		<td><input onchange="calCulateEndDate();" constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="first_payment" id="first_payment" ></td>
-					 	</tr>
-					 	<tr>
-					 		<td><?php echo $tr->translate('ថ្ងៃបញ្ចប់');?></td>
-					 		<td><input constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="date_line" id="date_line" ></td>
-					 	</tr>
-				</table>
-			</fieldset>	
-		</td>
-	</tr>
-	<tr>
-		<td align="center" colspan="4">
-			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
-				 iconClass="dijitIconClear"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
-				 iconClass="dijitIconDelete"/>
-			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW_SCHEDULE")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
-				 iconClass="dijitIconNewTask"/>
-		</td>
-	</tr>	
-</table>
-</fieldset>
-</form>
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+        	<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('LOAN_RESCHEDULE');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+		<form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">			
+					if(this.validate()) {
+		   				client = dijit.byId('member').get('value');
+          		 		branch_id = dijit.byId('branch_id').get('value');
+		    			if (branch_id=='' || branch_id==-1){
+		  	   				alert('Please Select Branch Name!');
+			   				dijit.byId('branch_id').focus();
+			   				return false;
+		    			}
+						if (client=='' || client==-1){
+							alert('Please Select Client Name !');
+							dijit.byId('member').focus();
+							return false;
+						}
+			    		dijit.byId('saveclose').set('disabled',true);
+						return true;
+				}else {
+					return false;
+				}
+			</script>
+			<div class="card-box">
+	    		<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CUSTOMER_INFO");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NAME");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('branch_id');?>
+							<input type="hidden" name="id" id="id" value="<?php echo $this->datarow['id'];?>" />
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SALE_NO");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input id="sale_no" />
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CLIENT_NUM");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input id="customer_code" />
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_NAME");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input id="member" />
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.TextBox" class="fullside" name="note" id="note" >
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CATEGORY");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input id="category_id" />
+	                   </div>
+	                </div>
+	                 <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ITEM_NAME");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input id="product_name" />
+					 		<input type="hidden" name="old_prodcut" value="<?php echo $this->datarow['product_id'];?>" />
+	                   </div>
+	                </div>
+	                
+	           </div>
+	           <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("PAYMENT_INFO");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DAY_PAYMENT");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="paid_date" id="paid_date" >
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TOTAL_PAYMENTED");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.NumberTextBox" class="fullside" name="paid_amount" id="paid_amount" value="" type="text">
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("RESCHEDULE_DATE");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input onchange="setFirstPaymentAndDateLine();" constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="date_sold" id="date_sold" >
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("LOANOUTSTADING");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input readonly required="1" dojoType="dijit.form.NumberTextBox" class="fullside"  name="outstanding" id="outstanding" value="" type="text">
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("MORE_LOAN");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input onkeyup="calCulateBalane();" dojoType="dijit.form.NumberTextBox" required="1" class="fullside"  name="extra_loan" id="extra_loan" value="" type="text" onkeyup="calCulateBalane();" >
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.TextBox" class="fullside" name="noted" id="noted" >
+				 			<input type="hidden" name="selling_type" id="selling_type" value="2" />
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TOTAL_AMOUNT");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input dojoType="dijit.form.NumberTextBox" class="fullside" readonly="readonly" name="balance" id="balance" value="" type="text">
+	                   </div>
+	                </div>
+	           </div>
+	           <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("INFO_FUND");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("អាត្រាការប្រាក់(%)");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input onkeyup="setDefaultPaymentAmount();"  dojoType="dijit.form.NumberTextBox" class="fullside"  name="interest_rate" id="interest_rate" >
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("រយៈពេលខ្ចី(ខែ)");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input onkeyup="calCulateFirstPayment();" dojoType="dijit.form.NumberTextBox" class="fullside"  name="duration" id="duration" >
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("REPAYMENT_TYPE");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('repayment_method');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("AMOUNT_GRAICE_PARIOD");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input readonly dojoType="dijit.form.NumberTextBox" class="fullside" name="fixed_payment" id="fixed_payment" >
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់ដំបូង");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input onchange="calCulateEndDate();" constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="first_payment" id="first_payment" >
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ថ្ងៃបញ្ចប់");?> 
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="date_line" id="date_line" >
+	                   </div>
+	                </div>
+	           </div>
+	        </div>
+	        <div class="clearfix"></div>
+			<div class="card-box">
+             	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+		    			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
+							 iconClass="dijitIconClear"/>
+						<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
+							 iconClass="dijitIconDelete"/>
+						<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW_SCHEDULE")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+							 iconClass="dijitIconNewTask"/>
+	    		</div>
+	    	</div>
+		</form>
+	</div>
+</div>
 <div class="dijitHidden">
 <style>
 .print tr td{

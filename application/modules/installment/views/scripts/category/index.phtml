@@ -1,4 +1,13 @@
 <?php 
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->list;
+	echo $this->headTitle($tr->translate('CATEGORY'));
 ?>
+<div class="card pb-10 pt-10 pl-10 pr-10">
+	<div class="card-content collapse show">
+    	<div class="card-box">
+    	</div>
+    	<div class="card-box">
+    	<?php echo $this->list;?>
+    	</div>
+    </div>
+</div>
