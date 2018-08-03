@@ -4,9 +4,20 @@
 	$this->headTitle($tr->translate('Withdrawal'));
 	echo $this->headTitle();
 	$frm = $this->frm;
-?>	
-<form id='frm_add_exch' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-	<script type="dojo/method" event="onSubmit">			
+?>
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+        	<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('Withdrawal');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>	
+		<form id='frm_add_exch' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if($('#identity').val()==""){
 					alert('<?php echo $tr->translate("Empty Capital Currency To Witdrawal")?>');
@@ -18,30 +29,34 @@
 			} else {
 				return false;
 			}
-	</script>
-	
-	<fieldset>
-		<table cellspacing="10" >
-			<legend class="mainblog" align="center"><strong><?php echo $tr->translate('Withdrawal');?></strong></legend>
-			<tr>
-				<td width="30%" valign="top">
-					<fieldset>
-					     <legend align="center"><strong><?php echo $tr->translate('Agent Information');?></strong></legend>
-							<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
-							    <tr>
-									<td><?php echo $tr->translate("Agent Name")?></td>
-									<td><?php echo $frm->getElement('agent_id');?></td>
-							    </tr>
-						    	<tr >
-									 <td><?php echo $tr->translate("Currency")?></td>
-									 <td><?php echo $frm->getElement('currency');?></td>
-								</tr>
-							</table>
-					</fieldset>	
-				</td>
-				<td width="70%" valign="top">
-					<fieldset style="    padding: 10px;">
-					     <legend align="center"><strong><?php echo $tr->translate('Withdrawal Information');?></strong></legend>
+			</script>
+			<div class="card-box">
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Agent Information");?> 
+	                   </label>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Agent Name");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('agent_id');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Currency");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('currency');?>
+	                   </div>
+	                </div>
+	           </div>
+	           <div class="col-md-8 col-sm-8 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Despite Capital Information");?> 
+	                   </label>
+	                </div>
+	                <div class="form-group">
 						 	<table style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;" >
 						 		<thead>
 						 			<tr id="head-title" class="head-td">
@@ -54,25 +69,25 @@
 								<tbody id="table_row" >
 									
 								</tbody>
-							
 						</table>
-					</fieldset>
-					<input type="hidden" name="identity" id="identity"  value="" >
-				</td>
-			</tr>
-			<tr>
-				<td align="center" colspan="3">
-					<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
+						<input type="hidden" name="identity" id="identity"  value="" >
+	                </div>
+	           </div>
+	       </div>
+	       <div class="card-box">
+				<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+	    			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 					 iconClass="dijitIconClear"/>
 					<input type="submit"  label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
 					 iconClass="dijitIconDelete"/>
 					<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"
 					 iconClass="dijitIconNewTask"/>
-				</td>
-			</tr>	
-</table>
-</fieldset>
-</form>
+	    		</div>
+			</div>
+		</form>
+	</div>
+</div>
+	
 <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'<?php echo $tr->translate("DO_YOU_WANT_TO_DEL")?>'"  id="deleteForm" style="width:350px;" >
 		<div style=" text-align: center;">
@@ -131,7 +146,9 @@
 					 if(arrays!=""){
 					
 						 for(var i=0;i< arrays.length;i++) {
-							 if(arrays[i]==currency){
+							 ///alert(arrays[i]+" "+currency)
+							 readychoose = dijit.byId('currency_id'+arrays[i]).get('value');
+							 if(readychoose==currency){
 									alert("<?php echo $tr->translate("Choosen ready")?>");
 								 return false;
 							 }

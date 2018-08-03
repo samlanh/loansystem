@@ -11,8 +11,19 @@ dojo.require('dijit.form.Button');
 dojo.require('dijit.form.NumberTextBox');
 dojo.require("dijit.Dialog");
 </script>
-<form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-	<script type="dojo/method" event="onSubmit">			
+ <div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+        	<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('Add Currency Exchange');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+		<form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if(chInOutCurrency==1){
 					dijit.byId('in_cur_id').focus();
@@ -24,68 +35,84 @@ dojo.require("dijit.Dialog");
 			}else {
 				return false;
 			}
-	</script>
-	<fieldset>
-	<table cellspacing="10" class='fullside' >
-		<legend class="mainblog" align="center"><strong><?php echo $tr->translate('Add Currencty Exchange');?></strong></legend>
-		<tr>
-			<td width="33%;" valign="top">
-			<fieldset>
-			     <legend align="center"><strong><?php echo $tr->translate('Currency Information');?></strong></legend>
-				<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
-					<tr id="error"  style="display: none;">
-						<td colspan="2"><label id="lbl_message" style="color: #F44336;" ><?php echo $tr->translate("ការប្ដូរប្រាក ពីប្រាក់ ទៅប្រាក់នេះមានរួចហើយ");?></label></td>
-					</tr>
-				    <tr>
-						 <td><?php echo $tr->translate("ពីប្រាក់")?></td>
-						 <td><?php echo $frm->getElement('in_cur_id');?></td>
-				    </tr>
-					<tr>
-				  		  <td><?php echo $tr->translate("ទៅប្រាក់")?></td>
-						  <td><?php echo $frm->getElement('out_cur_id');//echo $frm->getElement('for_date');?></td>
-				    </tr>			    
-				  <?php $sq =0; if ($sq==1){?>
-				   <tr>
-						  <td><?php echo $tr->translate("STATUS")?></td>
-						  <td><?php echo $frm->getElement('active');?></td>
-					</tr>
-				  <?php }?>
-				</table>
-			</fieldset>	
-			</td>
-			<td width="33%;" valign="top">
-			<fieldset>
-			     <legend align="center"><strong><?php echo $tr->translate('Exchange Rate Information');?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
-				 	<tr >
-						 <td><?php echo $tr->translate("ទិញចូល")?></td>
-						 <td><?php echo $frm->getElement('rate_in');?></td>
-					</tr>
-					<tr>
-						  <td><?php echo $tr->translate("លក់ចេញ")?></td>
-						  <td><?php echo $frm->getElement('rate_out');?></td>
-					</tr>
-					<tr>
-						<td><?php echo $tr->translate("អត្រាកណ្តាល")?></td>
-						<td><?php echo $frm->getElement('spread');?></td>
-					</tr>
-				</table>
-			</fieldset>
-			</td>
-		</tr>
-		<tr>
-			<td align="center" colspan="3">
-			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
+			</script>
+			<div class="card-box">
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Currency Information");?> 
+	                   </label>
+	                </div>
+	                <div id="error"  style="display: none;" class="form-group">
+	                   <label id="lbl_message" style="color: #F44336;"  class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("ការប្ដូរប្រាក ពីប្រាក់ ទៅប្រាក់នេះមានរួចហើយ");?> 
+	                   </label>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ពីប្រាក់");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('in_cur_id');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ទៅប្រាក់");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('out_cur_id');//echo $frm->getElement('for_date');?>
+	                   </div>
+	                </div>
+	                <?php $sq =0; if ($sq==1){?>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('active');?>
+	                   </div>
+	                </div>
+	                 <?php }?>
+	             </div>
+	             
+	             
+	             <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Exchange Rate Information");?> 
+	                   </label>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ទិញចូល");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('rate_in');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("លក់ចេញ");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('rate_out');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("អត្រាកណ្តាល");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('spread');?>
+	                   </div>
+	                </div>
+	             </div>
+	        </div>
+	        <div class="card-box">
+				<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+	    			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 					 iconClass="dijitIconClear"/>
-				<input type="submit"   label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose'​​ value='saveclose' dojoType="dijit.form.Button"
-					 iconClass="dijitIconDelete"/>
-				<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"
-					 iconClass="dijitIconNewTask"/>
-			</td>
-		</tr>	
-	</table>
-	</fieldset>
-</form>
+					<input type="submit"   label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose'​​ value='saveclose' dojoType="dijit.form.Button"
+						 iconClass="dijitIconDelete"/>
+					<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"
+						 iconClass="dijitIconNewTask"/>
+	    		</div>
+			</div>
+		</form>
+	</div>
+</div>
 <script>
 	function calculateSpread(){
 		rate_in = dijit.byId('rate_in').get('value');

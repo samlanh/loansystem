@@ -4,11 +4,17 @@
 	$this->headTitle($tr->translate('Spread Rate page'));
 	echo $this->headTitle();
 ?>	
-<table>
-	<tr>
-		<td><button onClick="location.href = '<?php echo $this->baseUrl()."/tellerandexchange/spread/quickchange";?>';" iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("Exchange Rate Board");?></button></td>
-	</tr>
-</table>
-<?php 
-echo $this->list;
-?>
+<div class="card pb-10 pt-10 pl-10 pr-10">
+	<div class="card-content collapse show">
+		<div class="card-box">
+			<div class="form-group">
+   				<div class="col-md-2 col-sm-2 col-xs-12">
+   					<button onClick="location.href = '<?php echo $this->baseUrl()."/tellerandexchange/spread/quickchange";?>';" iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("Exchange Rate Board");?></button>
+   				</div>
+   			</div>	
+		</div>
+		<div class="card-box">
+			<?php echo $this->list;?>
+		</div>
+	</div>
+</div>
