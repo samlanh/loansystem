@@ -11,7 +11,6 @@ dojo.require('dijit.form.NumberTextBox');
 dojo.require("dijit.Dialog");
 </script>
 <style>
-<!--
 	.tbtable{		
 		text-align: center;
 		font-size: 2em;	
@@ -74,88 +73,100 @@ dojo.require("dijit.Dialog");
     background: inherit !important;
     text-align: center;
 }
--->
 </style>
-<form id='frm_add_exch' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-	<script type="dojo/method" event="onSubmit">			
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+        	<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('ព៌ត័មាន ទាក់​ទង នឹង​ អត្រាប្តូរប្រាក់');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+    	<div class="card-box">
+			<form id='frm_add_exch' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+				<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				return true;
 			} else {
 				return false;
 			}
-	</script>	 
-	
-	<table width="100%"  >
-		<tr>
-			<td width="100%" valign="top">	
-				<fieldset class="panel" style="padding:10px;">
-					<legend><strong>ព៌ត័មាន ទាក់​ទង នឹង​ អត្រាប្តូរប្រាក់</strong></legend>			
-					<table class="tbtable" style="margin:10px auto; width: 100%; border-collapse: collapse;" cellspacing='0' border="1">									
-						<tr class="tbheader">
-							<th class="col-symbol">និមិត្តសញ្ញា</th>
-							<th class="col-input">អត្រា​ទិញចូល</th>
-							<th class="col-input">អត្រា​ប្រាក់កណ្តាល</th>
-							<th class="col-input">អត្រា​លក់ចេញ</th>
-						</tr>
-						<?php $i=1; if (!empty($this->allExchangeRate)) foreach ($this->allExchangeRate as $rs){
-							$class="second";
-							if ($i==1){
-								$i=0;
-								$class="first";
-							}else {
-								$i = 1;
-							}
-							?>
-						<tr class="<?php echo $class;?>">
-							<td><?php echo $rs['fromCurrSysm']." - ".$rs['toCurrSysm']?></td>
-							<td>
-								<input type="text" name="rateIn<?php echo $rs['id'];?>" id="rateIn<?php echo $rs['id'];?>"  data-dojo-type="dijit.form.NumberTextBox"
-									data-dojo-props="required:true,																		
-									name:'rateIn<?php echo $rs['id'];?>',
-									id:'rateIn<?php echo $rs['id'];?>',	
-									class:'input-inner bgCont',								
-									value:'<?php echo number_format($rs['rate_in'],2)?>',
-									constraints:{pattern:'#,###.##'},
-									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
-									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
-							</td>
-							<td>
-								<input type="text" name="spread<?php echo $rs['id'];?>" id="spread<?php echo $rs['id'];?>"  data-dojo-type="dijit.form.NumberTextBox"
-									data-dojo-props="required:true,																		
-									name:'spread<?php echo $rs['id'];?>',
-									id:'spread<?php echo $rs['id'];?>',	
-									class:'input-inner bgCont',								
-									value:'<?php echo number_format($rs['spread'],2)?>',
-									constraints:{pattern:'#,###.##'},
-									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
-									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
-							</td>
-							<td>
-								<input type="text" name="rateOut<?php echo $rs['id'];?>" id="rateOut<?php echo $rs['id'];?>"  data-dojo-type="dijit.form.NumberTextBox"
-									data-dojo-props="required:true,																		
-									name:'rateOut<?php echo $rs['id'];?>',
-									id:'rateOut<?php echo $rs['id'];?>',	
-									class:'input-inner bgCont',								
-									value:'<?php echo number_format($rs['rate_out'],2)?>',
-									constraints:{pattern:'#,###.##'},
-									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
-									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
-							</td>
-						</tr>
-						<?php }?>
-					</table>
-					<div style="text-align: center; margin: 10px 0px;">
-						<input type="reset" value="<?php echo $tr->translate("RESET");?>" label="<?php echo $tr->translate("RESET");?>" id="resetButton" dojoType="dijit.form.Button"/>
-						<input type="submit" value="<?php echo $tr->translate("GO_SAVE");?>" label="<?php echo $tr->translate("GO_SAVE");?>" id="submitButton" dojoType="dijit.form.Button"  />
-						<input type="button" value="<?php echo $tr->translate("PRINT");?>" label="<?php echo $tr->translate("PRINT");?>" id="busyButton" dojoType="dijit.form.Button" 
-							iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showDialog();"/> 	
-					</div>	
-				</fieldset>
-			</td>
-						
-		</tr>		
-	</table>
-</form>
+			</script>	 
+				<table width="100%"  >
+					<tr>
+						<td width="100%" valign="top">	
+								<table class="tbtable" style="margin:10px auto; width: 100%; border-collapse: collapse;" cellspacing='0' border="1">									
+									<tr class="tbheader">
+										<th class="col-symbol">និមិត្តសញ្ញា</th>
+										<th class="col-input">អត្រា​ទិញចូល</th>
+										<th class="col-input">អត្រា​ប្រាក់កណ្តាល</th>
+										<th class="col-input">អត្រា​លក់ចេញ</th>
+									</tr>
+									<?php $i=1; if (!empty($this->allExchangeRate)) foreach ($this->allExchangeRate as $rs){
+										$class="second";
+										if ($i==1){
+											$i=0;
+											$class="first";
+										}else {
+											$i = 1;
+										}
+										?>
+									<tr class="<?php echo $class;?>">
+										<td><?php echo $rs['fromCurrSysm']." - ".$rs['toCurrSysm']?></td>
+										<td>
+											<input type="text" name="rateIn<?php echo $rs['id'];?>" id="rateIn<?php echo $rs['id'];?>"  data-dojo-type="dijit.form.NumberTextBox"
+												data-dojo-props="required:true,																		
+												name:'rateIn<?php echo $rs['id'];?>',
+												id:'rateIn<?php echo $rs['id'];?>',	
+												class:'input-inner bgCont',								
+												value:'<?php echo number_format($rs['rate_in'],2)?>',
+												constraints:{pattern:'#,###.##'},
+												missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
+												invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
+										</td>
+										<td>
+											<input type="text" name="spread<?php echo $rs['id'];?>" id="spread<?php echo $rs['id'];?>"  data-dojo-type="dijit.form.NumberTextBox"
+												data-dojo-props="required:true,																		
+												name:'spread<?php echo $rs['id'];?>',
+												id:'spread<?php echo $rs['id'];?>',	
+												class:'input-inner bgCont',								
+												value:'<?php echo number_format($rs['spread'],2)?>',
+												constraints:{pattern:'#,###.##'},
+												missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
+												invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
+										</td>
+										<td>
+											<input type="text" name="rateOut<?php echo $rs['id'];?>" id="rateOut<?php echo $rs['id'];?>"  data-dojo-type="dijit.form.NumberTextBox"
+												data-dojo-props="required:true,																		
+												name:'rateOut<?php echo $rs['id'];?>',
+												id:'rateOut<?php echo $rs['id'];?>',	
+												class:'input-inner bgCont',								
+												value:'<?php echo number_format($rs['rate_out'],2)?>',
+												constraints:{pattern:'#,###.##'},
+												missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
+												invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
+										</td>
+									</tr>
+									<?php }?>
+								</table>
+						</td>
+									
+					</tr>		
+				</table>
+				<div class="card-box">
+				<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+	    			<input type="reset" value="<?php echo $tr->translate("RESET");?>" label="<?php echo $tr->translate("RESET");?>" id="resetButton" dojoType="dijit.form.Button"/>
+					<input type="submit" value="<?php echo $tr->translate("GO_SAVE");?>" label="<?php echo $tr->translate("GO_SAVE");?>" id="submitButton" dojoType="dijit.form.Button"  />
+					<input type="button" value="<?php echo $tr->translate("PRINT");?>" label="<?php echo $tr->translate("PRINT");?>" id="busyButton" dojoType="dijit.form.Button" 
+						iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showDialog();"/> 
+	    		</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
 <?php 
 $url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcodevss"),null,true);
 ?>

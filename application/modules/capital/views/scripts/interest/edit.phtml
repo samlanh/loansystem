@@ -1,6 +1,7 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm;
+echo $this->headTitle($tr->translate("ADD_OTHER_INCOME"));
 ?>
 <style>	
 .fullside {
@@ -11,9 +12,19 @@ $frm = $this->frm;
 .tds{width:155px !important;}
 </style>
 <center>
-<form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'interest','action'=>'edit')); ?>" 
-				dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">			
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+        	<div class="col-sm-12 border-botom" style="text-align: left;">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('EDIT_INTEREST');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+		<form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'interest','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				branch_id = dijit.byId('brance').get('value');
 				if(branch_id==0){alert("សូមជ្រើសរើសសាខា");dijit.byId('brance').focus();return false;}
@@ -21,36 +32,33 @@ $frm = $this->frm;
 			}else {
 				return false;
 			}
-</script>
+			</script>
+			<div class="card-box">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("INTEREST_LABEL");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('inter_one')?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("INTEREST_VALUE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('interest1')?><?php echo $frm->getElement('id')?>
+	                   </div>
+	                </div>
+	                <div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+		    			<input type="submit" value="បោះបង់" label="<?php echo $tr->translate("CANCEL")?>" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
+						<input type="submit" value="កែប្រែ" label="<?php echo $tr->translate("UPDATE")?>" name="save" id="save" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+		    		</div>
+	           	</div>
+	        </div>
+		</form>
+	</div>
+</div>
 
-<table cellspacing="10" style="width:50%">
-	<tr>
-		<td>
-				<fieldset>
-					<legend class="mainblog" style="width: 98%;text-align: center;"><strong><?php echo $tr->translate("EDIT_INTEREST")?></strong></legend>
-					<table cellspacing="10"  width="100%">
-						<tr><td colspan="8" bgcolor="#dbe7ff"><?php echo $tr->translate("INTEREST_INFORMATION")?></td></tr>
-						<tr>
-							<td class="tds"​ nowrap="nowrap"><?php echo $tr->translate("INTEREST_LABEL")?></td>
-							<td><?php echo $frm->getElement('inter_one')?></td>
-						</tr>
-						<tr>
-							<td class="tds"><?php echo $tr->translate("INTEREST_VALUE")?></td>
-							<td><?php echo $frm->getElement('interest1')?><?php echo $frm->getElement('id')?></td>
-						</tr>
-						<tr>
-							<td align="center" colspan="2">
-								<input type="submit" value="បោះបង់" label="<?php echo $tr->translate("CANCEL")?>" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
-								<input type="submit" value="កែប្រែ" label="<?php echo $tr->translate("UPDATE")?>" name="save" id="save" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-							</td>
-						</tr>
-					</table>
-				</fieldset>
-		</td>
-	</tr>		
-</table>
-
-</form>
 </center>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
