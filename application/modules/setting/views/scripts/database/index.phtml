@@ -1,6 +1,6 @@
 <?php
-	$this->headTitle('EDIT_DATABASE_INFO'); 
-	echo $this->headTitle();
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("DATABASE_INFO"));
 	
 	$data = $this->data;
 	$servername =$data['servername'];
@@ -26,124 +26,140 @@ table.list_db td,table.list_db th{ padding: 5px; font-size: 12px;}
 background-repeat: no-repeat;          
 }
 .overlay-msg{margin-bottom: 10px;bottom: 0px;position: absolute;font-style: italic;color: rgb(19, 19, 19);}              
+
 </style>
-	<table cellspacing="20" width="100%">
-		<tr>
-			<td>
-			<form action="<?php echo $this->url(array('module'=>'setting','controller'=>'database','action'=>'')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<div class="card">
+	<div class="card-content collapse show">
+		<div class="card-box">
+        	<div class="col-sm-12 border-botom" style="text-align: left;">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('DATABASE_INFO');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+    	<div class="card-box">
+    		<form action="<?php echo $this->url(array('module'=>'setting','controller'=>'database','action'=>'')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 				<script type="dojo/method" event="onSubmit">				
-				if(this.validate()) {
-					return true;
-				}
-				return false;
-			</script>
-				
-					<table cellspacing="20" width="100%">
-						<tr>
-							<td align="center" valign="top" width="45%">
-								<fieldset>
-								<legend><strong>ព័ត៌មាន​  Backup Database</strong></legend>
-								<div class="overlay"><div class="overlay-load"><div class="overlay-msg">
+						if(this.validate()) {
+							return true;
+						}
+						return false;
+					</script>
+			<div class="col-md-4 col-sm-4 col-xs-12">
+				<div class="form-group">
+                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("ព័ត៌មាន​  Backup Database");?> 
+                   </label>
+                </div>
+					<div class="overlay">
+						<div class="overlay-load">
+							<div class="overlay-msg">
 				                      Please wait database backup is being generated. It may take a few minute depending on database size, please do not refresh or close the browser window.        
-				                </div></div></div>
-								<table cellspacing="10" cellpadding="10">
-									<tr>
-										<td>Server Name</td>
-										<td>
-											<input type="text" required="true" name="servername"​ placeholder="ឈ្មោះ  Server Name" 
+				             </div>
+				          </div>
+				     </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Server Name");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input type="text" required="true" name="servername"​ placeholder="ឈ្មោះ  Server Name" 
 											dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->data['servername'];?>"
 											missingMessage="អ្នក​ភ្លេច​បំពេញ​ ពិស្ដាជាខ្មែរ!" class='fullside'/>
-										</td>
-									</tr>
-									<tr>
-										<td>Database User</td>							
-										<td>
-											<input type="text" required="true" name="dbuser" placeholder="ឈ្មោះ  Database User" dojoType="dijit.form.ValidationTextBox"
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Database User");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input type="text" required="true" name="dbuser" placeholder="ឈ្មោះ  Database User" dojoType="dijit.form.ValidationTextBox"
 											value="<?php echo $this->data['dbuser'];?>" class='fullside'/>
-										</td>
-									</tr>
-									<tr>
-										<td>Database Password</td>
-										<td>
-											<input type="text" name="dbpassword" placeholder="លេខសម្ងាត់  Database" 
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Database Password");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input type="text" name="dbpassword" placeholder="លេខសម្ងាត់  Database" 
 											dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->data['dbpassword'];?>"
 											missingMessage="អ្នក​ភ្លេច​បំពេញ​ អាសយដ្ឋាន!" class='fullside'/>
-										</td>
-									</tr>
-									<tr>
-										<td>Database Name</td>
-										<td>
-											<input type="text" name="dbname" placeholder="Database Name" 
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Database Name");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input type="text" name="dbname" placeholder="Database Name" 
 											dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->data['dbname'];?>"
 											missingMessage="អ្នក​ភ្លេច​បំពេញ​ លេខទូរស័ព្ទ!" class='fullside'/>
-										</td>
-									</tr>
-									<tr>
-										<td>Part Backup Database</td>
-										<td><input type="text" name="dbname" placeholder="Database Name" 
+	                   </div>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Part Backup Database");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input type="text" name="dbname" placeholder="Database Name" 
 											dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->data['dbname'];?>"
-											missingMessage="អ្នក​ភ្លេច​បំពេញ​ លេខទូរស័ព្ទ!" class='fullside'/></td>
-										
-									</tr>
-									<tr>
-										<td colspan="2" align="center">
-											<input type="submit" onclick="vky(this)" id="getdb" name="submit" value="រក្សាទុក" label="រក្សាទុក" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
-										</td>
-									</tr>
-								</table>
-								</fieldset>
-							</td>
-							<td width="55%" valign="top">
-								<fieldset style="height:100% !important;">
-								<legend><strong>Database Backup Files Completed</strong></legend>
-									 <div class="backup_list">
-									 	 <script type="text/javascript">
-										    function vky(x){
-										        document.getElementsByClassName("overlay")[0].style.display="block";
-										    }
-										    </script>
-								        <div class=""><?php echo isset($rmsg)?$rmsg:''; ?></div>
-								        <?php echo display_download(BACKUP_DIR); ?>
-								    </div>  
-							   </fieldset>
-							</td>
-						</tr>
-					</table>	
-				
-				</form>
-			</td>			
-		</tr>
-		<tr>
-			<td>
-			<?php 
-				$url_submit_restore =  $this->url(array('module'=>'setting','controller'=>'database','action'=>'restore'));
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			
-			<fieldset>
-			<legend><strong>Restore Backup Database</strong></legend>
-			<form  action="<?php echo $url_submit_restore; ?>" method="post" enctype="multipart/form-data">
-				<table cellspacing="20" width="100%">
-					<tr>
-						<td>Choose File (.sql)</td>
-						<td><input type="file" name="fileToUpload" id="fileToUpload" dojoType="dijit.form.Button" label="Choose File" 
+											missingMessage="អ្នក​ភ្លេច​បំពេញ​ លេខទូរស័ព្ទ!" class='fullside'/>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+	                   		<input type="submit" onclick="vky(this)" id="getdb" name="submit" value="រក្សាទុក" label="រក្សាទុក" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 
+	                   </div>
+	                </div>
+            </div>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+				<div class="form-group">
+                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Database Backup Files Completed");?> 
+                   </label>
+                </div>
+                <div class="form-group">
+                   <div class="col-md-12 col-sm-12 col-xs-12">
+                   		<div class="backup_list">
+						 	 <script type="text/javascript">
+							    function vky(x){
+							        document.getElementsByClassName("overlay")[0].style.display="block";
+							    }
+							    </script>
+					        <div class=""><?php echo isset($rmsg)?$rmsg:''; ?></div>
+					        <?php echo display_download(BACKUP_DIR); ?>
+					    </div> 
+                   </div>
+                </div>
+            </div>
+            </form>
+         </div>   
+         <div class="card-box">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="form-group">
+                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Restore Backup Database");?> 
+                   </label>
+                </div>
+                <?php 
+					$url_submit_restore =  $this->url(array('module'=>'setting','controller'=>'database','action'=>'restore'));
+				?>
+				<form  action="<?php echo $url_submit_restore; ?>" method="post" enctype="multipart/form-data">
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Choose File (.sql)");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input type="file" name="fileToUpload" id="fileToUpload" dojoType="dijit.form.Button" label="Choose File" 
 						iconClass="dijitIconFolderOpen" >
-				 		</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="submit" value="Restore Now" label="Restore Now"  dojoType="dijit.form.Button" 
-							iconClass="dijitIconSave" /> </td>
-					</tr>
-				</table>
-			</form>
-			</fieldset>
-			</td>
-		</tr>
-	</table>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+	                   		<input type="submit" value="Restore Now" label="Restore Now"  dojoType="dijit.form.Button" 
+							iconClass="dijitIconSave" />
+	                   </div>
+	                </div>
+				</form>
+            </div>
+        </div>
+                
+    </div>
+ </div>
 <script type="text/javascript">
 based_url = "<?php echo $this->baseUrl()."/setting/database";?>";
 </script>

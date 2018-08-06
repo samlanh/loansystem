@@ -76,7 +76,8 @@ class Rsvacl_UsertypeController extends Zend_Controller_Action
 			}
 			$db=new Application_Model_DbTable_DbGlobal();
 			$rs=$db->getGlobalDb('SELECT user_type_id,user_type FROM rms_acl_user_type WHERE status=1');
-			$options=array(''=>'Please select');
+			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+			$options=array(''=>$tr->translate('Please select'));
 			foreach($rs as $read) $options[$read['user_type_id']]=$read['user_type'];
 			$this->view->usertype_list= $options;
 				
@@ -92,7 +93,9 @@ class Rsvacl_UsertypeController extends Zend_Controller_Action
     		$this->view->usertype=$rs;
     		$db1=new Application_Model_DbTable_DbGlobal();
     		$allusertype=$db1->getGlobalDb('SELECT user_type_id,user_type FROM rms_acl_user_type WHERE status=1 AND user_type_id <> '.$user_type_id);
-    		$options=array(''=>'Please select');
+    		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    		$options=array(''=>$tr->translate('Please select'));
+    		
     		foreach($allusertype as $read) $options[$read['user_type_id']]=$read['user_type'];
     		$this->view->usertype_list= $options;
     	

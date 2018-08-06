@@ -21,7 +21,7 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
    public function getOptonsHtmlTranslate($sql, $display, $value){
    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
    	$db = $this->getAdapter();
-   	$option = '<option value="">--- Select ---</option>';
+   	$option = '<option value="">'.$tr->translate("PLEASE_SELECT").'</option>';
    	foreach($db->fetchAll($sql) as $r){
    		$option .= '<option value="'.$r[$value].'">'.htmlspecialchars($tr->translate(strtoupper($r[$display])), ENT_QUOTES).'</option>';
    	}
@@ -29,7 +29,8 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
    }
    public function getYesNoOption(){
    	//Select Public for report
-   	$myopt = '<option value="">---Select----</option>';
+   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+   	$myopt = '<option value="">'.$tr->translate("PLEASE_SELECT").'</option>';
    	$myopt .= '<option value="Yes">Yes</option>';
    	$myopt .= '<option value="No">No</option>';
    	return $myopt;
