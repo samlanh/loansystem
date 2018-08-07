@@ -9,6 +9,10 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 		$session_user=new Zend_Session_Namespace('authloan');
 		return $session_user->user_id;
 	}
+	function currentlang(){
+		$session_lang=new Zend_Session_Namespace('lang');
+		return $session_lang->lang_id;
+	}
  function getAllLocationByUser($user_id,$branch_name='id'){
 //     	$db = $this->getAdapter();
 //     	$result = $this->getUserInfo();

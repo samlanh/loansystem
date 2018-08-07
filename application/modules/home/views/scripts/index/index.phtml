@@ -8,18 +8,12 @@
  
  <link rel="stylesheet" href="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.css">
 
- <!-- Bootstrap core CSS -->
- <link href="<?php echo $this->baseUrl()."/"?>dashboard/css/bootstrap.min.css" rel="stylesheet">
 <!-- Icons CSS -->
 <link href="<?php echo $this->baseUrl()."/"?>dashboard/css/icons.css" rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link href="<?php echo $this->baseUrl()."/"?>dashboard/css/style.css" rel="stylesheet">
-<script src="<?php echo $this->baseUrl()."/"?>dashboard/js/jquery-2.1.4.min.js"></script>
-<script src="<?php echo $this->baseUrl()."/"?>dashboard/js/bootstrap.min.js"></script>
-<!--Morris Chart-->
-<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.min.js"></script>
-<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/raphael/raphael-min.js"></script>
+
 
 <div id="page-wrapper">
 	<!-- Page content start -->
@@ -262,17 +256,17 @@
 					</div> <!-- end col -->	  
 				</div> <!-- end row -->
 				
-                 <div class="row-fluid">
-					<div style="margin-top: 10px; margin-left: 0;" align="center">
-						<p>© 2018<span data-bind="text: lang.lang.all_rights_reserved"><a href="http://www.cam-app.com" target="_blank" > Cam App Teachnology</a>. All rights reserved.</span></p>
-					</div>	
-				</div>       
 			</div>
 		</div>
 		<!-- END PAGE CONTENT -->
 	</div>
 
 </div>
+<script src="<?php echo $this->baseUrl()."/"?>dashboard/js/jquery-2.1.4.min.js"></script>
+
+<!--Morris Chart-->
+<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.min.js"></script>
+<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/raphael/raphael-min.js"></script>
 <?php 
 $start_year = date("Y-m-d",strtotime(" -4 month"));
 ?>
