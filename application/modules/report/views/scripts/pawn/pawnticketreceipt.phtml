@@ -122,7 +122,7 @@ if ($pawnshop['curr_type']==2){
 																<tr>
 																	<td width="50%" class="lblsubvalue one khmerbold"><label id="lb_start_date"><?php echo date("d/m/Y",strtotime($pawnshop['date_release']));?></label></td>
 																	<td style="white-space: nowrap;">&nbsp;រយៈពេលបញ្ចាំ</td>
-																	<td class="lblsubvalue one khmerbold"><strong>&nbsp;<label id="lb_period" style="white-space:nowrap;"><?php echo $pawnshop['total_duration'];?> ខែ</label></strong></td>
+																	<td class="lblsubvalue one khmerbold"><strong>&nbsp;<label id="lb_period" style="white-space:nowrap;"><?php echo number_format($pawnshop['total_duration'],0);?> <!-- ខែ --></label></strong></td>
 																</tr>
 															</table>
 														</td>
