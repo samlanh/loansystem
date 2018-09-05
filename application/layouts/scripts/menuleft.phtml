@@ -81,11 +81,13 @@ $newarray=array();
                 		}
                 	?>
                 	<li>
-                		<?php if ($rs=="report"){?>
-                			<a href="<?php echo $this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true);;?>">
-                			<?php echo $array_icon[$rs];?> <?php echo $title;?> 
+                		<?php //if ($rs=="report"){?>
+                			<!--
+							<a href="<?php //echo $this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true);;?>">
+                			<?php //echo $array_icon[$rs];?> <?php //echo $title;?> 
 	                		</a>
-                		<?php }else{?>
+							-->
+                		<?php //}else{?>
                 		
                 			<?php if (count($arr_param_menu[$rs])>1){?>
                 		<a><?php echo $array_icon[$rs];?> <?php echo $title;?> 
@@ -113,7 +115,7 @@ $newarray=array();
                 		</a>
                 		<?php }?>
                     <?php }?>
-                    <?php }?>
+                    <?php //}?>
                  	 </li>
             <?php }
             }?>

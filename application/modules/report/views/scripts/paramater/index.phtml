@@ -1,15 +1,66 @@
  <?php 
  $tr = Application_Form_FrmLanguages::getCurrentlanguage();
  ?>
- <input type="button" label=" <?php echo $tr->translate("LIST_HOLIDAY");?>"  dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-holiday')); ?>';"/>
+ <title><?php echo $tr->translate("PARAMATER");?></title>
+	<div class="card">
+		<div class="card-content collapse show">
+			<div class="card-box report-list">
+				<h3 style="font-family:'khmer os muol light';font-size:14px;text-align: center; color: #666;padding:2px 0;"><?php echo $tr->translate("PARAMATER");?></h3><hr>
+				<!--border-bottom:2px solid #F1F1F1;-->
+				<div class="row top_tiles">
+			
+				   <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+						<a href="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-holiday')); ?>">
+						<div title="<?php echo $tr->translate("LIST_HOLIDAY");?>" class="tile-stats report-list">
+							<div class="icon"><i class="fa fa-book"></i></div>
+							<div class="count">&nbsp;</div>
+			                 	<h3><?php echo $tr->translate("LIST_HOLIDAY");?></h3>
+						</div>
+						</a>
+			        </div>
+					
+					<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+						<a href="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-zone')); ?>">
+						<div title="<?php echo $tr->translate("LIST_ZONE");?>" class="tile-stats report-list">
+							<div class="icon"><i class="fa fa-book"></i></div>
+							<div class="count">&nbsp;</div>
+			                 	<h3><?php echo $tr->translate("LIST_ZONE");?></h3>
+						</div>
+						</a>
+			        </div>
+					
+					<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+						<a href="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-staff')); ?>">
+						<div title="<?php echo $tr->translate("LIST_STAFF");?>" class="tile-stats report-list">
+							<div class="icon"><i class="fa fa-book"></i></div>
+							<div class="count">&nbsp;</div>
+			                 	<h3><?php echo $tr->translate("LIST_STAFF");?></h3>
+						</div>
+						</a>
+			        </div>
+					
+					<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+						<a href="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-village')); ?>">
+						<div title="<?php echo $tr->translate("LIST_VILLAGE");?>" class="tile-stats report-list">
+							<div class="icon"><i class="fa fa-book"></i></div>
+							<div class="count">&nbsp;</div>
+			                 	<h3><?php echo $tr->translate("LIST_VILLAGE");?></h3>
+						</div>
+						</a>
+			        </div>
+					
+					<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+						<a href="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-branch')); ?>">
+						<div title="<?php echo $tr->translate("LIST_BRANCH");?>" class="tile-stats report-list">
+							<div class="icon"><i class="fa fa-book"></i></div>
+							<div class="count">&nbsp;</div>
+			                 	<h3><?php echo $tr->translate("LIST_BRANCH");?></h3>
+						</div>
+						</a>
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+  <div style="clear: both;"></div>
   
-   <input type="button" label=" <?php echo $tr->translate("LIST_ZONE");?>" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-zone')); ?>';"/>
-  
-  <input type="button" label=" <?php echo $tr->translate("LIST_STAFF");?>" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-staff')); ?>';"/>
-  <input type="button" label=" <?php echo $tr->translate("LIST_VILLAGE");?>" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-village')); ?>';"/>
-  <input type="button" label=" <?php echo $tr->translate("LIST_BRANCH");?>" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-branch')); ?>';"/>
