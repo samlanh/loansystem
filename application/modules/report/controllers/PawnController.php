@@ -221,7 +221,7 @@ function rptPaymentschedulesAction(){
 	$row = $db->getPaymentSchedule($id);
 	$this->view->tran_schedule=$row;
 	if(empty($row)){
-		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
+		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/pawn/rpt-loan-disburse');
 	}
 	$db = new Application_Model_DbTable_DbGlobal();
 

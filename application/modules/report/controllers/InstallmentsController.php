@@ -19,7 +19,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
     				'adv_search' => '',
     				'supllier'=>'',
     				'branch_id'=>'',
-    				'start_date'=> "",
+    				'start_date'=> date('Y-m-d'),
     				'end_date'=>date('Y-m-d'),
     				'status'=>-1,
     				'category'=>'',

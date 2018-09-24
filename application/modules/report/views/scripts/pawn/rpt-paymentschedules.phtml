@@ -10,7 +10,7 @@ $url_barcode = $this->url(array("module"=>"loan","controller"=>"ilpayment","acti
 <style>
 td p{ margin-top:0px !important;}
 </style>
-<div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<div style="width:100%; margin:0 auto;padding: 0 40px;">
 	<div id="divPrint">
 	<style type="text/css">
 	.style{
@@ -41,7 +41,7 @@ td p{ margin-top:0px !important;}
 	               		</td>
 	                </tr> 
 	                <?php $db = new Application_Model_DbTable_DbGlobal();
-	                	  $row = $db->getClientByType(null,$client['client_id'],1);
+	                	  $row = $db->getClientSavingByType(null,$client['client_id'],1);
 	                ?> 
 	                <tr>
 	                	<td colspan="3">
@@ -143,7 +143,9 @@ td p{ margin-top:0px !important;}
 	            <table width="100%" cellpadding="3">
 	            	<tr class="font_bold" style="height:25px;">
 	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('ACCOUNTING_SIGN');?></td>
-	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"></td> 
+	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'">
+	            		ស្នាមមេដៃស្តាំ និងឈ្មោះអ្នកធានា
+	            		</td> 
 	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('BORROWER');?></td>
 	            	</tr>
 	            	<tr class="font_bold">
