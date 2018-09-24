@@ -155,6 +155,17 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_sex->setMultiOptions($opt_status);
 		
 		
+		$_join_sex = new Zend_Dojo_Form_Element_FilteringSelect('join_sex');
+		$_join_sex->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		// 		$opt = array(1=>"Male",2=>"Femail");
+		$opt_status = $db->getVewOptoinTypeByType(11,1);
+		unset($opt_status[-1]);
+		unset($opt_status['']);
+		$_join_sex->setMultiOptions($opt_status);
+		
 		$_situ_status = new Zend_Dojo_Form_Element_FilteringSelect('situ_status');
 		$_situ_status->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -269,6 +280,13 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_street = new Zend_Dojo_Form_Element_TextBox('street');
 		$_street->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
+				'class'=>'fullside',
+				//'required' =>'true'
+		));
+		
+		$_group_no = new Zend_Dojo_Form_Element_TextBox('group_no');
+		$_group_no->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				//'required' =>'true'
 		));
@@ -396,11 +414,14 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_dob_Guarantor->setValue($data['dob_guarantor']);
 			$dob_join_acc->setValue($data['dob_join_acc']);
 			$_dob->setValue($data['dob']);
+			$_join_sex->setValue($data['join_sex']);
+			$_group_no->setValue($data['group_no']);
 // 			print_r($data);
 		}
 		$this->addElements(array($client_d_type,$guarantor_address,$_relate_tel,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
-				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_no,
-				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$dob_join_acc,$_dob_Guarantor,$clienttype_namekh,$clienttype_nameen));
+				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_no,$_join_sex,
+				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$dob_join_acc,$_dob_Guarantor,$clienttype_namekh,$clienttype_nameen,
+				$_group_no));
 		return $this;
 		
 	}	

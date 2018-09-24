@@ -12,6 +12,8 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
     public function getLoanById($loan_id){//for loan Agreement
     	$sql="SELECT l.*,
     	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
+    	(SELECT branch_nameen FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS shop_name,
+    	(SELECT br_address FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS br_address,
     	(SELECT curr_namekh FROM `ln_currency` WHERE id = l.currency_type LIMIT 1) AS currency_type,
     	(SELECT name_en FROM `ln_view` WHERE TYPE =14 AND l.pay_term=key_code LIMIT 1) AS payTermEN,
     	(SELECT name_kh FROM `ln_view` WHERE TYPE =14 AND l.pay_term=key_code LIMIT 1) AS payTermKH,
@@ -44,6 +46,8 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 			(SELECT branch_namekh FROM `ln_branch` WHERE br_id = c.branch_id LIMIT 1) AS branch_name ,
 			(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND c.sex=key_code LIMIT 1) AS sexEN,
 			(SELECT name_kh FROM `ln_view` WHERE TYPE =11 AND c.sex=key_code LIMIT 1) AS sexKH,
+			(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND c.join_sex=key_code LIMIT 1) AS join_sexEN,
+			(SELECT name_kh FROM `ln_view` WHERE TYPE =11 AND c.join_sex=key_code LIMIT 1) AS join_sexKH,
 			(SELECT village_namekh FROM `ln_village` WHERE vill_id=c.village_id) AS village_name,
 			(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`client_d_type`=id LIMIT 1) AS docTypKH,
 			(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`client_d_type`=id LIMIT 1) AS docTypEN,

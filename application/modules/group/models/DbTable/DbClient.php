@@ -71,6 +71,9 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'user_id'	  => $this->getUserId(),
 				'dob_guarantor'  => $_data['dob_guarantor'],
 				'dob_join_acc'  => $_data['dob_join_acc'],
+				'join_sex'  => $_data['join_sex'],
+				'group_no'  => $_data['group_no'],
+				
 				
 		);
 		if(!empty($_data['id'])){
