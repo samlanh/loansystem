@@ -51,7 +51,7 @@ public function addAction()
     		//Add filter search
     		$gc = new Application_Model_GlobalClass();
     		// For list all module
-    		$sql = "SELECT DISTINCT acl.`module` FROM `rms_acl_acl` AS acl";
+    		$sql = "SELECT DISTINCT acl.`module` FROM `rms_acl_acl` AS acl WHERE acl.`status` = 1";
     		$this->view->optoin_mod =  $gc->getOptonsHtmlTranslate($sql, "module", "module");
     		// For list all controller
     		$sql = "SELECT DISTINCT acl.`controller` FROM `rms_acl_acl` AS acl WHERE acl.`status` = 1";
@@ -117,7 +117,7 @@ public function addAction()
     						acl.is_menu
 		    			from 
     						rms_acl_acl as acl 
-    					WHERE 1 " . $where;
+    					WHERE 1 AND acl.status=1  " . $where;
     		}
     		 
     		else {
@@ -135,7 +135,7 @@ public function addAction()
     					rms_acl_user_type AS ut ON (ua.user_type_id = ut.parent_id)
     				INNER JOIN 
     					rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) 
-    				WHERE 
+    				WHERE  acl.status=1 AND
     					ut.user_type_id = ".$id . $where;
     		}
     		
