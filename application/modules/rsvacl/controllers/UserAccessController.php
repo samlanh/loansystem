@@ -30,7 +30,7 @@ class Rsvacl_UseraccessController extends Zend_Controller_Action
     		);
     		$this->view->list=$list->getCheckList(0,$collumns, $result,array('user_type'=>$link,'title'=>$link));
     		if (empty($result)){
-    			$result = array('err'=>1, 'msg'=>'áž˜áž·áž“áž‘áž¶áž“áŸ‹áž˜áž¶áž“áž‘áž·áž“áŸ’áž“áž“áŸ�áž™áž“áŸ…áž¡áž¾áž™!');
+    			$result = array('err'=>1, 'msg'=>'មិនទាន់មានទិន្នន័យនៅឡើយ!');
     		}		
     	} catch (Exception $e) {
     		$result = Application_Model_DbTable_DbGlobal::getResultWarning();
