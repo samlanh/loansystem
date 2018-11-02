@@ -118,8 +118,8 @@
 				 							<td valign="top" align="left" width="90%">
 				 								<strong> អ្នកឲ្យខ្ចី</strong>សម្រេចផ្តល់ឥណទានទៅ<strong>អ្នកខ្ចី</strong> ទឹកប្រាក់ចំនួន <span class="value border_bt" style="min-width: 120px;"><strong><?php echo number_format($loan['loan_amount'],2)." ".$loan['currency_type'];?></strong></span>ជាអក្សរ <span class="value border_bt" style="min-width: 110px;"><span id="lable_loankhmer"></span> <?php echo $loan['currency_type'];?></span>ហើយ
 							 					<strong>អ្នកខ្ចី</strong> យល់ព្រមទទួលនូវឥណទាននេះ ស្របតាមកិច្ចសន្យាឥណទានដែលបានធ្វើឡើង។
-							 					<?php $durationType=""; if ($loan['pay_term']==1){ $durationType="ថ្ងៃ";}else if ($loan['pay_term']==1){ $durationType="សប្តាហ៏";}else if ($loan['pay_term']==3){ $durationType="ខែ";}?>
-							 					ដោយអត្រាការប្រាក់សើ្ម<span class="value border_bt" style="min-width: 80px;"><strong><?php echo $loan['interest_rate'];?>%</strong></span>រយពេល<strong><?php echo str_replace("ប្រចាំ", "១", $loan['payTermKH']);?></strong> ហើយមានរយៈពេលខ្ចី<span class="value border_bt" style="min-width: 40px;"><strong><?php echo $loan['total_duration'];?></strong></span><?php echo $durationType;?>ចាប់គិតពីថ្ងៃបើកប្រាក់ទៅ។
+							 					<?php $durationType=""; $day=1; if ($loan['pay_term']==1){ $durationType="ថ្ងៃ";}else if ($loan['pay_term']==1){ $day=7; $durationType="សប្តាហ៏";}else if ($loan['pay_term']==3){ $day=30; $durationType="ខែ";}?>
+							 					ដោយអត្រាការប្រាក់សើ្ម<span class="value border_bt" style="min-width: 80px;"><strong><?php echo $loan['interest_rate'];?>%</strong></span>/ រយពេល<strong><?php echo str_replace("ប្រចាំ", "១", $loan['payTermKH']);?></strong> ហើយមានរយៈពេលខ្ចី<span class="value border_bt" style="min-width: 40px;"><strong><?php echo $loan['total_duration']*$day;?></strong></span>ថ្ងៃ<?php //echo $durationType;?>ចាប់គិតពីថ្ងៃបើកប្រាក់ទៅ។
 							 					  <script>
 														a_sold ='<?php echo ($loan['loan_amount']) ?>';
 														money_khmersold=read_money_in_khmer(a_sold);
