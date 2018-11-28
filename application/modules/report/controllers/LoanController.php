@@ -105,6 +105,10 @@ function rptLoanDisburseAction(){//release all loan
   	else{
   		$search = array(
   				'branch_id'=>0,
+  				'province'=>0,
+  				'district_id'=>'',
+  				'comm_id'=>'',
+  				'village'=>'',
   				'client_name'=>'',
   				'co_id'=>0,
   				'start_date'=>date('Y-m-d'),

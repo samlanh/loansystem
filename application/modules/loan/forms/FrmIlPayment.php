@@ -259,11 +259,15 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'required' =>'true',
 				'Onchange'	=>	'calculateTotal();'
 		));
-		$session_user=new Zend_Session_Namespace('authloan');
-		if($session_user->level!=1){
-			$_collect_date->setAttribs(array(
-					'readonly'=>true,
-					));
+		
+		$settingEnalbleDate =0;
+		if ($settingEnalbleDate==1){
+			$session_user=new Zend_Session_Namespace('authloan');
+			if($session_user->level!=1){
+				$_collect_date->setAttribs(array(
+						'readonly'=>true,
+						));
+			}
 		}
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);

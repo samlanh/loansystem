@@ -219,6 +219,27 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*','class'=>'fullside',));
 		$client_name->setValue($request->getParam("client_name"));
 		
+		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province');
+		$_province->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'filterDistrict();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+		
+		));
+		
+		$rows =  $db->getAllProvince();
+		$options=array($this->tr->translate("SELECT_PROVINCE")); //array(''=>"------Select Province------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row){
+			if($row['province_en_name']=="ភ្នំពេញ"){
+				//exit();
+				$_province->setValue($row['province_id']);
+			}
+			$options[$row['province_id']]=$row['province_en_name'];
+		}
+		$_province->setMultiOptions($options);
+		$_province->setValue($request->getParam("province"));
 		if($data!=null){
 			//print_r($data);
 // 			$_branch_id->setValue($data['member_id']);
@@ -234,7 +255,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 // 		$_groupid,$_group_code,$_customer_code,$_zone
 				$_member,
 				$_pay_every,$_title,$_branch_id,$_coid,$_currency_type,$_releasedate
-				,$_payterm,$_dateline,$_status,$_btn_search,$_repayment_method));
+				,$_payterm,$_dateline,$_status,$_btn_search,$_repayment_method,$_province));
 		return $this;
 		
 	}	

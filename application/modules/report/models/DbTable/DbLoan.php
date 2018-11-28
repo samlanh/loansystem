@@ -315,6 +315,18 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['branch_id']>0){
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];
       	}
+      	if($search['province']>0){
+      		$where.=" AND c.pro_id= ".$search['province'];
+      	}
+      	if(!empty($search['district'])){
+      		$where.=" AND `c`.`dis_id`= ".$search['district'];
+      	}
+      	if(!empty($search['commune'])){
+      		$where.=" AND `c`.`com_id`= ".$search['commune'];
+      	}
+      	if(!empty($search['village'])){
+      		$where.=" AND `c`.`village_id`= ".$search['village'];
+      	}
         $group_by = " GROUP BY l.`id` ORDER BY co.`co_id` ASC ,d.`date_payment` ASC";
        
         return $db->fetchAll($sql.$where.$group_by);
