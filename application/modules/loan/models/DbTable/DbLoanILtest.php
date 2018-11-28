@@ -175,7 +175,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     					$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
     					$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
     				}
-    				$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
+    				$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_fund_term;
     			}elseif($payment_method==3){//fixed rate
     				$pri_permonth = ($data['total_amount']/($amount_borrow_term/$amount_fund_term));
     				$pri_permonth =$this->round_up_currency($curr_type,$pri_permonth);
