@@ -57,6 +57,9 @@ $client = $this->client;
                </div>
             </div>
             <div class="form-group">
+            	<div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $filter->getElement('repayment_method');?>
+               </div>
                <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $filter->getElement('province');?>
                </div>
@@ -130,7 +133,7 @@ $client = $this->client;
 	});
 
 	url_getdistrict = '<?php echo $this->url(array('module'=>'other','controller'=>'district','action'=>'get-district'));?>';
-	var oldProvince = '<?php echo $this->rsearch['province'];?>';
+	var oldProvince = '<?php if (!empty($this->rsearch['province'])){ echo $this->rsearch['province'];}else{ echo 0;}?>';
 	function filterDistrict(){
 		pro_id = dijit.byId('province').get('value');
 		if(pro_id==0){
@@ -145,7 +148,9 @@ $client = $this->client;
 				district_store  = getDataStorefromJSON('id','name', data);		
 			    dijit.byId('district').set('store', district_store);
 			    if(oldProvince==pro_id){
+				    <?php if (!empty($this->rsearch['district'])){?>
 			    	 dijit.byId('district').set('value', <?php echo $this->rsearch['district'];?>);
+			    	 <?php }?>
 			    }
 			},
 			error: function(err) {
@@ -154,7 +159,7 @@ $client = $this->client;
 		});	
 	}
 	url_getcommune = '<?php echo $this->url(array('module'=>'other','controller'=>'commune','action'=>'get-commune'));?>';
-	var oldDistrict = '<?php echo $this->rsearch['district'];?>';
+	var oldDistrict = '<?php if (!empty($this->rsearch['district'])){ echo $this->rsearch['district'];}else{ echo 0;}?>';
 	function filterCommune(){
 		distict_id = dijit.byId('district').get('value');
 		if(distict_id==0){
@@ -169,7 +174,9 @@ $client = $this->client;
 				commune_store  = getDataStorefromJSON('id','name', data);		
 			    dijit.byId('commune').set('store', commune_store);
 			    if(oldDistrict==distict_id){
+			    	 <?php if (!empty($this->rsearch['commune'])){?>
 			    	 dijit.byId('commune').set('value', <?php echo $this->rsearch['commune'];?>);
+			    	 <?php }?>
 			    }
 			},
 			error: function(err) {
@@ -178,7 +185,7 @@ $client = $this->client;
 		});
 	}
 
-	var oldcommune = '<?php echo $this->rsearch['commune'];?>';
+	var oldcommune = '<?php if (!empty($this->rsearch['commune'])){ echo $this->rsearch['commune'];}else{ echo 0;}?>';
 	url_getvillage = '<?php echo $this->url(array('module'=>'other','controller'=>'village','action'=>'get-allvillage'));?>';
 	function filterVillage(){
 		commune_id = dijit.byId('commune').get('value');
@@ -194,7 +201,9 @@ $client = $this->client;
 				village_store  = getDataStorefromJSON('id','name', data);		
 			    dijit.byId('village').set('store', village_store);
 			    if(oldcommune==commune_id){
+			    	 <?php if (!empty($this->rsearch['village'])){?>
 			    	 dijit.byId('village').set('value', <?php echo $this->rsearch['village'];?>);
+			    	 <?php }?>
 			    }
 			},
 			error: function(err) {
@@ -247,6 +256,7 @@ $client = $this->client;
 			                 <tr class="style" align="center" bgcolor="#ccc" style="white-space: nowrap; background: #ccd9ff;">
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("NUM");?></td>
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("BRANCH_NAME");?></td>
+			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("LOAN_NO");?></td>
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("LOAN_NO");?></td>
 			                    <td rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></td>
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
@@ -324,6 +334,7 @@ $client = $this->client;
 		               		<td style="text-align: center;"><?php echo $i++;?></td>
 		               		<td>&nbsp;<?php echo $rs["branch_namekh"];?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
+		               		<td>&nbsp;<?php echo $rs["payment_method_title"];?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>
 		               		<td style="white-space: nowrap;">&nbsp;<?php echo $rs["name_kh"];?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["phone"].",".$rs['village_name'].",".str_replace("Commune","",$rs['commune_name']).",".$rs['district_name'].",".$rs['province_en_name'];?>&nbsp;</td>

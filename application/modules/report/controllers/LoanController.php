@@ -111,6 +111,7 @@ function rptLoanDisburseAction(){//release all loan
   				'village'=>'',
   				'client_name'=>'',
   				'co_id'=>0,
+  				'repayment_method'=>0,
   				'start_date'=>date('Y-m-d'),
   				'end_date'=>date('Y-m-d'),
   				'status' => -1,);

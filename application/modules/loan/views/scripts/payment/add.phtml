@@ -1113,9 +1113,13 @@ dojo.ready(function(){
 		dijit.byId("loan_number").attr("value",<?php echo $this->rsloan['id'];?>);
 	}
 
-	<?php if($this->user_type!=1){?>
+	<?php 
+	if($this->user_type!=1){?>
 		dijit.byId('total_interest').attr('readOnly',true);
+		<?php $settingEnalbleDate =0;
+		if ($settingEnalbleDate==1){?>
 		dijit.byId('collect_date').attr('readOnly',true);
+		<?php }?>
 	<?php }?>
 });
 function filterLoanNumber(){
@@ -1460,10 +1464,14 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		dijit.byId("os_amount").attr("value",principal_permonth);
 		dijit.byId("total_interest").attr("value",interest);
 		dijit.byId("total_payment").attr("value",principal_permonth+interest+total_penalty);
-		<?php if($this->user_type!=1){?>
-			dijit.byId('total_interest').attr('readOnly',true);
-			dijit.byId('collect_date').attr('readOnly',true);
+		<?php 
+	if($this->user_type!=1){?>
+		dijit.byId('total_interest').attr('readOnly',true);
+		<?php $settingEnalbleDate =0;
+		if ($settingEnalbleDate==1){?>
+		dijit.byId('collect_date').attr('readOnly',true);
 		<?php }?>
+	<?php }?>
 		calTotal();
 	}catch(err){
 	}

@@ -267,6 +267,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  l.`time_collect`,
 				  l.`currency_type` AS curr_type,
 				  l.`collect_typeterm`,
+				  (SELECT pm.payment_nameen FROM ln_payment_method as pm WHERE pm.id = l.`payment_method`) as payment_method_title,
 				  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
 				  (SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`pay_term`)) LIMIT 1) AS `Term Borrow`,
 				  (SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
@@ -311,6 +312,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
     	}  
       	if(!empty($search['end_date'])){
 			$where.=" AND d.date_payment <='$end_date'";
+		}
+		if($search['repayment_method']>0){
+			$where.=" AND l.`payment_method` = ".$search['repayment_method'];
 		}
       	if($search['branch_id']>0){
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];

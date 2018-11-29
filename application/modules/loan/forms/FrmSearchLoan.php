@@ -240,6 +240,24 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		}
 		$_province->setMultiOptions($options);
 		$_province->setValue($request->getParam("province"));
+		
+		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
+		$_repayment_method->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'required' =>'true',
+				'class'=>'fullside',
+				'onchange'=>'chechPaymentMethod()',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+		));
+		$options=array($this->tr->translate("PLEASE_SELECT"));
+		$rs = $db->getAllPaymentMethod(null,null);
+		if(!empty($rs))foreach($rs AS $row){
+			$options[$row['id']]=($row['displayby']==1)?$row['payment_namekh']:$row['payment_nameen'];
+		}
+		$_repayment_method->setMultiOptions($options);
+		$_repayment_method->setValue($request->getParam("repayment_method"));
+		
 		if($data!=null){
 			//print_r($data);
 // 			$_branch_id->setValue($data['member_id']);
@@ -255,7 +273,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 // 		$_groupid,$_group_code,$_customer_code,$_zone
 				$_member,
 				$_pay_every,$_title,$_branch_id,$_coid,$_currency_type,$_releasedate
-				,$_payterm,$_dateline,$_status,$_btn_search,$_repayment_method,$_province));
+				,$_payterm,$_dateline,$_status,$_btn_search,$_repayment_method,$_province,$_repayment_method));
 		return $this;
 		
 	}	
