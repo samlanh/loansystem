@@ -18,8 +18,15 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     	ceil($value * $mult) / $mult;
     }
     function round_up_currency($curr_id, $value,$places=-2){
-      if ($curr_id==1){
-    		 return $this->round_up($value, $places);
+      	if($curr_id==1){
+      	     $new_value = (int)$value;
+      	     $count_str = count($new_value);
+      	     $sub_amount = substr($new_value, $count_str-2);
+      	     if($sub_amount>0){
+      	     	return $this->round_up($value, $places);
+      	     }else{
+      	     	return $value;
+      	     }
     	}
     	else{
     		return round($value,2);
