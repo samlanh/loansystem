@@ -150,11 +150,11 @@
 		               		<td>&nbsp;<?php echo $rs["client_name"];?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["co_name"];?>&nbsp;</td>
 		               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['principal_paid'],2).' '.$rs['currency_typeshow'];?>&nbsp;</td>               		
-		               		<?php if($level==1){?>
+		               		<?php //if($level==1){?>
 			               		<td align="center" style="font:bolder 11px Arial;">&nbsp;
 			               		<?php echo number_format($rs['interest_paid'],2).' '.$rs['currency_typeshow'];?>
 			               		&nbsp;</td>
-		               		<?php }?>
+		               		<?php //}?>
 		               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['penalize_paid'],2).' '.$rs['currency_typeshow'];?>&nbsp;</td>
 		               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['service_paid'],2).' '.$rs['currency_typeshow'];?>&nbsp;</td>
 		               		<td style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['total_paymentpaid'],2).' '.$rs['currency_typeshow'];?>&nbsp;</td>
@@ -247,8 +247,9 @@
 						 <tr bgcolor="#ccc" class="style" style="font-weight:bold; background:#ccd9ff; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
 		                    <td rowspan="2"><?php echo $tr->translate("CURRENT_TYPE");?></td>
 		                    <?php 
-		                        $colspan=3;
-			                    if($level==1){$colspan=4;}?>
+		                    $colspan=4;
+// 		                        $colspan=3;
+// 			                    if($level==1){$colspan=4;}?>
 		                    <td colspan="<?php echo $colspan;?>"><?php echo $tr->translate("ចំណូលពីការប្រមូលសរុប");?></td>
 		                    <td colspan="2"><?php echo $tr->translate("INCOME_FROMLOAN_DISBURSE");?></td>
 		                    <td rowspan="2"><?php echo $tr->translate("ចំណូល-ចំណាយ");?></td>
@@ -256,9 +257,9 @@
 		                </tr>
 		                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; background:#ccd9ff; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
 		                    <td><?php echo $tr->translate("ប្រាក់ដើម");?></td>
-		                    <?php if($level==1){?>
+		                    <?php //if($level==1){?>
 		                    <td><?php echo $tr->translate("ប្រាក់ការសរុប");?></td>
-		                    <?php }?>
+		                    <?php //}?>
 		                    <td><?php echo $tr->translate("ប្រាក់ពិន័យសរុប");?></td>
 		                    <td align="center"><?php echo $tr->translate("ប្រាក់សន្សំ");?></td>	
 		                    <td><?php echo $tr->translate("AMIN_FEE");?></td>
@@ -268,9 +269,9 @@
 		                 <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
 		                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
-		                    <?php if($level==1){?>
+		                    <?php //if($level==1){?>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
-		                    <?php }?>
+		                    <?php //}?>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($saving_amountd,2);?>&nbsp;</td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($d1,2);?>&nbsp;</td>
@@ -281,9 +282,9 @@
 		                <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
 		                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
-		                    <?php if($level==1){?>
+		                    <?php //if($level==1){?>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amn_r2,2);?>&nbsp;</td>
-		                    <?php }?>
+		                    <?php //}?>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amn_r3,2);?>&nbsp;</td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($saving_amountr,2);?>&nbsp;</td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($r1,2);?>&nbsp;</td>
@@ -294,9 +295,9 @@
 		                 <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
 		                   <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
-		                   <?php if($level==1){?>
+		                   <?php //if($level==1){?>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
-		                   <?php }?>
+		                   <?php //}?>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($saving_amountb,2);?>&nbsp;</td>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($b1,2);?>&nbsp;</td>
