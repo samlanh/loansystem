@@ -939,6 +939,7 @@ require(["dojo/ready"], function(ready){
 		dijit.byId("receipt_num").set("readOnly",true);
 		dijit.byId('payment_term').attr('value',3);
 		dijit.byId('repayment_method').attr('value',2);
+		filterClient();
 	});
 	new dijit.form.FilteringSelect({
 	store: client_store,
