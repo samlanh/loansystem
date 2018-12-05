@@ -152,10 +152,8 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     }
     function round_up_currency($curr_id, $value,$places=-2){
     	if ($curr_id==1){//for riel
-//     		$value_array = explode(".", $value);
-// 			return $this->round_up($value, $places);
 			$new_value = (int)$value;
-			$count_str = count($new_value);
+			$count_str = strlen($new_value);
 			$sub_amount = substr($new_value, $count_str-2);
 			if($sub_amount>0){
 				return $this->round_up($value, $places);

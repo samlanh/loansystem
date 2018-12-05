@@ -20,7 +20,7 @@ function round_up($value, $places)
     	if ($curr_id==1){
 //     		return $this->round_up($value, $places);
     		$new_value = (int)$value;
-    		$count_str = count($new_value);
+    		$count_str = strlen($new_value);
     		$sub_amount = substr($new_value, $count_str-2);
     		if($sub_amount>0){
     			return $this->round_up($value, $places);
