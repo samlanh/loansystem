@@ -80,6 +80,7 @@
 			                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
 			                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PAWN_CODE");?></th>
 			                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+			                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("ឈ្មោះអ្នកធានា");?></th>
 			                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PRODUCT");?></th>
 			                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PHONE")." / ".$tr->translate("ADDRESS");?></th>
 			                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PAID_TIME");?></th>
@@ -121,6 +122,7 @@
 			                     <td align="left">&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 								 <?php $rsc = $dbc->getClientSavingByType(null,$row['client_id'],1);?>
 			                     <td align="left" style="min-width:60px;">&nbsp;<?php echo $row['client_name'];?>&nbsp;</td>
+			                     <td align="left" style="min-width:60px;">&nbsp;<?php echo $row['guarantor_name'];?>&nbsp;</td>
 			                     <td align="left">&nbsp;<?php echo $row['productTitle'];?>&nbsp;</td>
 			                     <td align="left" style="white-space: nowrap;">&nbsp;<?php echo $row['phone_number'].",".$rsc['village_name'].",".$rsc['commune_name'].",".$rsc['district_name'].",".$rsc['province_en_name'];?>&nbsp;</td>
 			                    <?php $str_day = date('D',strtotime($row['date_payment']));
@@ -182,7 +184,7 @@
 				         ?>
 		                <?php $i=1; $currentlate = 0;?>
 		                <tr class="style hover" style=" line-height: 24px; font-size:11px; font-family: 'Khmer OS Content'; white-space: nowrap;">
-		                	<td colspan="14" style=" background: #ccd9ff; text-align: center;">&nbsp;<strong><?php echo$tr->translate("REPORT_LOAN_LATE");?></strong>&nbsp;</td>
+		                	<td colspan="15" style=" background: #ccd9ff; text-align: center;">&nbsp;<strong><?php echo$tr->translate("REPORT_LOAN_LATE");?></strong>&nbsp;</td>
 		                </tr>
 		                <?php if(!empty($this->loanlate_list)){?>
 		               <?php foreach ($this->loanlate_list as $index => $rs){ ?>
@@ -216,6 +218,7 @@
 		               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
 		               		<!-- <td>&nbsp;<?php //echo $rs["client_number"];?>&nbsp;</td> -->
 		               		<td style="white-space: nowrap;">&nbsp;<?php echo $rs["name_kh"];?>&nbsp;</td>
+		               		<td style="white-space: nowrap;"><?php echo $rs["guarantor_name"];?></td>
 		               		<td style="white-space: nowrap;">&nbsp;<?php echo $rs["productTitle"];?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["phone"].",".$rs['village_name'].",".str_replace("Commune","",$rs['commune_name']).",".$rs['district_name'].",".$rs['province_en_name'];?>&nbsp;</td>
 		               		<td align="center">&nbsp;&nbsp;<?php echo $rs['times']."/".$rs['total_duration'];?> &nbsp;</td>

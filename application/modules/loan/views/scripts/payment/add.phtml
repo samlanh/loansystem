@@ -1116,7 +1116,7 @@ dojo.ready(function(){
 	<?php 
 	if($this->user_type!=1){?>
 		dijit.byId('total_interest').attr('readOnly',true);
-		<?php $settingEnalbleDate =0;
+		<?php $settingEnalbleDate =1;
 		if ($settingEnalbleDate==1){?>
 		dijit.byId('collect_date').attr('readOnly',true);
 		<?php }?>
@@ -1467,7 +1467,7 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		<?php 
 	if($this->user_type!=1){?>
 		dijit.byId('total_interest').attr('readOnly',true);
-		<?php $settingEnalbleDate =0;
+		<?php 
 		if ($settingEnalbleDate==1){?>
 		dijit.byId('collect_date').attr('readOnly',true);
 		<?php }?>
