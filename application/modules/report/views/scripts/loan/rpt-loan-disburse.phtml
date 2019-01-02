@@ -51,7 +51,12 @@ dojo.require("dijit.form.DateTextBox");
 				a.repLink.btn {
 				    color: #008;
 				    font-weight: 600;
+					font-size: 10px;
 				}
+			thead tr td{
+				text-align: center;
+			font-weight: bold;
+			}
 		</style>
 		<table style="font-family: 'Khmer OS Content'; width:100%; max-width: 100%">
 			<tr>
@@ -76,22 +81,22 @@ dojo.require("dijit.form.DateTextBox");
 		            <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;width:100%;" cellspacing="0">
 		               <thead>
 		                 <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold;line-height: 30px;background: #ccd9ff; font-size:12px; padding:1px 0px; white-space: nowrap; ">
-		                    <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
-		                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
-		                    <th><?php echo $tr->translate("LOAN_NO");?></th>
-		                    <th><?php echo $tr->translate("CLIENT_NO");?></th>
-		                    <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
-		                    <th><?php echo $tr->translate("LOAN_LEVEL");?></th>
-		                    <th><?php echo $tr->translate("CO_NAME");?></th>
-		                    <th><?php echo $tr->translate("LOAN_AMOUNT");?></th>
-		                    <th><?php echo $tr->translate("ADMIN_FEE");?></th>
-		                    <th><?php echo $tr->translate("OTHER_FEE");?></th>
-		                    <th><?php echo $tr->translate("INTEREST RATE");?></th>
-		                    <th><?php echo $tr->translate("TERM_BORROW");?></th>
-		                    <th><?php echo $tr->translate("PAMENT_METHOD");?></th>
-		                    <th><?php echo $tr->translate("RELEASED_DATE");?></th>
-		                    <th><?php echo $tr->translate("LIFE_LOAN");?></th>
-		                    <th><?php echo $tr->translate("LOAN_TYPE");?></th>
+		                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("LOAN_NO");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("CLIENT_NO");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("LOAN_LEVEL");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("CO_NAME");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("ADMIN_FEE");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("INTEREST RATE");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("TERM_BORROW");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("PAMENT_METHOD");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("RELEASED_DATE");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("LOAN_TYPE");?>&nbsp;</td>
 		                </tr>
 		                </thead>
 		               <?php 
@@ -149,11 +154,11 @@ dojo.require("dijit.form.DateTextBox");
 		             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
 		                 <thead>
 						 <tr bgcolor="#c1d0f3" class="style" align="center" style="floafont-weight:bold; line-height: 30px; font-size:12px; padding:2px 0px; ">
-		                    <th><?php echo $tr->translate("CURRENT_TYPE");?></th>
-		                    <th><?php echo $tr->translate("ចំនួនកម្ចី");?></th>
-		                    <th><?php echo $tr->translate("TOTAL_AMOUNT");?></th>
-		                    <th><?php echo $tr->translate("TOTAL_FEE");?></th>
-		                    <th><?php echo $tr->translate("OTHER_FEE");?></th>
+		                    <td>&nbsp;<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("ចំនួនកម្ចី");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("TOTAL_AMOUNT");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("TOTAL_FEE");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
 		                </tr>
 						</thead>
 		                 <tr class="style" style=" line-height: 24px; font-size:12px;">
@@ -185,11 +190,11 @@ dojo.require("dijit.form.DateTextBox");
 		              <table align="center" width="100%">
 					  		<thead>
 						   <tr style="font-size: 14px;">
-						        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
-						        <th></th>
-						        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
-						        <th></th>
-						        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+						        <td style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></td>
+						        <td></td>
+						        <td style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></td>
+						        <td></td>
+						        <td style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></td>
 						   </tr>
 						</thead>
 					</table>	
