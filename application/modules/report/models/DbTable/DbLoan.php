@@ -2233,5 +2233,25 @@ AND cl.client_id = $client_id )";
       	$where.="  GROUP BY p.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
+      function getAdminFeeByReschedule($search){
+      	$db = $this->getAdapter();
+      	$sql="
+      	SELECT SUM(rs.`admin_fee`) AS total_adminfee,l.`currency_type` 
+			FROM `ln_reschedule` AS rs,
+			`ln_loan` AS l WHERE l.id  = rs.loan_id
+      	";
+      	$where ="";
+      	if($search['branch_id']>0){
+      		$where.=" AND l.`branch_id` = ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$from_date =(empty($search['start_date']))? '1': " rs.`reschedule_date` >= '".$search['start_date']." 00:00:00'";
+      		$to_date = (empty($search['end_date']))? '1': " rs.`reschedule_date` <= '".$search['end_date']." 23:59:59'";
+      		$where.= " AND ".$from_date." AND ".$to_date;
+      	}
+      	 
+      	$where.=" GROUP BY l.`currency_type`";
+      	return $db->fetchAll($sql.$where);
+      }
  }
 

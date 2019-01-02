@@ -162,6 +162,8 @@ function rptLoanDisburseAction(){//release all loan
 		);
 	}
 	$this->view->loantotalcollect_list =$rs=$db->getALLLoanPayment($search);
+	$this->view->rescheduleFee = $db->getAdminFeeByReschedule($search);
+	
 	$this->view->list_end_date = $search;
 	$frm = new Loan_Form_FrmSearchLoan();
 	$frm = $frm->AdvanceSearch();

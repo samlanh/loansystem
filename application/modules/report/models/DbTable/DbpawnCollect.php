@@ -52,6 +52,11 @@ class Report_Model_DbTable_DbpawnCollect extends Zend_Db_Table_Abstract
 		   FROM `ln_clientsaving` `c`
 		   WHERE (`c`.`client_id` = `l`.`customer_id`)
 		   LIMIT 1) AS `client_name`,
+		   (SELECT
+		     `c`.`guarantor_name`
+		   FROM `ln_clientsaving` `c`
+		   WHERE (`c`.`client_id` = `l`.`customer_id`)
+		   LIMIT 1) AS `guarantor_name`,
 		   (SELECT symbol FROM `ln_currency` WHERE id=l.currency_type LIMIT 1) AS currencyname,
 		
 		  (SELECT

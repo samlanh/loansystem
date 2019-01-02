@@ -91,6 +91,9 @@ function round_up($value, $places)
     				'maturity'=>$data['date_line'],
     				're_payment_method'=>$data['repayment_method'],
     				'user_id'=>$user_id,
+    				
+    				'loan_id'=>$loan_id,//please check is created on 02-1-2019
+    				'admin_fee'=>$data['other_fee'],//please check is created on 02-1-2019
     		);
     		
     		$this->_name="ln_reschedule";

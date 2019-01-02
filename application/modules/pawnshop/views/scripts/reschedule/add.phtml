@@ -194,6 +194,13 @@
 	                   </div>
 	                </div>
 	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PAMENT_METHOD");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('repayment_method');?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("INTEREST_TYPE");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -555,47 +562,48 @@
 <?php 
 	$frm = $this->Form_Frmcallecterall;
 ?>
+<!-- 
 <div class="dijitHidden">
 <style>
 .print tr td{
 	padding:5px 2px; 
 }
 </style>
-	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'<?php echo $tr->translate("COLLECTERALL_TYPE")?>', onCancel:hideDialog" id="frm_product" style="width:1000px">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'<?php //echo $tr->translate("COLLECTERALL_TYPE")?>', onCancel:hideDialog" id="frm_product" style="width:1000px">
 		<div class="print" style="text-align:center;">
 			<form id='frm_producttype' dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 				<table cellspacing="10" class='fullside'>
 					<tr>
 						<td>
 							<fieldset>
-								<legend><strong><?php echo $tr->translate("COLLECTERALL_TYPE")?></strong></legend>
+								<legend><strong><?php //echo $tr->translate("COLLECTERALL_TYPE")?></strong></legend>
 								<table cellspacing="2"  width="100%" >
 									<tr>
 										<td width="40%">
 											<table width="100%">
 												<tr>
-													<td><?php echo $tr->translate("NAME_KH")?></td>
-													<td><?php echo $frm->getElement('title_kh')?></td>	
+													<td><?php //echo $tr->translate("NAME_KH")?></td>
+													<td><?php //echo $frm->getElement('title_kh')?></td>	
 												</tr>
 												<tr>
-												    <td><?php echo $tr->translate("NAME_ENG")?></td>
-													<td><?php echo $frm->getElement('title_en')?></td>	
+												    <td><?php //echo $tr->translate("NAME_ENG")?></td>
+													<td><?php //echo $frm->getElement('title_en')?></td>	
 											   </tr>
 											   <tr>
-											        <td><?php echo $tr->translate("DATE")?></td>
-													<td><?php echo $frm->getElement('date')?></td>
+											        <td><?php //echo $tr->translate("DATE")?></td>
+													<td><?php //echo $frm->getElement('date')?></td>
 											   </tr>
 											   <tr>
-											   		<td><?php echo $tr->translate("STATUS")?></td>
-													<td><?php echo $frm->getElement('status')?></td>
+											   		<td><?php //echo $tr->translate("STATUS")?></td>
+													<td><?php //echo $frm->getElement('status')?></td>
 											   </tr>
 											</table>							
 										</td>
 										<td width="60%">
 											<table width="100%">
 												<tr>					        
-													<td style="white-space:nowrap;"><?php echo $tr->translate("ពត៍មានលម្អិត")?></td>
-													<td><?php echo $frm->getElement('description')?></td>
+													<td style="white-space:nowrap;"><?php //echo $tr->translate("ពត៍មានលម្អិត")?></td>
+													<td><?php //echo $frm->getElement('description')?></td>
 												</tr>
 											</table>
 										</td>
@@ -615,6 +623,7 @@
 		</div>
 	</div>
 </div>
+-->
 <script type="text/javascript">	
 var getloan_level = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'get-loanlevelsch')); ?>';
 function getLoanLevel(loan_code){
@@ -860,6 +869,7 @@ require(["dojo/ready"], function(ready){
 		dijit.byId("payment_term").set('readOnly',true);
 		dijit.byId("interest_type").set('readOnly',true);
 		dijit.byId("level").set('readOnly',true);
+		dijit.byId("repayment_method").set('readOnly',true);
 		
 		dojo.connect(dojo.byId("outstandingloan"), "onkeyup", function(evt){
 			deposit = dijit.byId("outstandingloan").get("value");
@@ -1067,6 +1077,7 @@ function getProductDetail(pawn_id){
 
 					dijit.byId("payment_term").attr('value',data.term_type);
 					dijit.byId("interest_type").attr('value',data.interest_type);
+					dijit.byId("repayment_method").attr('value',data.payment_method);
 					
 					dijit.byId("member").attr('value',data.customer_id);
 					dijit.byId("customer_code").attr('value',data.customer_id);
