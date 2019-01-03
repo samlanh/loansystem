@@ -73,7 +73,7 @@ public function init()
 		
 		$netIncomeDollar = $totalIncomeDollar - $ExpenseDollar;
 		$netIncomeRiels = $totalIncomeRiels - $ExpenseRiels;
-		$netIncomeBath = $totalIncomeDollar - $ExpenseBath;
+		$netIncomeBath = $totalIncomeBath - $ExpenseBath;
 		$this->view->netIncomeDollar = $netIncomeDollar;
 		$this->view->netIncomeRiels = $netIncomeRiels;
 		$this->view->netIncomeBath = $netIncomeBath;
