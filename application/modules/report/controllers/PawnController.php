@@ -306,6 +306,8 @@ function rptPaymentschedulesAction(){
  			'adv_search' => "",
  			'branch_id'	  => -1,
  			'member'=>-1,
+	 			'members'=>'',
+	 			'product_id'=>-1,
 	 		'currency_type'=>-1,
 		 	'start_date'  => date('Y-m-d'),
 		 	'end_date'    => date('Y-m-d'),

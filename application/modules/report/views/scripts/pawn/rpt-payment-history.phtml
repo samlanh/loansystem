@@ -39,6 +39,10 @@ $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង
 		        display: table-header-group;
 		        page-break-inside:avoid; page-break-after:auto;
 		      }
+thead tr td{
+				text-align: center;
+				font-weight: bold;
+			}
 	</style>
 <?php $client_id = null;?>
 <?php $principle_r = 0;$interst_r = 0;$penalize_r = 0;$service_charge_r = 0;$balane_r = 0;
@@ -72,7 +76,7 @@ $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង
 			              		if ($client_id!=$rs["client_id"]) {
 			              		?>
 			              	<tr style="background: #eaedf5">
-			              		<td colspan="14" class="style">
+			              		<td colspan="14" class="style">&nbsp;​
 			              		<?php 
 			              			
 			              				 echo $tr->translate("LOAN_NO").':'.$rs["loan_number"].','.$tr->translate("CUSTOMER_NAME").':'.$rs["client_name"].',';
@@ -85,23 +89,23 @@ $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង
 			              				}
 			              			
 			              				$client_id=$rs["client_id"];
-			              			?>
+			              			?>&nbsp;​
 			              	</td>
 			              	</tr>
 							<thead>
 			                <tr bgcolor="#ccc" class="style" align="center" style="padding:5px 0;height: 20px; white-space: nowrap; background: #ccd9ff;">
-			                    <th><?php echo $tr->translate("NUM");?></th>
-			                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
-			                    <th><?php echo $tr->translate("PAID_PRINCIPAL");?></th>                   
-			                    <th><?php echo $tr->translate("INTEREST");?></th>
-			                    <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
-			                    <th><?php echo $tr->translate("SERVICE CHARGE");?></th>	 
-			                    <th><?php echo $tr->translate("TOTAL");?></th>                   
-			                    <th><?php echo $tr->translate("PAY_DATE");?></th>
-			                    <th><?php echo $tr->translate("RECIEPT_NO");?></th>
-			                    <th><?php echo $tr->translate("PAYMENTED");?></th>
-			                    <th><?php echo $tr->translate("INPUT_DATE");?></th>
-			                    <th><?php echo $tr->translate("PAYMENT_OPTION");?></th>
+			                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("PAID_PRINCIPAL");?>&nbsp;</td>                   
+			                    <td>&nbsp;<?php echo $tr->translate("INTEREST");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("PENALIZE AMOUNT");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("SERVICE CHARGE");?>&nbsp;</td>	 
+			                    <td>&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>                   
+			                    <td>&nbsp;<?php echo $tr->translate("PAY_DATE");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("RECIEPT_NO");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("PAYMENTED");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("INPUT_DATE");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("PAYMENT_OPTION");?>&nbsp;</td>
 			                </tr>
 							</thead>
 			                <?php }?>              
@@ -146,12 +150,12 @@ $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង
 		            <table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
 		                 <thead>
 		                  <tr bgcolor="#ccc" class="style stylehover" style="font-weight:bold; background: #ccd9ff; line-height: 24px; text-align: center;" >
-			                    <th style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</th>
-			                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PRINCIPLE");?>&nbsp;</th>
-			                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_INTEREST");?>&nbsp;</th>
-			                    <th style="padding:5px 0px;"colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PENELIZE");?>&nbsp;</th>
-			                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_SERVICE_CHARGE");?>&nbsp;</th>
-			                    <th style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("TOTAL_PAYMENTED");?>&nbsp;</th>	                    
+			                    <td style="padding:5px 0px; text-align: left;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
+			                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PRINCIPLE");?>&nbsp;</td>
+			                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_INTEREST");?>&nbsp;</td>
+			                    <td style="padding:5px 0px;"colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PENELIZE");?>&nbsp;</td>
+			                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_SERVICE_CHARGE");?>&nbsp;</td>
+			                    <td style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("TOTAL_PAYMENTED");?>&nbsp;</td>	                    
 			                </tr>
 			              </thead>               
 		                <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
@@ -183,11 +187,11 @@ $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង
 		              <br />
 	               <table align="center" width="100%">
 					   <tr style="font-size: 12px;">
-					        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
-					        <th></th>
-					        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
-					        <th></th>
-					        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+					        <td style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></td>
+					        <td></td>
+					        <td style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></td>
+					        <td></td>
+					        <td style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></td>
 					   </tr>
 				</table>
 		    	</td>
