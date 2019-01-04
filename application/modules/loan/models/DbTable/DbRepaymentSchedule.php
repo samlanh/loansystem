@@ -562,7 +562,6 @@ function round_up($value, $places)
     		}catch (Exception $e){
     			$db->rollBack();
     			Application_Form_FrmMessage::message("INSERT_FAIL");
-    			echo $e->getMessage();exit();
     			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     		}
     		}

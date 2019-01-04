@@ -23,7 +23,7 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 						'status' => -1,
 						'currency_type'=>-1,
 						'pay_every'=>-1,
-						'start_date'=> date('Y-m-01'),
+						'start_date'=> date('Y-m-d'),
 						'end_date'=>date('Y-m-d'),
 						 );
 			}

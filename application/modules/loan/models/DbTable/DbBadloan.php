@@ -271,8 +271,9 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     
     public function getLoanInfoByNumberLoanId($id){
     	$db=$this->getAdapter();
-    	$sql="SELECT (SELECT SUM(ld.principal_permonth) FROM `ln_loan_detail` AS ld WHERE ld.loan_id = l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS total_principal,
-    	              (SELECT SUM(ld.total_interest) FROM `ln_loan_detail` AS ld WHERE ld.loan_id= l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS total_interest ,
+    	$sql="SELECT 
+    				  (SELECT SUM(ld.principle_after) FROM `ln_loan_detail` AS ld WHERE ld.loan_id = l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS total_principal,
+    	              (SELECT SUM(ld.total_interest_after) FROM `ln_loan_detail` AS ld WHERE ld.loan_id= l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS total_interest ,
     	              (SELECT ld.date_payment FROM `ln_loan_detail` AS ld WHERE ld.loan_id= l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS date_payment,
                       l.level,l.date_release,l.date_line,l.total_duration,l.pay_term,
                       SUM(l.loan_amount) AS total_capital,			  
@@ -283,7 +284,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
 			    	  l.payment_method,l.branch_id,
 			    	  l.customer_id AS client_id  
     		FROM `ln_loan` AS  l WHERE l.id=$id
-    		AND STATUS=1 
+    		AND status=1 
     		AND l.is_completed=0 
     		AND l.is_badloan=0";
     	return $db->fetchRow($sql);
