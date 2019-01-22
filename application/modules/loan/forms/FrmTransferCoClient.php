@@ -123,7 +123,7 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$options_numbers=array(''=>"---Select Client Code---");
 		if (!empty($row_number))
 			foreach ($row_number AS $row_client){
-			$options_numbers[$row_client['customer_id']] = $row_client['loan_number'];
+			$options_numbers[$row_client['id']] = $row_client['loan_cus'];
 		}
 		$code_client->setMultiOptions($options_numbers);
 		
@@ -139,7 +139,7 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$options_from =array(''=>"------Select Loan Number------");
 		if (!empty($row_number))
 			foreach ($row_number AS $row_numbers){
-			$options_from[$row_numbers['customer_id']] = $row_numbers['loan_number'];
+			$options_from[$row_numbers['id']] = $row_numbers['loan_cus'];
 		}		
 		$loan_number->setMultiOptions($options_from);
 		$loan_number->setValue($request->getParam("loan_number")); 
