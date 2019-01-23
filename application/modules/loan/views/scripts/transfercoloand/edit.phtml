@@ -45,11 +45,6 @@
      					dijit.byId('loan_number').focus();
      					return false;
    					}
-    				if(dijit.byId('loan_client').get('value')==''){
-    	 				alert('Please Select Client');
-     					dijit.byId('loan_client').focus();
-     					return false;
-   					}
     				return true;
    				}else {
     				return false;
@@ -102,13 +97,15 @@
 	                   		<?php  echo $frm->getElement('loan_number');?>
 	                   </div>
 	                </div>
+	               <!-- 
 	                <div class="form-group" style="display: none;">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_NAME");?>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php //echo $tr->translate("CUSTOMER_NAME");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php  echo $frm->getElement('loan_client');?>
+	                   		<?php  //echo $frm->getElement('loan_client');?>
 	                   </div>
 	                </div>
+	                -->
 	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?>
 	                   </label>

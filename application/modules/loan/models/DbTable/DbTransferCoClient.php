@@ -162,6 +162,14 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     		$where = " loan_id = ".$data['loan_number']."  AND status = 1 ";
     		$this->update($_arr_fund, $where);
     		
+    		//new Condiction
+    		$this->_name ="ln_loan";
+    		$_arr_fund = array(
+    				'co_id'=>$data['name_co'],
+    		);
+    		$where = " id = ".$data['loan_number']."  AND status = 1 ";
+    		$this->update($_arr_fund, $where);
+    		
     		$this->_name="ln_client_receipt_money";
     		$arr = array("co_id"=>$data['name_co']);
     		$where = " loan_id = ".$data['loan_number'];
@@ -178,6 +186,14 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try {
+    		$row = $this->getAllinfoTransfer($id);// reverst old co
+    		$this->_name ="ln_loan";
+    		$_arr_fund = array(
+    				'co_id'=>$row['from'],
+    		);
+    		$where = " id = ".$data['loan_number']."  AND status = 1 ";
+    		$this->update($_arr_fund, $where);
+    		
     		$dbg = new Application_Model_DbTable_DbGlobal();
     		$row = $dbg->getClientIdBYMemberId($data['loan_number']);
     		$_data_arr = array(
@@ -194,13 +210,24 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     				'user_id'=>$this->getUserId()
     		);
     		$wheres = "id = $id";
+    		$this->_name ="ln_tranfser_co";
     		$this->update($_data_arr, $wheres);
-    		$this->_name ="ln_loanmember_funddetail";
+//     		$this->_name ="ln_loanmember_funddetail";
+    		$this->_name ="ln_loan_detail";
     		$_arr_fund = array(
     				'collect_by'=>$data['name_co'],
     		);
-    		$where = "member_id = ".$data['loan_number']." AND is_completed = 0 AND status = 1 ";
+//     		$where = "member_id = ".$data['loan_number']." AND is_completed = 0 AND status = 1 ";
+    		$where = " loan_id = ".$data['loan_number']."  AND status = 1 ";
     		$this->update($_arr_fund, $where);
+    		
+    		$this->_name ="ln_loan";
+    		$_arr_fund = array(
+    				'co_id'=>$data['name_co'],
+    		);
+    		$where = " id = ".$data['loan_number']."  AND status = 1 ";
+    		$this->update($_arr_fund, $where);
+    		
     		$db->commit();
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("INSERT_FAIL");
