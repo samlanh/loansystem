@@ -190,7 +190,7 @@ public function init()
 				'queryExpr'=>'*${0}*',
 		));
 		$opts = $db->getVewOptoinTypeByType(24,1,null,1);
-		$opt[-1]="--- Add New---";
+		$opt[-1]=$this->tr->translate("ADD_NEW");
 		$_loan_types->setMultiOptions($opts);
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
@@ -202,7 +202,7 @@ public function init()
 				'queryExpr'=>'*${0}*',
 		));
 		$options = $db ->getZoneList(1);
-		$options[-1]="--- Add New---";
+		$options[-1]=$this->tr->translate("ADD_NEW");
 		$_zone->setMultiOptions($options);
 		
 		$_zones = new Zend_Dojo_Form_Element_FilteringSelect('zones');
@@ -214,7 +214,7 @@ public function init()
 				'queryExpr'=>'*${0}*',
 		));
 		$optionsf = $db ->getZoneList(1);
-		$optionsf[-1]="--- Add New---";
+		$optionsf[-1]=$this->tr->translate("ADD_NEW");
 		$_zones->setMultiOptions($optionsf);
 		
 		$_loan_fee = new Zend_Dojo_Form_Element_NumberTextBox('loan_fee');
@@ -488,7 +488,7 @@ public function init()
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$options= array(1=>"Active",0=>"Cancel");
+		$options= array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("CANCEL"));
 		$_status->setMultiOptions($options);
 		
 		$_interest = new Zend_Dojo_Form_Element_TextBox("interest");

@@ -6,6 +6,7 @@ class Loan_IndexController extends Zend_Controller_Action {
      /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
+    	$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
@@ -115,7 +116,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$co_name = $db->getAllCoNameOnly();
 		array_unshift($co_name,array(
 		        'id' => -1,
-		        'name' => '---Add New ---',
+		        'name' => $this->tr->translate("ADD_NEW"),
 		) );
 	    $this->view->co_name=$co_name;
 	}
@@ -178,7 +179,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$co_name = $db->getAllCoNameOnly();
 		array_unshift($co_name,array(
 				'id' => -1,
-				'name' => '---Add New ---',
+				'name' => $this->tr->translate("ADD_NEW"),
 		) );
 		$this->view->co_name=$co_name;
 	}
@@ -270,7 +271,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 			$optionss = $db ->getAllCOName(1);
 			array_unshift($co_name,array(
 					'id' => -1,
-					'name' => '---Add New ---',
+					'name' => $this->tr->translate("ADD_NEW"),
 			) );
 			print_r(Zend_Json::encode($co_name));
 			exit();

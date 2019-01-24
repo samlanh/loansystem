@@ -152,6 +152,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	
     	$db = $this->getAdapter();
     	$sql = "SELECT l.id,b.branch_namekh,
+    	(SELECT ld.loan_number FROM `ln_loan` AS ld WHERE ld.id=l.loan_id LIMIT 1) AS loan_number,
     	CONCAT((SELECT client_number FROM `ln_client` WHERE client_id = l.client_code LIMIT 1),' - ',		
     	(SELECT name_kh FROM `ln_client` WHERE client_id = l.client_code LIMIT 1)) AS client_name_en,
   		DATE_FORMAT(l.loss_date, '%d-%m-%Y'), 
@@ -289,7 +290,26 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     		AND l.is_badloan=0";
     	return $db->fetchRow($sql);
     }
+    public function getLoanInfoByNumberLoanIdEdit($id){
+    	$db=$this->getAdapter();
+    	$sql="SELECT
+    	(SELECT SUM(ld.principle_after) FROM `ln_loan_detail` AS ld WHERE ld.loan_id = l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS total_principal,
+    	(SELECT SUM(ld.total_interest_after) FROM `ln_loan_detail` AS ld WHERE ld.loan_id= l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS total_interest ,
+    	(SELECT ld.date_payment FROM `ln_loan_detail` AS ld WHERE ld.loan_id= l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS date_payment,
+    	l.level,l.date_release,l.date_line,l.total_duration,l.pay_term,
+    	SUM(l.loan_amount) AS total_capital,
+    	l.loan_number,l.currency_type,l.interest_rate,
     
+    	l.customer_id,l.currency_type ,
+    	l.interest_rate ,l.loan_number,
+    	l.payment_method,l.branch_id,
+    	l.customer_id AS client_id
+    	FROM `ln_loan` AS  l WHERE l.id=$id
+    	AND status=1
+    	AND l.is_completed=0
+    	";
+    	return $db->fetchRow($sql);
+    }
     public function getLoanedit($id){
     	$db=$this->getAdapter();
     	$sql="SELECT  * FROM ln_badloan WHERE id=$id AND STATUS=1";

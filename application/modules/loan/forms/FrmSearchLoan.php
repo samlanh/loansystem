@@ -209,7 +209,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_pay_every->setValue($request->getParam('pay_every'));
 		
 		$client_name = new Zend_Dojo_Form_Element_FilteringSelect("client_name");
-		$opt_client = array(''=>'ជ្រើសរើស ឈ្មោះអតិថិជន');
+		$opt_client = array(''=>$this->tr->translate("SELECT_CUSTOMER"));
 		$rows = $db->getAllClient();
 		if(!empty($rows)){foreach($rows AS $row){
 			$opt_client[$row['id']]=$row['name'];

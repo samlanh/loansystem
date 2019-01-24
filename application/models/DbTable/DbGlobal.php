@@ -1343,7 +1343,7 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	$db = $this->getAdapter();
   	$sql = "CALL `stGetAllLoanNumber`";
   	$result = $db->fetchAll($sql);
-  	$options=array(''=>"---Select Loan Number---");
+  	$options=array(''=>$this->tr->translate("Select Loan Number"));
   	if($opt!=null){
   		if(!empty($result))foreach($result AS $row){
   			$options[$row['id']]= $row['customer_name']."-".$row['loan_number'];
@@ -1360,7 +1360,7 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 	(SELECT name_kh FROM `ln_client` WHERE ln_client.client_id=l.customer_id LIMIT 1) AS customer_name,
 	loan_number FROM `ln_loan` AS l WHERE l.status=1 AND l.is_completed = 0 ORDER BY l.id DESC ";
   	$result = $db->fetchAll($sql);
-  	$options=array(''=>"---Select Loan Number---");
+  	$options=array(''=>$this->tr->translate("Select Loan Number"));
   	if($opt!=null){
   		if(!empty($result))foreach($result AS $row){
   			$options[$row['id']]= $row['customer_name']."-".$row['loan_number'];

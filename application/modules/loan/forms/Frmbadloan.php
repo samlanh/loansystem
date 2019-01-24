@@ -27,7 +27,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
     			'queryExpr'=>'*${0}*',
     	));
     	$rows = $db->getAllBranchName();
-    	$options=array(''=>"---Select Branch Name---");
+    	$options=array(''=>$this->tr->translate("Choose Branch"));
     	if(!empty($rows))
     		foreach($rows AS $row){
     		$options[$row['br_id']]=$row['branch_namekh'];
@@ -45,7 +45,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 		));
 		$opt= $db->getClientByTypes(1);
-		$opt[0]='---Select Client Code---';
+		$opt[0]=$this->tr->translate("SELECT_CUSTOMER_CODE");
 		$client_code->setMultiOptions($opt);
 		$client_code->setValue($request->getParam('client_code'));
 		
@@ -69,7 +69,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 				));
 		$options = $db->getClientByTypes(2);
-		$options[0]='---Select Client Name---';
+		$options[0]=$this->tr->translate("SELECT_CUSTOMER_NAME");
 		$client_name->setMultiOptions($options);
 		$client_name->setValue($request->getParam('client_name'));
 		
@@ -147,7 +147,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		));
 		
 		$type_opt = array(
-				''=>$this->tr->translate("---Select Long Term---"),
+				''=>$this->tr->translate("Select Long Term"),
 				1=>$this->tr->translate("Standard ,<= 10 Days"),
 				2=>$this->tr->translate("Special Mention ,11-90 Days"),
 				3=>$this->tr->translate("Substandard ,91-180 Days"),
@@ -189,7 +189,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$opt = array(''=>"Select Currency Type",2=>"Dollar",1=>'Khmer',3=>"Bath");
+		$opt = array(''=>$this->tr->translate("Select Currency Type"),2=>"Dollar",1=>'Khmer',3=>"Bath");
 		if($request->getActionName()!='index' AND $request->getActionName()!='rpt-loan-npl' ){
 			//unset($opt['']);
 		}

@@ -6,6 +6,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 		/* Initialize action controller here */
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
+		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	
 	public function indexAction()
@@ -31,7 +32,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_row = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","CUSTOMER_NAME","LOSS_DATE"
+			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","LOSS_DATE"
 					,"TOTAL_PRINCEPLE","INTERREST_AMOUNT","TERM","NOTE","DATE","STATUS");
 			$link=array(
 					'module'=>'loan','controller'=>'badloan','action'=>'edit',
@@ -95,6 +96,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			}
 		}
 		$row=$_dbmodel->getLoanedit($id);
+		$this->view->row = $row;
 		$fm = new Loan_Form_Frmbadloan();
 		$frm = $fm->FrmBadLoan($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
@@ -164,6 +166,15 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 			$db=new Loan_Model_DbTable_DbBadloan();
 			$row=$db->getLoanInfoByNumberLoanId($data['loan_id']);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
+	public function getloaninfoByLoanideditAction(){
+		if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$db=new Loan_Model_DbTable_DbBadloan();
+			$row=$db->getLoanInfoByNumberLoanIdEdit($data['loan_id']);
 			print_r(Zend_Json::encode($row));
 			exit();
 		}

@@ -19,61 +19,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dijit.form.NumberTextBox");
 </script>
-<script type="text/javascript">
-dojo.require("dojo.data.ObjectStore");
-dojo.require("dojo.html");
-require(["dojo/ready"], function(ready){
-	 ready(function(){
-		//setFirstPaymentAndDateLine(3,<?php //echo date('d-m-Y');?>,1);
-		//changeCollectType();
-		//getInfoByLoanNumber();
-	  });
-	  
-	 var client_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
-	});
-	new dijit.form.FilteringSelect({
-	store: dojo.data.ObjectStore({objectStore: client_data}),
-	autoComplete: true,
-	query: {
-		branch_id: "-1"
-	},            
-	required: false,		           
-	name: "member",
-	id: "member",
-	searchAttr: "name",
-	class: 'fullside',
-	onChange: function() {
-		//getClientInfo(2);
-	}
-	}, "member");
-
-	 var client_number = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
-	});
-		new dijit.form.FilteringSelect({
-		store: dojo.data.ObjectStore({objectStore: client_number}),
-		autoComplete: true,
-		query: {
-			branch_id: "-1"
-		},            
-		required: false,		           
-		name: "customer_code",
-		id: "customer_code",
-		searchAttr: "name",
-		class: 'fullside',
-		onChange: function() {
-	}
-		}, "customer_code");
-
-	 
-	 
-	});
-</script>
-<script>
-	dojo.require("dijit.form.DateTextBox");
-	dojo.require("dijit.form.NumberTextBox");
-</script>
 <div class="card">
 	<div class="card-content collapse show">
 		<div class="card-box">
@@ -282,7 +227,55 @@ require(["dojo/ready"], function(ready){
 		
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
+dojo.require("dojo.data.ObjectStore");
+dojo.require("dojo.html");
+require(["dojo/ready"], function(ready){
+	 ready(function(){
+		//setFirstPaymentAndDateLine(3,<?php //echo date('d-m-Y');?>,1);
+		//changeCollectType();
+		getInfoByLoanNumber();
+	  });
+	  
+	 var client_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_data}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "member",
+	id: "member",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		//getClientInfo(2);
+	}
+	}, "member");
 
+	 var client_number = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
+	});
+		new dijit.form.FilteringSelect({
+		store: dojo.data.ObjectStore({objectStore: client_number}),
+		autoComplete: true,
+		query: {
+			branch_id: "-1"
+		},            
+		required: false,		           
+		name: "customer_code",
+		id: "customer_code",
+		searchAttr: "name",
+		class: 'fullside',
+		onChange: function() {
+	}
+		}, "customer_code");
+
+	 
+	 
+	});
 var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'badloan','action'=>'getloaninfo')); ?>';
 function getClientInfo(type){
 	if(type==1){
@@ -366,9 +359,17 @@ function submitDataClose(){
 }
 
 
-var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'badloan','action'=>'getloaninfo-by-loanid')); ?>';
+
+var oldLoanId='<?php echo $this->row['loan_id'];?>';
 function getInfoByLoanNumber(){
+	var url_submiinfoall = '<?php echo $this->url(array('module'=>'loan','controller'=>'badloan','action'=>'getloaninfo-by-loanid')); ?>';
+	var url_submiinfoedit = '<?php echo $this->url(array('module'=>'loan','controller'=>'badloan','action'=>'getloaninfo-by-loanidedit')); ?>';
 	loan_id = dijit.byId('get_laonnumber_edit').get('value');
+	if(loan_id==oldLoanId){
+		url_submiinfo = url_submiinfoedit;
+	}else{
+		url_submiinfo=url_submiinfoall;
+	}
 	dojo.xhrPost({
 	    url: url_submiinfo,	
 	    content : { 
@@ -401,7 +402,6 @@ function getInfoByLoanNumber(){
 		}
 	});
 }
-
 </script>
 
 
