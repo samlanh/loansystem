@@ -313,14 +313,18 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if(!empty($search['end_date'])){
 			$where.=" AND d.date_payment <='$end_date'";
 		}
-		if($search['repayment_method']>0){
-			$where.=" AND l.`payment_method` = ".$search['repayment_method'];
+		if (!empty($search['repayment_method'])){
+			if($search['repayment_method']>0){
+				$where.=" AND l.`payment_method` = ".$search['repayment_method'];
+			}
 		}
       	if($search['branch_id']>0){
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];
       	}
-      	if($search['province']>0){
-      		$where.=" AND c.pro_id= ".$search['province'];
+      	if (!empty($search['province'])){
+	      	if($search['province']>0){
+	      		$where.=" AND c.pro_id= ".$search['province'];
+	      	}
       	}
       	if(!empty($search['district'])){
       		$where.=" AND `c`.`dis_id`= ".$search['district'];
