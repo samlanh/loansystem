@@ -140,7 +140,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
       	$where.= "  AND ".$to_date;
 
-      	$sql="SELECT * FROM v_loanoutstanding WHERE 1 ";//IF BAD LOAN STILL GET IT
+      	$sql="SELECT * FROM v_loanoutstanding WHERE 1 AND is_badloan=0 ";//IF BAD LOAN STILL GET IT
       	if($search['branch_id']>0){
       		$where.=" AND br_id = ".$search['branch_id'];
       	}
