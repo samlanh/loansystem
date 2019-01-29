@@ -118,6 +118,10 @@ dojo.require("dijit.form.DateTextBox");
 		               		//echo number_format($total_receive,2).'&nbsp;'.$rs['currency_type'];?>&nbsp;</td>
 		               		<?php 
 		               		    $end_dat = $this->list_end_date['end_date'];
+// 		               		    $total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
+// 		               		    $total_late_day=$total_day/(60*60*24);
+
+		               		    //why check condiction
 			               		if ($rs['last_pay_date']==null or $rs['last_pay_date']==""){
 			               			$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
 			               			$total_late_day=$total_day/(60*60*24);

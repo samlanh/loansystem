@@ -74,23 +74,51 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	}
     	
     	$this->_name = 'ln_loan';
+    	if (!empty($_data['oldloan_id'])){
+	    	//update Old Loan
+	    	$arr_loan = array(
+	    			'is_badloan' =>0,
+	    	);
+	    	$where=" id = ".$_data['oldloan_id'];
+	    	$this->update($arr_loan, $where);
+    	}
+    	
     	$status=0;
     	if($_data['status']==1){
     		$status=1;
     	}
     	
-    		$arr_loan = array(
-    			'is_badloan' =>$status,
-    		);
-	    	$where=" id = ".$_data['get_laonnumber_edit'];
-	    	$this->update($arr_loan, $where);
+    	$arr_loan = array(
+    		'is_badloan' =>$status,
+    	);
+	    $where=" id = ".$_data['get_laonnumber_edit'];
+	    $this->update($arr_loan, $where);
 
-    		$arr = array(
+//     		$arr = array(
+//     			'branch'=>$_data['branch'],
+//     			'client_code'=>$_data['client_code'],
+//     			'client_name'=>$_data['client_name'],
+//     			'date'=>$_data['Date'],
+//     			'loan_number'=>$_data['loannumber'],
+//     			'loss_date'=>$_data['date_loss'],
+//     			'cash_type'=>$_data['cash_type'],
+//     			'total_amount'=>$_data['Total_amount'],
+//     			'tem'=>$_data['Term'],
+//     			'note'=>$_data['Note'],
+//     			'status'=>$_data['status'],
+//     			'create_by'=>$user_id,
+//     			'is_writoff'=>$writ_off
+//     			);
+//     	$where=" id = ".$_data['get_laonnumber_edit'];    	
+//     	$this->update($arr, $where);
+    	
+    	$arr = array(
     			'branch'=>$_data['branch'],
-    			'client_code'=>$_data['client_code'],
-    			'client_name'=>$_data['client_name'],
+    			'client_code'=>$_data['customer_code'],
+    			'client_name'=>$_data['member'],
+    			'loan_id'=>$_data['get_laonnumber_edit'],
+    			'intrest_amount'=>$_data['Interest_amount'],
     			'date'=>$_data['Date'],
-    			'loan_number'=>$_data['loannumber'],
     			'loss_date'=>$_data['date_loss'],
     			'cash_type'=>$_data['cash_type'],
     			'total_amount'=>$_data['Total_amount'],
@@ -99,9 +127,11 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'status'=>$_data['status'],
     			'create_by'=>$user_id,
     			'is_writoff'=>$writ_off
-    			);
-    	$where=" id = ".$_data['get_laonnumber_edit'];    	
+    	);
+    	$this->_name = 'ln_badloan';
+    	$where=" id = ".$_data['id'];
     	$this->update($arr, $where);
+    	
     }
     function updatebadloan_bad($_data){
     	$session_transfer=new Zend_Session_Namespace();

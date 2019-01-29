@@ -349,7 +349,7 @@ $frm = $this->frm;
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>                   
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d3+$amt_d5,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($disburse_dollar,2);?>&nbsp;</td>
                     
                     <td>&nbsp;&nbsp;<?php echo number_format($d1,2);?>&nbsp;</td>
@@ -368,7 +368,7 @@ $frm = $this->frm;
                     <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_r2,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($amn_r3,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amn_r3+$amn_r5,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($disburse_reil,2);?>&nbsp;</td>
                     
                     
@@ -388,7 +388,7 @@ $frm = $this->frm;
                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
-                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b3+$amn_b5,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($disburse_bath,2);?>&nbsp;</td>
                   
                    <td>&nbsp;&nbsp;<?php echo number_format($b1,2);?>&nbsp;</td>

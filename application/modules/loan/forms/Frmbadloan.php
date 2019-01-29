@@ -327,6 +327,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$_coid->setMultiOptions($options);
 		$_coid->setvalue($request->getParam('co_id'));
 		
+		$oldloan_id = new Zend_Form_Element_Hidden("oldloan_id");
 		if($data!=null){
 			$_branch_id->setValue($data['branch']);
 			$get_laonnumber->setValue($data['loan_id']);
@@ -343,9 +344,10 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 			$_status->setValue($data['status']);
 			$id->setValue($data['id']);
 			$id_cient->setValue($data['client_code']);
+			$oldloan_id->setValue($data['loan_id']);
 		}
 		
-		$this->addElements(array($get_elaonnumber,$get_laonnumber,$_coid,$_releasedate,$_enddate,$_payterm,$loannumber,$payment_method,$loan_period,$_interest_rate,$total_amount_loan,$loan_level,$_enddate,$star_date,$id_cient,$client_nameadd,$client_codeadd,$_btn_search,$_title,$_status,$cash_type,$id,$_branch_id,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
+		$this->addElements(array($get_elaonnumber,$get_laonnumber,$_coid,$_releasedate,$_enddate,$_payterm,$loannumber,$payment_method,$loan_period,$_interest_rate,$total_amount_loan,$loan_level,$_enddate,$star_date,$id_cient,$client_nameadd,$client_codeadd,$_btn_search,$_title,$_status,$cash_type,$id,$_branch_id,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note,$oldloan_id));
 		return $this;
 		
 	}	

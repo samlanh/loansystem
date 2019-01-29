@@ -22,7 +22,8 @@ class Capital_CapitalController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();//status
  			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","ចំនួនប្រាក់ដុល្លា","ចំនួនប្រាក់រៀល","ចំនួនប្រាក់បាត","ប្រភេទដើមទុន","DATE","NOTE","STATUS");
+			$collumns = array("BRANCH_NAME","ចំនួនប្រាក់ដុល្លា","ចំនួនប្រាក់រៀល","ចំនួនប្រាក់បាត","ប្រភេទដើមទុន","NOTE","STATUS");
+			//"DATE",
 			$link=array(
 					'module'=>'capital','controller'=>'capital','action'=>'edit'
 			);

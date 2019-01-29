@@ -75,7 +75,7 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
  				'client_name' => "",
  				'co_id' => "",
  				'currency_type'=>-1,
- 				'start_date'=> date('Y-m-d'),
+ 				'start_date'=> "",
  				'end_date'=>date('Y-m-d')
 	 	);
  	

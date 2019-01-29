@@ -980,7 +980,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 			(SELECT `c`.`commune_namekh` FROM `ln_commune` `c` WHERE (`c`.`com_id` = `ci`.`com_id`) LIMIT 1) AS `commune_name`,
 			(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `ci`.`dis_id`) LIMIT 1) AS `district_name`,
 			(SELECT province_kh_name FROM `ln_province` WHERE province_id= ci.pro_id  LIMIT 1) AS province_en_name	
-		 FROM  v_badloan AS v,ln_client AS ci WHERE v.client_id =ci.client_id ";
+		 FROM  v_badloan AS v,ln_client AS ci WHERE v.client_id =ci.client_id  AND v.status=1 ";
       	$where='';
       	$from_date =(empty($search['start_date']))? '1': " v.payof_date >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " v.payof_date <= '".$search['end_date']." 23:59:59'";
