@@ -9,13 +9,18 @@ $url_barcode = $this->url(array("module"=>"loan","controller"=>"ilpayment","acti
 <title><?php echo $tr->translate('REPORT WEEK');?></title>
 <style>
 td p{ margin-top:0px !important;}
+.hover:hover{ background:#ccc;}
+table.content-data  tr.style-head,
+table.tb-footer tr.style-head {
+   font-weight: bold !important;
+}
 </style>
 <div style=" width:26cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
 	<div id="divPrint">
 	<style type="text/css">
 	.style{
 		line-height: 20px;font-size: 13px;
-		font-family: 'Khmer OS Battambang';
+		font-family: 'Times New Roman','Khmer OS Battambang';
 	}
 	.font_bold{
 		font-family:'Khmer MEF2';
@@ -23,20 +28,53 @@ td p{ margin-top:0px !important;}
 	}
 	td p{ margin-top:-12px;}
 	p{margin: 0 00px !important;}
+	
+table.content-data{
+			border-collapse:collapse;
+			width:100%;
+			border:1px solid #000; 
+			font-family:'Times New Roman','Khmer OS Battambang';
+			font-size:13px;
+			white-space: nowrap;
+			margin:0 auto;
+		}
+		table.content-data  tr.style-head {
+		   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+			text-align: center;
+		}
+		table.content-data tr.style-rowdata {
+			font-size:12px; 
+			height: 23px;
+		}
+		
+		table.tb-footer{
+			font-family: 'Times New Roman','Khmer OS Battambang'; 
+			border-collapse:collapse;
+			border:1px solid #000; 
+			font-size:12px;
+			width:100%;
+		}
+		table.tb-footer tr.style-head{
+			line-height: 24px; 
+			text-align: center; 
+			background: #ccd9ff;
+		}
 	</style>
-	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+	<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;"  >
 		<tr>
 	    	<td align="center">
-	        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
+	        	<table width="100%" style="font-family:'Times New Roman','Khmer OS Muol Light';margin:0 auto;padding:0px; border:none;">
 					<tr>
 	                	  <td style=" " valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" /> </td>
-	                	  <td colspan="2" align="left" ><h2 style="text-align:left; font-size:16px; font-family:'Khmer os battambang';"><?php echo $tr->translate("ADDRESS_COMPANY");?>
+	                	  <td colspan="2" align="left" >
+	                	  <h2 style="font-weight:normal; text-align:left; font-size:16px; font-family:'Khmer os battambang';"><?php echo $tr->translate("ADDRESS_COMPANY");?>
 	                	  	<br /><?php echo $tr->translate("TEL_COMPANY");?>
-	                	  </h2></td>
+	                	  </h2>
+	                	  </td>
 	                </tr>
 	                <tr>
 	                	<td colspan="3" align="center">
-	                		<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
+	                		<h2 style="font-weight:normal; text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
 	               		</td>
 	                </tr> 
 	                <?php $db = new Application_Model_DbTable_DbGlobal();
@@ -45,11 +83,11 @@ td p{ margin-top:0px !important;}
 	                <tr>
 	                	<td colspan="3">
 	                		<table width="100%" style="font-family:">
-			                	<tr style="font-size:15px;line-height: 25px;font-family:'Khmer OS Battambang'" >
+			                	<tr style="font-size:15px;line-height: 25px;font-family:'Times New Roman','Khmer OS Battambang'" >
 				                   <td width="35%">
-				                   		<p> <?php echo "<strong>". $tr->translate('CLIENT_NO')."</strong> : ".$client['client_number']?></p>
-				                	    <p><b><?php echo $tr->translate('CUSTOMER_NAME');?></b>: <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> </p>
-				                		<p><?php echo "<strong>",$tr->translate("TEL")."</strong>";?> : <?php echo $client['client_phone'];?></p>
+				                   		<p> <?php echo "<span>". $tr->translate('CLIENT_NO')."</span> : ".$client['client_number']?></p>
+				                	    <p><span><?php echo $tr->translate('CUSTOMER_NAME');?></span>: <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> </p>
+				                		<p><?php echo "<span>",$tr->translate("TEL")."</span>";?> : <?php echo $client['client_phone'];?></p>
 				                	</td>
 				                    <td valign="top" style="" width="33%">
 				                        <p><?php echo $tr->translate("សងរំលស់");?> : <?php echo $client['total_duration']." ".Application_Model_DbTable_DbGlobal::getPaymentTermById($client['pay_term']); ?></p>
@@ -63,9 +101,9 @@ td p{ margin-top:0px !important;}
 				                      <p><?php echo $tr->translate("LEVEL");?> : <?php echo $client['level'];?></p>
 				                    </td>
 				                </tr>
-				                <tr style="font-size:15px;font-family:'Khmer OS Battambang'" >
+				                <tr style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'" >
 				                	<td colspan="2">
-				                		<p style="padding-top:8px;"><b><?php echo $tr->translate("ADDRESS");?></b>:<?php echo $row['village_name'];?> ,<?php echo $row['commune_name'];?> <?php echo $row['district_name'];?> ,  <?php echo $row['province_en_name'];?>
+				                		<p style="padding-top:8px;"><span><?php echo $tr->translate("ADDRESS");?></span>:<?php echo $row['village_name'];?> ,<?php echo $row['commune_name'];?> <?php echo $row['district_name'];?> ,  <?php echo $row['province_en_name'];?>
 				                	</td>
 				                	<td></td>
 				                </tr>
@@ -77,8 +115,8 @@ td p{ margin-top:0px !important;}
 	    </tr>
 	    <tr>
 	    	<td>
-	            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
-	                 <tr class="style" align="center" style="font-weight:bold; line-height: 40px;">
+	            <table id="exportExcel" class="content-data"  border="1"​ >
+	                 <tr class="style-head" align="center" style="line-height: 40px;">
 	                    <td><?php echo $tr->translate("NUM");?></td>
 	                    <td><?php echo $tr->translate("ថ្ងៃ-ខែ ឆ្នាំ");?></td>
 	                    <td><?php echo $tr->translate("AMOUNT_DATE");?></td>
@@ -105,7 +143,7 @@ td p{ margin-top:0px !important;}
 	               			</tr>
                			<?php }?>
                		<?php }else{?>
-		               	<tr align="center" style=" height: 20px;" class="style">
+		               	<tr class="style-rowdata hover" align="center" style=" height: 20px;" >
 		                    <td><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>
 		                    <?php $str_day = date('D',strtotime($row['date_payment']));
 		                    	$day_as_khmer = $dayin_khmer[$str_day];
@@ -138,7 +176,7 @@ td p{ margin-top:0px !important;}
 	            </table>
 	            <table>
 	            	<tr>
-	            		<td align="left" style="font-size: 12px;" ><u></u> <?php echo $tr->translate("NOTED_SCHEDULE");?></td>
+	            		<td align="left" style="font-size: 12px;" > <?php echo $tr->translate("NOTED_SCHEDULE");?></td>
 	            	</tr>
 	            </table>
 	            <table width="100%" cellpadding="3">
@@ -148,12 +186,12 @@ td p{ margin-top:0px !important;}
 	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('BORROWER');?></td>
 	            	</tr>
 	            	<tr class="font_bold">
-	            		<td align="center" height="80px" valign="bottom" style="font-size:15px;font-family:'Khmer OS Battambang'"><?php echo $client['user_name'];?></td>
-	            		<td align="center"  valign="bottom" style="font-size:15px;line-height: 30px;font-family:'Khmer OS Battambang'" >
+	            		<td align="center" height="80px" valign="bottom" style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'"><?php echo $client['user_name'];?></td>
+	            		<td align="center"  valign="bottom" style="font-size:15px;line-height: 30px;font-family:'Times New Roman','Khmer OS Battambang'" >
 	            			<?php echo $client['co_khname'];?>
 	            			<p><?php echo $tr->translate("TEL");?>  : <?php echo $client['tel'];?></p>   
 	            		</td>
-	            		<td align="center" height="75px" valign="bottom" style="font-size:15px;font-family:'Khmer OS Battambang'">
+	            		<td align="center" height="75px" valign="bottom" style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'">
 	            			<?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
 	            	</tr>
 	            </table>

@@ -140,7 +140,7 @@ dojo.require("dijit.form.DateTextBox");
 		    </tr>
 		    <tr>
 		    	<td id="exportExcel">
-		            <table class="content-data" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;width:100%;" cellspacing="0">
+		            <table class="content-data" border="1"​  cellspacing="0">
 		               <thead>
 		                 <tr class="style-head" >
 		                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
@@ -190,7 +190,7 @@ dojo.require("dijit.form.DateTextBox");
 		               		$count_lb=$count_lb+1;
 		               }
 		               ?>
-							<tr class="style-rowdata hover" align="center" oncontextmenu="setrowdata(<?php echo $row['id'];?>);return false;">
+						<tr class="style-rowdata hover" align="center" oncontextmenu="setrowdata(<?php echo $row['id'];?>);return false;">
 							<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 							<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 							<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>

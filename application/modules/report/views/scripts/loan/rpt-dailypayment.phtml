@@ -9,31 +9,63 @@
 <script>
      dojo.require("dijit.form.DateTextBox");
 </script>
-<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">	
+<style>
+.hover:hover{ background:#ccc;}
+table.content-data  tr.style-head,
+table.tb-footer tr.style-head {
+   font-weight: bold !important;
+}
+</style>
+<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">
+		<div class="card-box">
+       		<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+	    			<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('RPT_CLIENT_PAYMENT');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>	
 	<form method="post">
-		<table style="font-family: 'Khmer OS Content'; width: 100%;" >
-			<tr>
-	   			<td><?php echo $frm->getElement("adv_search");?></td>
-	   			<td><?php echo $frm->getElement('branch_id');?></td>   			
-	   			<td><?php echo $frm->getElement('client_name');?></td>
-	   			<td><?php echo $frm->getElement('co_id');?></td>
-		   	</tr>
-		   	<tr>
-	   			<td><?php echo $frm->getElement('start_date');?></td>
-	   			<td><?php echo $frm->getElement('end_date');?></td>
-	   			<td><?php echo $frm->getElement('status');?></td>   			
-	   			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-		   	</tr>
-		</table>
+		<div class="card-box">
+			<div class="form-group">
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $frm->getElement("adv_search");?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $frm->getElement('branch_id');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $frm->getElement('client_name');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $frm->getElement('co_id');?>
+               </div>
+            </div>
+            <div class="form-group">
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $frm->getElement('start_date');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $frm->getElement('end_date');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $frm->getElement('status');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+               </div>
+            </div>
+        </div>
 	</form>
 	<div id="divPrint">
 		<style type="text/css">
 		.style{
 			line-height: 20px;font-size: 12px !important;
-			font-family: 'Khmer OS Battambang';
+			font-family: 'Times New Roman','Khmer OS Battambang';
 		}
 		.style1:hover{ background: #ccc; }
-		table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
+		table tr td ul li{list-style: none;line-height: 25px;}
 		
 		table { page-break-inside:auto }
 		  tr{ page-break-inside:avoid; page-break-after:auto; }
@@ -41,18 +73,49 @@
 		  display: table-header-group;
 		  page-break-inside:avoid; page-break-after:auto;
 		}
-		thead tr td { text-align: center; font-weight: bold;}
+		thead tr td { text-align: center; }
+table.content-data{
+			border-collapse:collapse;
+			width:100%;
+			border:1px solid #000; 
+			font-family:'Times New Roman','Khmer OS Battambang';
+			font-size:13px;
+			white-space: nowrap;
+			margin:0 auto;
+		}
+		table.content-data  tr.style-head {
+		   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+			background: #ccd9ff;
+			text-align: center;
+		}
+		table.content-data tr.style-rowdata {
+			font-size:12px; 
+			height: 23px;
+		}
+		
+		table.tb-footer{
+			font-family: 'Times New Roman','Khmer OS Battambang'; 
+			border-collapse:collapse;
+			border:1px solid #000; 
+			font-size:12px;
+			width:100%;
+		}
+		table.tb-footer tr.style-head{
+			line-height: 24px; 
+			text-align: center; 
+			background: #ccd9ff;
+		}
 		</style>
 		<table width="100%">
 			<tr>
 		    	<td align="center" valign="top">
-		        	<table width="100%" style="font-family: 'Khmer OS Battambang';"style="margin:0;padding:0;">
+		        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';"style="margin:0; padding:0;">
 		            	<tr>
 		                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="80px"></td>
 		                	<td width="60%" valign="top">
 		                		<ul>
-		                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-		                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RPT_CLIENT_PAYMENT");?></li>
+		                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+		                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("RPT_CLIENT_PAYMENT");?></li>
 		                			<li style="text-align:center; font-size:14px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
 		                		</ul>
 		                   </td>
@@ -83,10 +146,10 @@
 			               }
 				         ?>
 		                <?php }?>
-		            <strong style="font-family: 'Khmer OS Content';">តារាងប្រមូលប្រាក់ប្រចាំថ្ងៃ</strong> 
-		            <table  width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; " cellspacing="0">
+		            <span style="font-family: 'Times New Roman','Khmer OS Battambang';">តារាងប្រមូលប្រាក់ប្រចាំថ្ងៃ</span> 
+		            <table class="content-data" border="1"  cellspacing="0">
 			                <thead>
-							<tr bgcolor="#ccc" class="style" align="center" style="padding:0px 2px;white-space: nowrap; background:#ccd9ff; ">
+			                <tr class="style-head" >
 			                    <td rowspan="2" align="center"><?php echo $tr->translate("NUM");?></td>
 			                    <td rowspan="2" align="center"><?php echo $tr->translate("BRANCH_NAME");?></td>
 			                    <td rowspan="2" align="center"><?php echo $tr->translate("LOAN_NO");?></td>	  
@@ -101,7 +164,7 @@
 			                    <td rowspan="2" align="center"><?php echo $tr->translate("RECIEPT_NO");?></td>
 			                    <td rowspan="2" align="center"><?php echo $tr->translate("PAYMENT_OPTION");?></td>
 			                </tr>
-			                <tr class="style" style="white-space: nowrap;text-align: center; background:#ccd9ff; ">
+			                <tr class="style-head" >
 			                	<td><?php echo $tr->translate("PAID_PRINCIPAL");?></td>  
 			                    <td><?php echo $tr->translate("INTEREST");?></td>
 			                    <td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
@@ -142,7 +205,7 @@
 									$total_b=$amn_b1+$amn_b2+$amn_b3+$amn_b5;
 				               }
 		               ?>
-		                <tr class="style style1" style="font-family: 'Khmer OS Content'; white-space:nowrap; ">
+		                <tr class="style style1" style="font-family: 'Times New Roman','Khmer OS Battambang'; white-space:nowrap; ">
 		               		<td style="text-align: center;">&nbsp;<?php echo $i++; ?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
@@ -165,9 +228,9 @@
 		                </tr>
 		                <?php }?>
 		            </table>
-		             <strong style="font-family: 'Khmer OS Content';">តារាងចំណូល</strong> 
-		              <table  border="1"​ style="font-family: 'Khmer OS Content';border-collapse:collapse;border:1px solid #000; font-size:10px; white-space: nowrap;" width="100%" cellspacing="0">
-		                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; background:#ccd9ff; border:1px solid #000; line-height: 20px; font-size:10px; padding:5px 0px; ">
+		             <span style="font-family: 'Times New Roman','Khmer OS Battambang';">តារាងចំណូល</span> 
+		              <table  class="content-data"  border="1"​  cellspacing="0">
+		              	<tr class="style-head" >
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></td>
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></td>
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("DESCRIPTION");?></td>
@@ -203,8 +266,8 @@
 		                <?php }?>
 		            </table>
 		             <!-- 
-		             <strong style="font-family: 'Khmer OS Content';">តារាងចំណាយ</strong>
-		              <table  border="1"​ style="border-collapse:collapse;border:1px solid #000;    font-family: 'Khmer OS Content' !important; font-size:10px; white-space: nowrap;" width="100%" cellspacing="0">
+		             <strong style="font-family: 'Times New Roman','Khmer OS Battambang';">តារាងចំណាយ</strong>
+		              <table  border="1"​ style="border-collapse:collapse;border:1px solid #000;    font-family: 'Times New Roman','Khmer OS Battambang' !important; font-size:10px; white-space: nowrap;" width="100%" cellspacing="0">
 		                 <thead>
 						 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; border:1px solid #000; background:#ccd9ff; line-height: 20px; font-size:10px; padding:5px 0px; ">
 		                    <th style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></td>
@@ -242,9 +305,9 @@
 		                <?php //}?>
 		            </table>
 		             --><br />
-		            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
+		            <table border="1"​ class="tb-footer" cellspacing="0">
 		                 <thead>
-						 <tr bgcolor="#ccc" class="style" style="font-weight:bold; background:#ccd9ff; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
+						 <tr class="style-head" >
 		                    <td rowspan="2"><?php echo $tr->translate("CURRENT_TYPE");?></td>
 		                    <?php 
 		                    $colspan=4;
@@ -255,7 +318,7 @@
 		                    <td rowspan="2"><?php echo $tr->translate("ចំណូល-ចំណាយ");?></td>
 		                    <td rowspan="2"><?php echo $tr->translate("TOTAL");?></td>
 		                </tr>
-		                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; background:#ccd9ff; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
+		               <tr class="style-head" >
 		                    <td><?php echo $tr->translate("ប្រាក់ដើម");?></td>
 		                    <?php //if($level==1){?>
 		                    <td><?php echo $tr->translate("ប្រាក់ការសរុប");?></td>
@@ -266,7 +329,7 @@
 		                    <td><?php echo $tr->translate("OTHER_FEE");?></td>
 		                </tr>
 						</thead>
-		                 <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
+		                 <tr >
 		                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
 		                    <?php //if($level==1){?>
@@ -279,7 +342,7 @@
 		                    <td>&nbsp;&nbsp;<?php echo number_format($total_dd-$amt_d,2);?>&nbsp;</td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($saving_amountd+$d1+$d2+$total_d+$total_dd-$amt_d-$disburse_dollar,2);?>&nbsp;</td>
 		                </tr>
-		                <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
+		                <tr >
 		                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
 		                    <?php //if($level==1){?>
@@ -292,7 +355,7 @@
 		                    <td>&nbsp;&nbsp;<?php echo number_format($total_rr-$amt_r,2);?>&nbsp;</td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($saving_amountr+$r1+$r2+$total_r+$total_rr-$amt_r-$disburse_reil,2);?>&nbsp;</td>
 		                </tr>
-		                 <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
+		                 <tr >
 		                   <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
 		                   <?php //if($level==1){?>
@@ -308,11 +371,11 @@
 		              </table>
 		               <br /><table align="center" width="100%">
 						   <tr style="font-size: 14px;">
-						        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></td>
+						        <td style="width:20%;text-align:center;  font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('APPROVED BY');?></td>
 						        <td></td>
-						        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></td>
+						        <td style="width:20%;text-align:center; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('VERIFYED BY');?></td>
 						        <td></td>
-						        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></td>
+						        <td style="width:20%;text-align:center;font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('PREPARE BY');?></td>
 						   </tr>
 					</table>
 		    	</td>

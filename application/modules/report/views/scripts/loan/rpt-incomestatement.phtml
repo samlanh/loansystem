@@ -1,29 +1,57 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("LIST_LOAN_INCOME"));
+echo $this->headTitle($tr->translate("REPORT_LOANINCOMESTAEMENT"));
 $frm = $this->frm_search;
 $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលស់ប្រាក់ដើម",4=>"បង់ផ្តាច់");
 ?>
 <script>
 dojo.require("dijit.form.DateTextBox");
 </script>
-<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">	
+<style>
+.hover:hover{ background:#ccc;}
+table.content-data thead tr.style-head,
+table.tb-footer tr.style-head {
+   font-weight: bold !important;
+}
+</style>
+<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">
+	<div class="card-box">
+       	<div class="col-sm-12 border-botom">
+		  	<div class="col-sm-8 pd-0">
+	    		<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('REPORT_LOANINCOMESTAEMENT');?></h4>
+    		</div>
+    		<div class="col-sm-4 text-right">
+    		</div>
+    	</div>
+    </div>
 	<form method="post">
-		<table style="font-family: 'Khmer OS Content'; width:100%;" >
-			<tr>
-	   			<td><?php echo $frm->getElement('branch_id');?></td>
-	   			<td><?php echo $frm->getElement('currency_type');?></td>
-	   			<td><?php echo $frm->getElement('start_date');?></td>
-	   			<td><?php echo $frm->getElement('end_date');?></td>
-	   			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-		   	</tr>
-		</table>
+		<div class="card-box">
+			<div class="form-group">
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $frm->getElement('branch_id');?>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $frm->getElement('currency_type');?>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $frm->getElement('start_date');?>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               	<?php echo $frm->getElement('end_date');?>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               </div>
+            </div>
+         </div>
 	</form>
 <div id="divPrint" style="width: 100%;">
 	<style>
 	.style{
 		line-height: 20px;font-size: 10px !important;
-		font-family: 'Khmer OS Battambang';
+		font-family: 'Times New Roman','Khmer OS Battambang';
 	}
 	
 	table { page-break-inside:auto }
@@ -34,20 +62,20 @@ dojo.require("dijit.form.DateTextBox");
 	}
 	
 .styleover:hover{ background: #ccc; }
-table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
-ul li{list-style: none;line-height: 25px; font-weight: bold;}
+table tr td ul li{list-style: none;line-height: 25px;}
+ul li{list-style: none;line-height: 25px; }
 th{padding: 2px;}
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
     	<td align="center">
-        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang'; margin:0; padding:0; border:none;">
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" style="height: 85px;max-width: 100%;"></td>
                 	<td width="60%" valign="top">
                 		<ul>
-	                		<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-							<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOANINCOMESTAEMENT");?></li>
+	                		<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+							<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_LOANINCOMESTAEMENT");?></li>
 	                		<li style="text-align:center; font-size:14px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
 	                </td>
@@ -59,21 +87,21 @@ th{padding: 2px;}
     <tr>
     	<td id="exportExcel">
     	<div>
-            <table border="1" style="border-collapse:collapse; font-size:14px; white-space: nowrap;" width="100%" cellspacing="0">
+            <table  style="border-collapse:collapse; font-size:14px; white-space: nowrap;" width="100%" cellspacing="0">
                 <?php 
                 	 $rsincome = $this->rsincome;
                 ?>
-                <thead style="font-family:'Khmer MEF2'">
+                <thead style="font-family:'Times New Roman','Khmer OS Muol Light'">
                 	<tr style="background:#ccd9ff">
-	                	<th>ប្រភេទគណនី</th>
-	                	<th></td>
-						<th>ដុល្លារ-USD</th>
-						<th>រៀល-KHR</th>
-						<th>បាត-BTH</th>
+	                	<td>ប្រភេទគណនី</td>
+	                	<td></td>
+						<td>ដុល្លារ-USD</td>
+						<td>រៀល-KHR</td>
+						<td>បាត-BTH</td>
 					<tr>
                 </thead>
                 <tr class="styleover" >
-               		<td><strong>ចំណូល/Revenue</strong></td>
+               		<td><span>ចំណូល/Revenue</span></td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
@@ -115,7 +143,7 @@ th{padding: 2px;}
                		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['other_incomeb'],2);?></td>
                 </tr>
                 <tr class="styleover" >
-               		<td><strong>ចំណូលពីបញ្ចាំ</strong></td>
+               		<td><span>ចំណូលពីបញ្ចាំ</span></td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
@@ -143,16 +171,16 @@ th{padding: 2px;}
                		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['pawn_adminfeeb'],2);?></td>
                 </tr>
 				<tr class="styleover">
-               		<td>&nbsp;&nbsp;<strong style="font-family:'Khmer MEF2';font-size: 16px;">ចំណូលសរុបរួមទាំងអស់</strong></td>
+               		<td>&nbsp;&nbsp;<span style="font-family:'Times New Roman','Khmer OS Muol Light';font-size: 16px;">ចំណូលសរុបរួមទាំងអស់</span></td>
                		<td>&nbsp;&nbsp;</td>
                		<?php 
 	               		$incomed = $rsincome["interest_paidd"]+$rsincome["penalize_paidd"]+$rsincome["service_paidd"]+($rsincome["adminfee_d"]+$rsincome["other_feed"])+$rsincome['other_incomed']+($rsincome['pawn_interestd']+$rsincome['pawn_penalized']+$rsincome['pawn_adminfeed']);
 	               		$incomer = $rsincome["interest_paidr"]+$rsincome["penalize_paidr"]+$rsincome["service_paidr"]+($rsincome["adminfee_r"]+$rsincome["other_feer"])+$rsincome['other_incomer']+($rsincome['pawn_interestr']+$rsincome['pawn_penalizer']+$rsincome['pawn_adminfeer']);
 	               		$incomeb = $rsincome["interest_paidb"]+$rsincome["penalize_paidb"]+$rsincome["service_paidb"]+($rsincome["adminfee_b"]+$rsincome["other_feeb"])+$rsincome['other_incomeb']+($rsincome['pawn_interestb']+$rsincome['pawn_penalizeb']+$rsincome['pawn_adminfeeb']);
                		?>
-               		<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang'; ">&nbsp;$&nbsp;<?php echo number_format($incomed,2);?></strong></td>
-                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang'; ">&nbsp;៛&nbsp;<?php echo number_format($incomer,2);?></strong></td>
-                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang'; ">&nbsp;฿&nbsp;<?php echo number_format($incomeb,2);?></strong></td>
+               		<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang'; ">&nbsp;$&nbsp;<?php echo number_format($incomed,2);?></span></td>
+                	<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang'; ">&nbsp;៛&nbsp;<?php echo number_format($incomer,2);?></span></td>
+                	<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang'; ">&nbsp;฿&nbsp;<?php echo number_format($incomeb,2);?></span></td>
                 </tr>
                  <tr class="styleover" >
                		<td>ចំណាយ/Expense</td>
@@ -176,11 +204,11 @@ th{padding: 2px;}
                		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['expense_b'],2);?></td>
                 </tr>
                 <tr class="styleover">
-               		<td>&nbsp;&nbsp;<strong style="font-family:'Khmer MEF2';font-size: 16px;">Net Income/Lost ចំណេញ/ខាត សរុប</strong></td>
+               		<td>&nbsp;&nbsp;<span style="font-family:'Times New Roman','Khmer OS Muol Light';font-size: 16px;">Net Income/Lost ចំណេញ/ខាត សរុប</span></td>
                		<td>&nbsp;&nbsp;</td>
-               		<td><strong style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;$&nbsp;<?php echo number_format($incomed-$rsincome['badloan_d']-$rsincome['expense_d'],2);?></strong></td>
-                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang';background:#ccc;padding:5px;">&nbsp;៛&nbsp;<?php echo number_format($incomer-$rsincome['badloan_r']-$rsincome['expense_r'],2);?></strong></td>
-                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;฿&nbsp;<?php echo number_format($incomeb-$rsincome['badloan_b']-$rsincome['expense_b'],2);?></strong></td>
+               		<td><span style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;$&nbsp;<?php echo number_format($incomed-$rsincome['badloan_d']-$rsincome['expense_d'],2);?></span></td>
+                	<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang';background:#ccc;padding:5px;">&nbsp;៛&nbsp;<?php echo number_format($incomer-$rsincome['badloan_r']-$rsincome['expense_r'],2);?></span></td>
+                	<td><span style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;฿&nbsp;<?php echo number_format($incomeb-$rsincome['badloan_b']-$rsincome['expense_b'],2);?></span></td>
                 </tr>
             </table>
             <br />
@@ -191,11 +219,11 @@ th{padding: 2px;}
  <table align="center" width="100%">
 	<thead>
 	  <tr style="font-size: 14px;">
-        <td style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></td>
+        <td style="width:20%;text-align:center;  font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('APPROVED BY');?></td>
         <td></td>
-        <td style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></td>
+        <td style="width:20%;text-align:center; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('VERIFYED BY');?></td>
         <td></td>
-        <td style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></td>
+        <td style="width:20%;text-align:center;font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('PREPARE BY');?></td>
 	  </tr>
 	</thead>
 </table>
