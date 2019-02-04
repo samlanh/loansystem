@@ -18,6 +18,9 @@ $client = $this->client;
 ?>
 <style>
 .hover:hover{background: #ccc;}
+table.content-data thead tr.style-head {
+   font-weight: bold !important;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php  echo $tr->translate("REPORT_LOAN_COLLECT");?></title>
@@ -218,7 +221,7 @@ $client = $this->client;
 					line-height: 20px;font-size: 11px !important;
 					font-family: 'Khmer OS Battambang';
 				}
-				table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
+				table tr td ul li{list-style: none;line-height: 25px; }
 				th{padding: 2px;}
 				table { page-break-inside:auto }
 				tr{ page-break-inside:avoid; page-break-after:auto; }
@@ -226,22 +229,41 @@ $client = $this->client;
 				  display: table-header-group;
 				  page-break-inside:avoid; page-break-after:auto;
 				}
-				thead tr td { text-align: center; font-weight: bold;}
+				thead tr td { text-align: center;}
+				
+				table.content-data{
+					border-collapse:collapse;
+					width:100%;
+					border:1px solid #000; 
+					font-family:'Times New Roman','Khmer OS Battambang';
+					font-size:13px;
+					white-space: nowrap;
+					margin:0 auto;
+				}
+				table.content-data thead tr.style-head {
+				   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+					background: #ccd9ff;
+					white-space: nowrap;
+				}
+				table.content-data tr.style-rowdata {
+					font-size:12px; 
+					height: 23px;
+				}
 			</style>
-			<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+			<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;"  >
 				<tr>
 			    	<td align="center">
-			        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
+			        	<table width="100%" style="font-family:'Times New Roman','Khmer OS Battambang';margin:0 auto;padding:0px; border:none;">
 			            	<tr>
 			                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
 			                	<td width="60%" valign="top">
 			                	<ul>
-		                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-		                			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_COLLECT");?></li>
+		                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+		                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_LOAN_COLLECT");?></li>
 		                			<li style="text-align:center; font-size:14px;"><?php if(!empty($this->rsearch['start_date'])){?><?php echo date("D-d-M-Y",strtotime($this->rsearch['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->rsearch['end_date']));}?></li>
 		                		</ul>
 		                    </td>
-			                    <td width="20%"><strong style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label id="lbl_customer"></label></strong></td>
+			                    <td width="20%"><span style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><label id="lbl_customer"></label></span></td>
 			                </tr>
 			                <?php 
 			                ?> 
@@ -251,13 +273,13 @@ $client = $this->client;
 			    </tr>
 			    <tr>
 			    	<td id="exportExcel">
-			            <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;width:100%;">
+			            <table class="content-data" border="1"​ >
 			             <thead>
-			                 <tr class="style" align="center" bgcolor="#ccc" style="white-space: nowrap; background: #ccd9ff;">
+			                 <tr class="style-head" align="center" >
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("NUM");?></td>
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("BRANCH_NAME");?></td>
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("LOAN_NO");?></td>
-			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("LOAN_NO");?></td>
+			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("REPAYMENT_TYPE");?></td>
 			                    <td rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></td>
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PHONE")." / ".$tr->translate("ADDRESS");?></td>
@@ -269,12 +291,12 @@ $client = $this->client;
 			                    <td rowspan="2" style="padding:0px 2px;"><?php //echo $tr->translate("PAY_DATE");?></td>-->
 			                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PAID_TIME");?></td>
 			                    <td colspan="3" style="padding:0px 2px;"><?php echo $tr->translate("PAYMENT");?></td>
-			                    <td rowspan="2" style="text-align:center ;padding:0px 2px;"><strong><?php echo $tr->translate("TOTAL_PAYMENT");?></strong></td>
+			                    <td rowspan="2" style="text-align:center ;padding:0px 2px;"><?php echo $tr->translate("TOTAL_PAYMENT");?></td>
 			                    <td rowspan="2"><?php echo $tr->translate("LATE_DAY");?></td>
 			                    <td rowspan="2"><?php echo $tr->translate("LATE");?></td>
 			                    <td rowspan="2"><?php echo $tr->translate("PAY_DATE");?></td>
 			                </tr>
-			                <tr class="style" bgcolor="#ccc" style="white-space: nowrap; background: #ccd9ff;">
+			                <tr class="style-head" >
 			                    <td style="text-align:center ;padding:0px 2px;"><?php echo $tr->translate("PRINCIPAL");?></td>
 			                    <td style="text-align:center ;padding:0px 2px;"><?php echo $tr->translate("INTEREST");?></td>
 			                    <td style="text-align:center ;padding:0px 2px;"><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
@@ -330,14 +352,22 @@ $client = $this->client;
 			               			$total_payment =$rs['principle_after']+$rs['total_interest_after'];
 		               			?>
 		               <?php //if($currentlate>0){?>
-		                <tr class="style hover" style=" line-height: 24px; font-size:11px; font-family: 'Khmer OS Content'; white-space: nowrap;">
+		                <tr class="style-rowdata hover" >
 		               		<td style="text-align: center;"><?php echo $i++;?></td>
 		               		<td>&nbsp;<?php echo $rs["branch_namekh"];?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["payment_method_title"];?>&nbsp;</td>
 		               		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>
 		               		<td style="white-space: nowrap;">&nbsp;<?php echo $rs["name_kh"];?>&nbsp;</td>
-		               		<td>&nbsp;<?php echo $rs["phone"].",".$rs['village_name'].",".str_replace("Commune","",$rs['commune_name']).",".$rs['district_name'].",".$rs['province_en_name'];?>&nbsp;</td>
+		               		<td style="line-height: 18px; white-space: normal !important;max-width: 150px;width: 150px;padding: 5px;overflow-wrap: break-word;">
+		               			<?php 
+		               				echo $rs["phone"];
+		               				echo empty($rs['village_name'])?"":",".$rs['village_name'];
+		               				echo empty($rs['commune_name'])?"":",".str_replace("Commune","",$rs['commune_name']);
+		               				echo empty($rs['district_name'])?"":",".$rs['district_name'];
+		               				echo empty($rs['province_en_name'])?"":",".$rs['province_en_name'];
+		               			?>
+		               		</td>
 		               		<!-- <td align="right" style="white-space: nowrap;">&nbsp;<?php //echo date("d/m/Y",strtotime($rs["date_release"]));?>&nbsp;</td>
 		               		<td align="right" style="white-space: nowrap;">&nbsp;<?php //echo number_format($rs["total_capital"],2).' '.$rs['currency_type'];?>&nbsp;</td>
 		               		<td>&nbsp;<?php //echo $rs["interest_rate"];?>&nbsp;</td>
@@ -346,7 +376,7 @@ $client = $this->client;
 		               		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["principle_after"],2).' '.$rs['currency_type'];?>&nbsp;</td>
 		               		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_interest_after"],2).' '.$rs['currency_type'];?>&nbsp;</td>
 		               		<td align="right" style="white-space: nowrap;">&nbsp;<?php //echo $penelize.' '.$rs['currency_type'];?>&nbsp;</td> 
-		               		<td align="right" style="white-space: nowrap;"><strong style="font-family:'arial';">&nbsp;<?php echo number_format($total_payment,2).' '.$rs['currency_type'];?></strong>&nbsp;</td>
+		               		<td align="right" style="white-space: nowrap;"><strong >&nbsp;<?php echo number_format($total_payment,2);?></strong>&nbsp;<?php echo $rs['currency_type'];?>&nbsp;</td>
 		               		<td align="center">&nbsp;&nbsp;<?php echo $amount_lateday." Days";?> &nbsp;</td>
 		               		<td align="center">&nbsp;&nbsp;<?php echo $rs["amount_late"]." ដង";?> &nbsp;</td>
 		               		<td align="center">&nbsp;&nbsp;<?php echo date_format(date_create($rs["date_payment"]),'d-m-Y');?>&nbsp;</td>
@@ -380,10 +410,10 @@ $client = $this->client;
 			<br />
 			<table width="100%">
 				<tr>
-		    	<td style="font-family:'khmer os battambang';">
+		    	<td style="font-family:'Times New Roman','Khmer OS Battambang';">
 		             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">				 
 						 <thead>
-						 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; background: #ccd9ff; font-size:9px;font-family: 'Khmer OS Content';">
+						 <tr class="style" style="line-height: 24px; text-align: center; background: #ccd9ff; font-size:9px;">
 		                     <td><?php echo $tr->translate('CURRENT_TYPE');?></td>    
 		                    <td><?php echo $tr->translate("TOTAL_PRINCIPLE");?></td>
 		                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
@@ -391,21 +421,21 @@ $client = $this->client;
 		                    <td><?php echo $tr->translate("TOTAL_PAYMENT");?></td>
 		                </tr>
 						</thead>
-		                 <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
+		                 <tr class="style" style=" line-height: 24px; ">
 		                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
 		                    <!--<td>&nbsp;&nbsp;<?php echo number_format($pene_amd,2);?>&nbsp;</td> -->
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d4,2);?>&nbsp;</td>
 		                </tr>
-		                 <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
+		                 <tr class="style" style=" line-height: 24px; ">
 		                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r3,2);?>&nbsp;</td>
 		                    <!--<td>&nbsp;&nbsp;<?php //echo number_format($pene_amr,2);?>&nbsp;</td>-->
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r4,2);?>&nbsp;</td>
 		                </tr>
-		                 <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
+		                 <tr class="style" style="line-height: 24px; ">
 		                   <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($amt_b1,2);?>&nbsp;</td>
 		                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
@@ -416,11 +446,17 @@ $client = $this->client;
 		               <table align="center" width="100%">
 					   		<thead>
 							   <tr style="font-size: 14px;">
-							        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></td>
+							        <td style="width:20%;text-align:center;  font-family:'Times New Roman','Khmer OS Muol Light'">
+							        	<?php echo $tr->translate('APPROVED BY');?>
+							        </td>
 							        <td></td>
-							        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></td>
+							        <td style="width:20%;text-align:center; font-family:'Times New Roman','Khmer OS Muol Light'">
+							        	<?php echo $tr->translate('VERIFYED BY');?>
+							        </td>
 							        <td></td>
-							        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></td>
+							        <td style="width:20%;text-align:center;font-family:'Times New Roman','Khmer OS Muol Light'">
+							        	<?php echo $tr->translate('PREPARE BY');?>
+							        </td>
 								</tr>
 							</thead>
 						</table>

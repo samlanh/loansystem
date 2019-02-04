@@ -1,43 +1,65 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate('Nonperforming Loan Report'));
+echo $this->headTitle($tr->translate('REPORT_NPL'));
 $frm = $this->frm_loan;
 $rate_pri = "";
 $type= array(1=>"General Provision",2=>"Specifit Provision");
 ?>
+<style>
+.hover:hover{ background:#ccc;}
+table.content-data thead tr.style-head,
+table.tb-footer tr.style-head {
+   font-weight: bold !important;
+}
+</style>
 <script>
 dojo.require("dijit.form.DateTextBox");
 </script>
-<div style="width:100%; margin:0 auto; clear:both;">
-	<div style=" width:28cm;padding:0px 0.25cm">
-		<form method="post">
-		<table style="width:100%" >
-			<tr>
-					<td><?php echo $frm->getElement('adv_search');?></td>
-					<td><?php echo $frm->getElement('branch');?></td>
-					<td><?php echo $frm->getElement('client_name');?></td>
-					<td><?php echo $frm->getElement('client_code');?></td>
-			</tr>
-			<tr>
-					<td><?php echo $frm->getElement('cash_type');?></td>
-					<td><?php echo $frm->getElement('end_date');?></td>
-					<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-					<td><?php //echo $frm->getElement('Term');?></td>
-			</tr>
-		</table>
-		</form>
-	</div>
-</div>
-<div style="width:100%; margin:0 auto;">
-	<div style=" width:28.5cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.25cm">
+<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">
+		<div class="card-box">
+       		<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+	    			<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('REPORT_NPL');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
+    	<div class="card-box">
+			<div class="form-group">
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               <?php echo $frm->getElement('adv_search');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               <?php echo $frm->getElement('branch');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               <?php echo $frm->getElement('client_name');?>
+               </div>
+              <div class="col-md-3 col-sm-3 col-xs-12">
+               <?php echo $frm->getElement('client_code');?>
+               </div>
+            </div>
+            <div class="form-group">
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               	<?php echo $frm->getElement('cash_type');?>
+               </div>
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                	<?php echo $frm->getElement('end_date');?>
+               </div>
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                	<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+               </div>
+            </div>
+        </div>
 		<div id="divPrint">
-		<style>
+			<style>
 			.style{
 				line-height: 20px;font-size: 9px !important;
-				font-family: 'Khmer OS Battambang';
+				font-family: 'Times New Roman','Khmer OS Battambang';
 			}
 			.hover:hover{ background: #ccc;}
-			table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
+			table tr td ul li{list-style: none;line-height: 25px; }
 			th{padding: 5px;}
 			
 			table { page-break-inside:auto }
@@ -46,18 +68,48 @@ dojo.require("dijit.form.DateTextBox");
 			  display: table-header-group;
 			  page-break-inside:avoid; page-break-after:auto;
 			}
-		
+				table.content-data{
+					border-collapse:collapse;
+					width:100%;
+					border:1px solid #000; 
+					font-family:'Times New Roman','Khmer OS Battambang';
+					font-size:13px;
+					white-space: nowrap;
+					margin:0 auto;
+				}
+				table.content-data thead tr.style-head {
+				   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+					background: #ccd9ff;
+					text-align: center;
+				}
+				table.content-data tr.style-rowdata {
+					font-size:12px; 
+					height: 23px;
+				}
+				
+				table.tb-footer{
+					font-family: 'Times New Roman','Khmer OS Battambang'; 
+					border-collapse:collapse;
+					border:1px solid #000; 
+					font-size:12px;
+					width:100%;
+				}
+				table.tb-footer tr.style-head{
+					line-height: 24px; 
+					text-align: center; 
+					background: #ccd9ff;
+				}
 		</style>
 		<table width="100%" >
 			<tr>
 		    	<td align="center">
-		        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+		        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';" style="margin:0; padding:0; border:none;">
 		            	<tr>
 		                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
 		                	<td width="60%" valign="top">
 		                	    <ul>
-		                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-		                			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_NPL");?></li>
+		                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+		                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_NPL");?></li>
 		                			<li style="text-align:center; font-size:13px;"><?php echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
 		                		</ul> 
 		                	</td>
@@ -69,28 +121,28 @@ dojo.require("dijit.form.DateTextBox");
 		    </tr>
 		    <tr>
 		    	<td id="exportExcel">
-		            <table width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
+		            <table class="content-data"  border="1"  cellspacing="0">
 		              <thead>
-		                <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 18px; background: #ccd9ff; font-size:11px; padding:10px 0px; ">
-		                    <th ><?php echo $tr->translate("NUM");?></th>
-		                    <th ><?php echo $tr->translate("BRANCH_NAME");?></th>
-		                    <th ><?php echo $tr->translate("LOAN_NO");?></th>
-		                    <th><!-- <svg width="17"><text transform="rotate(270, 12, 0) translate(-70,-2)"> -->
+		             	 <tr class="style-head" >
+		                    <td><?php echo $tr->translate("NUM");?></td>
+		                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
+		                    <td ><?php echo $tr->translate("LOAN_NO");?></td>
+		                    <td><!-- <svg width="17"><text transform="rotate(270, 12, 0) translate(-70,-2)"> -->
 									<?php echo $tr->translate("CLIENT_NUM");?> 
 								<!--</text></svg> -->
-							</th> 
-		                    <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
-		                    <th><?php echo $tr->translate("LOAN_AMOUNT");?></th> 
-		                    <th><?php echo $tr->translate("INTEREST_RATE");?></th>
-		                    <th><?php echo $tr->translate("LOAN_PERIOD");?></th>
-		                    <th>&nbsp;<?php echo $tr->translate("RELEASED_DATE");?>&nbsp;</th>
-		                    <th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
-		                    <th><?php echo $tr->translate("LOANOUTSTADING");?></th> 
-		                    <th><?php echo $tr->translate("LATE_DAY");?></th> 
-		                    <th><?php echo $tr->translate("Classified Loan");?></th>
-		                    <th><?php echo $tr->translate("Rate of Provision");?></th>
-		                    <th><?php echo $tr->translate("Type of Provision");?></th>
-		                    <th><?php echo $tr->translate("Provion Amount");?></th>
+							</td> 
+		                    <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
+		                    <td><?php echo $tr->translate("LOAN_AMOUNT");?></td> 
+		                    <td><?php echo $tr->translate("INTEREST_RATE");?></td>
+		                    <td><?php echo $tr->translate("LOAN_PERIOD");?></td>
+		                    <td>&nbsp;<?php echo $tr->translate("RELEASED_DATE");?>&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</td>
+		                    <td><?php echo $tr->translate("LOANOUTSTADING");?></td> 
+		                    <td><?php echo $tr->translate("LATE_DAY");?></td> 
+		                    <td><?php echo $tr->translate("Classified Loan");?></td>
+		                    <td><?php echo $tr->translate("Rate of Provision");?></td>
+		                    <td><?php echo $tr->translate("Type of Provision");?></td>
+		                    <td><?php echo $tr->translate("Provion Amount");?></td>
 		                </tr>
 		                </thead>
 		                <?php
@@ -98,18 +150,18 @@ dojo.require("dijit.form.DateTextBox");
 		                	$priv_amount=array(0,0,0);
 		                ?>
 		                <?php if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
-		                <tr class="style hover" style="font-family: 'Khmer OS Content'; line-height:15px; ">
-		               		<td style="font-size: 11px; text-align: center;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-		               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["branch_name"];?></td>
-		               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["loan_number"];?></td>
-		               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["client_number"];?></td>
-		               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["name_kh"];?></td>
-		               		<td style="font:bolder 11px Arial ;text-align: center;​">&nbsp;&nbsp;<?php echo number_format($rs["total_capital"],2).''.$rs['currency_type'];?></td>
-		               		<td style="font-size: 11px;text-align: center;">&nbsp;&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;</td>
-		               		<td style="font-size: 11px;text-align: center;">&nbsp;<?php echo $rs['total_duration'].$rs['term_borrow'];//$rs['pay_term'];?>&nbsp;</td>
-		               		<td style="font-size: 11px;text-align: center; white-space:nowrap; ">&nbsp;<?php echo date("d/m/Y",strtotime($rs["date_release"]));?>&nbsp;</td>
-		               		<td style="font-size: 11px;text-align: center; white-space:nowrap;">&nbsp;<?php echo date("d/m/Y",strtotime($rs["date_line"]));?>&nbsp;</td>
-		               		<td style="font:bolder 11px Arial ;text-align: right;">&nbsp;<?php 
+		                <tr class="style-rowdata hover">
+		               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+		               		<td align="left">&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
+		               		<td align="center">&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
+		               		<td align="center">&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>
+		               		<td align="left" >&nbsp;<?php echo $rs["name_kh"];?>&nbsp;</td>
+		               		<td align="center">&nbsp;<strong><?php echo number_format($rs["total_capital"],2);?></strong>&nbsp;<?php echo $rs['currency_type'];?>&nbsp;</td>
+		               		<td align="center">&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;</td>
+		               		<td align="center">&nbsp;<?php echo $rs['total_duration'].$rs['term_borrow'];//$rs['pay_term'];?>&nbsp;</td>
+		               		<td align="center">&nbsp;<?php echo date("d/m/Y",strtotime($rs["date_release"]));?>&nbsp;</td>
+		               		<td align="center">&nbsp;<?php echo date("d/m/Y",strtotime($rs["date_line"]));?>&nbsp;</td>
+		               		<td align="right">&nbsp;<?php 
 		               		$db = new Report_Model_DbTable_DbLoan();
 		               		$total_receive = $rs['principal_paid'];//$db->getAmountReceiveByLoanNumber($rs['loan_number']);
 		               		$total_receive = $rs["total_capital"] - $total_receive;
@@ -184,29 +236,29 @@ dojo.require("dijit.form.DateTextBox");
 			               				$bath[5]=$bath[5]+$total_receive*$rate_pri/100;
 			               			}
 			               		}
-		               		?>
-		               		<td align="center">&nbsp;&nbsp;<?php echo $total_late_day." Days";?> &nbsp;</td>
-		               		<td style="text-align: center;"><?php echo $this->classified_loan[$index]?></td>
+		               		?>&nbsp;
+		               		<td align="center">&nbsp;<?php echo $total_late_day." Days";?> &nbsp;</td>
+		               		<td style="text-align: center;"><?php echo $this->classified_loan[$index]?>&nbsp;</td>
 		               		<td align="center">&nbsp;<?php echo $rate_pri." %"?></td>
-		               		<td align="center">&nbsp;<?php echo $type[$p_type];?></td>
-		               		<td>&nbsp;<?php echo number_format(($total_receive*$rate_pri/100),2);?></td>
+		               		<td align="center">&nbsp;<?php echo $type[$p_type];?>&nbsp;</td>
+		               		<td>&nbsp;<?php echo number_format(($total_receive*$rate_pri/100),2);?>&nbsp;</td>
 		                </tr>
 		                <?php }?>
 		            </table>
 		            <br />
-		             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;text-align: center;" width="100%" cellspacing="0">
+		             <table class="tb-footer" border="1"​ width="100%" cellspacing="0">
 		                <thead>
-						<tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; background: #ccd9ff; text-align: center;">
-		                    <th><?php echo $tr->translate("CURRENT_TYPE");?></th>  
+						<tr class="style-head" align="center">
+		                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>  
 		                    <?php if(!empty($this->classified_loan))foreach($this->classified_loan as $row){?>               
-		                    <th><?php echo $row;?></th>
+		                    <td><?php echo $row;?></td>
 		                    <?php }?>
-		                    <th style="border-left:3px double #000; ">&nbsp;General Provion&nbsp;</th>
-		                    <th>&nbsp;Specifit Provion&nbsp;</td>
-		                    <th>&nbsp;<?php echo $tr->translate('TOTAL');?>&nbsp;</th>
+		                    <td style="border-left:3px double #000; ">&nbsp;General Provion&nbsp;</td>
+		                    <td>&nbsp;Specifit Provion&nbsp;</td>
+		                    <td>&nbsp;<?php echo $tr->translate('TOTAL');?>&nbsp;</td>
 		                </tr>
 						</thead>
-		                 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+		                 <tr align="center" >
 		                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
 		                   <?php if(!empty($this->classified_loan))foreach($this->classified_loan as $key =>$row){?>               
 		                    <td><?php 
@@ -220,7 +272,7 @@ dojo.require("dijit.form.DateTextBox");
 		                    <td>&nbsp;<?php echo ($priv_amount[0]==0)?"-":number_format($priv_amount[0],2)?>&nbsp;</td>
 		                    <td><?php echo number_format($dollar[1]+$priv_amount[0],2);?></td>
 		                </tr>
-		                 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+		                 <tr align="center">
 		                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
 		                    <?php if(!empty($this->classified_loan))foreach($this->classified_loan as $key =>$row){?>               
 		                    <td><?php echo ($riel[$key]==0)?"-":number_format($riel[$key],2);
@@ -233,7 +285,7 @@ dojo.require("dijit.form.DateTextBox");
 		                    <td>&nbsp;<?php echo ($priv_amount[1]==0)?"-":number_format($priv_amount[1],2);?>&nbsp;</td>
 		               		<td><?php echo number_format($riel[1]+$priv_amount[1],2);?></td>
 		                </tr>
-		                 <tr class="style" style="line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+		                 <tr align="center" >
 		                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
 		                   <?php if(!empty($this->classified_loan))foreach($this->classified_loan as $key =>$row){?>               
 		                    <td><?php echo ($bath[$key]==0)?"-":number_format($bath[$key],2);
@@ -248,40 +300,40 @@ dojo.require("dijit.form.DateTextBox");
 		                </tr>
 		              </table>
 		              <span style="color:red;">Note*</span>
-		               <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;text-align: center;" width="100%" cellspacing="0">
+		               <table class="tb-footer" border="1" width="100%" cellspacing="0">
 		                 <thead>
-						 <tr bgcolor="#ccc" class="style" style="font-weight:bold; background: #ccd9ff; line-height: 15px;">
-		                    <th>Classified Loan</th>  
-		                    <th>Number of Day Overdue</th>
-		                    <th>&nbsp;Provision Rate&nbsp;</th>
-		                    <th>&nbsp;Type&nbsp;</th>
+						 <tr class="style-head">
+		                    <td>&nbsp;Classified Loan&nbsp;</td>  
+		                    <td>&nbsp;Number of Day Overdue&nbsp;</td>
+		                    <td>&nbsp;Provision Rate&nbsp;</td>
+		                    <td>&nbsp;Type&nbsp;</td>
 		                </tr>
 						</thead>
-		                <tr class="style" style="font-weight:bold; line-height: 15px;" >
-		                    <td align="left">Standard</td>  
-		                    <td><= 10 days</td>
+		                <tr align="center" >
+		                    <td align="left">&nbsp;Standard&nbsp;</td>  
+		                    <td>&nbsp;<= 10 days&nbsp;</td>
 		                    <td>&nbsp;1%&nbsp;</td>
 		                    <td>&nbsp;General Provision&nbsp;</td>
 		                </tr>
-		                <tr class="style" style="font-weight:bold; line-height: 15px; text-align: center;">
-		                    <td align="left">Special Mention</td>  
-		                    <td>11 - 90 days</td>
+		                <tr align="center" >
+		                    <td align="left">&nbsp;Special Mention&nbsp;</td>  
+		                    <td>&nbsp;11 - 90 days&nbsp;</td>
 		                    <td>&nbsp;3%&nbsp;</td>
 		                    <td rowspan="4">&nbsp;Specifit Provision&nbsp;</td>
 		                </tr>
-		                <tr class="style" style="font-weight:bold; line-height: 15px; text-align: center;">
-		                    <td align="left">Substandard</td>  
-		                    <td>91 - 180 days</td>
+		                <tr align="center" >
+		                    <td align="left">&nbsp;Substandard&nbsp;</td>  
+		                    <td>&nbsp;91 - 180 days&nbsp;</td>
 		                    <td>&nbsp;20%&nbsp;</td>
 		                </tr>
-		                <tr class="style" style="font-weight:bold; line-height: 15px; text-align: center;">
-		                    <td align="left">Doubtful</td>  
-		                    <td>181 - 360 days</td>
+		                <tr align="center" >
+		                    <td align="left">&nbsp;Doubtful&nbsp;</td>  
+		                    <td>&nbsp;181 - 360 days&nbsp;</td>
 		                    <td>&nbsp;50%&nbsp;</td>
 		                </tr>
-		                <tr class="style" style="font-weight:bold; line-height: 15px; text-align: center;">
-		                    <td align="left">Loan Loss</td>  
-		                    <td>>360 days</td>
+		                <tr align="center" >
+		                    <td align="left">&nbsp;Loan Loss&nbsp;</td>  
+		                    <td>&nbsp;>360 days&nbsp;</td>
 		                    <td>&nbsp;100%&nbsp;</td>
 		                </tr>
 		    	</td>
@@ -291,14 +343,15 @@ dojo.require("dijit.form.DateTextBox");
 		 <table align="center" width="100%">
 			<thead>
 			<tr style="font-size: 12px;">
-				<th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
-				<th></th>
-				<th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
-				<th></th>
-				<th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+				<td style="width:20%;text-align:center;  font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('APPROVED BY');?></td>
+				<td></td>
+				<td style="width:20%;text-align:center; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('VERIFYED BY');?></td>
+				<td></td>
+				<td style="width:20%;text-align:center;font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('PREPARE BY');?></td>
 			</tr>
 			</thead>
 		 </table>
+		 
+		 </table>
 		</div>
-</div>
 </div>
