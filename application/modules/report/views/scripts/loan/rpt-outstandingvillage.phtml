@@ -98,7 +98,7 @@ table.tb-footer tr.style-head {
 					background: #ccd9ff;
 				}
 		</style>
-		<table style="font-family: 'Khmer OS Content'; width:100%;">
+		<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
 			<tr>
 		    	<td align="center">
 		        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
@@ -176,8 +176,8 @@ table.tb-footer tr.style-head {
 								<?php 
 										echo empty($row['village_name'])?"":$row['village_name'];
 										echo empty($row['commune_name'])?"":','.str_replace("Commune", "", $row['commune_name']);
-										echo empty($row['district_name'])?"":$row['district_name'];
-										echo empty($row['province_en_name'])?"":$row['province_en_name'];
+										echo empty($row['district_name'])?"":','.$row['district_name'];
+										echo empty($row['province_en_name'])?"":','.$row['province_en_name'];
 								?>
 								</td>
 							</tr>
