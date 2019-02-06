@@ -51,7 +51,7 @@ $gender=array(
 				</style>
 				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; color: #0540e6;">
 					<tbody>
-						<tr style="text-align:center; line-height:25px; font-size:16px; font-family:'Khmer OS Muol Light'; ">
+						<tr style="text-align:center; line-height:25px; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'; ">
 							  <td align="center" valign="top" width="20%"><span><img src="<?php echo $this->baseUrl()?>/images/Filed other.zip.png" style="width: 80%;"></span>
 							  </td>
 							  <td align="center" valign="bottom" width="60%" ><span >ព្រះរាជាណាចក្រកម្ពុជា<p />
@@ -79,12 +79,12 @@ $gender=array(
 							<table style="width:100%;  color:inherit; white-space: nowrap;">
 								<tr>
 									<td>ខ្ញុំបាទ-នាងខ្ញុំឈ្មោះ</td>
-									<td width="60%" align="left"><span class="labelBorderBottom" style="min-width:100%;"><span class="labelValue" id="LBclientName"><strong><?php echo $purchase['supplier_name'];?></strong></span></span></td>
+									<td width="60%" align="left"><span class="labelBorderBottom" style="min-width:100%;"><span class="labelValue" id="LBclientName"><?php echo $purchase['supplier_name'];?></span></span></td>
 									<td>&nbsp;ភេទ&nbsp;</td>
-									<td width="10%">​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientGender"><strong><?php echo $gender[$purchase['supplierSex']];?></strong>&nbsp;</span></span></td>
+									<td width="10%">​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientGender"><?php echo $gender[$purchase['supplierSex']];?>&nbsp;</span></span></td>
 									<td>&nbsp;អាយុ&nbsp;</td>
 									<td width="10%">
-									​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientAge">&nbsp;<strong><?php echo $purchase['supplierAge'];?></strong>&nbsp;</span></span>
+									​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientAge">&nbsp;<?php echo $purchase['supplierAge'];?>&nbsp;</span></span>
 									</td>
 									<td>ឆ្នាំ</td>
 								</tr>
@@ -95,7 +95,7 @@ $gender=array(
 									មុខងារបច្ចុប្បន្ន
 									</td>
 									<td width="90%">
-										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLOccupation"><strong><?php echo $purchase['supplierOccupation'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLOccupation"><?php echo $purchase['supplierOccupation'];?></span></span>
 									</td>
 								</tr>
 								<tr>
@@ -103,7 +103,7 @@ $gender=array(
 									ទីលំនៅបច្ចុប្បន្ន
 									</td>
 									<td width="90%">
-										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLAddress"><strong><?php echo $purchase['supplierAddress'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLAddress"><?php echo $purchase['supplierAddress'];?></span></span>
 									</td>
 								</tr>
 							</table>
@@ -114,7 +114,7 @@ $gender=array(
 										បានលក់ទោចក្រយានយន្ដម៉ាក
 									</td>
 									<td colspan="2">
-										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLProductMake"><strong><?php echo $detail['item_name'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLProductMake"><?php echo $detail['item_name'];?></span></span>
 									</td>
 								</tr>
 								<tr>
@@ -124,7 +124,7 @@ $gender=array(
 										លេខតួ
 									</td>
 									<td width="70%">
-										<span class="labelBorderBottom" style="min-width:100%;text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLEngine"><strong><?php echo $detail['engine'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%;text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLEngine"><?php echo $detail['engine'];?></span></span>
 									</td>
 								</tr>
 								<tr>
@@ -134,7 +134,7 @@ $gender=array(
 										លេខម៉ាស៊ីន
 									</td>
 									<td>
-										<span class="labelBorderBottom" style="min-width:100%;text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLEngine"><strong><?php echo $detail['engine'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%;text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLEngine"><?php echo $detail['engine'];?></span></span>
 									</td>
 								</tr>
 								<tr>
@@ -144,7 +144,7 @@ $gender=array(
 										ពណ៌
 									</td>
 									<td>
-										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLColor"><strong><?php echo $detail['color'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLColor"><?php echo $detail['color'];?></span></span>
 									</td>
 								</tr>
 								<tr>
@@ -154,7 +154,7 @@ $gender=array(
 										តម្លៃ
 									</td>
 									<td>
-										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLPrice"><strong><?php echo number_format($detail['price'],2);?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLPrice"><?php echo number_format($detail['price'],2);?></span></span>
 									</td>
 								</tr>
 								<tr>
@@ -164,7 +164,7 @@ $gender=array(
 										ស្លាកលេខ
 									</td>
 									<td>
-										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span  class="labelValue" id="LBLPlate"><strong><?php echo $detail['frame_no'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span  class="labelValue" id="LBLPlate"><?php echo $detail['frame_no'];?></span></span>
 									</td>
 								</tr>
 							</table>
@@ -175,7 +175,7 @@ $gender=array(
 									អោយទៅឈ្មោះ
 									</td>
 									<td width="90%">
-										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLBuyName"><strong><?php echo $purchase['buyerName'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLBuyName"><?php echo $purchase['buyerName'];?></span></span>
 									</td>
 								</tr>
 								<tr>
@@ -183,7 +183,7 @@ $gender=array(
 									មុខងារបច្ចុប្បន្ន
 									</td>
 									<td width="90%">
-										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLBuyOccupation"><strong><?php echo $purchase['buyerOccupation'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" id="LBLBuyOccupation"><?php echo $purchase['buyerOccupation'];?></span></span>
 									</td>
 								</tr>
 								<tr>
@@ -191,7 +191,7 @@ $gender=array(
 									ទីលំនៅបច្ចុប្បន្ន
 									</td>
 									<td width="90%">
-										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLBuyAddress"><strong><?php echo $purchase['buyerAddress'];?></strong></span></span>
+										<span class="labelBorderBottom" style="min-width:100%; text-align: left;"><span style="padding-left: 15px"></span><span class="labelValue" id="LBLBuyAddress"><?php echo $purchase['buyerAddress'];?></span></span>
 									</td>
 								</tr>
 							</table>
@@ -203,7 +203,7 @@ $gender=array(
 										យើងខ្ញុំសូមធានាថា ឯកសារដែលបានបំពេញខាងលើពិតជាត្រឹមត្រូវ <br />
 										បើខុសការពិត យើងខ្ញុំ សូមទទួលខុសត្រូវទាំងស្រុងចំពោះមុខច្បាប់។<br />
 										<span style="padding-left: 30px">
-										<strong>បញ្ជាក់ៈ របស់ទិញហើយ មិនអាចដូចវិញបានទេ</strong>
+										<span style="font-family:'Times New Roman','Khmer OS Muol Light';">បញ្ជាក់ៈ </span>របស់ទិញហើយ មិនអាចដូចវិញបានទេ
 										</span>	
 									</td>
 								</tr>
@@ -218,7 +218,7 @@ $gender=array(
 							<td colspan="3" align="center">
 								<table  style=" text-align: center; width:100%;  color:inherit; white-space: nowrap; font-size: 14px;">
 									<tr >
-										<td style="width:30%;text-align:center; font-size: 12px; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;"><td>&nbsp;</td>
+										<td style="width:30%;text-align:center; font-size: 12px; font-family:'Times New Roman','Khmer OS Muol Light';font-weight:200;white-space: nowrap;"><td>&nbsp;</td>
 										<td align="right">សៀមរាបថ្ងៃទី</td>
 										<td width="10%" style=" text-align:center;  font-weight:200;"> 
 											<span class="labelBorderBottom" style="min-width: 100%;"><?php echo date("d",strtotime($purchase['date']));?></span>
@@ -250,13 +250,13 @@ $gender=array(
 						</tr>
 						<tr>
 							<td colspan="3" align="center">
-								<table  style=" color:inherit; text-align: center; line-height: 56px; width:100%;  font-size: 14px;">
+								<table  style=" font-family:'Times New Roman','Khmer OS Muol Light'; color:inherit; text-align: center; line-height: 56px; width:100%;  font-size: 14px;">
 									<tr>
-										<td style="width:25%; text-align:center; font-weight:200;white-space: nowrap;font-weight: bold;">
+										<td style="width:25%; text-align:center; font-weight:200;white-space: nowrap;">
 										&nbsp;ស្នាមមេដៃអ្នកលក់&nbsp;</td>
-										<td style=" width:25%; text-align:center; font-weight: bold;">&nbsp;សាក្សីអ្នកលក់&nbsp;</td>
-										<td style=" width:25%; text-align:center; font-weight: bold;">&nbsp;សាក្សីអ្នកទិញ&nbsp;</td>
-										<td style=" width:25%; text-align:center; font-weight: bold;">&nbsp;ស្នាមមេដៃអ្នកទិញ&nbsp;</td>
+										<td style=" width:25%; text-align:center;">&nbsp;សាក្សីអ្នកលក់&nbsp;</td>
+										<td style=" width:25%; text-align:center;">&nbsp;សាក្សីអ្នកទិញ&nbsp;</td>
+										<td style=" width:25%; text-align:center;">&nbsp;ស្នាមមេដៃអ្នកទិញ&nbsp;</td>
 								   </tr>
 								   <tr>
 								   		<td colspan="4">&nbsp;</td>
