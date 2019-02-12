@@ -668,7 +668,7 @@ div.bgform {
 											<table width="100%">
 												<tr>					        
 													<td style="white-space:nowrap;"><?php echo $tr->translate("ពត៍មានលម្អិត")?></td>
-													<td><?php echo $frm->getElement('description')?></td>
+													<td><input dojoType="dijit.form.Textarea" class="fullside height200" rows="200" id="description_product" name="description" value="" type="text"></td>
 												</tr>
 											</table>
 										</td>
@@ -1219,9 +1219,6 @@ function getbranchinfo(){
 			dojo.byId('footrecieptAddress1').innerHTML=data.br_address;
 			dojo.byId('footrecieptPhone').innerHTML=data.branch_tel;
 			dojo.byId('footrecieptPhone1').innerHTML=data.branch_tel;
-			//dojo.byId('brNameShop').innerHTML=data.branch_nameen;
-			//dojo.byId('brDescription').innerHTML=data.description;
-			//dijit.byId('invoice_no').attr('value',data);
 		},
 		error: function(err) {
 			alert("eror receipt");

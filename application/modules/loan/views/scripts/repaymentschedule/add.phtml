@@ -705,8 +705,9 @@ function getInfoByLoanNumber(){
 		},	
 		handleAs:"json",
 		load: function(data) {
-			dijit.byId('deposit').attr('value',data.total_principal);
-			dijit.byId('total_amount').attr('value',data.total_principal);
+			dijit.byId('deposit').attr('value',data.loan_amount-data.paid_amount);
+			dijit.byId('total_amount').attr('value',data.loan_amount-data.paid_amount);
+			
 			dijit.byId('period').attr('value',data.remaintimes);
 			dijit.byId("member").attr('value',data.client_id);
 			dijit.byId('customer_code').set('readOnly',true);

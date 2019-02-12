@@ -1090,6 +1090,8 @@ function round_up($value, $places)
     	$sql=" SELECT
     	(SELECT SUM(d.principle_after) FROM `ln_loan_detail` AS d WHERE d. loan_id= l.id AND status=1 AND d.is_completed=0 LIMIT 1)  AS total_principal,
     	(SELECT COUNT(d.ID) FROM `ln_loan_detail` AS d WHERE d. loan_id= l.id AND status=1 AND d.is_completed=0 LIMIT 1)  AS remaintimes,
+    	(SELECT SUM(principal_paid) FROM `ln_client_receipt_money` WHERE loan_id=12 AND status=1 LIMIT 1) as paid_amount,
+    	l.loan_amount,
     	l.customer_id,l.currency_type ,
     	l.interest_rate ,l.loan_number,
     	l.payment_method,l.branch_id,

@@ -315,7 +315,6 @@ public function addILPayment($data){
     	//getIlPaymentRPNumber
     	if($acc_no){
     		$reciept_no=$this->getIlPaymentRPNumber($data['co_id']);
-    		//$reciept_no=$this->getIlPaymentNumber();
     	}else{
     		$reciept_no = $data['reciept_no'];
     	}
@@ -388,8 +387,10 @@ public function addILPayment($data){
 		$set_penalty=0;//សម្រាប់បង់ថ្លៃផាគពិន័យតែម្តង
 		
 		$after_service = $data['service_charge'];
+		$start_id = 0;
 		$resultloan = $this->getAllRemainSchedule($data['loan_number']);
 		if(!empty($resultloan))foreach($resultloan AS $key => $rsloan){
+			$start_id = $rsloan['installment_amount'];
 	    	if($remain_money<=0){break;}
 					$after_outstanding = $rsloan['outstanding_after'];
 					$after_payment_after = $rsloan['total_payment_after'];
@@ -421,10 +422,10 @@ public function addILPayment($data){
 	    						$total_principal =$after_principal;
 	    					}elseif($option_pay==3){
 	    						$total_interest=0;
-	    						$total_principal = $after_principal;//$data["principal_permonth_".$i];
+	    						$total_principal = $after_outstanding;//$after_principal;//$data["principal_permonth_".$i];
 	    					}elseif($option_pay==2){//ដើម្បីអោយគណនា១ Record ម្តងៗរក completed=1
-	    						$total_interest=$after_interest;//$data["interest_".$i];
-	    						$total_principal =$after_principal;// $data["principal_permonth_".$i];
+	    						$total_interest=$after_interest;
+	    						$total_principal =$after_principal;
 	    					}
 	    					$remain_money = round($remain_money-$service_charge,2);
 	    					if($remain_money>=0){//ដកសេវាកម្ម
@@ -475,13 +476,15 @@ public function addILPayment($data){
 		    						'principal_permonth'=> $rsloan['principle_after'],
 		    						'total_interest'	=> $rsloan['total_interest_after'],
 		    						'total_payment'		=> $rsloan['total_payment_after'],
-// 		    						'total_recieve'		=> $rsloan['outstanding_after'],
-		    						'penelize_amount'	=> 0,//$rsloan['outstanding_after'],
+		    						'penelize_amount'	=> 0,
 		    					);
 		    				
 		    				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
 		    				
-		    				if($after_principal==0 AND $data['payment_method']!=2 AND $data['payment_method']!=5){
+		    				if($after_interest==0 AND $after_principal==0 AND $data['payment_method']!=2 AND $data['payment_method']!=5){
+		    					$is_compleated_d=1;
+		    				}
+		    				if($data['payment_method']==2 AND $after_interest==0 AND $after_principal==0){
 		    					$is_compleated_d=1;
 		    				}
 		    				$load_detail = array(
@@ -500,9 +503,8 @@ public function addILPayment($data){
 	    				$paid_interestall =$paid_interestall+$paid_interest;
 	    				$paid_penaltyall =$paid_penaltyall+$paid_penalty;
 	    				$paid_serviceall =$paid_serviceall+$paid_service;
-		    				
-	    				}
 	    			}
+	    		}
 	    	}
 	    	$arr = array(
     			'principal_paid'=> $paid_principalall,//check here
@@ -513,6 +515,29 @@ public function addILPayment($data){
 	    	$this->_name="ln_client_receipt_money";
 	    	$where = $db->quoteInto("id=?", $receipt_id);
 	    	$this->update($arr, $where);
+	    	
+	    	
+// 	    	if($data['option_pay']==3){//រំលស់ដើម
+// 	    		$this->_name="ln_loan_detail";
+// 	    		$datapayment = array(
+// 	    				'loan_id'=>$data['loan_number'],
+// 	    				'outstanding'=>$data['priciple_amount'],//good
+// 	    				'outstanding_after'=>$data['priciple_amount'],//good
+// 	    				'principal_permonth'=> $paid_principalall,//good
+// 	    				'principle_after'=> $paid_principalall,//good
+// 	    				'total_interest'=>0,//good
+// 	    				'total_interest_after'=>0,//good
+// 	    				'total_payment'=>$paid_principalall,//good
+// 	    				'total_payment_after'=>$paid_principalall,//good
+// 	    				'date_payment'=>$data['collect_date'],//good
+// 	    				'is_completed'=>1,
+// 	    				'status'=>0,
+// 	    				'amount_day'=>0,
+// 	    				'collect_by'=>$data['co_id'],
+// 	    				'installment_amount'=>$start_id+1,
+// 	    		);
+// 	    		$this->insert($datapayment);
+// 	    	}
 	    	
 	    	$rs = $this->getRemainSchedule($data['loan_number']);
 	    	if(empty($rs)){//update ករណីបង់ចុងក្រោយ គឺ updatE ទៅជាដាច់

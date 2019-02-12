@@ -46,7 +46,6 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array());
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
-			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}	
 		$frm = new Loan_Form_FrmSearchGroupPayment();
@@ -74,10 +73,8 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/ilpayment/add");
 				}
 			}catch (Exception $e) {
-				//echo $e->getMessage();
-				//exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
-				$err =$e->getMessage();
+				$err = $e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
