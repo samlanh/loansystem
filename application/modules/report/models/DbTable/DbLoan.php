@@ -253,6 +253,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  co.`co_id`,
 				  c.`client_number`,
 				  c.`name_kh`,
+				    c.`spouse_name`,
 				(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
 				(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
 				(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
