@@ -9,7 +9,7 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
 	}
     public function getcoinfo(){
     	$db = $this->getAdapter();
-    	$sql = "select l.id,CONCAT(l.loan_number,'-',(select name_kh from ln_client where client_id = l.customer_id )) as loan_cus, l.loan_number, l.customer_id,(select name_kh from ln_client where client_id = l.customer_id ) as customer_name from ln_loan as l";
+    	$sql = "select l.id,CONCAT(l.loan_number,'-',(select name_kh from ln_client where client_id = l.customer_id )) as loan_cus, l.loan_number, l.customer_id,(select name_kh from ln_client where client_id = l.customer_id ) as customer_name from ln_loan as l WHERE l.status =1";
     	return $db->fetchAll($sql);
     }
     function getAllTransferCO($search){
