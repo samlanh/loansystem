@@ -451,6 +451,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
    				l.interest_rate,
    				l.release_amount AS loan_amount,
    				l.level,
+   				l.product_id,
    				l.total_duration,
    				DATE_FORMAT(l.date_release, '%d/%m/%Y') AS `date_release`,
    				l.date_release AS loan_releate,

@@ -1058,12 +1058,16 @@ dojo.ready(function(){
 	if(rsid>0){
 		dijit.byId("branch_id").attr("value",<?php echo $this->rsloan['branch_id'];?>);
 		dijit.byId("loan_number").attr("value",<?php echo $this->rsloan['id'];?>);
+		dijit.byId("product_id").attr("value",<?php echo $this->rsloan['product_id'];?>);
 	}
 	<?php if($this->leveluser!=1){?>
 		dijit.byId('total_interest').attr('readOnly',true);
 		dijit.byId('collect_date').attr('readOnly',true);
 	<?php }?>
 });
+function calCulatePeriod(){
+	
+}
 function filterLoanNumber(){
 	 dijit.byId('loan_number').query.branch_id = dijit.byId('branch_id').get('value');
 }
@@ -1187,6 +1191,7 @@ function getLaonPayment(type){//tab ទី1
 						    tem += '<td>&nbsp;<label id="lb_payment_'+inx+'">'+dojo.number.format(respone[i].total_payment_after)+' '+curr+'</label>&nbsp;<input type="hidden" name="total_payment_after_'+inx+'" id="total_payment_after_'+inx+'" value="'+respone[i].total_payment_after+'" /></td>';
 							
 						  tem += '</tr>';
+						  dijit.byId('product_id').attr('value',respone[i].product_id);
 						if(inx!=1) {
 							var identity = dijit.byId('record_id').get('value');
 							dijit.byId('record_id').attr('value',identity+','+inx);
