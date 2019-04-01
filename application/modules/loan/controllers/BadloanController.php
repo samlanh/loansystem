@@ -74,6 +74,16 @@ class Loan_BadloanController extends Zend_Controller_Action {
 		$db = new Application_Model_DbTable_DbGlobal();
 		$this->view->allclient = $db->getAllClient();
 		$this->view->allclient_number = $db->getAllClientNumber();
+		
+		$id = $this->getRequest()->getParam('id');
+		if(!empty($id)){
+			if(empty($id)){
+				$id=0;
+			}
+			$this->view->rsid=$id;
+			$db = new Loan_Model_DbTable_DbLoandisburse();
+			$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
+		}
 	}
 	
 	public function editAction()

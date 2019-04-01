@@ -400,6 +400,11 @@ require(["dojo/ready"], function(ready){
 			total_loanamount  = deposit+loan_fee;
 			dijit.byId("total_amount").attr("value",total_loanamount);
 		});
+
+		<?php if ($this->rsid>0){?>
+			dijit.byId("branch_id").attr("value",'<?php echo $this->rsloan['branch_id'];?>');
+			dijit.byId("get_laonnumber").attr("value",'<?php echo $this->rsloan['id'];?>');
+		<?php }?>
 		
 	  });
 	 var client_data = new dojo.store.Memory({
@@ -439,6 +444,8 @@ require(["dojo/ready"], function(ready){
 		
 }
 	}, "customer_code");
+
+	
 	 
 	});
 	

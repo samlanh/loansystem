@@ -226,8 +226,14 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 <script type="text/javascript">
 require(["dojo/ready"], function(ready){
 	 ready(function(){
-		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
-		changeCollectType();
+		//setFirstPaymentAndDateLine(3,<?php //echo date('d-m-Y');?>,1);
+		//changeCollectType();
+
+		<?php if ($this->rsid>0){?>
+		dijit.byId("branch").attr("value",'<?php echo $this->rsloan['branch_id'];?>');
+		dijit.byId("get_laonnumber").attr("value",'<?php echo $this->rsloan['id'];?>');
+		<?php }?>
+	
 	  });
 	 var client_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
@@ -304,7 +310,9 @@ function submitDataClose(){
 		});
 	}
 }
-
+function getLoanInfoByLoanNumber(){
+	
+}
 
 var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'badloan','action'=>'getloaninfo-by-loanid')); ?>';
 function getInfoByLoanNumber(){

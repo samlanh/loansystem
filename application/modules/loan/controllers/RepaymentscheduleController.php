@@ -85,6 +85,16 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
         
 		$db = new Setting_Model_DbTable_DbLabel();
 		$this->view->setting=$db->getAllSystemSetting();
+		
+		$id = $this->getRequest()->getParam('id');
+		if(!empty($id)){
+			if(empty($id)){
+				$id=0;
+			}
+			$this->view->rsid=$id;
+			$db = new Loan_Model_DbTable_DbLoandisburse();
+			$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
+		}
 	}	
 // 	public function addloanAction(){
 // 		if($this->getRequest()->isPost()){
