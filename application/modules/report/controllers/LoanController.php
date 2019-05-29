@@ -448,6 +448,9 @@ function rptRescheduleLoanAction(){
 	$frm = $frm->AdvanceSearch();
 	Application_Model_Decorator::removeAllDecorator($frm);
 	$this->view->frm_search = $frm;
+	
+	$frmpopup = new Application_Form_FrmPopupGlobal();
+	$this->view->footerReport = $frmpopup->getFooterReport();
 }
 public function paymentscheduleListAction(){
 	try{
@@ -676,6 +679,9 @@ function rptPaymentschedulesAction(){
  	$fm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($fm);
  	$this->view->frm_search = $fm;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  function rptLoanPayoffAction(){
  	$db  = new Report_Model_DbTable_DbLoan();
@@ -870,6 +876,9 @@ function rptPaymentschedulesAction(){
  	$frm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_search = $frm;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  
  
@@ -902,6 +911,9 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$frm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_search = $frm;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  
  
@@ -956,6 +968,9 @@ function rptLoanTrasferzoneAction(){//release all loan
 	 	$frm = $frm->AdvanceSearch();
 	 	Application_Model_Decorator::removeAllDecorator($frm);
 	 	$this->view->frm_search = $frm;
+	 	
+	 	$frmpopup = new Application_Form_FrmPopupGlobal();
+	 	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  function rptIncomestatementAction(){
  	$db  = new Report_Model_DbTable_DbLoan();
@@ -1133,6 +1148,9 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$fm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($fm);
  	$this->view->frm_search = $fm;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  function rptOutstandingvillageAction(){
  	$db  = new Report_Model_DbTable_DbLoan();
