@@ -16,7 +16,7 @@ table.tb-footer tr.style-head {
    font-weight: bold !important;
 }
 </style>
-<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">
+<div class="reportblog">
 		<div class="card-box">
        		<div class="col-sm-12 border-botom">
 		    	<div class="col-sm-8 pd-0">
@@ -116,6 +116,9 @@ table.tb-footer tr.style-head {
 			line-height: 24px; 
 			text-align: center; 
 			background: #ccd9ff;
+		}
+		.border_bottom {
+		    border-bottom: 1px solid #000;
 		}
 	</style>
 	<table width="100%">
@@ -242,58 +245,59 @@ table.tb-footer tr.style-head {
 		                	}
 		                }
 		                ?>
-	             <table class="tb-footer" border="1"​  width="100%" cellspacing="0">
-	                 <thead>
-						 <tr class="style-head">
-		                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>
-		                    <td><?php echo $tr->translate("PRINCIPAL");?></td>                    
-		                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
-		                    <td><?php echo $tr->translate("TOTAL_PENILIZE_AMOUNT");?></td>
-		                    <td><?php echo $tr->translate("TOTAL_SERVICE_CHARGE");?></td>
-		                    <td><?php echo $tr->translate("AMIN_FEE");?></td>
-		                    <td><?php echo $tr->translate("TOTAL");?></td>
-		                </tr>
-					</thead>
-	                 <tr>
-	                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d5,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($rescheduldFeeD,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1+$amt_d2+$amt_d3+$amt_d5+$rescheduldFeeD,2);//$total_d?>&nbsp;</td>
-	                </tr>
-	                 <tr>
-	                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amn_r2,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amn_r3,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amn_r5,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($rescheduldFeeR,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1+$amn_r2+$amn_r3+$amn_r5+$rescheduldFeeR,2);//$total_r?>&nbsp;</td>
-	                </tr>
-	                 <tr>
-	                   <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b5,2);?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($rescheduldFeeB,2);?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b1+$amn_b2+$amn_b3+$amn_b5+$rescheduldFeeB,2);//+$total_b?>&nbsp;</td>
-	                </tr>
-	              </table>
-	              <br />
-	               <table align="center" width="100%">
-				   <thead>
-					   <tr style="font-size: 12px;">
-					        <td style="width:20%;text-align:center;  font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('APPROVED BY');?></td>
-					        <td></td>
-					        <td style="width:20%;text-align:center; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('VERIFYED BY');?></td>
-					        <td></td>
-					        <td style="width:20%;text-align:center;font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('PREPARE BY');?></td>
-					   </tr>
-					</thead>
-				</table>
+		         <table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+	                    <td align="right">&nbsp;</td>
+	                    <td></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("PRINCIPAL");?></span>&nbsp;</td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INTEREST");?></span></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PENILIZE_AMOUNT");?></span></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_SERVICE_CHARGE");?></span></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("AMIN_FEE");?></span></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL");?></span></td>
+	                     <td align="right">&nbsp;</td>
+	                 </tr>
+	                 
+		                
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+	                    <td align="right"></td>
+	                    <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d5,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($rescheduldFeeD,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1+$amt_d2+$amt_d3+$amt_d5+$rescheduldFeeD,2);//$total_d?>&nbsp;</td>
+	                    <td align="right">&nbsp;</td>
+	                 </tr>
+	                
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+	                    <td align="right"></td>
+	                    <td align="right"><?php echo $tr->translate("REILS");?></td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_r2,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_r3,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_r5,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($rescheduldFeeR,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r1+$amn_r2+$amn_r3+$amn_r5+$rescheduldFeeR,2);//$total_r?>&nbsp;</td>
+	                    <td align="right">&nbsp;</td>
+	                 </tr>
+	                
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+	                    <td align="right"></td>
+	                    <td align="right"><?php echo $tr->translate("BATH");?></td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b5,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($rescheduldFeeB,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b1+$amn_b2+$amn_b3+$amn_b5+$rescheduldFeeB,2);//+$total_b?>&nbsp;</td>
+	                    <td align="right">&nbsp;</td>
+	                 </tr>
+	                
+	            </table>
+	            <br />
+	            <?php echo $this->footerReport;?> 
 	    	</td>
 	    </tr>
 	</table>
