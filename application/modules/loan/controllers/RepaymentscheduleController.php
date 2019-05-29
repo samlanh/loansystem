@@ -51,6 +51,9 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
   
   function addAction()
   {
+//   	$db = new Loan_Model_DbTable_DbRepaymentSchedule();
+//   	print_r($db->getLoanInfoBymemberId(12,1));exit();
+  	
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {

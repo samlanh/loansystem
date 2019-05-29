@@ -1737,16 +1737,21 @@ AND cl.client_id = $client_id )";
       	$order=" order by id desc ";
       	return $db->fetchAll($sql.$where.$order);
       }
-      function getAllOtherIncomeReport($search=null){
+function getAllOtherIncomeReport($search=null,$group_by=null){
       	$db = $this->getAdapter();
       	$session_user=new Zend_Session_Namespace('authloan');
       	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
       	$where = " WHERE ".$from_date." AND ".$to_date;
+		
+		$str = ' total_amount ';
+		if($group_by!=null){
+			$str = ' SUM(total_amount)';
+		}
       
       	$sql=" SELECT id,
       	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id =branch_id LIMIT 1) AS branch_name,
-      	account_id,SUM(total_amount) AS total_amount,
+      	account_id, $str AS total_amount,
       	disc,date,
       	(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type,
       	curr_type,invoice,
@@ -1757,7 +1762,12 @@ AND cl.client_id = $client_id )";
 	      		$where.= " AND curr_type = ".$search['currency_type'];
 	      	}
       	}
-      	$order=" GROUP BY curr_type order by curr_type desc ";
+		$where.=' AND status=1 ';
+		if($group_by!=null){
+			$where.=' GROUP BY curr_type ';
+		}
+      	$order="  order by curr_type desc ";
+		
       	return $db->fetchAll($sql.$where.$order);
       }
       function getTotalOtherIncomeReport($search=null){

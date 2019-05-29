@@ -1022,7 +1022,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  		}
  	}
  	
- 	$rsincome = $db->getAllOtherIncomeReport($search);
+ 	$rsincome = $db->getAllOtherIncomeReport($search,1);
  	if(!empty($rsincome)){
  		foreach($rsincome as $row){
  			if($row['curr_type']==1){//riel
