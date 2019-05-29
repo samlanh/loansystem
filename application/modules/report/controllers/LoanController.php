@@ -702,6 +702,9 @@ function rptPaymentschedulesAction(){
  	$fm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($fm);
  	$this->view->frm_search = $fm;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  function rptLoanExpectIncomeAction(){
  	if($this->getRequest()->isPost()){
