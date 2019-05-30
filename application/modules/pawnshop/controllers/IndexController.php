@@ -26,8 +26,6 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			}
 			$db = new Pawnshop_Model_DbTable_DbPawnshop();
 			$rs_rows= $db->getAllPawnshop($search);
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","ADMIN_FEE",
 					"REPAYMENT_TYPE","PAWNSHOP_DURATION",

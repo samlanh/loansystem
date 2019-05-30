@@ -33,9 +33,13 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     			CASE    
 					WHEN  is_completed = 0 THEN '$not_complete'
 					WHEN  is_completed = 1 THEN '$complete'
-				END AS completed_status,
-    			status
-    		 FROM `ln_pawnshop` WHERE 1 ";
+				END AS completed_status
+    		 ";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("status");
+    	$sql.=" FROM `ln_pawnshop` WHERE 1  ";
+    	
     	
     	if(!empty($search['adv_search'])){
     		$s_where = array();

@@ -30,13 +30,17 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 			    	selling_price,
 			    	description,
 			    	ps.selling_date,
-			    	(SELECT CONCAT(first_name,' ', last_name) FROM rms_users as u WHERE u.id=ps.user_id )AS user_name,
-			    	ps.status
-    			FROM
+			    	(SELECT CONCAT(COALESCE(first_name,''),' ', COALESCE(last_name,'')) FROM rms_users as u WHERE u.id=ps.user_id )AS user_name
+			    	
+    				";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("ps.status");
+    	$sql.=" FROM
     				ln_pawn_sale as ps,
     				ln_pawnshop as psp
-    			where 
-    				ps.pawn_id = psp.id	";
+    			WHERE 
+    				ps.pawn_id = psp.id  ";
     
     	if(!empty($search['adv_search'])){
 	    	$s_where = array();

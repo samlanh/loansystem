@@ -64,7 +64,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     		$where.=" AND lcrm.`payment_option`= ".$search['paymnet_type'];
     	}
     	$group_by = " GROUP BY lcrm.id";
-    	$order = " ORDER BY receipt_no DESC";
+    	$order = " ORDER BY lcrm.`id` DESC,receipt_no DESC";
     	return $db->fetchAll($sql.$where.$group_by.$order);
     }
 //     public function getAllQuickIndividuleLoan($search){
@@ -189,6 +189,11 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     	$sql=" SELECT id,`receipt_no` FROM `ln_client_receipt_money` WHERE `co_id`= $co_id ORDER BY id DESC LIMIT 1";
     	$acc_no = $db->fetchRow($sql);
     	$new_acc_no= $acc_no["receipt_no"]+1;
+    	$pre="№";
+    	$acc_no= strlen((int)$new_acc_no+1);
+    	for($i = $acc_no;$i<4;$i++){
+    		$pre.='0';
+    	}
     	/*$sql=" SELECT id  FROM `ln_client_receipt_money` ORDER BY id DESC LIMIT 1";
     	$acc_no = $db->fetchOne($sql);
 		$new_acc_no= (int)$acc_no+1;
@@ -199,7 +204,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     		$pre.='0';
     	}
     	return $pre_fix.$pre.$new_acc_no;*/
-		return $new_acc_no;
+		return $pre.$new_acc_no;
     }
 	function cancelPayment($id){
 		$db = $this->getAdapter();

@@ -31,11 +31,9 @@ class Loan_IndexController extends Zend_Controller_Action {
 			}
 			$db = new Loan_Model_DbTable_DbLoanIL();
 			$rs_rows= $db->getAllIndividuleLoan($search);
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME","CO_NAME",
-				"RELEASED_DATE","COMPLETED","STATUS");
+				"RELEASED_DATE","COMPLETED","Bad Loan","STATUS");
 			//,"SCHEDULE_PAYMENT","ADD_PAYMENT"
 			$link=array(
 					'module'=>'loan','controller'=>'index','action'=>'view',

@@ -2115,7 +2115,8 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	$sql="SELECT v.*,
       	(SELECT `ln_branch`.`br_address` FROM `ln_branch` WHERE `ln_branch`.`br_id` = `v`.`branch_id` LIMIT 1) AS `br_address`,
 		(SELECT `ln_branch`.`branch_tel` FROM `ln_branch` WHERE `ln_branch`.`br_id` = `v`.`branch_id` LIMIT 1) AS `branch_tel`,
-   		(SELECT `ln_branch`.`branch_nameen` FROM `ln_branch` WHERE `ln_branch`.`br_id` = `v`.`branch_id` LIMIT 1) AS `branch_nameen`
+   		(SELECT `ln_branch`.`branch_nameen` FROM `ln_branch` WHERE `ln_branch`.`br_id` = `v`.`branch_id` LIMIT 1) AS `branch_nameen`,
+   		(SELECT CONCAT(COALESCE(last_name,''),' ',COALESCE(first_name,'')) FROM `rms_users` WHERE rms_users.id=v.`user_id` LIMIT 1) AS by_user
       	 FROM v_getcollectmoney AS v WHERE v.status=1
 		AND v.`id` = $id LIMIT 1";
       	return $db->fetchRow($sql);

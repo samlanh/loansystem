@@ -648,11 +648,13 @@ function rptPaymentHistoryAction(){
  	$db  = new Report_Model_DbTable_Dbpawn();
  	$row = $db->getPawnShopByID($id);
  	if (empty($row)){
- 		$this->_redirect("/report/pawn/rpt-loan-disburse");
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/pawn/rpt-loan-disburse');
+ 		exit();
  	}
  	$this->view->pawnshop =$row;
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	
  }
  function recieptpaymentAction(){
  	$db  = new Report_Model_DbTable_Dbpawn();
@@ -660,7 +662,15 @@ function rptPaymentHistoryAction(){
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	$id =$this->getRequest()->getParam('id');
  	$id = empty($id)?0:$id;
- 	$this->view->loanPayment = $db->getPawnShopPaymentBYId($id);
+ 	$row = $db->getPawnShopPaymentBYId($id);
+ 	if (empty($row)){
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/pawn/rpt-loan-disburse');
+ 		exit();
+ 	}
+ 	$this->view->loanPayment = $row;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->pawnReceipt = $frmpopup->getOfficailReceiptPawn();
  }
 }
 

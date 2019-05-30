@@ -79,6 +79,16 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 			return $options;
 		}
 	}
+	public  function caseStatusShowImage($status="status"){
+		$base_url = Zend_Controller_Front::getInstance()->getBaseUrl();
+		$imgnone='<img src="'.$base_url.'/images/icon/cross.png"/>';
+		$imgtick='<img src="'.$base_url.'/images/icon/apply2.png"/>';
+		$string=", CASE
+		WHEN  $status = 1 THEN '$imgtick'
+		WHEN  $status = 0 THEN '$imgnone'
+		END AS status ";
+		return $string;
+	}
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -1864,6 +1874,119 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   		}
   	}
   	return $num;
+  }
+  
+  public function getCustomerNearlyPaymentLoan(){
+  	
+  	$search['start_date'] = date('Y-m-d');
+  	$search['end_date']= date('Y-m-d');
+  	$end_date = $search['end_date'];
+  	$db = $this->getAdapter();
+  	$sql=" SELECT
+	  			l.id,
+			  	`co_khname` AS co_name ,
+			  	co_code,
+			  	b.branch_namekh,
+			  	co.`co_id`,
+			  	c.`client_number`,
+			  	c.`name_kh`,
+			  	c.`spouse_name`,
+			  	c.`phone`,
+			  	l.`loan_amount` as total_capital,
+			  	l.`loan_number`,
+			  	l.interest_rate  AS interest_rate,
+			  	l.`date_release`,
+			  	l.`date_line`,
+			  	l.`total_duration`,
+			  	l.`time_collect`,
+			  	l.`currency_type` AS curr_type,
+			  	l.`collect_typeterm`,
+			  	(SELECT pm.payment_nameen FROM ln_payment_method as pm WHERE pm.id = l.`payment_method`) as payment_method_title,
+			  	(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
+			  	(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`pay_term`)) LIMIT 1) AS `Term Borrow`,
+			  	(SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
+			  	SUM(d.`principle_after`) AS principle_after,
+			  	SUM(d.`total_interest_after`) AS total_interest_after,
+			  	SUM(d.`total_payment_after`) AS total_payment_after,
+			  	SUM(d.`penelize`) AS penelize,
+			  	d.`date_payment` ,
+			  	`d`.`installment_amount`   AS `times`,
+			  	COUNT(l.`id`) AS amount_late,
+		  		l.`branch_id`
+		  	FROM
+			  	`ln_loan_detail` AS d,
+			  	`ln_loan` AS l,
+			  	`ln_co` AS co,
+			  	`ln_client` AS c ,
+			  	`ln_branch` AS b
+		  	WHERE
+			  	d.`is_completed` = 0
+			  	AND `l`.`is_badloan`=0
+			  	AND l.`id` = d.`loan_id`
+			  	AND l.`status` = 1
+			  	AND d.`status`=1
+			  	AND co.`co_id` = l.`co_id`
+			  	AND c.`client_id` = l.`customer_id`
+			  	AND b.`br_id`=l.branch_id ";
+  	$where="";
+  	$where.=" AND d.date_payment <='$end_date'";
+  	$group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` DESC,l.`customer_id` ASC,d.id ASC ";
+  	return $db->fetchAll($sql.$where.$group_by);
+  }
+  
+  public function getCustomerNearlyPaymentPawn(){
+  	$search['start_date'] = date('Y-m-d');
+  	$search['end_date']= date('Y-m-d');
+  	$end_date = $search['end_date'];
+  	
+  	$db = $this->getAdapter();
+  	$sql=" SELECT
+  	l.`id`,
+  	b.branch_namekh,
+  	c.`client_number`,
+  	c.`name_kh`,
+  	c.`guarantor_name`,
+  	c.`phone`,
+  	l.`release_amount` AS total_capital,
+  	l.`loan_number`,
+  	l.interest_rate  AS interest_rate,
+  	l.`date_release`,
+  	l.`date_line`,
+  	l.`total_duration`,
+  	l.`currency_type` AS curr_type,
+  	(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
+  	(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`term_type`)) LIMIT 1) AS `termborrow`,
+  	(SELECT `crm`.`date_input` FROM (`ln_pawn_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
+  	SUM(d.`principle_after`) AS principle_after,
+  	SUM(d.`total_interest_after`) AS total_interest_after,
+  	SUM(d.`total_payment_after`) AS total_payment_after,
+  	d.`date_payment` ,
+  	COUNT(l.`id`) AS amount_late,
+  	l.`branch_id`,
+  	`d`.`installment_amount`   AS `times`,
+  	(SELECT p.product_kh FROM `ln_pawnshopproduct` AS p WHERE p.id = l.`product_id` LIMIT 1) AS productTitle,
+  	COUNT(l.`id`) AS amount_late
+  	
+  	FROM
+  	`ln_pawnshop_detail` AS d,
+  	`ln_pawnshop` AS l,
+  	`ln_clientsaving` AS c ,
+  	`ln_branch` AS b
+  	WHERE
+  	d.`is_completed` = 0
+  	AND l.`id` = d.`pawn_id`
+  	AND l.`status` = 1
+  	AND l.is_dach = 0
+  	AND d.`status`=1
+  	AND c.`client_id` = l.`customer_id`
+  	AND b.`br_id`=l.branch_id ";
+  	$where='';
+  	 
+  	$where.=" AND d.date_payment < '$end_date'";
+  	$where.=$this->getAccessPermission('l.`branch_id`');
+  	$group_by =" GROUP BY l.`id` ORDER BY d.`date_payment` ASC";
+  	$group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` DESC,c.`client_id` ASC ,d.id ASC ";
+  	return $db->fetchAll($sql.$where.$group_by);
   }
 }
 ?>

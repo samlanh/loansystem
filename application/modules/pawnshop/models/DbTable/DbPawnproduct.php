@@ -38,8 +38,11 @@ class Pawnshop_Model_DbTable_DbPawnproduct extends Zend_Db_Table_Abstract
     }
     function getAllviewBYType($search=null,$type=null){
     	$db = $this->getAdapter();
-    	$sql=" SELECT v.id,v.product_en,v.product_kh,v.description,
-    	v.status FROM $this->_name AS v WHERE 1";
+    	$sql=" SELECT v.id,v.product_en,v.product_kh,v.description	 ";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("v.status");
+    	$sql.=" FROM $this->_name AS v WHERE 1 ";
     	
     	$Other=" ORDER BY  v.id desc ";
     	$where = '';

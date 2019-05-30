@@ -122,6 +122,9 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$db = new Loan_Model_DbTable_DbLoandisburse();
 			$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
 		}
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->loanReceipt = $frmpopup->getOfficailReceiptLoan();
 	}	
 	function editAction()
 	{

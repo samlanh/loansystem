@@ -2442,8 +2442,7 @@ AND cl.client_id = $client_id )";
       	(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=l.product_id) as product_name,
       	product_description,
       	est_amount,
-      	(SELECT CONCAT(u.last_name,' ',u.first_name) FROM `rms_users` AS u WHERE u.id = l.`user_id` LIMIT 1) AS user_name
-      
+      (SELECT CONCAT(COALESCE(last_name,''),' ',COALESCE(first_name,'')) FROM `rms_users` WHERE rms_users.id=l.`user_id` LIMIT 1) AS user_name
       	FROM
       	`ln_pawnshop` AS  `l`,
       	ln_clientsaving As c
@@ -2470,7 +2469,8 @@ AND cl.client_id = $client_id )";
       	(SELECT `l`.`loan_number` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
       	(SELECT `c`.`name_kh` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
       	(SELECT  `c`.`client_number` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
-      	(SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
+      	(SELECT CONCAT(COALESCE(`u`.`last_name`,''),' ',COALESCE(`u`.`first_name`,'')) FROM `rms_users` AS u WHERE u.id=crm.`user_id` LIMIT 1) AS user_name,
+      	
       	`crm`.`id`                   AS `id`,
       	`crm`.`receipt_no`           AS `receipt_no`,
       	`crm`.`branch_id`            AS `branch_id`,

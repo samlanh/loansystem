@@ -33,7 +33,7 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 			$result = array();
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECIEPT_NO","PAID_PRINCIPAL",
-					"INTERREST_AMOUNT","TOTAL_PENELIZE","RECEIVE_AMOUNT","PAY_DATE","DAY_PAYMENT",
+					"INTERREST_AMOUNT","TOTAL_PENELIZE","RECEIVE_AMOUNT","PAY_DATE","DAY_PAYMENT","STATUS"
 				);
 			$link=array(
 					'module'=>'pawnshop','controller'=>'payment','action'=>'edit',);
@@ -96,6 +96,9 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 			$db = new Pawnshop_Model_DbTable_DbPawnshop();
 			$this->view->rsloan =  $db->getPawnshopById($id);
 		}
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->pawnReceipt = $frmpopup->getOfficailReceiptPawn();
 	}	
 	function deleteAction()
 	{//check permission first

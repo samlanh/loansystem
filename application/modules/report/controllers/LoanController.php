@@ -1391,7 +1391,15 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	$id =$this->getRequest()->getParam('id');
  	$id = empty($id)?0:$id;
- 	$this->view->loanPayment = $db->getLoanPaymentById($id);
+ 	$row = $db->getLoanPaymentById($id);
+ 	if(empty($row)){
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/loan/payment');
+ 		exit();
+ 	}
+ 	$this->view->loanPayment = $row ;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->loanReceipt = $frmpopup->getOfficailReceiptLoan();
  }
  function exchangereceiptAction(){
  	$key = new Application_Model_DbTable_DbKeycode();

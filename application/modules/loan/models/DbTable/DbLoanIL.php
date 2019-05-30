@@ -40,6 +40,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
     	$complete = $tr->translate("COMPLETED");
     	$not_complete = $tr->translate("Not Complete");
+    	$is_badloan = $tr->translate("Bad Loan");
     	$sql=" SELECT l.id,
     	 (SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
     	l.loan_number,
@@ -55,8 +56,17 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
 		WHEN  l.is_completed = 0 THEN '$not_complete'
 		WHEN  l.is_completed = 1 THEN '$complete'
 		END AS completed_status,
-         l.status  FROM `ln_loan` AS l
+		 CASE    
+		WHEN  l.is_badloan = 0 THEN ''
+		WHEN  l.is_badloan = 1 THEN '$is_badloan'
+		END AS is_badloan
+            ";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("l.status");
+    	$sql.=" FROM `ln_loan` AS l
 				WHERE loan_type =1 ";
+    	
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));

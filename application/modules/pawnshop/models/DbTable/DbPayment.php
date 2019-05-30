@@ -27,12 +27,14 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
 					CONCAT(cm.`recieve_amount`,	(SELECT symbol FROM `ln_currency` WHERE id =cm.currency_type LIMIT 1)) as recieve_amount,
 					cm.`date_pay`,
 					cm.`date_input`
-				FROM 
-					`ln_pawn_receipt_money` AS cm,
+					";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("cm.`status`");
+    	$sql.=" FROM `ln_pawn_receipt_money` AS cm,
 					ln_pawnshop AS pp 
-    			WHERE pp.id=cm.loan_id ";
-//     	,'$reciept',
-//     	'delete'
+    			WHERE pp.id=cm.loan_id  ";
+    	
     	if(!empty($search['advance_search'])){
     		$s_where = array();
     		$s_search = addslashes(trim($search['advance_search']));

@@ -22,8 +22,6 @@ class Pawnshop_SaleController extends Zend_Controller_Action {
 			}
 			$db = new Pawnshop_Model_DbTable_DbSale();
 			$rs_rows= $db->getAllPawnSale($search);
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","INVOICE_NO","CUSTOMER_NAME","SEX","PHONE",
 					"ADDRESS","PRODUCT_NAME","SELLING_PRICE","DESCRIPTION","SELLING_DATE","USER","STATUS");

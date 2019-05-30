@@ -35,8 +35,6 @@ class Pawnshop_CustomerController extends Zend_Controller_Action {
 			}
 			$search['client_type']=1;
 			$rs_rows= $db->getAllClients($search);
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","CLIENT_NUM","CLIENTNAME_KH","CLIENTNAME_EN","SEX","PHONE","HOUSE","STREET","VILLAGE","SPOUSE_NAME",
 					"DATE","BY_USER","STATUS");
