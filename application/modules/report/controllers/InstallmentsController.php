@@ -377,7 +377,14 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 		$id =$this->getRequest()->getParam('id');
 		$id = empty($id)?0:$id;
-		$this->view->loanPayment = $db->getInstallPaymentBYId($id);
+		$row = $db->getInstallPaymentBYId($id);
+		if (empty($row)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/installment/payment');
+			exit();
+		}
+		$this->view->loanPayment = $row;
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->saleInstallReceipt = $frmpopup->getOfficailReceiptSaleInstall();
 	}
 	
 	function rptgeneralsaleAction(){

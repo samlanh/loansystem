@@ -17,7 +17,8 @@
 		Application_Form_FrmMessage::redirectUrl("/");
 	}
 	$db = new Application_Model_DbTable_DbUsers();
-	$CheckAccess = $db->getAccessUrl("pawnshop","index","add");
+	$CheckAccess = $db->getAccessUrl("pawnshop","index","index");
+	$CheckAccessSaleIns = $db->getAccessUrl("installment","index","index");
 	
 	$rs = $vdgb->getCustomerNearlyPaymentLoan();
 	
@@ -26,6 +27,10 @@
 		$rsPawn = $vdgb->getCustomerNearlyPaymentPawn();
 	}
 	
+	$rsSaleIns=array();
+	if (!empty($CheckAccessSaleIns)){
+		$rsSaleIns = $vdgb->getCustomerNearlyPaymentSaleInstall();
+	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -173,6 +178,47 @@
 				                  </ul>
 				                </li>
 				                
+				                <?php if (!empty($CheckAccessSaleIns)){ ?>
+				                <li role="presentation" class="dropdown">
+				                  <a title="<?php echo $tr->translate("CUSTOMER_PAYMENTLIST_SALEINS");?>" href="javascript:;"  class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="true">
+				                    <i class="fa fa-money"></i>
+				                    <span id="countNews" class="badge bg-green"><?php if (count($rsSaleIns)>0){ echo count($rsSaleIns);}?></span>
+				                  </a>
+				                  <ul id="menu1" class="dropdown-menu list-unstyled " role="menu">
+				                  	  <li class=" event title">
+					                  	<h4><?php echo $tr->translate("CUSTOMER_PAYMENTLIST_SALEINS");?></h4>
+					                  </li>
+					                   <?php if(!empty($rsSaleIns)){?>
+			                          <?php foreach($rsSaleIns as $key=> $resultSaleIn){
+			                          	$url = $this->url(array('module'=>'installment','controller'=>'payment','action'=>'add'), null, true)."/id/".$resultSaleIn['id'];
+			                          	$end_dat=date("Y-m-d");
+			                          	$total_day=strtotime($end_dat)-strtotime($resultSaleIn['date_payment']);
+			                          	$total_late_day=$total_day/(60*60*24);
+			                          	$total_payment = $resultSaleIn['total_payment_after'];
+			                          	?>
+			                          <li class=" event">
+			                         	 <a href="<?php echo $url;?>">
+				                            <div class="pull-left profile-list ">
+				                              <img src="<?php echo $this->baseUrl()."/images/no-profile.png";?>" />
+				                            </div>
+				                            <div class="media-body">
+				                            	<small><?php echo $resultSaleIn['branch_namekh'];?></small><br />
+				                              <span class="title" ><?php echo $resultSaleIn['name_kh'].' '.$resultSaleIn['loan_number'];?></span>
+				                              <br /><span class="title" ><?php echo $resultSaleIn['productTitle'];?></span>
+				                              <p style="white-space: nowrap;"><i class="fa fa-phone"></i> <?php echo $resultSaleIn['phone'];?></p>
+				                              <p><strong>$<?php echo number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$resultSaleIn['times'];?> </p>
+				                              <p> <small><?php echo $tr->translate("AMOUNT_LATE")." : ".$total_late_day."ថ្ងៃ";//@abs($interval->format('%R%a'))."ថ្ងៃ"; ?> <?php echo " / ".$resultSaleIn['amount_late']." លើក ";?></small>
+				                              </p>
+				                            </div>
+			                            </a>
+			                          </li>
+			                          <?php }?>
+			                          <?php }?>
+			                        </ul>
+				              </li>
+				              <?php }?>
+				              
+				                
 				                <?php if (!empty($CheckAccess)){ ?>
 				                <li role="presentation" class="dropdown">
 				                  <a title="<?php echo $tr->translate("CUSTOMER_PAYMENTLIST_PAWN");?>" href="javascript:;"  class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="true">
@@ -200,7 +246,7 @@
 				                            	<small><?php echo $resultPawn['branch_namekh'];?></small><br />
 				                              <span class="title" ><?php echo $resultPawn['name_kh'].' '.$resultPawn['loan_number'];?></span>
 				                              <p style="white-space: nowrap;"><i class="fa fa-phone"></i> <?php echo $resultPawn['phone'];?></p>
-				                              <p><strong>$<?php echo number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$resultPawn['times'];?> </p>
+				                              <p><strong><?php echo $resultPawn['currency_type']." ".number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$resultPawn['times'];?> </p>
 				                              <p> <small><?php echo $tr->translate("AMOUNT_LATE")." : ".$total_late_day."ថ្ងៃ";//@abs($interval->format('%R%a'))."ថ្ងៃ"; ?> <?php echo " / ".$resultPawn['amount_late']." លើក ";?></small>
 				                              </p>
 				                            </div>
@@ -238,7 +284,7 @@
 				                            	<small><?php echo $result['branch_namekh'];?></small><br />
 				                              <span class="title" ><?php echo $result['name_kh'].' '.$result['loan_number'];?></span>
 				                              <p style="white-space: nowrap;"><i class="fa fa-phone"></i> <?php echo $result['phone'];?></p>
-				                              <p><strong>$<?php echo number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$result['times'];?> </p>
+				                              <p><strong><?php echo $result['currency_type']." ".number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$result['times'];?> </p>
 				                              <p> <small><?php echo $tr->translate("AMOUNT_LATE")." : ".$total_late_day."ថ្ងៃ";//@abs($interval->format('%R%a'))."ថ្ងៃ"; ?> <?php echo " / ".$result['amount_late']." លើក ";?></small>
 				                              </p>
 				                            </div>

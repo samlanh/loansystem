@@ -30,10 +30,9 @@ public function init()
     		}
     		$db = new Installment_Model_DbTable_DbCategory();
     		$rs_rows= $db->getAllCategory($search);
-    		$glClass = new Application_Model_GlobalClass();
-    		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+    		
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("PRODUCT_CATEGORY","STATUS","BY_USER");
+    		$collumns = array("PRODUCT_CATEGORY","BY_USER","STATUS");
     		$link_info=array('module'=>'installment','controller'=>'category','action'=>'edit');
     		$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('name'=>$link_info),0);
     	}catch (Exception $e){

@@ -15,15 +15,6 @@
 	$data = $keyvalue;
 	$showreceipt = empty($keyvalue['showreceipt'])?2:$keyvalue['showreceipt'];
 ?>
-<script src="<?php echo $baseurl;?>/js/help.js"></script>
-   <script>
-		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog",
-		         "dijit/layout/TabContainer"]);
-		dojo.require("dojo.NodeList-manipulate");
-		dojo.require("dojo.html");
-	    dojo.require("dojo.data.ItemFileWriteStore"); 
-		dojo.require("dojo.data.ObjectStore");
-   </script>
 <style>
 	.center tr{text-align:left;}
 	fieldset{padding:10px;}
@@ -60,7 +51,7 @@ div.list-data table tr td input[type=checkbox], input[type=radio] {
 				
                		branch_id = dijit.byId('branch_id').get('value');
 		    		if (branch_id=='' || branch_id==-1){
-		  	  			alert('Please Select Branch Name!');
+		  	  			alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> !');
 			   			dijit.byId('branch_id').focus();
 			   			return false;
 		   			}
@@ -71,7 +62,7 @@ div.list-data table tr td input[type=checkbox], input[type=radio] {
 				
 					client = dijit.byId('client_id').get('value');
 					if (client=='' || client==-1){
-						alert('Please Select Client Name !');
+						alert('<?php echo $tr->translate("PLEASE_SELECT_CLIENT");?> !');
 						dijit.byId('client_id').focus();
 						return false;
 					}
@@ -466,7 +457,15 @@ div.list-data table tr td input[type=checkbox], input[type=radio] {
 	</div>
 </div>
 <?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
+require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog",
+         "dijit/layout/TabContainer"]);
+dojo.require("dojo.NodeList-manipulate");
+dojo.require("dojo.html");
+dojo.require("dojo.data.ItemFileWriteStore"); 
+dojo.require("dojo.data.ObjectStore");
+
 function confirmBeforePrint(){
 	dijit.byId('alertBeforePrint').show();
 }
@@ -590,7 +589,7 @@ function showReciept(data){
 	dojo.byId("lbl_collect_date").innerHTML = noDate+"/"+month+"/"+year;
 	
 	dojo.byId("lbl_interest_paid").innerHTML = dojo.number.format(data.interest_paid,{places:2});
-	dojo.byId("lbl_penalty_amount").innerHTML = data.penalize_paid;
+	dojo.byId("lbl_penalty_amount").innerHTML = dojo.number.format(data.penalize_paid,{places:2}) ;
 	dojo.byId("lbl_amount_return").innerHTML = data.currency_typeshow+" "+dojo.number.format(data.total_paymentpaid,{places:2});
 	 
 	dojo.byId("lbl_colleral").innerHTML = data.proTitleKh+proDesc;
@@ -1174,7 +1173,7 @@ function roundhundred(n){
 	  if(dijit.byId('frm_add_group_pay').validate()){
 		  branch_id = dijit.byId('branch_id').get('value');
 	    	if (branch_id=='' || branch_id==-1){
-	  	  			alert('Please Select Branch Name!');
+	  	  			alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> !');
 		   			dijit.byId('branch_id').focus();
 		   			return false;
 	   		}
@@ -1186,13 +1185,10 @@ function roundhundred(n){
 	
 			client = dijit.byId('client_id').get('value');
 			if (client=='' || client==-1){
-				alert('Please Select Client Name !');
+				alert('<?php echo $tr->translate("PLEASE_SELECT_CLIENT");?> !');
 				dijit.byId('client_id').focus();
 				return false;
 			}
-	    	/*dijit.byId("save_close").set("disabled",true);
-			dijit.byId("save_new").set("disabled",true);
-			dijit.byId("saveprint").set("disabled",true);*/
 			loadingBlock();
 			dojo.xhrPost({
 				url: url_addsaleprint,
@@ -1222,7 +1218,7 @@ function roundhundred(n){
   function getbranchinfo(){
   	branch_id = dijit.byId('branch_id').get('value');
   	if(branch_id==''){
-  		alert('Please Select Branch');
+  		alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?>' !);
   		dijit.byId('branch_id').focus();
   		return false;
   	}
@@ -1233,15 +1229,8 @@ function roundhundred(n){
   		},		    
   		handleAs:"json",
   		load: function(data) {
-  			//alert(data.phonebr);
-
   			dojo.byId('br_address').innerHTML=data.br_address;
 			dojo.byId('branch_tel').innerHTML=data.branch_tel;
-			
-  			//dojo.byId('brNameShop').innerHTML=data.branch_nameen;
-  			//dojo.byId('brDescription').innerHTML=data.description;
-  			
-  			//dijit.byId('invoice_no').attr('value',data);
   		},
   		error: function(err) {
   			alert("eror receipt");

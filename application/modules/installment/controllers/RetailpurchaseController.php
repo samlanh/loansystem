@@ -27,19 +27,12 @@ class Installment_RetailpurchaseController extends Zend_Controller_Action {
     			);
     		}
 			$db =  new Installment_Model_DbTable_DbRetailPurchase();
-			$rows = $db->getAllSupPurchase($search);
-			$rs_rows=new Application_Model_GlobalClass();
-			$rs_rows=$rs_rows->getImgActive($rows, BASE_URL);
+			$rs_rows = $db->getAllSupPurchase($search);
 			$list = new Application_Form_Frmtable();
-// 			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-// 			$RECEIPT = $tr->translate("RECEIPT");
 			$collumns = array("BRANCH","INVOICE_NO","SUPPLIER_NO","SUPPLIER_NAME","TEL","EMAIL","AMOUNT_DUE","DATE","STATUS");
 			$link=array(
 					'module'=>'installment','controller'=>'retailpurchase','action'=>'edit',
 			);
-// 			$link1=array(
-// 					'module'=>'report','controller'=>'installments','action'=>'retailreceipt',
-// 			);$RECEIPT=>$link1,
 			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array('invoice_no'=>$link,'branch_namekh'=>$link,'sup_name'=>$link,'supplier_no'=>$link,));
 			}catch (Exception $e){
 				echo $e->getMessage();exit();

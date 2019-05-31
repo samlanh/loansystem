@@ -46,10 +46,13 @@ class Installment_Model_DbTable_DbCategory extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql = "SELECT 
 				c.id,c.`name`,
-				c.`status`,
 				(SELECT first_name FROM `rms_users` WHERE id=user_id ) AS user_id
-			FROM `ln_ins_category` 
-			AS c WHERE c.`status` =1 ORDER BY id desc ";
+			 ";
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->caseStatusShowImage("c.`status`");
+		$sql.=" FROM `ln_ins_category` 
+			AS c WHERE c.`status` =1 ORDER BY id desc";
+		
 		return $db->fetchAll($sql);
 	}
 	public function getCategory($id){

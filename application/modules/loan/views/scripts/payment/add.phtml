@@ -54,7 +54,7 @@ th.tdheader {
 			if(this.validate()) {
                	branch_id = dijit.byId('branch_id').get('value');
 		    	if (branch_id=='' || branch_id==-1){
-		  	  			alert('Please Select Branch Name!');
+		  	  			alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> !');
 			   			dijit.byId('branch_id').focus();
 			   			return false;
 		   		}
@@ -65,11 +65,11 @@ th.tdheader {
 			co_id = dijit.byId('co_id').get('value');
 			client = dijit.byId('client_id').get('value');
 			if (client=='' || client==-1){
-				alert('Please Select Client Name !');
+				alert('<?php echo $tr->translate("PLEASE_SELECT_CLIENT");?> !');
 				dijit.byId('client_id').focus();
 				return false;
 			}if(co_id=='' || co_id==-1){
-				alert('Please Select CO Name !');
+				alert('<?php echo $tr->translate("Please Select CO Name");?> !');
 				dijit.byId('co_id').focus();
 				return false;
 			}
@@ -1277,7 +1277,7 @@ function roundhundred(n){
 	  if(dijit.byId('frm_add_group_pay').validate()){
 		branch_id = dijit.byId('branch_id').get('value');
     	if (branch_id=='' || branch_id==-1){
-  	  			alert('Please Select Branch Name!');
+    		alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> !');
 	   			dijit.byId('branch_id').focus();
 	   			return false;
    		}
@@ -1288,16 +1288,16 @@ function roundhundred(n){
 			co_id = dijit.byId('co_id').get('value');
 			client = dijit.byId('client_id').get('value');
 			if (client=='' || client==-1){
-				alert('Please Select Client Name !');
+				alert('<?php echo $tr->translate("PLEASE_SELECT_CLIENT");?> !');
 				dijit.byId('client_id').focus();
 				return false;
 			}if(co_id=='' || co_id==-1){
-				alert('Please Select CO Name !');
+				alert('<?php echo $tr->translate("Please Select CO Name");?> !');
 				dijit.byId('co_id').focus();
 				return false;
 			}
 			if(receive_amount<0){
-				alert('Please fill Recieve Amount');
+				alert('<?php echo $tr->translate("Please fill Recieve Amount");?> !');
 				dijit.byId('amount_receive').focus();
 				return false;
 			}

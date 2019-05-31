@@ -12,12 +12,16 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     	$sql=" SELECT sp.id,
     	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = sp.`branch_id` LIMIT 1) AS branch_namekh,
     	sp.invoice_no, s.`supplier_no`,s.sup_name,
-    	 s.tel,s.`email`,sp.total_amount,sp.date,
-    	 sp.status
-	    FROM 
+    	 s.tel,s.`email`,sp.total_amount,sp.date
+	     ";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("sp.status");
+    	$sql.=" FROM 
 		ln_ins_supplier AS s,
 		ln_ins_purchase AS sp
 	     WHERE s.id=sp.supplier_id AND sp.type=1 ";
+    	
     	$from_date =(empty($search['start_date']))? '1': " sp.date >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': " sp.date <= '".$search['end_date']." 23:59:59'";
     	$sql.= " AND ".$from_date." AND ".$to_date;
@@ -41,8 +45,6 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     	if($search['status']>-1){
     		$sql.=" AND sp.status=".$search['status'];
     	}
-    	
-    	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->getAccessPermission('sp.branch_id');
     	$order=" ORDER BY id DESC";
     	return $db->fetchAll($sql.$order);

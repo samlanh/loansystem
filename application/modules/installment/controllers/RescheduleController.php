@@ -27,11 +27,9 @@ class Installment_RescheduleController extends Zend_Controller_Action {
 			}
 			$db = new Installment_Model_DbTable_DbInstallment();
 			$rs_rows= $db->getAllSale($search);
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","SALE_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
-					"SOLD_DATE","INVOICE_NO","SALE_TYPE","STATUS","SCHEDULE_PAYMENT","ADD_PAYMENT");
+					"SOLD_DATE","INVOICE_NO","SALE_TYPE","STATUS","SCHEDULE_PAYMENT","ADD_PAYMENT","STATUS");
 			$link=array(
 					'module'=>'installment','controller'=>'index','action'=>'view',
 			);

@@ -27,9 +27,7 @@ class Installment_PurchaseController extends Zend_Controller_Action {
     			);
     		}
 			$db =  new Installment_Model_DbTable_DbPurchase();
-			$rows = $db->getAllSupPurchase($search);
-			$rs_rows=new Application_Model_GlobalClass();
-			$rs_rows=$rs_rows->getImgActive($rows, BASE_URL);
+			$rs_rows = $db->getAllSupPurchase($search);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH","INVOICE_NO","SUPPLIER_NO","SUPPLIER_NAME","TEL","EMAIL","AMOUNT_DUE","DATE","STATUS");
 			$link=array(

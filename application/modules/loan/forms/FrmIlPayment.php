@@ -156,7 +156,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options=array(''=>'--------Select----------');
+		$options=array(''=>$this->tr->translate("SELECT_BRANCH_NAME"));
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}

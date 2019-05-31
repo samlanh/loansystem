@@ -718,7 +718,7 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
    	ps.sale_no AS `loan_number`,
    	(SELECT `c`.`name_kh` FROM `ln_ins_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
    	(SELECT  `c`.`client_number` FROM `ln_ins_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
-   	(SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
+   	(SELECT CONCAT(COALESCE(`u`.`last_name`,''),' ',COALESCE(`u`.`first_name`,'')) FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
    	`crm`.`id`                   AS `id`,
    	`crm`.`receipt_no`           AS `receipt_no`,
    	`crm`.`branch_id`            AS `branch_id`,

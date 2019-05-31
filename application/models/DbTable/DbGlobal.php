@@ -1941,50 +1941,99 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	
   	$db = $this->getAdapter();
   	$sql=" SELECT
-  	l.`id`,
-  	b.branch_namekh,
-  	c.`client_number`,
-  	c.`name_kh`,
-  	c.`guarantor_name`,
-  	c.`phone`,
-  	l.`release_amount` AS total_capital,
-  	l.`loan_number`,
-  	l.interest_rate  AS interest_rate,
-  	l.`date_release`,
-  	l.`date_line`,
-  	l.`total_duration`,
-  	l.`currency_type` AS curr_type,
-  	(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
-  	(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`term_type`)) LIMIT 1) AS `termborrow`,
-  	(SELECT `crm`.`date_input` FROM (`ln_pawn_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
-  	SUM(d.`principle_after`) AS principle_after,
-  	SUM(d.`total_interest_after`) AS total_interest_after,
-  	SUM(d.`total_payment_after`) AS total_payment_after,
-  	d.`date_payment` ,
-  	COUNT(l.`id`) AS amount_late,
-  	l.`branch_id`,
-  	`d`.`installment_amount`   AS `times`,
-  	(SELECT p.product_kh FROM `ln_pawnshopproduct` AS p WHERE p.id = l.`product_id` LIMIT 1) AS productTitle,
-  	COUNT(l.`id`) AS amount_late
+	  	l.`id`,
+	  	b.branch_namekh,
+	  	c.`client_number`,
+	  	c.`name_kh`,
+	  	c.`guarantor_name`,
+	  	c.`phone`,
+	  	l.`release_amount` AS total_capital,
+	  	l.`loan_number`,
+	  	l.interest_rate  AS interest_rate,
+	  	l.`date_release`,
+	  	l.`date_line`,
+	  	l.`total_duration`,
+	  	l.`currency_type` AS curr_type,
+	  	(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
+	  	(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`term_type`)) LIMIT 1) AS `termborrow`,
+	  	(SELECT `crm`.`date_input` FROM (`ln_pawn_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
+	  	SUM(d.`principle_after`) AS principle_after,
+	  	SUM(d.`total_interest_after`) AS total_interest_after,
+	  	SUM(d.`total_payment_after`) AS total_payment_after,
+	  	d.`date_payment` ,
+	  	COUNT(l.`id`) AS amount_late,
+	  	l.`branch_id`,
+	  	`d`.`installment_amount`   AS `times`,
+	  	(SELECT p.product_kh FROM `ln_pawnshopproduct` AS p WHERE p.id = l.`product_id` LIMIT 1) AS productTitle,
+	  	COUNT(l.`id`) AS amount_late
   	
   	FROM
-  	`ln_pawnshop_detail` AS d,
-  	`ln_pawnshop` AS l,
-  	`ln_clientsaving` AS c ,
-  	`ln_branch` AS b
+	  	`ln_pawnshop_detail` AS d,
+	  	`ln_pawnshop` AS l,
+	  	`ln_clientsaving` AS c ,
+	  	`ln_branch` AS b
   	WHERE
-  	d.`is_completed` = 0
-  	AND l.`id` = d.`pawn_id`
-  	AND l.`status` = 1
-  	AND l.is_dach = 0
-  	AND d.`status`=1
-  	AND c.`client_id` = l.`customer_id`
-  	AND b.`br_id`=l.branch_id ";
+	  	d.`is_completed` = 0
+	  	AND l.`id` = d.`pawn_id`
+	  	AND l.`status` = 1
+	  	AND l.is_dach = 0
+	  	AND d.`status`=1
+	  	AND c.`client_id` = l.`customer_id`
+	  	AND b.`br_id`=l.branch_id ";
   	$where='';
   	 
   	$where.=" AND d.date_payment < '$end_date'";
   	$where.=$this->getAccessPermission('l.`branch_id`');
-  	$group_by =" GROUP BY l.`id` ORDER BY d.`date_payment` ASC";
+  	$group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` DESC,c.`client_id` ASC ,d.id ASC ";
+  	return $db->fetchAll($sql.$where.$group_by);
+  }
+  public function getCustomerNearlyPaymentSaleInstall(){
+  	$search['start_date'] = date('Y-m-d');
+  	$search['end_date']= date('Y-m-d');
+  	$end_date = $search['end_date'];
+  	 
+  	$db = $this->getAdapter();
+  	$sql=" SELECT
+		  	l.`id`,
+		  	b.branch_namekh,
+		  	c.`client_number`,
+		  	c.`name_kh`,
+		  	c.`guarantor_name`,
+		  	c.`phone`,
+		  	
+		  	l.`sale_no` AS loan_number,
+		  	l.interest_rate  AS interest_rate,
+		  	l.`date_sold` AS date_release,
+		  	l.`date_line`,
+		  	l.`duration` AS total_duration,
+  	
+		  	(SELECT `crm`.`date_input` FROM (`ln_ins_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
+		  	SUM(d.`principle_after`) AS principle_after,
+		  	SUM(d.`total_interest_after`) AS total_interest_after,
+		  	SUM(d.`total_payment_after`) AS total_payment_after,
+		  	d.`date_payment` ,
+		  	COUNT(l.`id`) AS amount_late,
+		  	l.`branch_id`,
+		  	`d`.`installment_amount`   AS `times`,
+		  	(SELECT p.item_name FROM `ln_ins_product` AS p WHERE p.id = l.`product_id` LIMIT 1) AS productTitle,
+		  	COUNT(l.`id`) AS amount_late
+  	
+	  	FROM
+		  	`ln_ins_sales_installdetail` AS d,
+		  	`ln_ins_sales_install` AS l,
+		  	`ln_ins_client` AS c ,
+		  	`ln_branch` AS b
+	  	WHERE
+		  	d.`is_completed` = 0
+		  	AND l.`id` = d.`sale_id`
+		  	AND l.`status` = 1
+		  	AND l.is_completed = 0
+		  	AND d.`status`=1
+		  	AND c.`client_id` = l.`customer_id`
+		  	AND b.`br_id`=l.branch_id ";
+  	$where='';
+  	$where.=" AND d.date_payment < '$end_date'";
+  	$where.=$this->getAccessPermission('l.`branch_id`');
   	$group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` DESC,c.`client_id` ASC ,d.id ASC ";
   	return $db->fetchAll($sql.$where.$group_by);
   }

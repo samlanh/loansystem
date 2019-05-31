@@ -46,7 +46,6 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
  }
  function getAllProduct($data){
   	$db = $this->getAdapter();
-  	$db_globle = new Application_Model_DbTable_DbGlobal();
 	$user_id = $this->getUserId();
   	$sql ="SELECT 
 			  p.`id`,
@@ -56,12 +55,16 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 			  (SELECT c.name FROM `ln_ins_producttype` AS  c WHERE c.id=p.`product_type` LIMIT 1) AS product_type,
 			  (SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat,
 			  SUM(pl.`qty`) AS qty,cost_price,selling_price,
-			  (SELECT `first_name` FROM `rms_users` WHERE rms_users.`id`=p.`user_id` LIMIT 1) AS user_name,
-  			  (SELECT v.`name_en` FROM ln_view AS v WHERE v.`type`=3  AND p.`status`=v.`key_code` LIMIT 1) AS status
-			FROM
+			  (SELECT `first_name` FROM `rms_users` WHERE rms_users.`id`=p.`user_id` LIMIT 1) AS user_name
+			";
+  	
+  	$dbp = new Application_Model_DbTable_DbGlobal();
+  	$sql.=$dbp->caseStatusShowImage("p.`status`");
+  	$sql.=" FROM
 			  `ln_ins_product` AS p ,
 			  `ln_ins_prolocation` AS pl
-			WHERE p.`id`=pl.`pro_id` ";
+			WHERE p.`id`=pl.`pro_id`   ";
+  	
   	$from_date =(empty($data['start_date']))? '1': " p.create_date >= '".$data['start_date']." 00:00:00'";
   	$to_date = (empty($data['end_date']))? '1': " p.create_date <= '".$data['end_date']." 23:59:59'";
   	$where = " AND ".$from_date." AND ".$to_date;
@@ -85,7 +88,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
   	if($data["status"]!=-1){
   		$where.=' AND p.status='.$data["status"];
   	}
-  	$location = $db_globle->getAccessPermission('pl.`location_id`');
+  	$location = $dbp->getAccessPermission('pl.`location_id`');
   	$group_by = " GROUP BY p.id,pl.`location_id` DESC ";
   	return $db->fetchAll($sql.$where.$location.$group_by);
   }  

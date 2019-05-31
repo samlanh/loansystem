@@ -126,8 +126,12 @@ class Installment_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		(SELECT village_namekh FROM `ln_village` WHERE vill_id=village_id) AS village_name
 		    ,guarantor_name,guarantor_tel,
 		    create_date,
-		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
-			status FROM $this->_name ";
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name
+			  ";
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->caseStatusShowImage("status");
+		$sql.=" FROM $this->_name ";
+		
 		if(!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
@@ -155,7 +159,6 @@ class Installment_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		if(!empty($search['village'])){
 			$where.=" AND village_id= ".$search['village'];
 		}
-		$dbp = new Application_Model_DbTable_DbGlobal();
 		$where.=$dbp->getAccessPermission('branch_id');
 		
 		$order=" ORDER BY client_id DESC";

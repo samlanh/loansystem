@@ -23,12 +23,16 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
 					lcrm.`recieve_amount`,
 					lcrmd.`date_payment`,
 					lcrm.`date_input`
-				FROM 
+				";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("lcrm.status=1");
+    	$sql.=" FROM 
 					`ln_ins_receipt_money` AS lcrm,
 					`ln_ins_receipt_money_detail` AS lcrmd
     				 WHERE  lcrm.id=lcrmd.`receipt_id` 
-    				AND lcrm.status=1";
-//     	,'delete'
+    				AND lcrm.status=1 ";
+    	
     	$where ='';
     	if(!empty($search['adv_search'])){
     		$s_where = array();
@@ -49,8 +53,7 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
     	if($search['branch_id']>0){
     		$where.=" AND lcrm.`branch_id`= ".$search['branch_id'];
     	}
-    	$db_globle = new Application_Model_DbTable_DbGlobal();
-    	$where = $db_globle->getAccessPermission('lcrm.`branch_id`');
+    	$where = $dbp->getAccessPermission('lcrm.`branch_id`');
     	
     	$group_by = " GROUP BY lcrm.id";
     	$order = " ORDER BY id DESC";
@@ -275,6 +278,8 @@ public function addILPayment($data){
 	    		$this->update($arr, $where);
 	    	}
     		$db->commit();
+    		
+    		return $receipt_id;
     	}catch (Exception $e){
     		echo $e->getMessage();exit();
     		$db->rollBack();
@@ -495,26 +500,53 @@ public function getIlPaymentNumber(){
 			  GROUP BY crm.`id` ORDER BY crm.`id` DESC";
    	return $db->fetchAll($sql);
    }
-//    function getFunByGroupId($id){
-//    		$db = $this->getAdapter();
-//    		$sql="SELECT lf.`id` FROM `ln_loanmember_funddetail` AS lf, `ln_loan_member` AS lm WHERE lm.`member_id` = lf.`member_id` AND lm.`group_id` = $id AND lf.`is_completed`=0";
-//    		return $db->fetchAll($sql);
-//    }
-//    public function getFunDetail($id){
-//    	$db = $this->getAdapter();
-//    	$sql="SELECT f.`id`,f.`penelize`,f.`principle_after`,f.`service_charge`,f.`total_interest_after`,f.`total_payment_after`,f.`is_completed` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=$id";
-//    	return $db->fetchAll($sql);
-//    }
-   
-//    public function getReceiptMoneyById($id){
-//    	$db = $this->getAdapter();
-//    	$sql = "SELECT lc.id,lc.`service_charge`,lc.`penalize_amount`,lc.`payment_option`,lc.`recieve_amount`,lc.`total_interest`,lc.`total_payment` FROM `ln_client_receipt_money` AS lc WHERE lc.`id`=$id";
-//    	return $db->fetchRow($sql);
-//    }
-    
-//    public function getReceiptMoneyDetailByID($id){
-//    	$db = $this->getAdapter();
-//    	$sql = "SELECT lc.`crm_id`,lc.`lfd_id`,lc.`loan_number`,lc.`service_charge`,lc.`penelize_amount`,lc.`total_interest`,lc.`total_payment`,lc.`total_recieve`,lc.`principal_permonth`,old_penelize,old_service_charge FROM `ln_client_receipt_money_detail` AS lc WHERE lc.`crm_id`=$id";
-//    	return $db->fetchAll($sql);
-//    }
+
+public function getInstallPaymentBYId($id){
+   	$db = $this->getAdapter();
+   	$sql="SELECT
+		   	(SELECT `ln_branch`.`branch_namekh` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_name`,
+		   	(SELECT `ln_branch`.`br_address` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `br_address`,
+		   	(SELECT `ln_branch`.`branch_tel` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_tel`,
+		   	(SELECT `ln_branch`.`branch_nameen` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_nameen`,
+		   	ps.sale_no AS `loan_number`,
+		   	(SELECT `c`.`name_kh` FROM `ln_ins_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
+		   	(SELECT  `c`.`client_number` FROM `ln_ins_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
+		   	(SELECT CONCAT(COALESCE(`u`.`last_name`,''),' ',COALESCE(`u`.`first_name`,'')) FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
+		   	`crm`.`id`                   AS `id`,
+		   	`crm`.`receipt_no`           AS `receipt_no`,
+		   	`crm`.`branch_id`            AS `branch_id`,
+		   	`crm`.`date_pay`             AS `date_pay`,
+		   	`crm`.`date_payment`         AS `date_payment`,
+		   	`crm`.`date_input`           AS `date_input`,
+		   	`crm`.`note`                 AS `note`,
+		   	`crm`.`user_id`              AS `user_id`,
+		   	`crm`.`status`               AS `status`,
+		   	`crm`.`payment_option`       AS `payment_option`,
+		   	`crm`.`is_payoff`            AS `is_payoff`,
+		   	`crm`.`total_payment`        AS `total_payment`,
+		   	`crm`.`principal_amount`     AS `principal_amount`,
+		   	`crm`.`interest_amount`      AS `interest_amount`,
+		   	`crm`.`principal_paid`       AS `principal_paid`,
+		   	`crm`.`interest_paid`        AS `interest_paid`,
+		   	`crm`.`penalize_paid`        AS `penalize_paid`,
+		   	`crm`.`total_paymentpaid`    AS `total_paymentpaid`,
+		   	`crm`.`recieve_amount`       AS `amount_recieve`,
+		   	`crm`.`return_amount`        AS `return_amount`,
+		   	`crm`.`penalize_amount`      AS `penelize`,
+		   	`crm`.`client_id`            AS `client_id`,
+		   	`crm`.`paid_times`           AS `paid_times`,
+		   	ps.`product_id`         AS `product_id`
+   	
+	   	FROM `ln_ins_receipt_money` `crm`,
+		   	`ln_ins_receipt_money_detail` `d`,
+		   	`ln_ins_sales_install` `ps`
+	   	WHERE (`crm`.`status` = 1)
+		   	AND (`crm`.`id` = `d`.`receipt_id`)
+		   	AND (`crm`.`loan_id` = ps.id)
+		   	AND (`crm`.`status` = 1)
+		   	AND crm.id = $id
+   		GROUP BY `crm`.`id` ";
+   		$sql.=" ORDER BY `crm`.`id` DESC LIMIT 1";
+   	return $db->fetchRow($sql);
+   }
 }

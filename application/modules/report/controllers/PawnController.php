@@ -664,7 +664,7 @@ function rptPaymentHistoryAction(){
  	$id = empty($id)?0:$id;
  	$row = $db->getPawnShopPaymentBYId($id);
  	if (empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/pawn/rpt-loan-disburse');
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/pawnshop/payment');
  		exit();
  	}
  	$this->view->loanPayment = $row;

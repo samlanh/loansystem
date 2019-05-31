@@ -26,9 +26,10 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
 				'queryExpr'=>'*${0}*','class'=>'fullside',));
 		$_status_opt = array(
+				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"),
-				-1=>$this->tr->translate("ALL"));
+				);
 				
 		$_status->setMultiOptions($_status_opt);
 		$_status->setValue($request->getParam("status"));
@@ -110,7 +111,7 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 		));
 		
 		$options = $db->getAllPaymentMethod(null,1);
-		$options[-1]="--Select Repayment Method--";
+		$options[-1]=$this->tr->translate("Select Repayment Method");
 		
 		$opt_method = $request->getParam("repayment_method");
 		if(empty($opt_method)){

@@ -27,11 +27,10 @@ class Installment_IndexController extends Zend_Controller_Action {
 			}
 			$db = new Installment_Model_DbTable_DbInstallment();
 			$rs_rows= $db->getAllSale($search);
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","INSTALLMENT_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
-					"SOLD_DATE","INVOICE_NO","SALE_TYPE","REPAYMENT_TYPE","INSTALLMENT_DURATION","STATUS");
+					"SOLD_DATE","INVOICE_NO","SALE_TYPE","REPAYMENT_TYPE","INSTALLMENT_DURATION","COMPLETED","STATUS");
 			$link=array(
 					'module'=>'installment','controller'=>'index','action'=>'view',
 			);
@@ -115,7 +114,10 @@ class Installment_IndexController extends Zend_Controller_Action {
 		$db = new Installment_Model_DbTable_DbInstallmentPayment();
 		$row = $db->getSaleinstallbyid($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/installment/index");
+			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/installment/index");exit();
+		}
+		if ($row['is_completed']==1){
+			Application_Form_FrmMessage::Sucessfull("RECORED_COMPLETED","/installment/index");exit();
 		}
 		$frm = new Installment_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan();

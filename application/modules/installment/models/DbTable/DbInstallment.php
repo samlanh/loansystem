@@ -48,6 +48,10 @@ public function getAllSale($search,$reschedule =null){
 	$to_date = (empty($search['end_date']))? '1': "l.date_sold <= '".$search['end_date']." 23:59:59'";
 	$where = " AND ".$from_date." AND ".$to_date;
 	 
+	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+	$complete = $tr->translate("COMPLETED");
+	$not_complete = $tr->translate("Not Complete");
+	
 		$db = $this->getAdapter();
 		$sql=" SELECT l.id,
 			(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
@@ -60,12 +64,20 @@ public function getAllSale($search,$reschedule =null){
 			l.invoice_no,
 			(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =l.selling_type LIMIT 1) AS selling_type,
 			(SELECT payment_nameen FROM `ln_payment_method` WHERE id = l.payment_method LIMIT 1) AS payment_method,
-			l.duration,l.status  
-			FROM 
+			l.duration,
+			CASE    
+				WHEN  l.is_completed = 0 THEN '$not_complete'
+				WHEN  l.is_completed = 1 THEN '$complete'
+				END AS completed_status
+			";
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->caseStatusShowImage("l.status");
+		$sql.=" FROM 
 			`ln_ins_sales_install` AS l,
 			`ln_ins_product` AS p 
 			WHERE 
-		    	l.product_id = p.id ";
+		    	l.product_id = p.id  ";
+		
 		if(!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
@@ -99,10 +111,7 @@ public function getAllSale($search,$reschedule =null){
 		if(($search['selling_type'])>0){
 			$where.= " AND l.selling_type=".$search['selling_type'];
 		}
-		
-		$dbp = new Application_Model_DbTable_DbGlobal();
 		$where.=$dbp->getAccessPermission('l.branch_id');
-		
 		$order = " ORDER BY l.id DESC";
 		$db = $this->getAdapter();
 		return $db->fetchAll($sql.$where.$order);

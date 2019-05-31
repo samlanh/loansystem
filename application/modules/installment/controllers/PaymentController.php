@@ -36,9 +36,8 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			$result = array();
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","INSTALLMENT_NO","CUSTOMER_NAME","RECIEPT_NO","PAID_TIME","TOTAL_PRINCEPLE",
-					"TOTAL_INTEREST","PENALIZE AMOUNT","RECEIVE_AMOUNT","PAY_DATE","DATE"
+					"TOTAL_INTEREST","PENALIZE AMOUNT","RECEIVE_AMOUNT","PAY_DATE","DATE","STATUS"
 				);
-			//,"DELETE"
 			$link=array(
 					'module'=>'loan','controller'=>'payment','action'=>'edit',
 			);
@@ -96,10 +95,6 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
 		
 		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
-		
-// 		$this->view->client = $db->getAllClientinstallment(null,);
-// 		$this->view->clientCode = $db->getAllClientCode();
-		
 		$session_user=new Zend_Session_Namespace('authloan');
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 		
@@ -112,6 +107,9 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			$db = new Installment_Model_DbTable_DbInstallment();
 			$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
 		}
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->saleInstallReceipt = $frmpopup->getOfficailReceiptSaleInstall();
 	}	
 	
 	function editAction()
@@ -282,6 +280,17 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			$db = new Installment_Model_DbTable_DbInstallmentPayment();
 			$co_id = $data["co_id"];
 			$row = $db->getIlPaymentRPNumber($co_id);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
+	
+	function addpaymentajaxAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Installment_Model_DbTable_DbInstallmentPayment();
+			$receipt_id = $db->addILPayment($_data);
+			$row = $db->getInstallPaymentBYId($receipt_id);
 			print_r(Zend_Json::encode($row));
 			exit();
 		}
