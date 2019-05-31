@@ -34,6 +34,9 @@ function rptLoanDisburseAction(){//release all loan
   	
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   } 
 function rptLoancollectAction(){//list payment that collect from client
   	$dbs = new Report_Model_DbTable_DbpawnCollect();
@@ -63,6 +66,9 @@ function rptLoancollectAction(){//list payment that collect from client
   	
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
   
 function rptPaymentAction(){
@@ -93,6 +99,9 @@ function rptPaymentAction(){
 	$frm = $frm->FrmAddLoan();
 	Application_Model_Decorator::removeAllDecorator($frm);
 	$this->view->frm_search = $frm;
+	
+	$frmpopup = new Application_Form_FrmPopupGlobal();
+	$this->view->footerReport = $frmpopup->getFooterReport();
 }
   
 function rptLoanLateAction(){
@@ -119,6 +128,9 @@ function rptLoanLateAction(){
   	$frm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($frm);
   	$this->view->frm_search = $frm;
+  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
 function rptLoanOutstandingAction(){//loand out standing with /collection
 	    $db  = new Report_Model_DbTable_Dbpawn();
@@ -145,6 +157,9 @@ function rptLoanOutstandingAction(){//loand out standing with /collection
 	  	$frm = $frm->FrmAddLoan();
 	  	Application_Model_Decorator::removeAllDecorator($frm);
 	  	$this->view->frm_search = $frm;
+	  	
+	  	$frmpopup = new Application_Form_FrmPopupGlobal();
+	  	$this->view->footerReport = $frmpopup->getFooterReport();
 }
 public function paymentscheduleListAction(){
 	try{
@@ -320,6 +335,9 @@ function rptPaymentschedulesAction(){
  	$frm = $frm->FrmAddLoan();
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_search = $frm;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  function rptLoanExpectIncomeAction(){
  	if($this->getRequest()->isPost()){
@@ -343,6 +361,9 @@ function rptPaymentschedulesAction(){
   	$frm = $frm->FrmAddLoan();
   	Application_Model_Decorator::removeAllDecorator($frm);
   	$this->view->frm_search = $frm;	
+  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  function rptWritoffAction(){
  	$db  = new Report_Model_DbTable_Dbpawn();
@@ -389,6 +410,9 @@ function rptPaymentHistoryAction(){
  	$frm = $frm->FrmAddLoan();
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_search = $frm;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
  	
  }
  function rptIncomestatementAction(){
@@ -523,6 +547,9 @@ function rptPaymentHistoryAction(){
  	$fm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($fm);
  	$this->view->frm_search = $fm;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  function rptDailypaymentAction(){
  	$db  = new Report_Model_DbTable_Dbpawn();
@@ -578,6 +605,9 @@ function rptPaymentHistoryAction(){
  	$frms = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_loan = $frm;
+ 	
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  
  function rptPawnSaleAction(){

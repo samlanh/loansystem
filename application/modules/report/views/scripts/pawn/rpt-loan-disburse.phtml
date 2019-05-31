@@ -15,22 +15,47 @@
 dojo.require("dijit.form.DateTextBox");
 </script>
 <title><?php echo $tr->translate("PAWN_DISBURSE");?></title>
-<div style="min-height:26cm; margin:0 auto; padding:0.2cm 0.2cm 0cm 0.2cm">	
+<div class="reportblog">
+	<div class="card-box">
+       	<div class="col-sm-12 border-botom">
+		   	<div class="col-sm-8 pd-0">
+	    		<h4 class="m-b-0"><i class="fa fa-file-text " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('PAWN_DISBURSE');?></h4>
+    		</div>
+    		<div class="col-sm-4 text-right">
+    		</div>
+    	</div>
+    </div>
 	<form method="post">
-		<table style="width:100%; margin: 0 auto;">
-			<tr>
-				<td><?php echo $filter->getElement('adv_search');?></td>
-				<td><?php echo $filter->getElement('branch_id');?></td>
-				<td><?php echo $filter->getElement('members');?></td>
-				<td><?php echo $filter->getElement('product_id');?></td>
-			</tr>
-			<tr>
-			    <td><?php echo $filter->getElement('currency_type');?></td>
-				<td><?php echo $filter->getElement('start_date');?></td>
-				<td><?php echo $filter->getElement('end_date');?></td>
-				<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-			</tr>
-		</table>
+		<div class="card-box">
+			<div class="form-group">
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $filter->getElement('adv_search');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $filter->getElement('branch_id');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $filter->getElement('members');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $filter->getElement('product_id');?>
+               </div>
+            </div>
+            <div class="form-group">
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $filter->getElement('currency_type');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $filter->getElement('start_date');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<?php echo $filter->getElement('end_date');?>
+               </div>
+               <div class="col-md-3 col-sm-3 col-xs-12">
+               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+               </div>
+            </div>
+        </div>
 	</form>
 <style>
 .noneprint{
@@ -41,9 +66,9 @@ dojo.require("dijit.form.DateTextBox");
 	<style>
 			.style{
 				line-height: 30px;font-size: 12px !important;
-				font-family: 'Khmer OS Battambang';
+				font-family: 'Times New Roman','Khmer OS Battambang';
 			}
-			table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
+			table tr td ul li{list-style: none;line-height: 25px; }
 			th{padding: 1px;}
 			table { page-break-inside:auto }
 			tr{ page-break-inside:avoid; page-break-after:auto; }
@@ -64,17 +89,20 @@ dojo.require("dijit.form.DateTextBox");
 				text-align: center;
 				font-weight: bold;
 			}
+		.border_bottom {
+		    border-bottom: 1px solid #000;
+		}
 	</style>
-		<table style="font-family: 'Khmer OS Content'; width:100%;">
+		<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
 			<tr>
 		    	<td align="center">
-		        	<table width="100%" style="font-family: 'Khmer OS Battambang';margin:0; padding:0;border:none;">
+		        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';margin:0; padding:0;border:none;">
 		            	<tr>
 		                	<td width="25%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
 		                	<td width="50%" valign="top">
 		                		<ul>
-		                			<li style="text-align:center; font-size:18px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-		                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PAWN_DISBURSE");?></li>
+		                			<li style="text-align:center; font-size:18px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+		                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("PAWN_DISBURSE");?></li>
 		                			<li style="text-align:center; font-size:16px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
 		                		</ul>
 		                	</td>
@@ -87,12 +115,16 @@ dojo.require("dijit.form.DateTextBox");
 		    	<td id="exportExcel">
 		            <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
 		               <thead>
+		               	 <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold;line-height: 30px; font-size:12px; padding:1px 0px; white-space: nowrap; ">
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAWN_CODE");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CLIENT_NO");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
+		                    
+		                    <td colspan="10">&nbsp;<?php echo $tr->translate("Pawnshop Infomation");?>&nbsp;</td>
+		                </tr>
 		                 <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold;line-height: 30px; font-size:12px; padding:1px 0px; white-space: nowrap; ">
-		                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo $tr->translate("PAWN_CODE");?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo $tr->translate("CLIENT_NO");?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
 		                    <td>&nbsp;<?php echo $tr->translate("LOAN_LEVEL");?>&nbsp;</td>
 		                    <td>&nbsp;<?php echo $tr->translate("ADMIN_FEE");?>&nbsp;</td>
 		                    <td>&nbsp;<?php echo $tr->translate("PAWN_AMOUNT");?>&nbsp;</td>
@@ -103,36 +135,74 @@ dojo.require("dijit.form.DateTextBox");
 		                    <td>&nbsp;<?php echo $tr->translate("PRODUCT_NAME");?>&nbsp;</td>
 		                    <td>&nbsp;<?php echo $tr->translate("EST_VALUE");?>&nbsp;</td>
 		                    <td>&nbsp;<?php echo $tr->translate("DESCRIPTION");?>&nbsp;</td>
-		                    <td class="noneprint" style="display: none;">&nbsp;<?php echo $tr->translate("EDIT");?>&nbsp;</td>
 		                </tr>
 		                </thead>
 		               <?php 
 		               $amt_r = 0;$amt_d = 0;$amt_b = 0; 
 		               $count_ld=0;$count_lr=0;$count_lb=0;
 		               $r=0;$b=0;$d=0;
+		               
+		               $monthDolar=0;
+		               $weekDolar=0;
+		               $dayDolar=0;
+		                
+		               $monthRiel=0;
+		               $weekRiel=0;
+		               $dayRiel=0;
+		                
+		               $monthBath=0;
+		               $weekBath=0;
+		               $dayBath=0;
+		               
 		               if(!empty($this->loanrelease_list))foreach($this->loanrelease_list as $key =>$row){?>
 		               <?php 
 		              if($row['curr_type']==1){
 		               		$amt_r = $amt_r+$row['total_capital'];
 		               		$count_lr=$count_lr+1;
 		               		$r = $r+$row['admin_fee'];
+		               		
+		               		if($row['term_type']==1){
+		               			$dayRiel=$dayRiel+1;
+		               		}elseif($row['term_type']==2){
+		               			$weekRiel=$weekRiel+1;
+		               		}else{
+		               			$monthRiel = $monthRiel+1;
+		               		}
+		               		
 		               }elseif($row['curr_type']==2){
 		               		$amt_d = $amt_d+$row['total_capital'];
 		               		$count_ld=$count_ld+1;
 		               		$d = $d + $row['admin_fee'];
+		               		
+		               		if($row['term_type']==1){
+		               			$dayDolar=$dayDolar+1;
+		               		}elseif($row['term_type']==2){
+		               			$weekDolar=$weekDolar+1;
+		               		}else{
+		               			$monthDolar = $monthDolar+1;
+		               		}
+		               		
 		               }else{
 		               		$amt_b = $amt_b+$row['total_capital'];
 		               		$count_lb=$count_lb+1;
 		               		$b = $b + $row['admin_fee'];
+		               		
+		               		if($row['term_type']==1){
+		               			$dayBath=$dayBath+1;
+		               		}elseif($row['term_type']==2){
+		               			$weekBath=$weekBath+1;
+		               		}else{
+		               			$monthBath = $monthBath+1;
+		               		}
 		               }
 		               ?>
-						<tr align="center" style="line-height: 18px; white-space: nowrap;" class="hover">
+						<tr align="center" style="line-height: 18px; white-space: nowrap;" class="hover context-menu-one" oncontextmenu="setrowdata(<?php echo $row['id'];?>);return false;" >
 							<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 							<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 							<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 							<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
-							<td align="left" style="line-height:15px;min-width:90px; ">&nbsp;
-								<a target="_blank" title="click here to preview payment schedule" style="color:#000; text-decoration: none;" href="<?php echo $url_client."/id/".$row['id'];?>">&nbsp;<?php echo $row['client_khname']; ?></a>&nbsp;
+							<td align="left" style="line-height:15px;min-width:90px; ">
+							&nbsp;<?php echo $row['client_khname']; ?>&nbsp;
 							</td>	
 							<td>&nbsp;<?php echo $row['loan_level'];?>&nbsp;</td>
 							<td>&nbsp;<?php echo $row['admin_fee'];?>&nbsp;</td>
@@ -144,53 +214,112 @@ dojo.require("dijit.form.DateTextBox");
 							<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_name']; ?>&nbsp;</td>
 							<td style="white-space:nowrap;">&nbsp;<?php echo $row['est_amount']; ?>&nbsp;</td>
 							<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_description']; ?>&nbsp;</td>
-							<td class="noneprint" style="display: none;" align="left">
-								<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'rpt-updatepayment','id'=>$row['id']))?>" title="<?php echo $tr->translate("EDIT");?>"><?php echo $tr->translate("EDIT");?></a>
-								/<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'agreement','id'=>$row['id']))?>" title="<?php echo $tr->translate("AGREEMENT");?>"><?php echo $tr->translate("AGREEMENT");?></a>
-								/<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'pawnticketreceipt','id'=>$row['id']))?>" title="<?php echo $tr->translate("PAWN_RECEIPT");?>"><?php echo $tr->translate("PAWN_RECEIPT");?></a>
-							</td>	
 						</tr>
 						<?php }?>
 		            </table>
 		            <br />
-		             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
-		                  <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold; line-height: 30px; font-size:12px; padding:2px 0px; ">
-		                    <th><?php echo $tr->translate("CURRENT_TYPE");?></td>
-		                    <th><?php echo $tr->translate("PAWN_NUMBER");?></td>
-		                    <th><?php echo $tr->translate("ADMIN_FEE");?></td>
-		                    <th><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
+		            <table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+		                    <td rowspan="2" align="right">&nbsp;</td>
+		                    <td rowspan="2"></td>
+		                    <td colspan="3" align="center"><span class="border_bottom"><?php echo $tr->translate("PAWN_NUMBER");?></span></td>
+                    		<td rowspan="2">&nbsp;</td>
+		                    <td rowspan="2" align="right"><span class="border_bottom"><?php echo $tr->translate("ADMIN_FEE");?></span></td>
+		                    <td rowspan="2" align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_AMOUNT");?></span></td>
+		                    <td rowspan="2" align="right">&nbsp;</td>
 		                 </tr>
-		                 <tr class="style" style=" line-height: 24px; font-size:12px;">
-		                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
-		                    <td>&nbsp;<?php echo ($count_ld);?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo number_format($d,2);?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
+		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+	                 	  	<td align="center"><span class="border_bottom"><?php echo $tr->translate("MONTH");?></span></td>
+	                    	<td align="center"><span class="border_bottom"><?php echo $tr->translate("DAY");?></span></td>
+	                    	<td align="center"><span class="border_bottom"><?php echo $tr->translate("TOTAL");?></span></td>
+	                 	</tr>
+		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+		                    <td align="right"></td>
+		                    <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
+		                    <td align="center"><?php echo $monthDolar;?></td>
+	                   		<td align="center"><?php echo $dayDolar;?></td>
+		                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo $count_ld;?>&nbsp;</td>
+		                    <td>&nbsp;</td>
+		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($d,2);?>&nbsp;</td>
+		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
+		                    <td align="right">&nbsp;</td>
 		                 </tr>
-		                 <tr class="style" style=" line-height: 24px; font-size:12px;">
-		                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
-		                    <td>&nbsp;<?php echo ($count_lr);?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo number_format($r,2);?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
-		                </tr>
-		                 <tr class="style" style=" line-height: 24px; font-size:12px;">
-		                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo ($count_lb);?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo number_format($b,2);?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
-		                </tr>
-		              </table>
+		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+		                    <td align="right"></td>
+		                    <td align="right"><?php echo $tr->translate("REILS");?></td>
+		                    <td align="center"><?php echo $monthRiel;?></td>
+	                    	<td align="center"><?php echo $dayRiel;?></td>
+		                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo $count_lr;?>&nbsp;</td>
+		                    <td>&nbsp;</td>
+		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($r,2);?>&nbsp;</td>
+		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
+		                    <td align="right">&nbsp;</td>
+		                 </tr>
+		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+		                    <td align="right"></td>
+		                    <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
+		                    <td align="center"><?php echo $monthBath;?></td>
+	                    	<td align="center"><?php echo $dayBath;?></td>
+		                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo $count_lb;?>&nbsp;</td>
+		                    <td>&nbsp;</td>
+		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($b,2);?>&nbsp;</td>
+		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
+		                    <td align="right">&nbsp;</td>
+		                 </tr>
+		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px;padding:2px 0px;height: 25px;border-top: 4px double #000 !important;">
+		                    <td align="right"></td>
+		                    <td align="right"></td>
+		                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo $monthDolar+$monthRiel+$monthBath;?>&nbsp;</td>
+		                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo $dayDolar+$dayRiel+$dayRiel;?>&nbsp;</td>
+		                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo count($this->loanrelease_list);?>&nbsp;</td>
+		                    <td colspan="7">&nbsp;</td>
+		                 </tr>
+		            </table>
 		              <br />
-		              <table align="center" width="100%">
-						   <tr style="font-size: 14px;">
-						        <td style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></td>
-						        <td></td>
-						        <td style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></td>
-						        <td></td>
-						        <td style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></td>
-						   </tr>
-					</table>	
+		              <?php echo $this->footerReport;?>	
 		    	</td>
 		    </tr>
 		</table>
 	</div>
 </div>
+<?php 
+	$url_schedule=$this->url(array("module"=>'report',"controller"=>"pawn","action"=>'rpt-paymentschedules'))."?id=";
+	$url_editschedule=$this->url(array("module"=>'report',"controller"=>"pawn","action"=>'rpt-updatepayment'))."?id=";
+	$url_agreement=$this->url(array("module"=>'report',"controller"=>"pawn","action"=>'agreement'))."?id=";
+	$url_pawnticketreceipt=$this->url(array("module"=>'report',"controller"=>"pawn","action"=>'pawnticketreceipt'))."?id=";
+?>
+<script>
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+			var m = "clicked: " + key;
+			if(key=="schedule"){
+				url='<?php echo $url_schedule;?>';
+			}else if(key=="editschedule"){
+				url='<?php echo $url_editschedule;?>';
+			}else if(key=="agreement"){
+				url='<?php echo $url_agreement;?>';
+			}else if(key=="pawnticketreceipt"){
+				url='<?php echo $url_pawnticketreceipt;?>';
+			}
+			gotoAction();
+		},
+		items: {
+			"schedule": {name: "<?php echo $tr->translate("SCHEDULE_PAYMENT");?>", icon: "fa-calendar", accesskey: "c"},
+			"editschedule": {name: "<?php echo $tr->translate("EDIT_SCHEDULE_PAYMENT");?>", icon: "fa-edit",},
+			"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text",},
+			"pawnticketreceipt": {name: "<?php echo $tr->translate("PAWN_RECEIPT");?>", icon: "fa-file-text",},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
+ </script>

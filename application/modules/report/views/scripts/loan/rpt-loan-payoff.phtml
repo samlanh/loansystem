@@ -222,7 +222,7 @@ table.tb-footer tr.style-head {
 							}
 		               }
 	               ?>
-	                <tr class="style-rowdata hover">
+	                <tr class="style-rowdata hover context-menu-one" oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;">
 	               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 	               		<td >&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
 	               		<td >&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
@@ -330,3 +330,30 @@ table.tb-footer tr.style-head {
 		</table>
 	</div>
 </div>
+<?php $url_receipt=$this->url(array("module"=>'report',"controller"=>"loan","action"=>'recieptpayment'))."?id=";?>
+<script>
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+			var m = "clicked: " + key;
+			if(key=="reciept"){
+				url='<?php echo $url_receipt;?>';
+			}
+			gotoAction();
+		},
+		items: {
+			"reciept": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-file-text", accesskey: "c"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
+ </script>

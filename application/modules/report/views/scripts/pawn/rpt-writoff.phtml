@@ -13,7 +13,7 @@ table.tb-footer tr.style-head {
    font-weight: bold !important;
 }
 </style>
-<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">
+<div class="reportblog">
 	<div class="card-box">
        	<div class="col-sm-12 border-botom">
 		   	<div class="col-sm-8 pd-0">
@@ -101,6 +101,9 @@ table.tb-footer tr.style-head {
 			line-height: 24px; 
 			text-align: center; 
 			background: #ccd9ff;
+		}
+		.border_bottom {
+		    border-bottom: 1px solid #000;
 		}
 	</style>
 	<table width="100%" >
@@ -201,46 +204,42 @@ table.tb-footer tr.style-head {
 		               		<td >&nbsp;<?php echo $rs["note_dach"];?>&nbsp;</td>
 		                </tr>
 	                <?php }?>
-		                <tr>
-			                <td colspan="14">
-				               <br />
-				               <table class="tb-footer" border="1"​ cellspacing="0">
-				                <tr class="style-head" align="center">
-				                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>
-				                    <td>&nbsp;<?php echo $tr->translate("PAWN_NUMBER");?></td>                 
-				                    <td><?php echo $tr->translate("TOTAL_PRINCEPLE");?></td>
-				                </tr>
-				                <tr>
-				                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
-				                    <td>&nbsp;<?php echo $count_d;?></td>
-				                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
-				                </tr>
-				                <tr>
-				                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
-				                    <td>&nbsp;<?php echo $count_r;?></td>
-				                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
-				                </tr>
-				                <tr>
-				                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-				                    <td>&nbsp;&nbsp;<?php echo number_format($count_b,2);?>&nbsp;</td>
-				                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b,2);?>&nbsp;</td>
-				                </tr>
-				              </table>
-		              	   </td>
-			           </tr>
 	             </table>
+	             <br />
+				<table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+			   		<tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+			         	<td align="right">&nbsp;</td>
+			            <td></td>
+			            <td align="right"><span class="border_bottom"><?php echo $tr->translate("PAWN_NUMBER");?></span>&nbsp;</td>
+			            <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PRINCEPLE");?></span></td>
+			            <td align="right">&nbsp;</td>
+			        </tr>
+			        <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+			        	<td align="right"></td>
+			            <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
+			            <td align="right" style="font-weight:bold;">&nbsp;<?php echo $count_d;?>&nbsp;</td>
+			            <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
+			            <td align="right">&nbsp;</td>
+			        </tr>
+			        <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+			        	<td align="right"></td>
+			            <td align="right"><?php echo $tr->translate("REILS");?></td>
+			            <td align="right" style="font-weight:bold;">&nbsp;<?php echo $count_r;?>&nbsp;</td>
+			            <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
+			            <td align="right">&nbsp;</td>
+			        </tr>
+			        <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+			        	<td align="right"></td>
+			            <td align="right"><?php echo $tr->translate("BATH");?></td>
+			            <td align="right" style="font-weight:bold;">&nbsp;<?php echo $count_b;?>&nbsp;</td>
+			            <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b,2);?>&nbsp;</td>
+			            <td align="right">&nbsp;</td>
+			        </tr>
+			     </table>
+				<br />
+				<?php echo $this->footerReport;?>
 	    	</td>
 	    </tr>
-	</table>
-	<br />
-	 <table align="center" width="100%">
-	   <tr style="font-size: 14px;">
-	        <td style="width:20%;text-align:center;  font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('APPROVED BY');?></td>
-	        <td></td>
-	        <td style="width:20%;text-align:center; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('VERIFYED BY');?></td>
-	        <td></td>
-	        <td style="width:20%;text-align:center;font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('PREPARE BY');?></td>
-	   </tr>
 	</table>
 </div>
 </div>

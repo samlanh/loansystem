@@ -4,11 +4,20 @@
 	$dayin_khmer = $this->day_inkhmer;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
-<title><?php echo $tr->translate('REPORT WEEK');?></title>
+<title><?php echo $tr->translate('EDIT_SCHEDULE_PAYMENT');?></title>
 <style>
 td p{ margin-top:0px !important;}
 </style>
-<div style=" width:24cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<div class="reportblog">
+	<div class="card-box">
+       	<div class="col-sm-12 border-botom">
+		   	<div class="col-sm-8 pd-0">
+	    		<h4 class="m-b-0"><i class="fa fa-file-text " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('EDIT_SCHEDULE_PAYMENT');?></h4>
+    		</div>
+    		<div class="col-sm-4 text-right">
+    		</div>
+    	</div>
+    </div>
 	<div id="divPrint">
 	<style type="text/css">
 	.style{
@@ -119,7 +128,7 @@ td p{ margin-top:0px !important;}
 	                        <input style="border:1px solid #fff;width:100px;"  type="hidden" name="interest_<?php echo $key+1;?>" id="interest" value="<?php echo $row['total_interest'];?>" />
 	                        <input style="border:1px solid #fff;width:100px;"  type="text" name="interest_after<?php echo $key+1;?>" id="total_interest_after" value="<?php echo $row['total_interest_after'];?>" />
 	                        <input type="hidden" style="border:1px solid #fff;width:100px;"  type="text" name="fundid_<?php echo $key+1;?>" id="fundid_<?php echo $key+1;?>" value="<?php echo $row['id'];?>" /></td>
-	                    <td><select style="border:1px solid #fff;height: 30px;"  name="payment_option<?php echo $key+1;?>" id="payment_option<?php echo $key+1;?>">
+	                    <td><select dojoType="dijit.form.FilteringSelect" style="border:1px solid #fff;height: 30px;"  name="payment_option<?php echo $key+1;?>" id="payment_option<?php echo $key+1;?>">
 		                    <option value="0" <?php if($row['is_completed']==0){ echo "selected='selected'"; }?>>មិនទាន់គ្រប់</option>
 		                    <option value="1" <?php if($row['is_completed']==1){ echo "selected='selected'"; }?>>បង់ដាច់</option></select>
 	                    </td>

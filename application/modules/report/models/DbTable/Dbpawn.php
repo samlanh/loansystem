@@ -11,6 +11,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			  `l`.`release_amount`    AS `total_capital`,
 			  `l`.`interest_rate`  AS `interest_rate`,
 			  `l`.`level`          AS `loan_level`,
+			  `l`.`term_type`          AS `term_type`,
 			   l.admin_fee,
 			  (SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code =l.term_type ) term_type,
 			  `l`.`currency_type`  AS `curr_type`,
@@ -700,7 +701,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       	$dbp = new Application_Model_DbTable_DbGlobal();
       	$where.=$dbp->getAccessPermission('branch_id');
       	
-      	$order=" GROUP BY `crm`.`id` ORDER BY client_id DESC ";
+      	$order=" GROUP BY `crm`.`client_id`,`crm`.`id` ORDER BY `crm`.`client_id` ASC,`crm`.`loan_id` ASC,`crm`.`date_pay` ASC,`crm`.`receipt_no` ASC ";
 //       	echo $sql.$where.$order;exit();
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -992,6 +993,7 @@ public function getALLLoanPayoff($search=null){
 			  `l`.`total_duration`    AS `total_duration`,
 			  `l`.`date_release`      AS `date_release`,
 			  `l`.`date_line`         AS `date_line`,
+			  `l`.`term_type`         AS `term_type`,
 			  (SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code = term_type ) term_type,
 			  (SELECT
 			     `ln_currency`.`symbol`

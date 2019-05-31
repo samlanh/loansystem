@@ -13,7 +13,7 @@ table.tb-footer tr.style-head {
    font-weight: bold !important;
 }
 </style>
-<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">
+<div class="reportblog">
 	<div class="card-box">
        	<div class="col-sm-12 border-botom">
 		   	<div class="col-sm-8 pd-0">
@@ -103,6 +103,9 @@ table.tb-footer tr.style-head {
 		text-align: center; 
 		background: #ccd9ff;
 	}
+	.border_bottom {
+	    border-bottom: 1px solid #000;
+	}
 	</style>
 	<table width="100%">
 		<tr>
@@ -142,7 +145,7 @@ table.tb-footer tr.style-head {
 	                 <tr class="style-head" >
 	                    <td rowspan="2">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
 	                    <td rowspan="2">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
-	                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAWN_NUMBER");?>&nbsp;</td>
+	                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAWN_CODE");?>&nbsp;</td>
 	                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</td> 
 	                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
 	                    <td rowspan="2">&nbsp;<?php echo $tr->translate("LEVEL");?>&nbsp;</td>
@@ -166,6 +169,18 @@ table.tb-footer tr.style-head {
 	                <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;$amt_r5 = 0;$amt_r6 = 0;$amt_loanday = 0;
 	                	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;$amt_d6 = 0;$amt_loanweek = 0;
 	                	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;$amn_b6 = 0;$amt_loanmonth = 0;
+	                	 
+	                	 $monthDolar=0;
+	                	 $weekDolar=0;
+	                	 $dayDolar=0;
+	                	 
+	                	 $monthRiel=0;
+	                	 $weekRiel=0;
+	                	 $dayRiel=0;
+	                	 
+	                	 $monthBath=0;
+	                	 $weekBath=0;
+	                	 $dayBath=0;
 	                ?>
 	                <?php if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
 	                <?php 
@@ -182,21 +197,47 @@ table.tb-footer tr.style-head {
 			               		$amt_r3 = $amt_r3+$rs['penalize_paid'];
 			               		$amt_r5 = $amt_r5+$rs['service_paid'];
 			               		$amn_r4 = $amt_r5+$rs['total_paymentpaid'];
+			               		
+			               		if($rs['term_type']==1){
+			               			$dayRiel=$dayRiel+1;
+			               		}elseif($rs['term_type']==2){
+			               			$weekRiel=$weekRiel+1;
+			               		}else{
+			               			$monthRiel = $monthRiel+1;
+			               		}
+			               		
 			               }elseif($rs['curr_type']==2){
 								$amt_d1 = $amt_d1+$rs['principal_paid'];
 								$amt_d2 = $amt_d2+$rs['interest_paid'];
 								$amt_d3 = $amt_d3+$rs['penalize_paid'];
 								$amt_d5 = $amt_d5+$rs['service_paid'];
 								$amt_d4 = $amt_d5+$rs['total_paymentpaid'];
+								
+								if($rs['term_type']==1){
+									$dayDolar=$dayDolar+1;
+								}elseif($rs['term_type']==2){
+									$weekDolar=$weekDolar+1;
+								}else{
+									$monthDolar = $monthDolar+1;
+								}
+								
 			               }else{
 			               		$amn_b1 = $amn_b1+$rs['principal_paid'];
 								$amn_b2 = $amn_b2+$rs['interest_paid'];
 								$amn_b3 = $amn_b3+$rs['penalize_paid'];
 								$amn_b5 = $amn_b5+$rs['service_paid'];
 								$amn_b4 = $amn_b5+$rs['total_paymentpaid'];
+								
+								if($rs['term_type']==1){
+									$dayBath=$dayBath+1;
+								}elseif($rs['term_type']==2){
+									$weekBath=$weekBath+1;
+								}else{
+									$monthBath = $monthBath+1;
+								}
 			               }
 	               ?>
-	                <tr class="style-rowdata hover">
+	                <tr class="style-rowdata hover context-menu-one" oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;">
 	               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
@@ -221,57 +262,112 @@ table.tb-footer tr.style-head {
 					</thead>
 	            </table>
 	            <br /><br />
-	             <table class="tb-footer" border="1"​ cellspacing="0">
-	                 <tr class="style-head" align="center">
-	                    <td><?php echo $tr->translate("FOR_LOAN_TYPE");?></td>
-	                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>
-	                    <td><?php echo $tr->translate("TOTAL_PRINCEPLE");?></td>                    
-	                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
-	                    <td><?php echo $tr->translate("TOTAL_PENELIZE");?></td>
-	                    <td><?php echo $tr->translate("TOTAL SERVICE CHARGE");?></td>
-	                    <td><?php echo $tr->translate("TOTAL_PAYMENTED");?></td>
-	                   <!--  <th><?php //echo $tr->translate("TOTAL_PAYMENT");?></td> -->
-	                </tr>
-	                 <tr>
-	                     <td>&nbsp;<?php echo $tr->translate("DAY")." = ".$amt_loanday;?></td>
-	                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d5,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1+$amt_d2+$amt_d3+$amt_d5,2);?>&nbsp;</td>
+	            
+	            <table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+	                    <td rowspan="2" align="right">&nbsp;</td>
+	                    <td rowspan="2">&nbsp;</td>
+	                    <td colspan="3" align="center"><span class="border_bottom"><?php echo $tr->translate("PAWN_NUMBER");?></span></td>
+                    	<td rowspan="2">&nbsp;</td>
+	                    <td rowspan="2" align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PRINCEPLE");?></span>&nbsp;</td>
+	                    <td rowspan="2" align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INTEREST");?></span></td>
+	                    <td rowspan="2" align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PENELIZE");?></span></td>
+	                    <td rowspan="2" align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL SERVICE CHARGE");?></span></td>
+	                    <td rowspan="2" align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PAYMENTED");?></span></td>
+	                    <td rowspan="2" align="right">&nbsp;</td>
 	                 </tr>
-	                 <tr>
-	                    <td>&nbsp;<?php echo $tr->translate("WEEK")." = ".$amt_loanweek?></td>
-	                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r5,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r3,2);?>&nbsp;</td>
-	                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1+$amt_r2+$amt_r3+$amt_r5,2);?>&nbsp;</td>
-	                </tr>
-	                 <tr>
-	                   <td>&nbsp;<?php echo $tr->translate("MONTH")." = ".$amt_loanmonth;?>&nbsp;</td>
-	                   <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
-	                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b5,2);?>&nbsp;</td>
-					   <td>&nbsp;&nbsp;<?php echo number_format($amn_b1+$amn_b2+$amn_b3+$amn_b5,2);?>&nbsp;</td>
-	                </tr>
-	              </table>
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+	                 	  	<td align="center"><span class="border_bottom"><?php echo $tr->translate("MONTH");?></span></td>
+	                    	<td align="center"><span class="border_bottom"><?php echo $tr->translate("DAY");?></span></td>
+	                    	<td align="center"><span class="border_bottom"><?php echo $tr->translate("TOTAL");?></span></td>
+	                 </tr>
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+	                    <td align="right"></td>
+	                    <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
+	                    <td align="center"><?php echo $monthDolar;?></td>
+	                    <td align="center"><?php echo $dayDolar;?></td>
+	                    <td align="center"><?php echo $monthDolar+$dayDolar;?></td>
+	                    <td>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d5,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1+$amt_d2+$amt_d3+$amt_d5,2);?>&nbsp;</td>
+	                    <td align="right">&nbsp;</td>
+	                 </tr>
+		             
+		             <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+	                    <td align="right"></td>
+	                    <td align="right"><?php echo $tr->translate("REILS");?></td>
+	                    <td align="center"><?php echo $monthRiel;?></td>
+	                    <td align="center"><?php echo $dayRiel;?></td>
+	                    <td align="center"><?php echo $monthRiel+$dayRiel;?></td>
+	                    <td>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r5,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r3,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r1+$amt_r2+$amt_r3+$amt_r5,2);?>&nbsp;</td>
+	                    <td align="right">&nbsp;</td>
+	                 </tr>
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+	                    <td align="right"></td>
+	                    <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
+	                     <td align="center"><?php echo $monthBath;?></td>
+	                    <td align="center"><?php echo $dayBath;?></td>
+	                    <td align="center"><?php echo $monthBath+$dayBath;?></td>
+	                    <td>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b5,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b1+$amn_b2+$amn_b3+$amn_b5,2);?>&nbsp;</td>
+	                    <td align="right">&nbsp;</td>
+	                 </tr>
+	                 
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px;padding:2px 0px;height: 25px;border-top: 4px double #000 !important;">
+		                    <td align="right"></td>
+		                    <td align="right"></td>
+		                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo $amt_loanmonth;?>&nbsp;</td>
+		                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo $amt_loanday;?>&nbsp;</td>
+		                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo count($this->LoanCollectionco_list);?>&nbsp;</td>
+		                    <td colspan="7">&nbsp;</td>
+		                 </tr>    
+	            </table>
+		                 
+	             
 	               <br />
-	               <table align="center" width="100%">
-					   <tr >
-				        <td style="width:20%;text-align:center;  font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('APPROVED BY');?></td>
-				        <td></td>
-				        <td style="width:20%;text-align:center; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('VERIFYED BY');?></td>
-				        <td></td>
-				        <td style="width:20%;text-align:center;font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('PREPARE BY');?></td>
-					   </tr>
-				</table>
+	               <?php echo $this->footerReport;?>
 	    	</td>
 	    </tr>
 	</table>
 	</div>
 </div>
+
+<?php $url_receipt=$this->url(array("module"=>'report',"controller"=>"pawn","action"=>'recieptpayment'))."?id=";?>
+<script>
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+			var m = "clicked: " + key;
+			if(key=="reciept"){
+				url='<?php echo $url_receipt;?>';
+			}
+			gotoAction();
+		},
+		items: {
+			"reciept": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-file-text", accesskey: "c"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
+ </script>

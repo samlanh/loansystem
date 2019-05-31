@@ -520,7 +520,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       			$where.=" AND payment_option = 2 ";
       		}
       	}
-      	$order=" ORDER BY client_id,id ASC ";
+      	$order=" ORDER BY date_input DESC,receipt_no DESC ";
       	return $db->fetchAll($sql.$where.$order);
       }
       public function getALLCommission($search=null){

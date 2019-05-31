@@ -162,7 +162,6 @@ table.tb-footer tr.style-head {
 		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("RECIEPT_NO");?>&nbsp;</td>
 		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAYMENT_OPTION");?></td>
 		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("BY_USER");?>&nbsp;</td>
-		                    <td rowspan="2" class="noneprint" style="display: none;"><?php //echo $tr->translate("EDIT");?></td>
 		                </tr>
 		               <tr class="style-head" align="center" >
 		                	<td align="center">&nbsp;<?php echo $tr->translate("PAID_PRINCIPAL");?>&nbsp;</td> 
@@ -206,7 +205,7 @@ table.tb-footer tr.style-head {
 								$total_b=$amn_b1+$amn_b2+$amn_b3+$amn_b5;
 			               }
 	               ?>
-	                <tr class="style-rowdata hover" align="center">
+	                <tr class="style-rowdata hover context-menu-one" align="center" oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;" >
 	               		<td style="text-align: center;">&nbsp;<?php echo $i++; ?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
@@ -224,9 +223,6 @@ table.tb-footer tr.style-head {
 	               		<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
 	               		<td style="<?php if($rs["payment_option"]==4){echo " background:#ccc";} ?>" align="center" >&nbsp;<?php echo @$opt[$rs["payment_option"]];?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["user_name"]; ?>&nbsp;</td>
-	               		<td class="noneprint" style="display: none;" align="left">
-							<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"loan","action"=>'recieptpayment','id'=>$rs['id']))?>" title="<?php echo $tr->translate("PAYMENT_RECEIPT");?>"><?php echo $tr->translate("PAYMENT_RECEIPT");?></a>
-						</td>
 	                </tr>
 	                <?php }?>
 	            </table>
@@ -303,3 +299,30 @@ table.tb-footer tr.style-head {
 	</table>
 	</div>
 </div>
+<?php $url_receipt=$this->url(array("module"=>'report',"controller"=>"loan","action"=>'recieptpayment'))."?id=";?>
+<script>
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+			var m = "clicked: " + key;
+			if(key=="reciept"){
+				url='<?php echo $url_receipt;?>';
+			}
+			gotoAction();
+		},
+		items: {
+			"reciept": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-file-text", accesskey: "c"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
+ </script>
