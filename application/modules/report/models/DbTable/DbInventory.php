@@ -405,7 +405,7 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
 	   		
 	   		$orderby ='`crm`.`client_id`';
 	   	}
-	   	$order=" GROUP BY `crm`.`id` ORDER BY $orderby DESC ";
+	   	$order=" GROUP BY `crm`.`id` ORDER BY $orderby DESC,`crm`.`loan_id` ASC,`crm`.`date_pay` ASC ";
 	   	
    	return $db->fetchAll($sql.$where.$order);
    }

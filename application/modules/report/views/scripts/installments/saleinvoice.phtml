@@ -1,6 +1,6 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
+echo $this->headTitle($tr->translate("INVOICE"));
 $rs = $this->sale;
 $gender=array(
 		1=>'ប្រុស',
@@ -11,8 +11,16 @@ $gender=array(
 <script>
 	dojo.require("dijit.form.DateTextBox");
 </script>
-<div style="width:100%; margin:0 auto;">
-	<div style=" width:26cm; height:25cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div class="reportblog">
+	<div class="card-box">
+       	<div class="col-sm-12 border-botom">
+		   	<div class="col-sm-8 pd-0">
+	    		<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('INVOICE');?></h4>
+    		</div>
+    		<div class="col-sm-4 text-right">
+    		</div>
+    	</div>
+    </div>
 			<div id="divPrint" class="print" style="text-align:center; widht:100% ">
 			<style>
 				.style {
@@ -254,5 +262,4 @@ $gender=array(
 					</tbody>
 				</table>
 			</div>
-		</div>
 </div>

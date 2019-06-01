@@ -15,7 +15,7 @@ table.tb-footer tr.style-head {
 }
 </style>
 <title><?php echo $tr->translate("REPORT_LOAN_PAYMENT");?></title>
-<div style="min-height:26cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">
+<div class="reportblog">
 	<div class="card-box">
        	<div class="col-sm-12 border-botom">
 		   	<div class="col-sm-8 pd-0">
@@ -104,6 +104,9 @@ table.content-data{
 			text-align: center; 
 			background: #ccd9ff;
 		}
+		.border_bottom {
+		    border-bottom: 1px solid #000;
+		}
 	</style>
 	<?php $client_id = null;?>
 	<?php $principle_r = 0;
@@ -141,7 +144,7 @@ table.content-data{
 		              	<tr style="background: #93bdea">
 		              		<td colspan="14" class="style">
 		              		<?php 
-	              				 echo $tr->translate("INSTALLMENT_NO").':'.$rs["loan_number"].','.$tr->translate("CUSTOMER_NAME").':'.$rs["client_name"].',';
+	              				 echo $tr->translate("CUSTOMER_NAME").':'.$rs["client_name"].',';
 	              				 echo $tr->translate("SEX").':';
 	              					if (!empty($rs['sex']) AND $rs['sex']==1){
 	              					echo "M";
@@ -156,6 +159,8 @@ table.content-data{
 			            <tr class="style-head" >
 			                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
 			                    <td>&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("INSTALLMENT_NO");?>&nbsp;</td>
+			                    <td>&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</td>
 			                    <td>&nbsp;<?php echo $tr->translate("PAID_PRINCIPAL");?>&nbsp;</td>                   
 			                    <td>&nbsp;<?php echo $tr->translate("INTEREST");?>&nbsp;</td>
 			                    <td>&nbsp;<?php echo $tr->translate("PENALIZE AMOUNT");?>&nbsp;</td>
@@ -177,6 +182,8 @@ table.content-data{
 	                <tr class="style-rowdata hover" align="center">
 	               		<td style="text-align: center;">&nbsp;<?php echo $i++; ?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
+	               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
+	               		<td>&nbsp;<?php echo $rs["item_name"];?>&nbsp;</td>
 	               		<td align="right">&nbsp;<?php echo number_format($rs["principal_paid"],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>               		
 	               		<td align="center">&nbsp;<?php echo number_format($rs["interest_paid"],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
 	               		<td align="right">&nbsp;<?php echo number_format($rs['penalize_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
@@ -193,35 +200,27 @@ table.content-data{
 	                	<td colspan="14" style="border-left:1px solid #fff;border-right:1px solid #fff;border-bottom:1px solid #fff;">&nbsp;</td>
 	                </tr>
 	                </table>
-		             
-		            <table  class="tb-footer" border="1" cellspacing="0">
-		                 <thead>
-		                  <tr class="style-head" >
-			                    <td colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PRINCIPLE");?>&nbsp;</td>
-			                    <td colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_INTEREST");?>&nbsp;</td>
-			                    <td colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PENELIZE");?>&nbsp;</td>
-			                    <td colspan="4">&nbsp;<?php echo $tr->translate("TOTAL_PAYMENTED");?>&nbsp;</td>
-			                    
-			                </tr>
-			                </thead>
-		                 <tr>
-		                    <td colspan="2">&nbsp;<?php echo number_format($principle_d,2);?>&nbsp;</td>
-		                    <td colspan="2">&nbsp;<?php echo number_format($interst_d,2);?>&nbsp;</td>
-		                    <td colspan="2">&nbsp;<?php echo number_format($penalize_d,2);?>&nbsp;</td>
-							<td colspan="4">&nbsp;<?php echo number_format($principle_d+$interst_d+$penalize_d+$service_charge_d,2);?>&nbsp;</td>
-		                </tr>
-		            </table>
+		             <table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+				           <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+				           		<td align="right">&nbsp;</td>
+				                <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PRINCIPLE");?></span></td>
+				                <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INTEREST");?></span></td>
+				                <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PENELIZE");?></span></td>
+				                <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PAYMENTED");?></span></td>
+				                <td align="right">&nbsp;</td>
+				           </tr>
+				           <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+				                <td align="right"></td>
+				                <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($principle_d,2);?>&nbsp;</td>
+				                <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($interst_d,2);?>&nbsp;</td>
+				                <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($penalize_d,2);?>&nbsp;</td>
+				                <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($principle_d+$interst_d+$penalize_d+$service_charge_d,2);?>&nbsp;</td>
+						        <td align="right">&nbsp;</td>
+						    </tr>
+				      </table>
 		            
 	               <br />
-	                <table align="center" width="100%">
-					   <tr style="font-size: 12px;">
-					        <td style="width:20%;text-align:center;  font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('APPROVED BY');?></td>
-					        <td></td>
-					        <td style="width:20%;text-align:center; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('VERIFYED BY');?></td>
-					        <td></td>
-					        <td style="width:20%;text-align:center;font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate('PREPARE BY');?></td>
-					   </tr>
-					</table>
+	               <?php echo $this->footerReport;?>
 			</td>
 		</tr>
 	</table>

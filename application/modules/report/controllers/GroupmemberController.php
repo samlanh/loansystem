@@ -46,6 +46,9 @@ class Report_GroupMemberController extends Zend_Controller_Action {
 	  	
 	  	$key = new Application_Model_DbTable_DbKeycode();
 	  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	  	
+	  	$frmpopup = new Application_Form_FrmPopupGlobal();
+	  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
   function rptGroupAction($table='rms_setting'){
   	$db  = new Report_Model_DbTable_DbLnClient();
@@ -95,7 +98,8 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$this->view->commune = $db->getCommune();
   	$this->view->village = $db->getVillage();
   	
-  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
   
   public function exportFileToExcel($table,$data,$thead){
@@ -156,6 +160,9 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$frm = $fm->FrmChangeCollteral();
   	Application_Model_Decorator::removeAllDecorator($frm);
   	$this->view->frm_changeCollteral = $frm;
+  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
   function rptCalleteralsAction(){
   	$db  = new Report_Model_DbTable_DbLnClient();
@@ -201,6 +208,9 @@ class Report_GroupMemberController extends Zend_Controller_Action {
 	  
 	  $key = new Application_Model_DbTable_DbKeycode();
 	  $this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	  
+	  $frmpopup = new Application_Form_FrmPopupGlobal();
+	  $this->view->footerReport = $frmpopup->getFooterReport();
  	}
  	function rptClientblacklistAction(){
  		$key = new Application_Model_DbTable_DbKeycode();

@@ -41,6 +41,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
 	function saleinvoiceAction(){
 		$id=$this->getRequest()->getParam('id');
@@ -48,7 +51,8 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			$this->_redirect("/report/installments");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/installments/sale');
+			exit();
 		}
 		$this->view->sale = $row;
 		
@@ -59,7 +63,8 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			$this->_redirect("/report/installments");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/installments/sale');
+			exit();
 		}
 		$this->view->sale = $row;
 		
@@ -72,7 +77,8 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			$this->_redirect("/report/installments");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/installments/sale');
+			exit();
 		}
 		$this->view->sale = $row;
 		$this->view->schedule = $db->getSaleInventorySchedule($id);
@@ -101,6 +107,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
 	function nearlyourstockAction(){
 		$db  = new Report_Model_DbTable_DbInventory();
@@ -122,6 +131,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
 	function purchaseAction(){
 		$db  = new Report_Model_DbTable_DbInventory();
@@ -148,6 +160,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 	
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
 	function purchasedetailAction(){
 		$id=$this->getRequest()->getParam('id');
@@ -184,6 +199,8 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
 	function rptPaymentAction(){
 		$db  = new Report_Model_DbTable_DbInventory();
@@ -216,6 +233,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$frm = $frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
 	function rptPaymentHistoryAction(){
 		$db  = new Report_Model_DbTable_DbInventory();
@@ -242,6 +262,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$frm = $frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
 	function rptLoanOutstandingAction(){//loand out standing with /collection
 		$db  = new Report_Model_DbTable_DbInventory();
@@ -277,6 +300,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$formFilter = new Installment_Form_FrmProduct();
 		$this->view->formFilter = $formFilter->add();
 		Application_Model_Decorator::removeAllDecorator($formFilter);
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
 	function rptLoancollectAction(){//list payment that collect from client
 		$dbs = new Report_Model_DbTable_DbInventory();
@@ -313,6 +339,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		 
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
 	function rptIncomestatementAction(){
 		$key = new Application_Model_DbTable_DbKeycode();
