@@ -1,8 +1,7 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("REPORT_EXPENSE"));
+echo $this->headTitle($tr->translate("REPORT_OTHER_INCOME"));
 $frm = $this->frm_search;
-$frmex = $this->frm_expense;
 $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលស់ប្រាក់ដើម",4=>"បង់ផ្តាច់");
 ?>
 <script>
@@ -22,7 +21,7 @@ table.tb-footer tr.style-head {
 		<div class="card-box">
        		<div class="col-sm-12 border-botom">
 		    	<div class="col-sm-8 pd-0">
-	    			<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('REPORT_EXPENSE');?></h4>
+	    			<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('REPORT_OTHER_INCOME');?></h4>
     			</div>
     			<div class="col-sm-4 text-right">
     			</div>
@@ -34,9 +33,6 @@ table.tb-footer tr.style-head {
                <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $frm->getElement("adv_search");?>
                </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-   					<?php echo $frmex->getElement('category_id');?>
-   				</div>
                <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $frm->getElement('currency_type');?>
                </div>
@@ -114,7 +110,7 @@ table.tb-footer tr.style-head {
 	                	<td width="60%" valign="top">
 	                		<ul>
 	                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-	                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_EXPENSE");?></li>
+	                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_OTHER_INCOME");?></li>
 	                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
 	                		</ul>
 	                </td>
@@ -130,8 +126,6 @@ table.tb-footer tr.style-head {
 	                  	<tr class="style-head" >
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></td>
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("RECIEPT_NO");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("CATEGORY");?></td>
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("DESCRIPTION");?></td>
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></td>
 							<td style="padding:5px 0px;"><?php echo $tr->translate("INVOICE");?></td>
@@ -155,8 +149,6 @@ table.tb-footer tr.style-head {
 	                <tr class="style-rowdata hover" align="center">
 	               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["reciept_no"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["category"];?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["account_id"];?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["currency_type"];?>&nbsp;</td>
 						<td>&nbsp;<?php echo $rs["invoice"];?>&nbsp;</td>

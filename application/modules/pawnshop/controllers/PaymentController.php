@@ -99,8 +99,32 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 		
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->pawnReceipt = $frmpopup->getOfficailReceiptPawn();
-	}	
-	function deleteAction()
+	}
+	function deleteAction(){
+		$id = $this->getRequest()->getParam("id");
+		$id = empty($id)?0:$id;
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$db = new Pawnshop_Model_DbTable_DbPayment();
+		$payment_il = $db->getPawnShopPaymentByID($id);
+		if (!empty($payment_il)){
+			if ($payment_il['is_closed']==1){
+				Application_Form_FrmMessage::Sucessfull("Can not delete this record","/pawnshop/payment");
+			}
+		}
+		$delete_sms=$tr->translate('CONFIRM_DELETE');
+		echo "<script language='javascript'>
+		var txt;
+		var r = confirm('$delete_sms');
+		if (r == true) {";
+		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/pawnshop/payment/deletereceipt/id/".$id."'";
+		echo"}";
+		echo"else {";
+		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/pawnshop/payment'";
+		echo"}
+		</script>";
+	}
+		
+	function deletereceiptAction()
 	{//check permission first
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$action=$request->getActionName();
@@ -111,7 +135,7 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 		$db = new Pawnshop_Model_DbTable_DbPayment();
 		try {
 			$dbacc = new Application_Model_DbTable_DbUsers();
-			$rs = $dbacc->getAccessUrl($module,$controller,$action);
+			$rs = $dbacc->getAccessUrl($module,$controller,"delete");
 			$rs=1;
 			if(!empty($rs)){
 				$db->deletePawnpayment($id);

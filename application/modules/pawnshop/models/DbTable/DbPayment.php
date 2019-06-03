@@ -386,6 +386,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     	}
     	return $pre_fix.$pre.$new_acc_no;
     }
+    
     function getRemainSchedule($loan_id){
     	$db = $this->getAdapter();
     	$sql="SELECT *
@@ -586,5 +587,15 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
       
       	$sql.=" ORDER BY `crm`.`id` DESC LIMIT 1";
       	return $db->fetchRow($sql);
+	}
+	
+	function getPawnShopPaymentByID($id){
+		$db = $this->getAdapter();
+		$sql="SELECT
+		rm.*
+		FROM
+		`ln_pawn_receipt_money` AS rm
+		WHERE rm.id = $id LIMIT 1";
+		return $db->fetchRow($sql);
 	}
 }

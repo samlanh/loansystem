@@ -179,7 +179,31 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		$this->view->loan_numbers = $db->getAllLoanNumberByBranch(1);
 	}
 	
-	function deleteAction()
+	function deleteAction(){
+		$id = $this->getRequest()->getParam("id");
+		$id = empty($id)?0:$id;
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$db = new Loan_Model_DbTable_DbLoanILPayment();
+		$payment_il = $db->getLoanPaymentById($id);
+		if (!empty($payment_il)){
+			if ($payment_il['is_closed']==1){
+				Application_Form_FrmMessage::Sucessfull("Can not delete this record","/loan/payment");
+			}
+		}
+		$delete_sms=$tr->translate('CONFIRM_DELETE');
+		echo "<script language='javascript'>
+		var txt;
+		var r = confirm('$delete_sms');
+		if (r == true) {";
+		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/loan/payment/deletereceipt/id/".$id."'";
+		echo"}";
+		echo"else {";
+		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/loan/payment'";
+		echo"}
+		</script>";
+	}
+	
+	function deletereceiptAction()
 	{//check permission first
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$action=$request->getActionName();
@@ -190,12 +214,12 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		$db = new Loan_Model_DbTable_DbLoanILPayment();
 		try {
 			$dbacc = new Application_Model_DbTable_DbUsers();
-			$rs = $dbacc->getAccessUrl($module,$controller,$action);
+			$rs = $dbacc->getAccessUrl($module,$controller,"delete");
 			if(!empty($rs)){
 				$db->deleteRecord($id);
-				Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/loan/payment/");
+				Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/loan/payment/");exit();
 			}
-			Application_Form_FrmMessage::Sucessfull("You don't have permission to delete this record?","/loan/payment/");
+			Application_Form_FrmMessage::Sucessfull("You don't have permission to delete this record?","/loan/payment/");exit();
 			
 		}catch (Exception $e) {
 			Application_Form_FrmMessage::message("INSERT_FAIL");

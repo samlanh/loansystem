@@ -1,0 +1,394 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$frm = $this->frm_search;
+$opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលស់ប្រាក់ដើម",4=>"បង់ផ្តាច់");
+$session_user=new Zend_Session_Namespace('authloan');
+$level =$session_user->level;
+?>
+<title><?php echo $tr->translate("Closing Entry Loan Payment");?></title>
+<script>
+     dojo.require("dijit.form.DateTextBox");
+</script>
+<style>
+.hover:hover{ background:#ccc;}
+table.content-data thead tr.style-head,
+table.tb-footer tr.style-head {
+   font-weight: bold !important;
+}
+</style>
+<div class="reportblog">
+		<div class="card-box">
+       		<div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+	    			<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('Closing Entry Loan Payment');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>	
+		<form method="post">
+			<div class="card-box">
+				<div class="form-group">
+	               <div class="col-md-3 col-sm-3 col-xs-12">
+	               		<?php echo $frm->getElement("adv_search");?>
+	               </div>
+	               <div class="col-md-3 col-sm-3 col-xs-12">
+	               		<?php echo $frm->getElement('branch_id');?>
+	               </div>
+	               <div class="col-md-3 col-sm-3 col-xs-12">
+	               		<?php echo $frm->getElement('client_name');?>
+	               </div>
+	               <div class="col-md-3 col-sm-3 col-xs-12">
+	               		<?php echo $frm->getElement('co_id');?>
+	               </div>
+	            </div>
+	            <div class="form-group">
+	               <div class="col-md-3 col-sm-3 col-xs-12">
+	               		<?php echo $frm->getElement('start_date');?>
+	               </div>
+	               <div class="col-md-3 col-sm-3 col-xs-12">
+	               		<?php echo $frm->getElement('end_date');?>
+	               </div>
+	               <div class="col-md-3 col-sm-3 col-xs-12">
+	               		<?php echo $frm->getElement('status');?>
+	               </div>
+	               <div class="col-md-3 col-sm-3 col-xs-12">
+	               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+	               </div>
+	            </div>
+	        </div>
+		</form>
+<style>
+.noneprint{
+	display: table-cell !important; 
+}
+</style>
+	<div id="divPrint">
+	<style type="text/css">
+			.style{
+				line-height: 20px;font-size: 11px !important;
+				font-family: 'Times New Roman','Khmer OS Battambang';
+			}
+			.style1:hover{ background: #ccc; }
+			table tr td ul li{list-style: none;line-height: 25px; }
+			
+			table { page-break-inside:auto }
+			tr{ page-break-inside:avoid; page-break-after:auto; }
+			#header {
+			  display: table-header-group;
+			  page-break-inside:avoid; page-break-after:auto;
+			}
+			a.repLink.btn {
+			    color: #008;
+			    font-weight: 600;
+				font-size: 10px;
+			}
+			thead tr td{
+				text-align: center;
+			}
+		table.content-data{
+			border-collapse:collapse;
+			width:100%;
+			border:1px solid #000; 
+			font-family:'Times New Roman','Khmer OS Battambang';
+			font-size:11px;
+			white-space: nowrap;
+			margin:0 auto;
+		}
+		table.content-data thead tr.style-head {
+		   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+			background: #ccd9ff;
+			text-align: center;
+		}
+		table.content-data tr.style-rowdata {
+			font-size:10px; 
+			height: 23px;
+		}
+		
+		table.tb-footer{
+			font-family: 'Times New Roman','Khmer OS Battambang'; 
+			border-collapse:collapse;
+			border:1px solid #000; 
+			font-size:12px;
+			width:100%;
+		}
+		table.tb-footer tr.style-head{
+			line-height: 24px; 
+			text-align: center; 
+			background: #ccd9ff;
+		}
+		.border_bottom {
+		    border-bottom: 1px solid #000;
+		}
+	</style>
+	<table width="100%">
+		<tr>
+	    	<td align="center" valign="top">
+	        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';"style="margin:0;padding:0;">
+	            	<tr>
+	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="80px"></td>
+	                	<td width="60%" valign="top">
+	                		<ul>
+	                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+	                			<li style="text-align:center; font-size:13px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("Closing Entry Loan Payment");?></li>
+	                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
+	                		</ul>
+	                   </td>
+	                    <td width="20%"></td>
+	                </tr> 
+	                
+	            </table>
+	        </td>
+	    </tr>
+	    <tr>
+	    	<td id="exportExcel">
+	    		<form id="list" name="list" action="<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'submitentry')); ?>" dojoType="dijit.form.Form" method="post">
+						<script type="dojo/method" event="onSubmit" >			
+							id_selected = dijit.byId('id_selected').get('value');
+							if(id_selected==''){
+								alert('No record to close !!! ');
+								return false;
+							}
+							loadingBlock();
+							return true;
+						</script>
+	            <table class="content-data" width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; " cellspacing="0">
+		              <thead>
+		                <tr class="style-head" align="center" >
+		                    <td rowspan="2">
+		                    	<input type="checkBox" onclick="checkAll('<?php echo count($this->loantotalcollect_list);?>');" name="checkall" id="checkall" /> 
+			                    <input type="hidden" name="id_selected" id="id_selected" dojoType="dijit.form.TextBox" />
+		                    	&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;
+		                    </td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("LOAN_NO");?>&nbsp;</td>	  
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</td>                  
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CO_NAME");?>&nbsp;</td>
+		                    
+		                    <?php 
+								$colspan=5;
+							?>
+		                    <td colspan="<?php echo $colspan;?>">&nbsp;<?php echo $tr->translate("PAYMENTED");?>&nbsp;</td>    
+		                    <td rowspan="2" style="white-space:nowrap; border-right:3px double black; ">&nbsp;<?php echo $tr->translate("PAY_DATE");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("INPUT_DATE");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAID_TIME");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("RECIEPT_NO");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAYMENT_OPTION");?></td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("BY_USER");?>&nbsp;</td>
+		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("STATUS");?>&nbsp;</td>
+		                </tr>
+		               <tr class="style-head" align="center" >
+		                	<td align="center">&nbsp;<?php echo $tr->translate("PAID_PRINCIPAL");?>&nbsp;</td> 
+		                    <td align="center">&nbsp;<?php echo $tr->translate("INTEREST");?>&nbsp;</td>
+		                    <td align="center">&nbsp;<?php echo $tr->translate("PENALIZE AMOUNT");?>&nbsp;</td>
+		                    <td align="center">&nbsp;<?php echo $tr->translate("SERVICE CHARGE");?>&nbsp;</td>	                    
+		                    <td align="center">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+		                </tr>
+		            </thead>
+	                <?php $amt_r1 = 0; $amn_r2 = 0; $amn_r3 = 0;$amt_r4 = 0;$amn_r5 = 0;
+	                	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;
+	                	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;
+	                	 $i=1;$oldloan_number='';
+	                	 $saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
+	                	 $total_d=0;$total_b=0;$total_r=0;
+	                ?>
+	                <?php $is_set =0; if(!empty($this->loantotalcollect_list))foreach ($this->loantotalcollect_list as $index => $rs){ ?>
+	                
+	               <?php 
+	               $interest=0;
+				   $interest_amount=0;
+	               ?>
+	               <?php 
+			               if($rs['currency_type']==1){
+			               		$amt_r1 = $amt_r1+$rs['principal_paid'];
+			               		$amn_r2 = $amn_r2+$rs['interest_paid'];
+			               		$amn_r3 = $amn_r3+$rs['penalize_paid'];
+			               		$amn_r5 = $amn_r5+$rs['service_paid'];
+			               		$total_r=$amt_r1+$amn_r2+$amn_r3+$amn_r5;
+			               }elseif($rs['currency_type']==2){
+								$amt_d1 = $amt_d1+$rs['principal_paid'];
+								$amt_d2 = $amt_d2+$rs['interest_paid'];
+								$amt_d3 = $amt_d3+$rs['penalize_paid'];
+								$amt_d5 = $amt_d5+$rs['service_paid'];
+								$total_d=$amt_d1+$amt_d2+$amt_d3+$amt_d5;
+			               }else{
+			               		$amn_b1 = $amn_b1+$rs['principal_paid'];
+								$amn_b2 = $amn_b2+$rs['interest_paid'];
+								$amn_b3 = $amn_b3+$rs['penalize_paid'];
+								$amn_b5 = $amn_b5+$rs['service_paid'];
+								$total_b=$amn_b1+$amn_b2+$amn_b3+$amn_b5;
+			               }
+	               ?>
+	                <tr class="style-rowdata hover context-menu-one" align="center" oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;" >
+	               		<td style="text-align: center;">
+	               			<input style="height: 15px;margin-top: 5px;" type="checkBox" onClick="checked_id(<?php echo $index+1;?>)" name="check_box<?php echo $index+1;?>" id="check_box<?php echo $index+1;?>" />
+							<input type="hidden" id="id_<?php echo $index+1;?>" name="id_<?php echo $index+1;?>" value="<?php echo $rs['id'];?>" dojoType="dijit.form.TextBox" />
+	               			&nbsp;<?php echo $i++; ?>&nbsp;
+	               		</td>
+	               		<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
+	               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
+	               		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>                 		
+	               		<td>&nbsp;<?php echo $rs["client_name"];?>&nbsp;</td>
+	               		<td>&nbsp;<?php echo $rs["co_name"];?>&nbsp;</td>
+	               		<td align="center">&nbsp;<?php echo number_format($rs['principal_paid'],2).' '.$rs['currency_typeshow'];?>&nbsp;</td>               		
+	               		<td align="center">&nbsp;<?php echo number_format($rs['interest_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
+	               		<td align="center">&nbsp;<?php echo number_format($rs['penalize_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
+	               		<td align="center">&nbsp;<?php echo number_format($rs['service_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
+	               		<td align="center">&nbsp;<?php echo number_format($rs["total_paymentpaid"],2).' '.$rs['currency_typeshow'];;?>&nbsp;</td> 
+	               		<td style="white-space:nowrap; border-right:3px double black; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_payment"]));?>&nbsp;</td>
+	               		<td style="white-space:nowrap; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_input"]));?>&nbsp;</td>
+	               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo $rs["paid_times"];?>&nbsp;</td> 
+	               		<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
+	               		<td style="<?php if($rs["payment_option"]==4){echo " background:#ccc";} ?>" align="center" >&nbsp;<?php echo @$opt[$rs["payment_option"]];?>&nbsp;</td>
+	               		<td>&nbsp;<?php echo $rs["user_name"]; ?>&nbsp;</td>
+	               		<td class="">&nbsp;<?php echo($rs['is_closed']==0)?"Unclose":"Closed";?>&nbsp;</td>
+	                </tr>
+	                <?php }?>
+	            </table>
+	            <br />
+		            <table width="100%">
+						<tr>
+					    	<td align="center">
+					    		<br><button iconclass="dijitIconSave" dojoType="dijit.form.Button" showLabel="true" type="submit">Closing Entry</button>
+					    	</td>
+						</tr>	
+					</table>
+	            <br />
+	             <?php 
+		                $rescheduldFeeR=0;
+		                $rescheduldFeeD=0;
+		                $rescheduldFeeB=0;
+		                if (!empty($this->rescheduleFee)) foreach ($this->rescheduleFee as $rs){
+		                	if($rs['currency_type']==1){
+		                		$rescheduldFeeR = $rescheduldFeeR+$rs['total_adminfee'];
+		                	}elseif($rs['currency_type']==2){
+		                		$rescheduldFeeD = $rescheduldFeeD+$rs['total_adminfee'];
+		                	}else{
+		                		$rescheduldFeeB = $rescheduldFeeB+$rs['total_adminfee'];
+		                	}
+		                }
+		                ?>
+		         <table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+	                    <td align="right">&nbsp;</td>
+	                    <td></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("PRINCIPAL");?></span>&nbsp;</td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INTEREST");?></span></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PENILIZE_AMOUNT");?></span></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_SERVICE_CHARGE");?></span></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("AMIN_FEE");?></span></td>
+	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL");?></span></td>
+	                     <td align="right">&nbsp;</td>
+	                 </tr>
+	                 
+		                
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+	                    <td align="right"></td>
+	                    <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d5,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($rescheduldFeeD,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1+$amt_d2+$amt_d3+$amt_d5+$rescheduldFeeD,2);//$total_d?>&nbsp;</td>
+	                    <td align="right">&nbsp;</td>
+	                 </tr>
+	                
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+	                    <td align="right"></td>
+	                    <td align="right"><?php echo $tr->translate("REILS");?></td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_r2,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_r3,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_r5,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($rescheduldFeeR,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r1+$amn_r2+$amn_r3+$amn_r5+$rescheduldFeeR,2);//$total_r?>&nbsp;</td>
+	                    <td align="right">&nbsp;</td>
+	                 </tr>
+	                
+	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+	                    <td align="right"></td>
+	                    <td align="right"><?php echo $tr->translate("BATH");?></td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b5,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($rescheduldFeeB,2);?>&nbsp;</td>
+	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b1+$amn_b2+$amn_b3+$amn_b5+$rescheduldFeeB,2);//+$total_b?>&nbsp;</td>
+	                    <td align="right">&nbsp;</td>
+	                 </tr>
+	                
+	            </table>
+	            <br />
+	            <?php echo $this->footerReport;?> 
+	            </form>
+	    	</td>
+	    </tr>
+	</table>
+	</div>
+</div>
+<?php $url_receipt=$this->url(array("module"=>'report',"controller"=>"loan","action"=>'recieptpayment'))."?id=";?>
+<script>
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+			var m = "clicked: " + key;
+			if(key=="reciept"){
+				url='<?php echo $url_receipt;?>';
+			}
+			gotoAction();
+		},
+		items: {
+			"reciept": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-file-text", accesskey: "c"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
+
+function checkAll(array_length){
+	dijit.byId('id_selected').attr('value','');
+	if(dojo.byId('checkall').checked){
+		for(var j=1;j<=array_length;j++){
+			$('#check_box'+j).each(function() { 
+				this.checked = true;  
+			});
+			checked_id(j);
+		}
+	}else{
+		for(var j=1;j<=array_length;j++){
+			$("#check_box"+j).removeAttr("checked");
+			checked_id(j);
+		}
+	}
+}
+
+function checked_id(index){
+	row_id = dijit.byId('id_'+index).get('value');
+	if(dojo.byId('check_box'+index).checked){
+		if($("#id_selected").val()!="") {
+			var identity = $("#id_selected").val();
+			$("#id_selected").val(identity+','+row_id);
+		}else{
+			$("#id_selected").val(row_id);
+		}
+	}else{
+		var identity = $('#id_selected').val();
+		var arrays = identity.split(',');
+		for(var i=0;i<arrays.length;i++) {
+		if(arrays[i] == row_id) arrays.splice(i,1);
+		}
+		var strings = arrays.join(',');
+		$('#id_selected').val(strings);
+	}
+}
+ </script>

@@ -30,7 +30,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 					'end_date'=>date('Y-m-d'),
 					'branch_id'		=>	-1,
 					'paymnet_type'	=> -1,
-					'status'=>"",);
+					'status'=>"-1",);
 			}
 			$rs_rows= $db->getAllinstallmentpayment($search);
 			$result = array();
@@ -165,7 +165,31 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		$this->view->loan_numbers = $db->getAllLoanNumberByBranch(1);
 	}
 	
-	function deleteAction()
+	function deleteAction(){
+		$id = $this->getRequest()->getParam("id");
+		$id = empty($id)?0:$id;
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$db = new Installment_Model_DbTable_DbInstallmentPayment();
+		$payment_il = $db->getInstallPaymentBYId($id);
+		if (!empty($payment_il)){
+			if ($payment_il['is_closed']==1){
+				Application_Form_FrmMessage::Sucessfull("Can not delete this record","/installment/payment");
+			}
+		}
+		$delete_sms=$tr->translate('CONFIRM_DELETE');
+		echo "<script language='javascript'>
+		var txt;
+		var r = confirm('$delete_sms');
+		if (r == true) {";
+		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/installment/payment/deletereceipt/id/".$id."'";
+		echo"}";
+		echo"else {";
+		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/installment/payment'";
+		echo"}
+		</script>";
+	}
+	
+	function deletereceiptAction()
 	{//check permission first
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$action=$request->getActionName();
@@ -176,7 +200,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		$db = new Installment_Model_DbTable_DbInstallmentPayment();
 		try {
 			$dbacc = new Application_Model_DbTable_DbUsers();
-			$rs = $dbacc->getAccessUrl($module,$controller,$action);
+			$rs = $dbacc->getAccessUrl($module,$controller,"delete");
 			if(!empty($rs)){
 				$db->deleteRecord($id);
 				Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/installment/payment/");

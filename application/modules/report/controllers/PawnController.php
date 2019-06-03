@@ -702,5 +702,50 @@ function rptPaymentHistoryAction(){
  	$frmpopup = new Application_Form_FrmPopupGlobal();
  	$this->view->pawnReceipt = $frmpopup->getOfficailReceiptPawn();
  }
+ 
+ function rptClosingentryAction(){
+ 	$db  = new Report_Model_DbTable_Dbpawn();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	if($this->getRequest()->isPost()){
+ 		$search = $this->getRequest()->getPost();
+ 	}else {
+ 		$search = array(
+ 				'adv_search' => '',
+ 				'status_search' => -1,
+ 				'status' => -1,
+ 				'branch_id' => -1,
+ 				'members' => -1,
+ 				'start_date'=> date('Y-m-d'),
+ 				'end_date'=>date('Y-m-d'));
+ 	}
+ 	$this->view->loantotalcollect_list =$rs=$db->getALLLoanPayment($search);
+ 	$this->view->LoanFee_list =$db->getALLLFee($search);
+ 	$this->view->list_end_date = $search;
+ 	$this->view->rescheduleFee = $db->getAdminFeeByReschedule($search);
+ 
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 
+ 	$frm = new Pawnshop_Form_FrmPawnshop();
+ 	$frm = $frm->FrmAddLoan();
+ 	Application_Model_Decorator::removeAllDecorator($frm);
+ 	$this->view->frm_search = $frm;
+ 
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
+ }
+ function submitentryAction(){
+ 	$db  = new Report_Model_DbTable_Dbpawn();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	if($this->getRequest()->isPost()){
+ 		$data = $this->getRequest()->getPost();
+ 		$db->submitClosingEngry($data);
+ 		Application_Form_FrmMessage::Sucessfull("Closing Entry Success", "/report/pawn/rpt-closingentry");
+ 	}
+ }
+ 
+ 
 }
 

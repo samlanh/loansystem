@@ -573,7 +573,9 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				  `crm`.`penalize_amount`      AS `penelize`,
 				  `crm`.`service_chargeamount` AS `service_charge`,
 				  `crm`.`client_id`            AS `client_id`,
-				  `crm`.`paid_times`           AS `paid_times`
+				  `crm`.`paid_times`           AS `paid_times`,
+				  `crm`.`is_closed`           AS `is_closed`
+				  
 				FROM (`ln_pawn_receipt_money` `crm`
 				   JOIN `ln_pawn_receipt_money_detail` `d`)
 				WHERE ((`crm`.`status` = 1)
@@ -2534,6 +2536,23 @@ AND cl.client_id = $client_id )";
       	
       	$where.=" GROUP BY ps.`currency_type`";
       	return $db->fetchAll($sql.$where);
+      }
+      
+      
+      function submitClosingEngry($data){
+      	$db = $this->getAdapter();
+      	if(!empty($data['id_selected'])){
+      		$ids = explode(',', $data['id_selected']);
+      		$key = 1;
+      		$arr = array(
+      				"is_closed"=>1,
+      		);
+      		foreach ($ids as $i){
+      			$this->_name="ln_pawn_receipt_money";
+      			$where="id= ".$i;
+      			$this->update($arr, $where);
+      		}
+      	}
       }
  }
 

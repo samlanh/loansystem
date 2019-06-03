@@ -452,5 +452,52 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$this->view->sale = $row;
 		$this->view->saleDetail = $db->getGeneraldetailSaleById($id);
 	}
+	
+	function rptClosingentryAction(){
+		$db  = new Report_Model_DbTable_DbInventory();
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		if($this->getRequest()->isPost()){
+			$search = $this->getRequest()->getPost();
+		}else {
+			$search = array(
+					'adv_search' => '',
+					'status_search' => -1,
+					'status' => -1,
+					'branch_id' => -1,
+					'members' => -1,
+					'start_date'=> date('Y-m-d'),
+					'end_date'=>date('Y-m-d'));
+		}
+		$this->view->loantotalcollect_list =$rs=$db->getALLInstallmentPayment($search);
+	
+// 		$db  = new Report_Model_DbTable_DbInventory();
+// 		$row = $db->getGeneralSaleInventory($search);
+// 		$this->view->sale = $row;
+	
+		$this->view->list_end_date = $search;
+	
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	
+		$frm = new Installment_Form_FrmInstallment();
+		$frm = $frm->FrmAddLoan();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
+	
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
+	}
+	
+	function submitentryAction(){
+		$db  = new Report_Model_DbTable_DbInventory();
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db->submitClosingEngry($data);
+			Application_Form_FrmMessage::Sucessfull("Closing Entry Success", "/report/installments/rpt-closingentry");
+		}
+	}
 }
 

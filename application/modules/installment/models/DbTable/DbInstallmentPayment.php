@@ -34,6 +34,11 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
     				AND lcrm.status=1 ";
     	
     	$where ='';
+    	
+    	$from_date =(empty($search['start_date']))? '1': " lcrm.`date_input` >= '".$search['start_date']." 00:00:00'";
+    	$to_date = (empty($search['end_date']))? '1': " lcrm.`date_input` <= '".$search['end_date']." 23:59:59'";
+    	$where.= " AND ".$from_date." AND ".$to_date;
+    	
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
@@ -41,7 +46,7 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
     		$s_where[] = " (SELECT sale_no FROM `ln_ins_sales_install` WHERE ln_ins_sales_install.id=lcrm.loan_id AND sale_no LIMIT 1 ) LIKE '%{$s_search}%'";
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
-    	if($search['status']!=""){
+    	if($search['status']>-1){
     		$where.= " AND status = ".$search['status'];
     	}
     	if(!empty($search['start_date']) or !empty($search['end_date'])){
@@ -53,7 +58,7 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
     	if($search['branch_id']>0){
     		$where.=" AND lcrm.`branch_id`= ".$search['branch_id'];
     	}
-    	$where = $dbp->getAccessPermission('lcrm.`branch_id`');
+    	$where.= $dbp->getAccessPermission('lcrm.`branch_id`');
     	
     	$group_by = " GROUP BY lcrm.id";
     	$order = " ORDER BY id DESC";
@@ -535,6 +540,7 @@ public function getInstallPaymentBYId($id){
 		   	`crm`.`penalize_amount`      AS `penelize`,
 		   	`crm`.`client_id`            AS `client_id`,
 		   	`crm`.`paid_times`           AS `paid_times`,
+		   	`crm`.`is_closed`           AS `is_closed`,
 		   	ps.`product_id`         AS `product_id`
    	
 	   	FROM `ln_ins_receipt_money` `crm`,

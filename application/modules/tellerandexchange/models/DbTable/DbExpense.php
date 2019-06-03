@@ -1,5 +1,5 @@
 <?php
-class Accounting_Model_DbTable_DbExpense extends Zend_Db_Table_Abstract
+class Tellerandexchange_Model_DbTable_DbExpense extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'ln_income_expense';
 	public function getUserId(){
@@ -86,6 +86,9 @@ function getAllExpense($search=null){
 	
 	$sql=" SELECT id,
 	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id =branch_id LIMIT 1) AS branch_name,
+	reciept_no,
+invoice,
+(SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1) AS category,
 	account_id,
 	(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type, invoice,
 	total_amount,disc,date";
@@ -107,6 +110,9 @@ function getAllExpense($search=null){
 	}
 	if($search['currency_type']>-1){
 		$where.= " AND curr_type = ".$search['currency_type'];
+	}
+	if(!empty($search['category_id'])){
+		$where.= " AND category_id = ".$search['category_id'];
 	}
 	$where.=$dbp->getAccessPermission('branch_id');
        $order=" order by id desc ";

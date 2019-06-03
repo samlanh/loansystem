@@ -948,7 +948,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  }
  function rptExpenseAction(){
-	 	$db = new Accounting_Model_DbTable_DbExpense();
+	 	$db = new Report_Model_DbTable_DbRptIncomeExpense();
 	 	if($this->getRequest()->isPost()){
 	 		$formdata=$this->getRequest()->getPost();
 	 	}
@@ -956,6 +956,7 @@ function rptLoanTrasferzoneAction(){//release all loan
 	 		$formdata = array(
 	 				"adv_search"=>'',
 	 				"currency_type"=>-1,
+	 				"category_id"=>"",
 	 				"status"=>-1,
 	 				'start_date'=> date('Y-m-d'),
 	 				'end_date'=>date('Y-m-d'),
@@ -968,6 +969,12 @@ function rptLoanTrasferzoneAction(){//release all loan
 	 	$frm = $frm->AdvanceSearch();
 	 	Application_Model_Decorator::removeAllDecorator($frm);
 	 	$this->view->frm_search = $frm;
+	 	
+	 	
+	 	$pructis=new Tellerandexchange_Form_Frmexpense();
+	 	$frmexp = $pructis->FrmAddExpense();
+	 	Application_Model_Decorator::removeAllDecorator($frmexp);
+	 	$this->view->frm_expense=$frmexp;
 	 	
 	 	$frmpopup = new Application_Form_FrmPopupGlobal();
 	 	$this->view->footerReport = $frmpopup->getFooterReport();
@@ -1410,5 +1417,152 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$row = $db->getAllxchangeBYID($id);
  	$this->view->Exchange = $row;
  }
+ 
+ function rptClosingentryAction(){
+ 	$db  = new Report_Model_DbTable_DbLoan();	
+	$key = new Application_Model_DbTable_DbKeycode();
+	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	if($this->getRequest()->isPost()){
+		$search = $this->getRequest()->getPost();
+	}else {
+		$search = array(
+				'adv_search' => '',
+				'status_search' => -1,
+				'status' => -1,
+				'branch_id' => "",
+				'client_name' => "",
+				'co_id' => "",
+				'start_date'=> date('Y-m-d'),
+	  			'end_date'=>date('Y-m-d')
+		);
+	}
+	$this->view->loantotalcollect_list =$rs=$db->getALLLoanPayment($search);
+	$this->view->rescheduleFee = $db->getAdminFeeByReschedule($search);
+	
+	$this->view->list_end_date = $search;
+	$frm = new Loan_Form_FrmSearchLoan();
+	$frm = $frm->AdvanceSearch();
+	Application_Model_Decorator::removeAllDecorator($frm);
+	$this->view->frm_search = $frm;
+	
+	$frmpopup = new Application_Form_FrmPopupGlobal();
+	$this->view->footerReport = $frmpopup->getFooterReport();
+ }
+ function submitentryAction(){
+ 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	if($this->getRequest()->isPost()){
+ 		$data = $this->getRequest()->getPost();
+ 		$db->submitClosingEngry($data);
+ 		Application_Form_FrmMessage::Sucessfull("Closing Entry Success", "/report/loan/rpt-closingentry");
+ 	}
+ }
+ 
+ function rptClosingExpenseAction(){
+ 	$db = new Report_Model_DbTable_DbRptIncomeExpense();
+ 	if($this->getRequest()->isPost()){
+ 		$formdata=$this->getRequest()->getPost();
+ 	}
+ 	else{
+ 		$formdata = array(
+ 				"adv_search"=>'',
+ 				"currency_type"=>-1,
+ 				"category_id"=>"",
+ 				"status"=>-1,
+ 				'start_date'=> date('Y-m-d'),
+ 				'end_date'=>date('Y-m-d'),
+ 		);
+ 	}
+ 	$this->view->rs= $db->getAllExpenseReport($formdata);//call frome model
+ 	$this->view->list_end_date=$formdata;
+ 	 
+ 	$frm = new Loan_Form_FrmSearchLoan();
+ 	$frm = $frm->AdvanceSearch();
+ 	Application_Model_Decorator::removeAllDecorator($frm);
+ 	$this->view->frm_search = $frm;
+ 	
+ 	$pructis=new Tellerandexchange_Form_Frmexpense();
+ 	$frmexp = $pructis->FrmAddExpense();
+ 	Application_Model_Decorator::removeAllDecorator($frmexp);
+ 	$this->view->frm_expense=$frmexp;
+ 	 
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
+ }
+ function closingexpenseAction(){
+ 	$db  = new Report_Model_DbTable_DbRptIncomeExpense();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	if($this->getRequest()->isPost()){
+ 		$data = $this->getRequest()->getPost();
+ 		$db->closingExpense($data);
+ 		Application_Form_FrmMessage::Sucessfull("Closing Entry Success", "/report/loan/rpt-closing-expense");
+ 		exit();
+ 	}
+ }
+ function rptIncomeAction(){
+ 	$db = new Report_Model_DbTable_DbRptIncomeExpense();
+ 	if($this->getRequest()->isPost()){
+ 		$formdata=$this->getRequest()->getPost();
+ 	}
+ 	else{
+ 		$formdata = array(
+ 				"adv_search"=>'',
+ 				"currency_type"=>-1,
+ 				"status"=>-1,
+ 				'start_date'=> date('Y-m-d'),
+ 				'end_date'=>date('Y-m-d'),
+ 		);
+ 	}
+ 	$this->view->rs= $db->getAllIncome($formdata);//call frome model
+ 	$this->view->list_end_date=$formdata;
+ 	 
+ 	$frm = new Loan_Form_FrmSearchLoan();
+ 	$frm = $frm->AdvanceSearch();
+ 	Application_Model_Decorator::removeAllDecorator($frm);
+ 	$this->view->frm_search = $frm;
+ 	 
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
+ }
+ 
+ function rptClosingIncomeAction(){
+ 	$db = new Report_Model_DbTable_DbRptIncomeExpense();
+ 	if($this->getRequest()->isPost()){
+ 		$formdata=$this->getRequest()->getPost();
+ 	}
+ 	else{
+ 		$formdata = array(
+ 				"adv_search"=>'',
+ 				"currency_type"=>-1,
+ 				"status"=>-1,
+ 				'start_date'=> date('Y-m-d'),
+ 				'end_date'=>date('Y-m-d'),
+ 		);
+ 	}
+ 	$this->view->rs= $db->getAllIncome($formdata);//call frome model
+ 	$this->view->list_end_date=$formdata;
+ 		
+ 	$frm = new Loan_Form_FrmSearchLoan();
+ 	$frm = $frm->AdvanceSearch();
+ 	Application_Model_Decorator::removeAllDecorator($frm);
+ 	$this->view->frm_search = $frm;
+ 		
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
+ }
+ function closingincomeAction(){
+ 	$db  = new Report_Model_DbTable_DbRptIncomeExpense();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	if($this->getRequest()->isPost()){
+ 		$data = $this->getRequest()->getPost();
+ 		$db->closingIncome($data);
+ 		Application_Form_FrmMessage::Sucessfull("Closing Entry Success", "/report/loan/rpt-closing-income");
+ 		exit();
+ 	}
+ }
+ 
 }
 

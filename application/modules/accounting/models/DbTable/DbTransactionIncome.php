@@ -7,7 +7,7 @@ class Accounting_Model_DbTable_DbTransactionIncome extends Zend_Db_Table_Abstrac
 		return $session_user->user_id;
 	
 	}
-	function addexpense($data){
+	function addIncome($data){
 		$data = array(
 				'branch_id'=>$data['branch_id'],
 				'account_id'=>$data['account_id'],
@@ -25,7 +25,7 @@ class Accounting_Model_DbTable_DbTransactionIncome extends Zend_Db_Table_Abstrac
 		$this->insert($data);
 
  }
- function updatExpense($data){
+ function updatIncome($data){
 	$arr = array(
 				'branch_id'=>$data['branch_id'],
 				'account_id'=>$data['account_id'],

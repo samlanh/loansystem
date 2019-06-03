@@ -367,6 +367,7 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
 	   
 	   	`crm`.`client_id`            AS `client_id`,
 	   	`crm`.`paid_times`           AS `paid_times`,
+	   	`crm`.`is_closed`           AS `is_closed`,
 	   	(SELECT p.item_name FROM `ln_ins_product` AS p,`ln_ins_sales_install` AS s
 			WHERE s.product_id=p.id AND s.id=crm.loan_id LIMIT 1) AS item_name
 	   	FROM (`ln_ins_receipt_money` `crm`
@@ -824,6 +825,22 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
    	FROM `ln_ins_generalsale_detail` AS g
    	WHERE g.`saleId`=$saleId";
    	return $db->fetchAll($sql);
+   }
+   
+   function submitClosingEngry($data){
+	   	$db = $this->getAdapter();
+	   	if(!empty($data['id_selected'])){
+	   		$ids = explode(',', $data['id_selected']);
+	   		$key = 1;
+	   		$arr = array(
+	   				"is_closed"=>1,
+	   		);
+	   		foreach ($ids as $i){
+	   			$this->_name="ln_ins_receipt_money";
+	   			$where="id= ".$i;
+	   			$this->update($arr, $where);
+	   		}
+	   	}
    }
 }
 

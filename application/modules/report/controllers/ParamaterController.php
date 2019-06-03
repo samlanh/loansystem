@@ -16,9 +16,7 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
   		$data = $this->getRequest()->getPost();
-  		//print_r($db->getAllstaff($data));
   		if(isset($data['btn_search'])){
-  			//print_r($data);exit();
   			$this->view->staff_list = $db->getAllstaff($data);
   			
   		}else{
@@ -35,6 +33,9 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$row=$frm->FrmAddStaff();
   	Application_Model_Decorator::removeAllDecorator($row);
   	$this->view->frm_staff=$row;
+  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
   function  rptVillageAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
@@ -60,6 +61,9 @@ class Report_ParamaterController extends Zend_Controller_Action {
 //   	$this->view->district = $db->getAllDistricts();
 //   	$this->view->commune_name = $db->getCommune();
   	$this->view->result = $search;
+  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
   function rptZoneAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
@@ -70,16 +74,19 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$frm_co=$frm->FrmAddZone();
   	Application_Model_Decorator::removeAllDecorator($frm_co);
   	$this->view->frm_zone = $frm_co;
+  	
   	if($this->getRequest()->isPost()){
   		$data = $this->getRequest()->getPost();
-  		//print_r($data);exit();
   		if(isset($data['btn_search'])){
   			$this->view->zone_list = $db->getAllZone($data);
   		}else{
-  		$collumn = array("zone_id","zone_num","modify_date","status");
-  		$this->exportFileToExcel('ln_zone',$db->getAllZone(),$collumn);
+	  		$collumn = array("zone_id","zone_num","modify_date","status");
+	  		$this->exportFileToExcel('ln_zone',$db->getAllZone(),$collumn);
   		}
-  	}else $search = array('txtsearch' => '');
+  	}
+  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
   function rptHolidayAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
@@ -107,6 +114,9 @@ class Report_ParamaterController extends Zend_Controller_Action {
 						'end_date'=>date('Y-m-d')); 
   		$this->view->holiday_list = $db->getAllHoliday($data);
   	}
+  	$this->view->search = $data;
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
   public function exportFileToExcel($table,$data,$thead){
   	$this->_helper->layout->disableLayout();
@@ -160,7 +170,10 @@ class Report_ParamaterController extends Zend_Controller_Action {
   				"status","fax","other","displayby");
   			$this->exportFileToExcel('ln_branch',$db->getAllBranch(),$collumn);
   		}
-  	}else $data = array('adv_search' => '');
+  	}
+  	
+  	$frmpopup = new Application_Form_FrmPopupGlobal();
+  	$this->view->footerReport = $frmpopup->getFooterReport();
   }
 }
 

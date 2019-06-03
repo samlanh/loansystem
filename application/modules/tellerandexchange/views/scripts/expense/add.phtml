@@ -10,9 +10,6 @@ echo $this->headTitle();
 	height: 30px;
 }
 </style>
-<script>
-		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox"]);
-</script>
 <div class="card">
 	<div class="card-content collapse show">
 		<div class="card-box">
@@ -28,13 +25,13 @@ echo $this->headTitle();
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-                if(dijit.byId("branch_id").get('value')==''){
-					alert("Please Select Branch Name");
+                branch_id = dijit.byId('branch_id').get('value');
+				if(branch_id==0 || branch_id==""){
+					alert("<?php echo $tr->translate('PLEASE_SELECT_BRANCH');?>");
 					dijit.byId("branch_id").focus();
 					return false;
 				}
-                dijit.byId("saveclose").attr("disabled",true);
-				dijit.byId("savenew").attr("disabled",true);
+                loadingBlock();
 				return true;
 			}else {
 				return false;
@@ -54,6 +51,19 @@ echo $this->headTitle();
 	                   </div>
 	                </div>
 	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("RECIEPT_NO");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('reciept_no');?>
+	                   </div>
+	                </div>
+	           	</div>
+	           	<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("TITLE_INFO");?> 
+	                   </label>
+	                </div>
+	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENCY");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -67,11 +77,12 @@ echo $this->headTitle();
 	                   		<?php echo $frm->getElement('Date');?>
 	                   </div>
 	                </div>
-	           	</div>
-	           	<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("TITLE_INFO");?> 
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CATEGORY");?>
 	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement('category_id');?>
+	                   </div>
 	                </div>
 	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("INVOICE");?>
@@ -107,13 +118,6 @@ echo $this->headTitle();
 	                   		<?php echo $frm->getElement('Description');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php echo $frm->getElement('Stutas');?>
-	                   </div>
-	                </div>
 	           	</div>
 	       </div>
 	       <div class="card-box">
@@ -129,18 +133,38 @@ echo $this->headTitle();
 		</form>
 	</div>
 </div>
-
+<script>
+		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dijit/form/Textarea"]);
+</script>
 <script type="text/javascript">
-dojo.require("dijit.form.Textarea");
+var	url_getreceiptno = '<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'expense','action'=>'getrecieptno'));?>';
+function getReceiptNo(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id==0 || branch_id==""){
+		return false;
+	}
+	dojo.xhrPost({
+		url: url_getreceiptno,	
+		content:{ 
+			'branch_id': branch_id
+		},
+		handleAs:"json",
+		load: function(data) {	
+		    dijit.byId('reciept_no').set('value', data);
+		},
+		error: function(err) {
+		}
+	});
+}
 function submitDataClose(){
-	if(dijit.byId("branch_id").get('value')==''){
-		alert("Please Select Branch Name");
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id==0 || branch_id==""){
+		alert("<?php echo $tr->translate('PLEASE_SELECT_BRANCH');?>");
 		dijit.byId("branch_id").focus();
 		return false;
 	}
 	if(dijit.byId('frm_add_tran').validate()) {
-		dijit.byId('savenew').set('disabled',true);
-		dijit.byId('saveclose').set('disabled',true);
+		loadingBlock();
 		var url_submit = '<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'expense','action'=>'add')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	

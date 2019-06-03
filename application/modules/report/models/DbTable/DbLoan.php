@@ -479,48 +479,51 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       }
       public function getALLLoanPayment($search=null){
       	$db = $this->getAdapter();
-      	$sql="SELECT * FROM v_getcollectmoney WHERE status=1 ";
-      	$from_date =(empty($search['start_date']))? '1': " date_input >= '".$search['start_date']." 00:00:00'";
-      	$to_date = (empty($search['end_date']))? '1': " date_input <= '".$search['end_date']." 23:59:59'";
+      	$sql="SELECT v.*,
+				(SELECT crm.is_closed FROM `ln_client_receipt_money` AS crm WHERE crm.id = v.id LIMIT 1 ) AS is_closed
+				 FROM v_getcollectmoney AS v
+				 WHERE v.status=1 ";
+      	$from_date =(empty($search['start_date']))? '1': " v.date_input >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " v.date_input <= '".$search['end_date']." 23:59:59'";
       	$where = " AND ".$from_date." AND ".$to_date;
       	
       	if($search['branch_id']>0){
-      		$where.=" AND branch_id= ".$search['branch_id'];
+      		$where.=" AND v.branch_id= ".$search['branch_id'];
       	}
       	if($search['client_name']>0){
-      		$where.=" AND client_id = ".$search['client_name'];
+      		$where.=" AND v.client_id = ".$search['client_name'];
       	} 
         	if($search['co_id']>0){
-        		$where.=" AND co_id = ".$search['co_id'];
+        		$where.=" AND v.co_id = ".$search['co_id'];
         	}
 			if(!empty($search['adv_search'])){
 				$s_search = addslashes(trim($search['adv_search']));
 				if($s_search=='បង់មុន'){
-      			$where.=" AND payment_option = 2 ";
+      			$where.=" AND v.payment_option = 2 ";
 				$search['adv_search']='';
 				}
 			}
       	if(!empty($search['adv_search'])){
       		$s_where = array();
       		$s_search = addslashes(trim($search['adv_search']));
-      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
-      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_name LIKE '%{$s_search}%'";
-      		$s_where[] = " co_name LIKE '%{$s_search}%'";
+      		$s_where[] = " v.branch_name LIKE '%{$s_search}%'";
+      		$s_where[] = " v.loan_number LIKE '%{$s_search}%'";
+      		$s_where[] = " v.client_number LIKE '%{$s_search}%'";
+      		$s_where[] = " v.client_name LIKE '%{$s_search}%'";
+      		$s_where[] = " v.co_name LIKE '%{$s_search}%'";
       		//$s_where[] = " total_principal_permonth LIKE '%{$s_search}%'";
       		//$s_where[] = " total_interest LIKE '%{$s_search}%'";
       		//$s_where[] = " amount_payment LIKE '%{$s_search}%'";
       		//$s_where[] = " penalize_amount LIKE '%{$s_search}%'";
       		//$s_where[] = " service_charge LIKE '%{$s_search}%'";      		
-      		$s_where[] = " receipt_no LIKE '%{$s_search}%'";
+      		$s_where[] = " v.receipt_no LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
 			
 			if($s_search=='បង់មុន'){
-      			$where.=" AND payment_option = 2 ";
+      			$where.=" AND v.payment_option = 2 ";
       		}
       	}
-      	$order=" ORDER BY date_input DESC,receipt_no DESC ";
+      	$order=" ORDER BY v.date_input DESC,v.receipt_no DESC ";
       	return $db->fetchAll($sql.$where.$order);
       }
       public function getALLCommission($search=null){
@@ -2269,5 +2272,24 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	$where.=" GROUP BY l.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
+      
+      function submitClosingEngry($data){
+      	$db = $this->getAdapter();
+      	if(!empty($data['id_selected'])){
+      		$ids = explode(',', $data['id_selected']);
+      		$key = 1;
+      		$arr = array(
+      				"is_closed"=>1,
+      		);
+      		foreach ($ids as $i){
+      			$this->_name="ln_client_receipt_money";
+      			$where="id= ".$i;
+      			$this->update($arr, $where);
+      		}
+      	}
+      }
+      
+     
+      
  }
 

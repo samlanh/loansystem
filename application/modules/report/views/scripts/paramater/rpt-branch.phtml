@@ -1,96 +1,95 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate("BRANCH_LIST"));
+	echo $this->headTitle($tr->translate("BRAND_NAME"));
 ?>	
 <?php $frm =  $this->frm_branch;?>
-<form method="post">
-<table   style="font-family: 'Khmer OS Content'; margin: 0 auto;width:28.6cm;">
-	
-	<tr>	
-	 	<td><?php echo $frm->getElement('adv_search') ?></td>
-	 	<td><?php echo $frm->getElement('select_branch_nameen') ?></td>
-	 	<td><?php echo $frm->getElement('status_search');?></td>
-	 	<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button></td>
-	 </tr>
-</table>
-</form>
-<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
- <div dojoType="dijit.layout.ContentPane" region="top" >
-
- </div>
-</div>
-<div  style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
-
-<table style="font-family: 'Khmer OS Content'; width:100%;"  >
-	<tr>
-    	<td align="center">
-    	
-    	<style>
+<div class="reportblog">
+	<div class="card-box">
+       	<div class="col-sm-12 border-botom">
+		   	<div class="col-sm-8 pd-0">
+	    		<h4 class="m-b-0"><i class="fa fa-file-text " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('BRAND_NAME');?></h4>
+    		</div>
+    		<div class="col-sm-4 text-right">
+    		</div>
+    	</div>
+    </div>
+    <form dojoType="dijit.form.Form" method="post">
+		<div class="card-box">
+			<div class="form-group">
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $frm->getElement('adv_search') ?>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $frm->getElement('select_branch_nameen') ?>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $frm->getElement('status_search');?>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button>
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+               </div>
+            </div>
+         </div>
+     </form>
+      <div id="divPrint">
+			<style>
 			.style{
-				line-height: 20px;font-size: 11px !important;
-				font-family: 'Khmer OS Battambang';
+				line-height: 20px;font-size: 13px !important;
+				font-family: 'Times New Roman','Khmer OS Battambang';
 			}
 			th{padding: 5px;}
-			table { page-break-inside:auto }
+			table { page-break-inside:auto; font-family: 'Times New Roman','Khmer OS Battambang'; }
 			tr{ page-break-inside:avoid; page-break-after:auto; }
 			#header {
 			  display: table-header-group;
 			  page-break-inside:avoid; page-break-after:auto;
 			}	
+			#exportExcel tr td{
+				padding: 1px;
+			}
 		</style>
-		<div id="divPrint">
-        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang'; margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
-                	<h2 style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_NAME");?></label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></h2>
+                	<h2 style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_NAME");?></h2>
                     <td width="20%"></td>
                 </tr> 
-                
             </table>
         	<table id="exportExcel"  align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
-				    <thead>
-				    <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; background: #ccd9ff; line-height: 14px; font-size:12px; padding:5px 0px; ">
-				        <th ><?php echo $tr->translate("NUM");?></th>
-				        <th ><?php echo $tr->translate("BRANCH_NAME");?></th>
-				        <th ><?php echo $tr->translate("BRANCH_NAMEEN");?></th>
-				        <th ><?php echo $tr->translate("BRANCH_CODE");?></th>
-				        <th ><?php echo $tr->translate("BRANCH_ADDRESS");?></th>
-				        <th ><?php echo $tr->translate("BRANCH_TEL");?></th>
-				        <th ><?php echo $tr->translate("FAX");?></th>
-				        <th ><?php echo $tr->translate("OTHER");?></th>
+			    <thead>
+			    <tr bgcolor="#ccc" class="style" align="center" style="height:25px; white-space:nowrap; font-weight:bold; background: #ccd9ff; line-height: 14px; font-size:12px; padding:5px 0px; ">
+			        <td><?php echo $tr->translate("NUM");?></td>
+			        <td><?php echo $tr->translate("BRANCH_NAME");?></td>
+			        <td><?php echo $tr->translate("BRANCH_NAMEEN");?></td>
+			        <td><?php echo $tr->translate("BRANCH_CODE");?></td>
+			        <td><?php echo $tr->translate("BRANCH_ADDRESS");?></td>
+			        <td><?php echo $tr->translate("BRANCH_TEL");?></td>
+			        <td><?php echo $tr->translate("FAX");?></td>
+			        <td><?php echo $tr->translate("OTHER");?></td>
+			    </tr>
+			    </thead>
+				<?php 
+				if(!empty($this->branch_list)) foreach($this->branch_list as $key =>$row){
+				 	?>
+				     <tr  align="center" >
+				        <td><?php echo $key+1; ?></td>
+				        <td align="left">&nbsp;<?php echo $row['branch_namekh']?>&nbsp;</td>
+				        <td align="left">&nbsp;<?php echo $row['branch_nameen']?>&nbsp;</td>
+				        <td><?php echo $row['branch_code']?></td>
+				        <td align="left">&nbsp;<?php echo $row['br_address']?></td>
+				        <td><?php echo $row['branch_tel']?></td>
+				        <td><?php echo $row['fax']?></td>
+				        <td><?php echo $row['other']?></td>
 				    </tr>
-				    </thead>
-					<?php 
-					if(!empty($this->branch_list)) foreach($this->branch_list as $key =>$row){
-					 	?>
-					     <tr style="font-size: 10px;" align="center" >
-					        <td><?php echo $key+1; ?></td>
-					        <td align="left">&nbsp;<?php echo $row['branch_namekh']?>&nbsp;</td>
-					        <td align="left">&nbsp;<?php echo $row['branch_nameen']?>&nbsp;</td>
-					        <td><?php echo $row['branch_code']?></td>
-					        <td align="left">&nbsp;<?php echo $row['br_address']?></td>
-					        <td><?php echo $row['branch_tel']?></td>
-					        <td><?php echo $row['fax']?></td>
-					        <td><?php echo $row['other']?></td>
-					    </tr>
-					    <?php }?>
-				</table>		
-			</td>
-		</tr>
-	</table><br />
-	<table align="center" width="100%">
-		<thead>
-				   <tr style="font-size: 12px;">
-				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
-				        <th></th>
-				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
-				        <th></th>
-				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
-				   </tr>
-		</thead>
-	</table>
-	</div>	
- </div>
- 
+				    <?php }?>
+			</table>		
+			<br />
+			<?php echo $this->footerReport;?>	
+	</div>
+</div>
