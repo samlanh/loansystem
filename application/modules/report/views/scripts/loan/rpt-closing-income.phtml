@@ -2,6 +2,7 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("Closing Other Income"));
 $frm = $this->frm_search;
+$frmex = $this->frm_income;
 $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលស់ប្រាក់ដើម",4=>"បង់ផ្តាច់");
 ?>
 <script>
@@ -33,6 +34,9 @@ table.tb-footer tr.style-head {
                <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $frm->getElement("adv_search");?>
                </div>
+               <div class="col-md-2 col-sm-2 col-xs-12">
+   					<?php echo $frmex->getElement('category_id');?>
+   				</div>
                <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $frm->getElement('currency_type');?>
                </div>
@@ -140,6 +144,8 @@ table.tb-footer tr.style-head {
 		                    	<?php echo $tr->translate("NUM");?>
 		                    </td>
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></td>
+		                    <td style="padding:5px 0px;"><?php echo $tr->translate("RECIEPT_NO");?></td>
+		                    <td style="padding:5px 0px;"><?php echo $tr->translate("CATEGORY");?></td>
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("DESCRIPTION");?></td>
 		                    <td style="padding:5px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></td>
 							<td style="padding:5px 0px;"><?php echo $tr->translate("INVOICE");?></td>
@@ -168,6 +174,8 @@ table.tb-footer tr.style-head {
 	               			&nbsp;<?php echo $key+1; ?>&nbsp;
 	               		</td>
 	               		<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
+	               		<td>&nbsp;<?php echo $rs["reciept_no"];?>&nbsp;</td>
+	               		<td>&nbsp;<?php echo $rs["category"];?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["account_id"];?>&nbsp;</td>
 	               		<td>&nbsp;<?php echo $rs["currency_type"];?>&nbsp;</td>
 						<td>&nbsp;<?php echo $rs["invoice"];?>&nbsp;</td>

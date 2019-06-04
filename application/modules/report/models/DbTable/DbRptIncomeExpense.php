@@ -9,12 +9,11 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 		$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
 		$where = " WHERE ".$from_date." AND ".$to_date;
 		$this->_name="ln_income";
-		$sql=" SELECT id,
+		$sql=" SELECT *,
 		(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id =branch_id LIMIT 1) AS branch_name,
-		account_id,
-		(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type,invoice,
-		curr_type,
-		total_amount,disc,date,status,is_closed FROM $this->_name ";
+		(SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1) AS category,
+		(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type
+		FROM $this->_name ";
 	
 		if (!empty($search['adv_search'])){
 			$s_where = array();
@@ -31,6 +30,9 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 		}
 		if($search['currency_type']>-1){
 			$where.= " AND curr_type = ".$search['currency_type'];
+		}
+		if(!empty($search['category_id'])){
+			$where.= " AND category_id = ".$search['category_id'];
 		}
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$where.=$dbp->getAccessPermission('branch_id');

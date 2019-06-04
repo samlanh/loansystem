@@ -5,83 +5,88 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_branch';
     function addbranch($_data){
-    	$part= PUBLIC_PATH.'/images/';
-    	if (!file_exists($part)) {
-    		mkdir($part, 0777, true);
+    	try{
+	    	$part= PUBLIC_PATH.'/images/';
+	    	if (!file_exists($part)) {
+	    		mkdir($part, 0777, true);
+	    	}
+	    	$photo ="";
+	    	if (!empty($_FILES['photo']['name'])){
+	    		$ss =   explode(".", $_FILES['photo']['name']);
+	    		$image_name = "pawn".date("Y").date("m").date("d").time().".".end($ss);
+	    		$tmp = $_FILES['photo']['tmp_name'];
+	    		if(move_uploaded_file($tmp, $part.$image_name)){
+	    			$photo = $image_name;
+	    		}
+	    		else{
+	    			$string = "Image Upload failed";
+	    		}
+	    	}
+	    	
+	    	$_arr = array(
+	    			'branch_namekh'=>$_data['branch_namekh'],
+	    			'branch_nameen'=>$_data['branch_nameen'],
+	    			'prefix'=>$_data['prefix_code'],
+	    			'br_address'=>$_data['br_address'],
+	    			'branch_code'=>$_data['branch_code'],
+	    			'branch_tel'=>$_data['branch_tel'],
+	    			'description'=>$_data['description'],
+	    			'other'=>$_data['branch_note'],
+	    			'status'=>1,//$_data['branch_status'],
+	    			'images_branch'=>$photo
+	    			);
+	    	$this->insert($_arr);//insert data
+    	}catch(Exception $e){
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
-    	$photo ="";
-    	if (!empty($_FILES['photo']['name'])){
-    		$ss =   explode(".", $_FILES['photo']['name']);
-    		$image_name = "pawn".date("Y").date("m").date("d").time().".".end($ss);
-    		$tmp = $_FILES['photo']['tmp_name'];
-    		if(move_uploaded_file($tmp, $part.$image_name)){
-    			$photo = $image_name;
-    		}
-    		else{
-    			$string = "Image Upload failed";
-    		}
-    	}
-    	
-    	$_arr = array(
-    			'branch_namekh'=>$_data['branch_namekh'],
-    			'branch_nameen'=>$_data['branch_nameen'],
-    			'prefix'=>$_data['prefix_code'],
-    			'br_address'=>$_data['br_address'],
-    			'branch_code'=>$_data['branch_code'],
-    			'branch_tel'=>$_data['branch_tel'],
-//     			'fax'=>$_data['fax'],
-    			'description'=>$_data['description'],
-    			'other'=>$_data['branch_note'],
-    			'status'=>$_data['branch_status'],
-    			'images_branch'=>$photo
-    			//'displayby'=>$_data['branch_display'],
-    			);
-    	$this->insert($_arr);//insert data
-//     	$where = 'id = 1';
-//     	$this->delete($where);
     }
     public function updateBranch($_data,$id){
-    	$_arr = array(
-    			'branch_namekh'=>$_data['branch_namekh'],
-    			'branch_nameen'=>$_data['branch_nameen'],
-    			'prefix'      =>      $_data['prefix_code'],
-    			'br_address'=>$_data['br_address'],
-    			'branch_code'=>$_data['branch_code'],
-    			'branch_tel'=>$_data['branch_tel'],
-//     			'fax'=>$_data['fax'],
-    			'description'=>$_data['description'],
-    			'other'=>$_data['branch_note'],
-    			'status'=>$_data['branch_status'],
-    			//'displayby'=>$_data['branch_display'],
-    			);
-    	$part= PUBLIC_PATH.'/images/';
-    	if (!file_exists($part)) {
-    		mkdir($part, 0777, true);
+    	try{
+	    	$_arr = array(
+	    			'branch_namekh'=>$_data['branch_namekh'],
+	    			'branch_nameen'=>$_data['branch_nameen'],
+	    			'prefix'      =>      $_data['prefix_code'],
+	    			'br_address'=>$_data['br_address'],
+	    			'branch_code'=>$_data['branch_code'],
+	    			'branch_tel'=>$_data['branch_tel'],
+	    			'description'=>$_data['description'],
+	    			'other'=>$_data['branch_note'],
+	    			'status'=>$_data['branch_status'],
+	    			);
+	    	$part= PUBLIC_PATH.'/images/';
+	    	if (!file_exists($part)) {
+	    		mkdir($part, 0777, true);
+	    	}
+	    	$photo ="";
+	    	if (!empty($_FILES['photo']['name'])){
+	    		$ss =   explode(".", $_FILES['photo']['name']);
+	    		$image_name = "pawnshop".date("Y").date("m").date("d").time().".".end($ss);
+	    		$tmp = $_FILES['photo']['tmp_name'];
+	    		if(move_uploaded_file($tmp, $part.$image_name)){
+	    			$photo = $image_name;
+	    		}
+	    		else{
+	    			$string = "Image Upload failed";
+	    		}
+	    		$_arr['images_branch']=$photo;
+	    	}
+	    	$where=$this->getAdapter()->quoteInto("br_id=?", $id);
+	    	$this->update($_arr, $where);
+    	}catch(Exception $e){
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
-    	$photo ="";
-    	if (!empty($_FILES['photo']['name'])){
-    		$ss =   explode(".", $_FILES['photo']['name']);
-    		$image_name = "pawnshop".date("Y").date("m").date("d").time().".".end($ss);
-    		$tmp = $_FILES['photo']['tmp_name'];
-    		if(move_uploaded_file($tmp, $part.$image_name)){
-    			$photo = $image_name;
-    		}
-    		else{
-    			$string = "Image Upload failed";
-    		}
-    		$_arr['images_branch']=$photo;
-    	}
-    	$where=$this->getAdapter()->quoteInto("br_id=?", $id);
-    	$this->update($_arr, $where);
     }
     	
     function getAllBranch($search=null){
     	$db = $this->getAdapter();
     	$sql = "SELECT b.br_id,b.branch_namekh,b.branch_nameen,b.prefix,
-				 b.branch_code,b.br_address,b.branch_tel,b.other,b.`status`
-				 FROM ln_branch AS b ";
-    	$where = ' WHERE b.branch_namekh!="" AND b.branch_nameen !="" ';
+				 b.branch_code,b.br_address,b.branch_tel,b.other ";
     	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("b.`status`");
+    	$sql.=" FROM ln_branch AS b ";
+    	
+    	$where = ' WHERE b.branch_namekh!="" AND b.branch_nameen !="" ';
     	if($search['status_search']>-1){
     		$where.= " AND b.status = ".$search['status_search'];
     	}
@@ -101,8 +106,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     		$where.=' AND ('.implode(' OR ',$s_where).')';
     	}
     	$order=' ORDER BY b.br_id DESC';
-   //echo $sql.$where;
-   return $db->fetchAll($sql.$where.$order);
+ 	  return $db->fetchAll($sql.$where.$order);
     }
     
  function getBranchById($id){

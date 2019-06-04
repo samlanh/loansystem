@@ -1,6 +1,6 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('VIEW_CLIENT'));
+	echo $this->headTitle($tr->translate('PROFILE'));
 	$rs = $this->client_list;
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	
@@ -40,156 +40,173 @@ label.value {
     min-width: 100px !important;
 }
 </style>
-
-        	<div class="card pb-10 pt-10 pl-10 pr-10">
-               	<div class="card-content collapse show">
-               		<div class="card-box mb-10">
-						<div class="menureport">
-							<ul>
-								<li class="preview"><a title="Preview" href="#" onclick="preview();"></a></li>
-								<li class="print"><a href="#" title="Print" onclick="doPrint();" ></a></li>
-							</ul>
-						</div>
-						<input type="button"  label="<?php echo $tr->translate("GO_BACK");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'group','controller'=>"index",'action'=>'index'),null,true); ?>';"/>
-						<input  type="button" id="wu-register" iconClass="dijitIconEdit" label="<?php echo $tr->translate("GO_EDIT");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'group','controller'=>"index",'action'=>'edit','id'=>$rs['client_id']),null,true); ?>';"/>
+<div class="reportblog">
+	<div class="card-box">
+   		<div class="col-sm-12 border-botom">
+	    	<div class="col-sm-8 pd-0">
+    			<h4 class="m-b-0"><i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('PROFILE');?></h4>
+   			</div>
+   			<div class="col-sm-4 text-right">
+   			</div>
+   		</div>
+   	</div>
+   	<div class="card-box">
+   		<div id="divPrint">
+			<style>
+	   			label.value{
+	   				font-weight: initial;
+	   				min-width: 100px;
+	   				font-size: 14px;
+	   				display: inline-block;
+				}
+				p.padding-left {
+				    padding-left: 10px;
+					    line-height: 20px;
+				}
+				label.title {
+				    font-size: 14px;
+				    min-width: 80px;
+				    display: inline-block;
+				}
+				.border {
+				        border: none;
+				    display: block;
+				    width: 100%;
+				    height: 1px;
+				    margin-bottom: 10px;
+				}
+	  		 </style>
+			<table width="100%" style="font-size:12px; font-family:Tahoma,'Khmer OS Battambang';"> 
+				<tr class="head">
+					<td colspan="2"  valign="middle">
+						<img alt="" src="<?php echo $this->baseUrl()."/images/logo.jpg"?>" style="display: inline-block;margin-right: 10px;">
+						<div style=" display: inline-block;    vertical-align: top;">
+						<h2 style="font-size:14px;     line-height: 14px; font-weight: initial; font-family:'Khmer OS Muol Light';" ><?php echo empty($data['client_company_name'])?"":$data['client_company_name'];//$tr->translate("BRAND_TITLE");?></h2>
+				   		<h2 style="font-size:14px;     line-height: 14px; font-weight: initial; font-family:'Times New Roman','Khmer OS Muol Light';">សាខា : <?php echo "(".$rs['branch_name'].")";?></h2>
 					</div>
-					<div class="card-box">
-						<div style="border: 1px dotted #000;background: #fff;width: 27cm;margin: 0 auto;min-height: 27cm; padding: 0.5cm;">
-							<div id="divPrint">
-								<style>
-						   			label.value{
-						   				font-weight: initial;
-						   				min-width: 100px;
-						   				font-size: 14px;
-						   				display: inline-block;
-									}
-									p.padding-left {
-									    padding-left: 10px;
-										    line-height: 20px;
-									}
-									label.title {
-									    font-size: 14px;
-									    min-width: 80px;
-									    display: inline-block;
-									}
-									.border {
-									        border: none;
-									    display: block;
-									    width: 100%;
-									    height: 1px;
-									    margin-bottom: 10px;
-									}
-						  		 </style>
-								<table width="100%" style="font-size:12px; font-family:Tahoma,'Khmer OS Battambang';"> 
-									<tr class="head">
-										<td colspan="2"  valign="middle">
-											<img alt="" src="<?php echo $this->baseUrl()."/images/logo.jpg"?>" style="display: inline-block;margin-right: 10px;">
-											<div style=" display: inline-block;    vertical-align: top;">
-											<h2 style="font-size:14px;     line-height: 14px; font-weight: initial; font-family:'Khmer OS Muol Light';" ><?php echo empty($data['client_company_name'])?"":$data['client_company_name'];//$tr->translate("BRAND_TITLE");?></h2>
-									   		<h2 style="font-size:14px;     line-height: 14px; font-weight: initial; font-family:'Times New Roman','Khmer OS Muol Light';">សាខា : <?php echo "(".$rs['branch_name'].")";?></h2>
-										</div>
-									   </td>
-									   <td width="30%" align="center">
-									   		<h2 style="font-size:16px;     line-height: 14px; font-weight: initial; font-family:'Khmer OS Muol Light';" >ព្រះរាជាណាចក្រកម្ពុជា</h2>
-									   		<h2 style="font-size:14px;     line-height: 14px; font-weight: initial; font-family:'Khmer OS Battambang';">ជាតិ សាសនា ព្រះមហាក្សត្រ</h2>
-									   		<img alt="" src="<?php echo $this->baseUrl()."/images/sign.PNG"?>" style=" width: 120px;">
-									   </td>
-									</tr>
-									<tr class="head">
-									   <td colspan="3" align="center">
-									   		<h2 style="font-size:16px;font-weight: initial;font-family:'Khmer OS Muol Light';text-decoration: underline;" >ប្រវត្តិរូបសង្ខេប</h2>
-									   </td>
-									</tr>
-									<tr>
-									   <td colspan="3">
-									   		<table id="exportExcel" style="font-family:'Khmer OS Battambang'; border-collapse:collapse;  font-size:14px; white-space: nowrap;" width="100%" cellspacing="0">
-										    	<tr>
-										    		<td align="center" style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
-										    			<img src="<?php echo $this->baseUrl();?>/images/<?php echo $photo;?>" style="width:100px;max-height: 120px;border: solid 1px #a29f9f;"/>
-										    		</td>
-										    	</tr>
-										    	<tr>
-										    		<td style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
-										    			I. ព័ត៌មានអតិថិជន
-										    			<div class="border"></div>
-										    		</td>
-										    	</tr>
-										    	<tr>
-										    		<td style="font-size:14px; font-weight:600;  font-family:'Khmer OS Battambang';">
-										    			<p class="padding-left">
-										    			<label class="title">នាមត្រកូល-ខ្លួន</label> : <label class="value"><?php echo $rs['name_kh'];?></label> <label class="title">ជាអក្សរឡាតាំង</label> : <label class="value"><?php echo $rs['name_en'];?></label> <label class="title">អត្តលេខ</label> : <label class="value"><?php echo $rs['client_number'];?></label>
-										    			</p>
-										    			<p class="padding-left">
-										    			<label class="title">ភេទ</label> : <label class="value"><?php echo $rs['sex'];?></label> <label class="title">ស្ថានភាពគ្រួសារ</label> : <label class="value"><?php  echo $rs['sit_status'];?></label> <label class="title">មុខរបរ</label> : <label class="value"><?php echo $rs['job'];?></label>
-										    			</p>
-										    			<p class="padding-left">
-										    			<label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['client_d_type'];?></label> <label class="title">លេខទូរស័ព្ទ</label> : <label class="value"><?php echo $rs['phone'];?></label>
-										    			</p>
-										    					
-										    			<p class="padding-left">
-										    			<label class="title">អាសយដ្ឋាន</label> : <label class="value"><?php echo empty($rs['house'])?"":"ផ្ទះលេខ ".$rs['house']; echo empty($rs['street'])?"":" ផ្លូវលេខ ".$rs['street']; echo empty($rs['village_name'])?"":" ភូមិ ".$rs['village_name']; echo empty($rs['commune_name'])?"":" ឃុំ/សង្កាត់ ".$rs['commune_name']; echo empty($rs['district_name'])?"":" ស្រុក/ខណ្ឌ ".$rs['district_name']; echo empty($rs['province_en_name'])?"":" រាជធានី/ខេត្ត ".$rs['province_en_name'];?></label> 
-										    			</p>
-										    		</td>
-										    	</tr>
-										    	<tr><td>&nbsp;</td></tr>
-										    	<tr>
-										    		<td style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
-										    			II. ព័ត៌មានអ្នកទិញជាមួយ
-										    			<div class="border"></div>
-										    		</td>
-										    	</tr>
-										    	<tr>
-										    		<td style="font-size:14px; font-weight:600;  font-family:'Khmer OS Battambang';">
-										    			<p class="padding-left">
-										    			<label class="title">ឈ្មោះ </label> : <label class="value"><?php echo $rs['join_with'];?></label> <label class="title">ត្រូវជា</label> : <label class="value"><?php echo $rs['relate_with'];?></label> <label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['join_d_type'];?></label>
-										    			</p>
-										    			<p class="padding-left">
-										    			<label class="title">លេខទូរស័ព្ទ </label> : <label class="value"><?php echo $rs['join_tel'];?></label>
-										    			</p>
-										    		</td>
-										    	</tr>
-										    	<tr><td>&nbsp;</td></tr>
-										    	<tr>
-										    		<td style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
-										    			III. ព័ត៌មានអ្នកធានា
-										    			<div class="border"></div>
-										    		</td>
-										    	</tr>
-										    	<tr>
-										    		<td style="font-size:14px; font-weight:600;  font-family:'Khmer OS Battambang';">
-										    			<p class="padding-left">
-										    			<label class="title">ឈ្មោះ </label> : <label class="value"><?php echo $rs['spouse_name']; ?></label> <label class="title">ត្រូវជា</label> : <label class="value"><?php echo $rs['guarantor_with'];?></label> <label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['spouse_nationid'];?></label>
-										    			</p>
-										    			<p class="padding-left">
-										    			 <label class="title">លេខទូរស័ព្ទ</label> : <label class="value"><?php echo $rs['guarantor_tel'];?></label> 
-										    			</p>
-										    			<p class="padding-left">
-										    			<label class="title">អាសយដ្ឋានអ្នកធានា </label> : <label class="value"><?php  echo $rs['guarantor_address'];?></label> 
-										    			</p>
-										    			<p class="padding-left">
-										    			<label class="title">សម្គាល់</label> : <label class="value"><?php echo $rs['remark'];?></label>
-										    			</p>
-										    			
-										    		</td>
-										    	</tr>
-										    </table>
-									   </td>
-									</tr>
-					  		 	</table>
-					   		</div>
-						 </div>	
-					</div>
+				   </td>
+				   <td width="30%" align="center">
+				   		<h2 style="font-size:16px;     line-height: 14px; font-weight: initial; font-family:'Khmer OS Muol Light';" >ព្រះរាជាណាចក្រកម្ពុជា</h2>
+				   		<h2 style="font-size:14px;     line-height: 14px; font-weight: initial; font-family:'Khmer OS Battambang';">ជាតិ សាសនា ព្រះមហាក្សត្រ</h2>
+				   		<img alt="" src="<?php echo $this->baseUrl()."/images/sign.PNG"?>" style=" width: 120px;">
+				   </td>
+				</tr>
+				<tr class="head">
+				   <td colspan="3" align="center">
+				   		<h2 style="font-size:16px;font-weight: initial;font-family:'Khmer OS Muol Light';text-decoration: underline;" >ប្រវត្តិរូបសង្ខេប</h2>
+				   </td>
+				</tr>
+				<tr>
+				   <td colspan="3">
+				   		<table id="exportExcel" style="font-family:'Khmer OS Battambang'; border-collapse:collapse;  font-size:14px; white-space: nowrap;" width="100%" cellspacing="0">
+					    	<tr>
+					    		<td align="center" style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
+					    			<img src="<?php echo $this->baseUrl();?>/images/<?php echo $photo;?>" style="width:100px;max-height: 120px;border: solid 1px #a29f9f;"/>
+					    		</td>
+					    	</tr>
+					    	<tr>
+					    		<td style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
+					    			I. ព័ត៌មានអតិថិជន
+					    			<div class="border"></div>
+					    		</td>
+					    	</tr>
+					    	<tr>
+					    		<td style="font-size:14px; font-weight:600;  font-family:'Khmer OS Battambang';">
+					    			<p class="padding-left">
+					    			<label class="title">នាមត្រកូល-ខ្លួន</label> : <label class="value"><?php echo $rs['name_kh'];?></label> <label class="title">ជាអក្សរឡាតាំង</label> : <label class="value"><?php echo $rs['name_en'];?></label> <label class="title">អត្តលេខ</label> : <label class="value"><?php echo $rs['client_number'];?></label>
+					    			</p>
+					    			<p class="padding-left">
+					    			<label class="title">ភេទ</label> : <label class="value"><?php echo $rs['sex'];?></label> <label class="title">ស្ថានភាពគ្រួសារ</label> : <label class="value"><?php  echo $rs['sit_status'];?></label> <label class="title">មុខរបរ</label> : <label class="value"><?php echo $rs['job'];?></label>
+					    			</p>
+					    			<p class="padding-left">
+					    			<label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['client_d_type'];?></label> <label class="title">លេខទូរស័ព្ទ</label> : <label class="value"><?php echo $rs['phone'];?></label>
+					    			</p>
+					    					
+					    			<p class="padding-left">
+					    			<label class="title">អាសយដ្ឋាន</label> : <label class="value"><?php echo empty($rs['house'])?"":"ផ្ទះលេខ ".$rs['house']; echo empty($rs['street'])?"":" ផ្លូវលេខ ".$rs['street']; echo empty($rs['village_name'])?"":" ភូមិ ".$rs['village_name']; echo empty($rs['commune_name'])?"":" ឃុំ/សង្កាត់ ".$rs['commune_name']; echo empty($rs['district_name'])?"":" ស្រុក/ខណ្ឌ ".$rs['district_name']; echo empty($rs['province_en_name'])?"":" រាជធានី/ខេត្ត ".$rs['province_en_name'];?></label> 
+					    			</p>
+					    		</td>
+					    	</tr>
+					    	<tr><td>&nbsp;</td></tr>
+					    	<tr>
+					    		<td style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
+					    			II. ព័ត៌មានអ្នកទិញជាមួយ
+					    			<div class="border"></div>
+					    		</td>
+					    	</tr>
+					    	<tr>
+					    		<td style="font-size:14px; font-weight:600;  font-family:'Khmer OS Battambang';">
+					    			<p class="padding-left">
+					    			<label class="title">ឈ្មោះ </label> : <label class="value"><?php echo $rs['join_with'];?></label> <label class="title">ត្រូវជា</label> : <label class="value"><?php echo $rs['relate_with'];?></label> <label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['join_d_type'];?></label>
+					    			</p>
+					    			<p class="padding-left">
+					    			<label class="title">លេខទូរស័ព្ទ </label> : <label class="value"><?php echo $rs['join_tel'];?></label>
+					    			</p>
+					    		</td>
+					    	</tr>
+					    	<tr><td>&nbsp;</td></tr>
+					    	<tr>
+					    		<td style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
+					    			III. ព័ត៌មានអ្នកធានា
+					    			<div class="border"></div>
+					    		</td>
+					    	</tr>
+					    	<tr>
+					    		<td style="font-size:14px; font-weight:600;  font-family:'Khmer OS Battambang';">
+					    			<p class="padding-left">
+					    			<label class="title">ឈ្មោះ </label> : <label class="value"><?php echo $rs['spouse_name']; ?></label> <label class="title">ត្រូវជា</label> : <label class="value"><?php echo $rs['guarantor_with'];?></label> <label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['spouse_nationid'];?></label>
+					    			</p>
+					    			<p class="padding-left">
+					    			 <label class="title">លេខទូរស័ព្ទ</label> : <label class="value"><?php echo $rs['guarantor_tel'];?></label> 
+					    			</p>
+					    			<p class="padding-left">
+					    			<label class="title">អាសយដ្ឋានអ្នកធានា </label> : <label class="value"><?php  echo $rs['guarantor_address'];?></label> 
+					    			</p>
+					    			<p class="padding-left">
+					    			<label class="title">សម្គាល់</label> : <label class="value"><?php echo $rs['remark'];?></label>
+					    			</p>
+					    			
+					    		</td>
+					    	</tr>
+					    </table>
+				   </td>
+				</tr>
+  		 	</table>
+   		</div>
+   	</div>
+</div>
+<div class="ptss-frame  js-ptss-frame "><!-- is-opened -->
+	<div class="ptss__toggle-btn  js-ptss-toggle-btn ">
+		<i class="fa fa-print"></i>
+	</div>
+	<div class="ptss__header"><?php echo $tr->translate("PRINT");?></div>
+	<div class="ptss__settings">
+		<div class="ptss__single-setting" id="ptss__layout">
+			<div class="ptss__setting-control">
+				<div class="ptss__layout-wrapper">
+					<a class="qButton" title="<?php echo $tr->translate("Preview");?>" href="#" onclick="preview();"><i class="fa fa-search" aria-hidden="true"></i></a>
+					<a class="qButton print" href="#" title="<?php echo $tr->translate("PRINT");?>" onclick="doPrint();" ><i class="fa fa-print" aria-hidden="true"></i></a>
+					<a class="qButton excel" href="#"  title="<?php echo $tr->translate("Export");?>"  onclick="exportExcel();"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
 				</div>
+				
 			</div>
+		</div>
+	</div>
+</div>
 
 <iframe style="font-size: 10px; !important;" name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 <script>
+function doPrint() {
+	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+    hideDialog();
+}
 function preview()
 { 
   var disp_setting="toolbar=no,status=no,resizable=no,location=no,directories=yes,menubar=no,"; 
-      disp_setting+="scrollbars=no,width=1100, height=700, left=100, top=25"; 
+      disp_setting+="scrollbars=no,fullscreen=yes, height=700, left=100, top=25"; 
   var content_vlue = document.getElementById("divPrint").innerHTML; 
-  
   var docprint=window.open("","",disp_setting); 
    docprint.document.open(); 
    docprint.document.write('<html><head>'); 
@@ -199,12 +216,7 @@ function preview()
    docprint.document.close(); 
    docprint.focus(); 
 }
-
-function doPrint() {
-	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
-    window.frames["print_frame"].window.focus();
-    window.frames["print_frame"].window.print();
-    hideDialog();
+function exportExcel(){
+	$('#exportExcel').tableExport({type:'excel',escape:'false'});
 }
-
 </script>

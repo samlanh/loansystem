@@ -10,19 +10,6 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
     	 
     }
 	public function addClient($_data){
-		$photoname = str_replace(" ", "_", $_data['name_en']) . '.jpg';
-		$upload = new Zend_File_Transfer();
-		$upload->addFilter('Rename',
-				array('target' => PUBLIC_PATH . '/images/'. $photoname, 'overwrite' => true) ,'photo');
-		$receive = $upload->receive();
-		if($receive)
-		{
-			$_data['photo'] = $photoname;
-		}
-		else{
-			$_data['photo']="";
-		}
-		
 		try{
 // 		$client_code = $this->getClientCode($_data['branch_id']);
 		$client_code=$_data['client_no'];
@@ -32,59 +19,71 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			
 		}*/
 		
-		$_arr=array(
-				'is_group'	  => $_data['is_group'],
-				'branch_id'	  => $_data['branch_id'],
-				'parent_id'	  =>($_data['group_id']!=-1)?$_data['group_id']:"",
-				'group_code' => ($_data['is_group']==1)?$_data['group_code']:"",
-				'client_number'=> $client_code,//$_data['client_no'],
-				'name_kh'	  => $_data['name_kh'],
-				'name_en'	  => $_data['name_en'],
-				'join_with'	  => $_data['join_with'],
-				'join_nation_id'=> $_data['join_nation_id'],
-				'relate_with'	  => $_data['relate_with'],
-				'join_tel'	  => $_data['relate_tel'],
-				'sex'	      => $_data['sex'],
-				'dob'			=>$_data['dob_client'],
-				'sit_status'  => $_data['situ_status'],
-				'pro_id'      => $_data['province'],
-				'dis_id'      => $_data['district'],
-				'com_id'      => $_data['commune'],
-				'village_id'  => $_data['village'],
-				'street'	  => $_data['street'],
-				'house'	      => $_data['house'],
-				'photo_name'  =>$_data['photo'],
-				'job'        =>$_data['job'],
-				'nation_id'=>$_data['national_id'],
-				'phone'	      => $_data['phone'],
-				'spouse_name' => $_data['spouse'],
-				'spouse_nationid'=>$_data['spouse_nationid'],
-				'guarantor_with'=>$_data['guarantor_with'],
-				'guarantor_tel'=>$_data['guarantor_tel'],
-				'create_date' => date("Y-m-d"), 
-				'remark'	  => $_data['desc'],
-				'status'      => $_data['status'],
-				'client_d_type'      => $_data['client_d_type'],
-				'join_d_type'      => $_data['join_d_type'],
-				'guarantor_d_type'      => $_data['guarantor_d_type'],
-				'guarantor_address'      => $_data['guarantor_address'],
-				'user_id'	  => $this->getUserId(),
-				'dob_guarantor'  => $_data['dob_guarantor'],
-				'dob_join_acc'  => $_data['dob_join_acc'],
-				'join_sex'  => $_data['join_sex'],
-				'group_no'  => $_data['group_no'],
-				
-				
-		);
-		if(!empty($_data['id'])){
-			$where = 'client_id = '.$_data['id'];
-			$this->update($_arr, $where);
-			return $_data['id'];
-			 
-		}else{
-			//echo $this->insert($_arr);exit();
-			return  $this->insert($_arr);
-		}
+			$_arr=array(
+					'is_group'	  => $_data['is_group'],
+					'branch_id'	  => $_data['branch_id'],
+					'parent_id'	  =>($_data['group_id']!=-1)?$_data['group_id']:"",
+					'group_code' => ($_data['is_group']==1)?$_data['group_code']:"",
+					'client_number'=> $client_code,//$_data['client_no'],
+					'name_kh'	  => $_data['name_kh'],
+					'name_en'	  => $_data['name_en'],
+					'join_with'	  => $_data['join_with'],
+					'join_nation_id'=> $_data['join_nation_id'],
+					'relate_with'	  => $_data['relate_with'],
+					'join_tel'	  => $_data['relate_tel'],
+					'sex'	      => $_data['sex'],
+					'dob'			=>$_data['dob_client'],
+					'sit_status'  => $_data['situ_status'],
+					'pro_id'      => $_data['province'],
+					'dis_id'      => $_data['district'],
+					'com_id'      => $_data['commune'],
+					'village_id'  => $_data['village'],
+					'street'	  => $_data['street'],
+					'house'	      => $_data['house'],
+					'job'        =>$_data['job'],
+					'nation_id'=>$_data['national_id'],
+					'phone'	      => $_data['phone'],
+					'spouse_name' => $_data['spouse'],
+					'spouse_nationid'=>$_data['spouse_nationid'],
+					'guarantor_with'=>$_data['guarantor_with'],
+					'guarantor_tel'=>$_data['guarantor_tel'],
+					'create_date' => date("Y-m-d"), 
+					'remark'	  => $_data['desc'],
+					'client_d_type'      => $_data['client_d_type'],
+					'join_d_type'      => $_data['join_d_type'],
+					'guarantor_d_type'      => $_data['guarantor_d_type'],
+					'guarantor_address'      => $_data['guarantor_address'],
+					'user_id'	  => $this->getUserId(),
+					'dob_guarantor'  => $_data['dob_guarantor'],
+					'dob_join_acc'  => $_data['dob_join_acc'],
+					'join_sex'  => $_data['join_sex'],
+					'group_no'  => $_data['group_no'],
+			);
+		
+			$part= PUBLIC_PATH.'/images/profile/';
+			if (!file_exists($part)) {
+				mkdir($part, 0777, true);
+			}
+			$photo_name = $_FILES['photo']['name'];
+			if (!empty($photo_name)){
+				$tem =explode(".", $photo_name);
+				$image_name_stu = "profile_".date("Y").date("m").date("d").time().".".end($tem);
+				$tmp = $_FILES['photo']['tmp_name'];
+				if(move_uploaded_file($tmp, $part.$image_name_stu)){
+					move_uploaded_file($tmp, $part.$image_name_stu);
+					$_arr['photo_name']=$image_name_stu;
+				}
+			}
+			if(!empty($_data['id'])){
+				$_arr['status']=$_data['status'];
+				$where = 'client_id = '.$_data['id'];
+				$this->update($_arr, $where);
+				return $_data['id'];
+				 
+			}else{
+				$_arr['status']=1;
+				return  $this->insert($_arr);
+			}
 		}catch(Exception $e){
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
@@ -146,8 +145,12 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		(SELECT village_namekh FROM `ln_village` WHERE vill_id=village_id) AS village_name
 		    ,spouse_name,
 		    create_date,
-		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
-			status FROM $this->_name ";
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name ";
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->caseStatusShowImage("status");
+		$sql.=" FROM $this->_name ";
+		
 		if(!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
@@ -160,7 +163,6 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			$s_where[] = "REPLACE(house,' ','')   			LIKE '%{$s_search}%'";
 			$s_where[] = "REPLACE(street,' ','')  	 		LIKE '%{$s_search}%'";
 			$s_where[] = "REPLACE(spouse_name,' ','')  		LIKE '%{$s_search}%'";
-// 			$s_where[] = " spouse_nationid LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		if($search['status']>-1){
@@ -178,6 +180,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		if(!empty($search['village'])){
 			$where.=" AND village_id= ".$search['village'];
 		}
+		$where.=$dbp->getAccessPermission("branch_id");
 		$order=" ORDER BY client_id DESC";
 		return $db->fetchAll($sql.$where.$order);	
 	}

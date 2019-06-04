@@ -51,24 +51,37 @@ class Tellerandexchange_Model_DbTable_DbExpense extends Zend_Db_Table_Abstract
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 
- }
- function updatExpense($data){
-	$arr = array(
-				'branch_id'=>$data['branch_id'],
-				'account_id'=>$data['account_id'],
-				'total_amount'=>$data['total_amount'],
-				'curr_type'=>$data['currency_type'],
-				'invoice'=>$data['invoice'],
-				'tran_type'=>1,
-				'disc'=>$data['Description'],
-				'date'=>$data['Date'],
-				'status'=>$data['Stutas'],
-				'user_id'=>$this->getUserId()
-				
-		);
-	$where=" id = ".$data['id'];
-	$this->update($arr, $where);
-}
+ 	}
+	 function updatExpense($data){
+	 	$_db= $this->getAdapter();
+	 	$_db->beginTransaction();
+	 	try{
+			$arr = array(
+						'branch_id'=>$data['branch_id'],
+					
+						'curr_type'=>$data['currency_type'],
+						'date'=>$data['Date'],
+						'category_id'	=>$data['category_id'],
+						'invoice'=>$data['invoice'],
+						'account_id'=>$data['account_id'],
+						'total_amount'=>$data['total_amount'],
+						'tran_type'=>1,
+						'disc'=>$data['Description'],
+						'status'=>$data['Stutas'],
+						'modify_date'	=>date("Y-m-d H:i:s"),
+						'user_id'=>$this->getUserId()
+						
+				);
+			$where=" id = ".$data['id'];
+			$this->update($arr, $where);
+			$id = $data['id'];
+			$_db->commit();
+			return $id;
+		}catch(Exception $e){
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+		}
+	}
+	
 	function getexpensebyid($id){
 		$db = $this->getAdapter();
 		$sql=" SELECT * FROM $this->_name WHERE id=$id ";
@@ -87,10 +100,10 @@ function getAllExpense($search=null){
 	$sql=" SELECT id,
 	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id =branch_id LIMIT 1) AS branch_name,
 	reciept_no,
-invoice,
-(SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1) AS category,
+	invoice,
+	(SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1) AS category,
 	account_id,
-	(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type, invoice,
+	(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type,
 	total_amount,disc,date";
 	
 	$dbp = new Application_Model_DbTable_DbGlobal();

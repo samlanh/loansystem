@@ -11,25 +11,22 @@ class Other_BranchController extends Zend_Controller_Action {
 	}
 	public function indexAction(){
       try{
-    	$db = new Other_Model_DbTable_DbBranch();
-    	 if($this->getRequest()->isPost()){
-    	$search=$this->getRequest()->getPost();
-   		}
-     else{
-   		 $search = array(
-      		'adv_search' => '',
-      		'status_search' => -1);
-  		 }
-           $rs_rows= $db->getAllBranch($search);
+    		$db = new Other_Model_DbTable_DbBranch();
+	    	if($this->getRequest()->isPost()){
+	    		$search=$this->getRequest()->getPost();
+	   		 }else{
+		   		 $search = array(
+		      		'adv_search' => '',
+		      		'status_search' => -1);
+		  	 }
+           	$rs_rows= $db->getAllBranch($search);
            
-           $glClass = new Application_Model_GlobalClass();
-			$rs_rowshow = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_KH","SHOPNAME","PREFIX_CODE","CODE","ADDRESS","TEL","OTHER","STATUS");
 			$link=array(
 					      'module'=>'other','controller'=>'branch','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rowshow,array('branch_namekh'=>$link,'branch_nameen'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch_namekh'=>$link,'branch_nameen'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message($this->tr->translate("APPLICATION_ERROR"));
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

@@ -1510,6 +1510,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  		$formdata = array(
  				"adv_search"=>'',
  				"currency_type"=>-1,
+ 				"category_id"=>"",
  				"status"=>-1,
  				'start_date'=> date('Y-m-d'),
  				'end_date'=>date('Y-m-d'),
@@ -1522,6 +1523,11 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$frm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_search = $frm;
+ 	
+ 	$pructis=new Tellerandexchange_Form_FrmIncome();
+ 	$frminc = $pructis->FrmAddIncome();
+ 	Application_Model_Decorator::removeAllDecorator($frminc);
+ 	$this->view->frm_income=$frminc;
  	 
  	$frmpopup = new Application_Form_FrmPopupGlobal();
  	$this->view->footerReport = $frmpopup->getFooterReport();
@@ -1536,6 +1542,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  		$formdata = array(
  				"adv_search"=>'',
  				"currency_type"=>-1,
+ 				"category_id"=>"",
  				"status"=>-1,
  				'start_date'=> date('Y-m-d'),
  				'end_date'=>date('Y-m-d'),
@@ -1548,6 +1555,12 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$frm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_search = $frm;
+ 	
+ 	$pructis=new Tellerandexchange_Form_FrmIncome();
+ 	$frminc = $pructis->FrmAddIncome();
+ 	Application_Model_Decorator::removeAllDecorator($frminc);
+ 	$this->view->frm_income=$frminc;
+ 	
  		
  	$frmpopup = new Application_Form_FrmPopupGlobal();
  	$this->view->footerReport = $frmpopup->getFooterReport();

@@ -108,6 +108,9 @@ function getAllExpense($search=null){
 	if($search['currency_type']>-1){
 		$where.= " AND curr_type = ".$search['currency_type'];
 	}
+	if(!empty($search['category_id'])){
+		$where.= " AND category_id = ".$search['category_id'];
+	}
 	$where.=$dbp->getAccessPermission('branch_id');
        $order=" order by id desc ";
 	return $db->fetchAll($sql.$where.$order);
