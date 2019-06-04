@@ -16,7 +16,9 @@ class Loan_Model_DbTable_DbLoandisburse extends Zend_Db_Table_Abstract
     	FROM $this->_name lm WHERE status=1 AND name_en !='' AND is_group=0  "; ///just and is_group =0;
     	$db = $this->getAdapter();
     	$rows = $db->fetchAll($sql);
-    	$options=array(0=>'------Select------');
+    	
+    	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+    	$options=array(0=>$tr->translate("PLEASE_SELECT"));
     	if(!empty($rows))foreach($rows AS $row){
     		if($type==1){
     			$lable = $row['client_number'];

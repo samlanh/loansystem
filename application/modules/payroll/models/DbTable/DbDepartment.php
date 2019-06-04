@@ -55,7 +55,12 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$str=$search['adv_search'];
 		$status=$search['status_search'];
-		$sql="SELECT id,department_kh,department_en,status from ln_department WHERE 1 ";
+		$sql="SELECT id,department_kh,department_en  ";
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->caseStatusShowImage("status");
+		$sql.=" FROM ln_department WHERE 1 ";
+		
 // 		$order=" order by id DESC";
 		$where = '';
 		
@@ -68,7 +73,6 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
 			$s_where[] = " REPLACE(displayby,' ','')     LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-// 		print_r($search); exit();
 		if($search['status_search']>-1){
 			$where.= " AND status = ".$search['status_search'];
 		}

@@ -37,18 +37,12 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
      					dijit.byId('branch').focus();
      					return false;
    					}
-					if(dijit.byId('client_codeadd').get('value')==0 || dijit.byId('client_codeadd').get('value')==''){
+					if(dijit.byId('customer_code').get('value')==0 || dijit.byId('customer_code').get('value')==''){
      					alert('Please Select Client Code');
-     					dijit.byId('client_codeadd').focus();
+     					dijit.byId('customer_code').focus();
      					return false;
    					}
-					if(dijit.byId('client_nameadd').get('value')==0 || dijit.byId('client_nameadd').get('value')==''){
-     					alert('Please Select Client Name');
-     					dijit.byId('client_nameadd').focus();
-     					return false;
-   					}
-					dijit.byId("save").set("disabled",true);
-					dijit.byId("save_close").set("disabled",true);
+					loadingBlock();
     				return true;
    				}else {
     				return false;
@@ -89,7 +83,7 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_CODE");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   	<input id="customer_code" /><?php //echo $frm->getElement('client_codeadd');?>
+	                   	<input id="customer_code" /><?php //echo $frm->getElement('customer_code');?>
 	                   </div>
 	                </div>
 	                <div class="form-group">
@@ -202,13 +196,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 	                   		<?php  echo $frm->getElement('Note');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php echo $frm->getElement('status');?>
-	                   </div>
-	                </div>
 	             </div>
 	         </div>
 	         <div class="card-box">
@@ -283,20 +270,14 @@ function submitDataClose(){
  		dijit.byId('branch').focus();
  		return false;
 		}
-	if(dijit.byId('client_codeadd').get('value')==0 || dijit.byId('client_codeadd').get('value')==''){
+	if(dijit.byId('customer_code').get('value')==0 || dijit.byId('customer_code').get('value')==''){
  		alert('Please Select Client Code');
- 		dijit.byId('client_codeadd').focus();
- 		return false;
-		}
-	if(dijit.byId('client_nameadd').get('value')==0 || dijit.byId('client_nameadd').get('value')==''){
- 		alert('Please Select Client Name');
- 		dijit.byId('client_nameadd').focus();
+ 		dijit.byId('customer_code').focus();
  		return false;
 		}
 	
 	if(dijit.byId('add_province').validate()) {
-		dijit.byId("save").set("disabled",true);
-		dijit.byId("save_close").set("disabled",true);
+		loadingBlock();
 		var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'badloan','action'=>'add')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	

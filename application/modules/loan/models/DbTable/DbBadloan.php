@@ -28,7 +28,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
 	    			'total_amount'=>$_data['Total_amount'],
 	    			'tem'=>$_data['Term'],
 	    			'note'=>$_data['Note'],
-	    			'status'=>$_data['status'],
+	    			'status'=>1,//$_data['status'],
 	    			'create_by'=>$user_id,
 	    			'is_writoff'=>$writ_off    			
 	    			);
@@ -188,12 +188,16 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
   		DATE_FORMAT(l.loss_date, '%d-%m-%Y'), 
 		CONCAT (total_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS total_amount ,
 		CONCAT (intrest_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS intrest_amount ,
-		CONCAT (l.tem,' Days')as tem,l.note,l.date,l.status FROM `ln_badloan` AS l,ln_branch AS b 
-		WHERE b.br_id = l.branch  ";    	
+		CONCAT (l.tem,' Days')as tem,l.note,l.date   ";  
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("l.status");
+    	$sql.=" FROM `ln_badloan` AS l,ln_branch AS b WHERE b.br_id = l.branch";
+    	
     	$from_date =(empty($search['start_date']))? '1': "l.date >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': "l.date <= '".$search['end_date']." 23:59:59'";
     	$where = " AND ".$from_date." AND ".$to_date;
-    if(!empty($search['branch'])){
+   		
+   		if(!empty($search['branch'])){
     		$where.=" AND b.br_id = ".$search['branch'];
     	}
     	if(!empty($search['client_name'])){
@@ -221,7 +225,6 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     		$where .=' AND ('.implode(' OR ',$s_where).' )';
     	}
     	$order = ' ORDER BY l.id DESC ';
-//     	echo $sql.$where;
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getClientByTypes($type){
@@ -257,7 +260,9 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
 				AND l.`is_badloan` = 0 ORDER BY l.customer_id DESC";
     	$db = $this->getAdapter();
     	$rows = $db->fetchAll($sql);
-    	$options=array(0=>'------Select------');
+    	
+    	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+    	$options=array(0=>$tr->translate("PLEASE_SELECT"));
     	if(!empty($rows))foreach($rows AS $row){
     		if($type==1){
     			$lable = $row['loan_number'];
@@ -343,6 +348,9 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     public function getLoanedit($id){
     	$db=$this->getAdapter();
     	$sql="SELECT  * FROM ln_badloan WHERE id=$id AND STATUS=1";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.= $dbp->getAccessPermission("branch");
     	return $db->fetchRow($sql);
     }
     

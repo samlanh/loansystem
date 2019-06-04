@@ -61,8 +61,7 @@
 						return false;
                 	}
             	}
-				dijit.byId('savenew').set('disabled',true);
-				dijit.byId('saveclose').set('disabled',true);
+				loadingBlock();
 				return true;
 			}else {
 		    	return false;
@@ -996,10 +995,7 @@ function submitDataClose(type){
         }
     }
 	if(dijit.byId('frm_add_tran').validate()) {
-		dijit.byId('saveprint').set('disabled',true);
-		dijit.byId('saveclose').set('disabled',true);
-		dijit.byId('save_close').set('disabled',true);
-		dijit.byId('savenew').set('disabled',true);
+		loadingBlock();
 		var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'submitloan')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	

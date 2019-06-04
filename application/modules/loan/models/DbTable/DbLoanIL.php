@@ -19,7 +19,10 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	FROM $this->_name lm WHERE status=1 AND name_en !='' AND is_group=0  "; ///just and is_group =0;
     	$db = $this->getAdapter();
     	$rows = $db->fetchAll($sql);
-    	$options=array(0=>'------Select------');
+    	
+    	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+    	
+    	$options=array(0=>$tr->translate("PLEASE_SELECT"));
     	if(!empty($rows))foreach($rows AS $row){
     		if($type==1){
     			$lable = $row['client_number'];
@@ -104,7 +107,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		
     	$order = " ORDER BY l.id DESC";
     	$db = $this->getAdapter();    
-    	//echo $sql.$where.$order;exit();
+    	$where.= $dbp->getAccessPermission("l.branch_id");
+    	
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllRescheduleLoan($search,$reschedule =null){
@@ -123,9 +127,12 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	CONCAT( l.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =l.pay_term )),
     	(SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
     	(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
-    	l.date_release,
-    	l.status  FROM `ln_loan` AS l
-    	WHERE loan_type =1 ";
+    	l.date_release ";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("l.status");
+    	$sql.=" FROM `ln_loan` AS l	WHERE l.loan_type =1 ";
+    	
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
@@ -160,9 +167,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	}else{
     		$where.= ' AND l.is_reschedule !=2 ';
     	}
-    
     	$order = " ORDER BY l.id DESC";
-    	$db = $this->getAdapter();
+    	$where.= $dbp->getAccessPermission("l.branch_id");
     	return $db->fetchAll($sql.$where.$order);
     }
 //     function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//group id

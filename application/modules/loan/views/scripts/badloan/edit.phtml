@@ -48,8 +48,7 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
      					dijit.byId('client_nameadd').focus();
      					return false;
    					}
-					dijit.byId("save").set("disabled",true);
-					dijit.byId("save_close").set("disabled",true);
+					loadingBlock();
     				return true;
    			}else {
     			return false;

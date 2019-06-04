@@ -20,8 +20,7 @@ class Loan_DepartmentController extends Zend_Controller_Action {
 						'status_search' => 1);
 			}
 			$rs_rows= $db->getAllStaffDepartment($search);
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			
 			$list = new Application_Form_Frmtable();
 			$collumns = array("DEPARTMENT_KH","DEPARTMENT_EN","STATUS");
 			$link=array(

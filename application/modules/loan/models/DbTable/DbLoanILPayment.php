@@ -2187,7 +2187,10 @@ public function cancelIlPayment($data){
 	public function getLoanPaymentById($id){ //for add payment reciept get payment by reciept id
 		$db = $this->getAdapter();
 		$sql="SELECT v.*,(SELECT crm.is_closed FROM `ln_client_receipt_money` AS crm WHERE crm.id = v.id LIMIT 1 ) AS is_closed FROM v_getcollectmoney AS v WHERE v.status=1
-		AND v.`id` = $id LIMIT 1";
+		AND v.`id` = $id ";
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.= $dbp->getAccessPermission("branch_id");
+		$sql.=" LIMIT 1";
 		return $db->fetchRow($sql);
 	}
 }

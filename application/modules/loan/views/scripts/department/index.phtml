@@ -2,9 +2,35 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("DEPARMENT_INFO"));
 $frm = $this->frm_department;
+
+/////Backup Script Full Process 99%
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+// $database = 'db_loannewversion';
+// $user = 'root';
+// $pass = '';
+// $host = 'localhost';
+// $dir = PUBLIC_PATH. '/images/db_loannewversion.sql';
+// // if (!file_exists($dir)){
+// // 	mkdir($dir, 0777, true);
+// // }
+
+// // echo "<h3>Backing up database to `<code>{$dir}</code>`</h3>";
+// exec("D:/wamp/bin/mysql/mysql5.6.17/bin/mysqldump  --user={$user} --password={$pass} --host={$host} --routines {$database} --result-file={$dir} 2>&1 ", $output);
+
 ?>
 <div class="card pb-10 pt-10 pl-10 pr-10">
 	<div class="card-content collapse show">
+		<div class="card-box">
+             <div class="col-sm-12 border-botom">
+		    	<div class="col-sm-8 pd-0">
+		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('DEPARMENT_INFO');?></h4>
+    			</div>
+    			<div class="col-sm-4 text-right">
+    			</div>
+    		</div>
+    	</div>
 		<div class="card-box">
 			<form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'department','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
     			<div class="form-group">

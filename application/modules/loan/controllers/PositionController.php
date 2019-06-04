@@ -20,8 +20,7 @@ class Loan_PositionController extends Zend_Controller_Action {
 						'status_search' => 1);
 			}
 			$rs_rows= $db->getAllStaffPosition($search);
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			
 			$list = new Application_Form_Frmtable();
 			$collumns = array("POSITION_KH","POSITION_EN","STATUS");
 			$link=array(
@@ -49,13 +48,13 @@ class Loan_PositionController extends Zend_Controller_Action {
 	  	try {
 	  	        $db->addPosition($_data);
 	  			if(!empty($_data['save_close'])){
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/index');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/position/index');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/add');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/position/add');
 				}
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/add');
+				Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/position/add');
 	  	}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message("INSERT_FAIL");
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}
@@ -81,9 +80,9 @@ class Loan_PositionController extends Zend_Controller_Action {
 	   		$_data = $this->getRequest()->getPost();
 	   		try{
 	   			$db->upDatePosition($_data);
-	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/loan/position');
+	   			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS",'/loan/position');
 	   		}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message("UPDATE_FAIL");
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}

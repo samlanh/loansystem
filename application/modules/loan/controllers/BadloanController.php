@@ -28,9 +28,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 						'start_date'=> date('Y-m-01'),
 						'end_date'=>date('Y-m-d'));
 			}
-			$rs_rows= $db->getAllBadloan($search);//call frome model
-			$glClass = new Application_Model_GlobalClass();
-			$rs_row = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$rs_row= $db->getAllBadloan($search);//call frome model
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","LOSS_DATE"
 					,"TOTAL_PRINCEPLE","INTERREST_AMOUNT","TERM","NOTE","DATE","STATUS");
@@ -102,6 +100,10 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			}
 		}
 		$row=$_dbmodel->getLoanedit($id);
+		if (empty($row)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/badloan/");
+			exit();
+		}
 		$this->view->row = $row;
 		$fm = new Loan_Form_Frmbadloan();
 		$frm = $fm->FrmBadLoan($row);
