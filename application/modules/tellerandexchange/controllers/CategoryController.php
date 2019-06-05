@@ -20,7 +20,7 @@ class Tellerandexchange_CategoryController extends Zend_Controller_Action
     		else{
     			$formdata = array(
     					"adv_search"=>'',
-    					"status"=>1,
+    					"status"=>-1,
     					"type"=>-1
     			);
     		}
@@ -73,12 +73,8 @@ class Tellerandexchange_CategoryController extends Zend_Controller_Action
     	if($this->getRequest()->isPost()){
     		$data=$this->getRequest()->getPost();
     		try {
-    			$db->addCategory($data);
-    			if(!empty($data['saveclose'])){
-    				Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS","/tellerandexchange/category");
-    			}else{
-    				Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS","/tellerandexchange/category/add");
-    			}
+    			$db->updateCategory($data);
+    			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCCESS","/tellerandexchange/category");
     		} catch (Exception $e) {
     			Application_Form_FrmMessage::message("UPDATE_FAIL");
     			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

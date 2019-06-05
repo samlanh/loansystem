@@ -27,7 +27,7 @@ Class Tellerandexchange_Form_FrmCategory extends Zend_Dojo_Form {
 		$_types->setMultiOptions($options_type);
 		
 		
-		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('stutas');
+		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',

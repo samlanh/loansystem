@@ -81,6 +81,33 @@ class Tellerandexchange_Model_DbTable_DbCategory extends Zend_Db_Table_Abstract
     	}
     
     }
+    
+    function updateCategory($data){
+    	$_db= $this->getAdapter();
+    	$_db->beginTransaction();
+    	try{
+    		$arr = array(
+    				'type'=>$data['type'],
+    				'parent'=>$data['parent'],
+    				'title'=>$data['title'],
+    				'note'=>$data['note'],
+    				'status'=>$data['status'],
+    				'create_date'=>date("Y-m-d H:i:s"),
+    				'modify_date'=>date("Y-m-d H:i:s"),
+    				'user_id'=>$this->getUserId()
+    		);
+    		$this->_name = "ln_income_expense_category";
+    		$where="id = ".$data['id'];
+    		$this->update($arr, $where);
+    		$id = $data['id'];
+    		$_db->commit();
+    		return $id;
+    	}catch(Exception $e){
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    	}
+    
+    }
+    
     function getCagetgoryBYID($id){
     	$db = $this->getAdapter();
     	$sql="SELECT * FROM ln_income_expense_category WHERE id=$id LIMIT 1";
