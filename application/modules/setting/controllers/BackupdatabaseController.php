@@ -28,7 +28,7 @@ public function init()
 			}
 			$dir = $part.$namebackup.'.sql';
 			
-			$mysqldumpart = "D:/wamp/bin/mysql/mysql5.6.17/bin/mysqldump";
+			$mysqldumpart = $data['mysqldump'];//$mysqldumpart = "D:/wamp/bin/mysql/mysql5.6.17/bin/mysqldump";
 			if (exec("$mysqldumpart  --user={$user} --password={$pass} --host={$host} --routines {$database} --result-file={$dir} 2>&1 ", $output)){
 				Application_Form_FrmMessage::Sucessfull("BACKUP_SUCCESS","/setting/backupdatabase");
 			}else{
