@@ -118,13 +118,6 @@ $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	                   </label>
 	                </div>
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CLIENT_NO");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<input id="client_code" />
-	                   </div>
-	                </div>
-	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_NAME");?> :
 	                   </label>
 	                    <div class="col-md-7 col-sm-7 col-xs-12">
@@ -212,15 +205,10 @@ dojo.require("dojo.data.ObjectStore");
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 var loan_store  = getDataStorefromJSON('id','name',);
+var client_store  = getDataStorefromJSON('id','name',);
 dojo.ready(function(){
-	 var client_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
-	});
 	new dijit.form.FilteringSelect({
-	store: dojo.data.ObjectStore({objectStore: client_data}),
-	query: {
-		branch_id: "<?php echo $this->branch_id;?>"
-	},            
+	store: client_store,
 	required: true,		           
 	name: "client_name",
 	id: "client_name",
@@ -234,25 +222,6 @@ dojo.ready(function(){
 }
 	}, "client_name");
 
-	 var client_number = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
-	});
-	new dijit.form.FilteringSelect({
-	store: dojo.data.ObjectStore({objectStore: client_number}),
-	query: {
-		branch_id: "<?php echo $this->branch_id;?>"
-	},            		           
-	name: "client_code",
-	id: "client_code",
-	searchAttr: "name",
-	autoComplete: false,
-	queryExpr: "*${0}*",
-	value:'<?php echo $this->client_id;?>',
-	class: 'fullside',
-	onChange: function() {
-		getClientInfo(1);
-}
-	}, "client_code");
 	innitialize();
 
 	new dijit.form.FilteringSelect({
@@ -265,28 +234,24 @@ dojo.ready(function(){
 		queryExpr: "*${0}*",
 		class: 'fullside',
 		onChange: function() {
+			getLoanInfomation();
 		}
 	}, "loan_number");
-	getloanbyBranch();
+	filterClient();
+	//getloanbyBranch();
 });
 
 function filterClient(){
-	branch_id = dijit.byId('branch_id').get('value');
-	dijit.byId('client_name').query.branch_id = branch_id;
-	dijit.byId('client_code').query.branch_id = branch_id;
-	dijit.byId('client_code').reset();
 	getloanbyBranch();
+	getClientByBranch();
 }
 function getClientInfo(type){
+	customer_code= dijit.byId('client_name').get('value');
 	if(type==1){
-		customer_code= dijit.byId('client_code').get('value');
-		dijit.byId('client_name').attr('value',customer_code);
 		addCollecteral();
 	}else{
-		customer_code= dijit.byId('client_name').get('value');
-		dijit.byId('client_code').attr('value',customer_code);
 	}
-	getClientInfomation(customer_code);	
+	getClientInfomation();	
 }
 var url_submitco = '<?php echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
 function AddNewCo(){
@@ -307,10 +272,18 @@ function AddNewCo(){
 }
 var url_clientinfo = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientinfo')); ?>';
 function getClientInfomation(){
+	client_id = dijit.byId('client_name').get('value');
+	if(client_id=="" || client_id==-1){
+		dijit.byId('name').attr('value',"");
+		dijit.byId('names').attr('value',"");
+		dijit.byId('owner').attr('value',"");
+		dijit.byId('and_name').attr('value',"");
+		return false;
+	}
 		dojo.xhrPost({
 	    url: url_clientinfo,	
 		content:{ 
-			'client_id':dijit.byId('client_name').get('value')
+			'client_id':client_id
 			},		    
 		handleAs:"json",
 		load: function(data) {	
@@ -329,14 +302,7 @@ function popupCheckCO(){
 		 dijit.byId('frm_co').show();
 	}
 }
-function checkClientCode(){
-	client_name= dijit.byId('client_name').get('value');
-	dijit.byId('client_code').attr('value',client_name);
-}
-function getClient(){
-	client_name= dijit.byId('client_code').get('value');
-	dijit.byId('client_name').attr('value',client_name);
-}
+
 temp='';
 fund_title=0;
 r = 0;
@@ -476,7 +442,11 @@ if(dijit.byId('frm_call_add').validate()){
 var url_loan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getallloanbybranch')); ?>';
 function getloanbyBranch(){
 	branch_id = dijit.byId('branch_id').get('value');
-	if(branch_id=='' || branch_id==null){return false;}
+	if(branch_id=='' || branch_id==null){
+		var loan_store  = getDataStorefromJSON('id','name',);
+		dijit.byId('loan_number').set('store', loan_store);
+		return false;
+	}
 	dojo.xhrPost({
 		url:url_loan,	
 		content:{ 
@@ -487,6 +457,52 @@ function getloanbyBranch(){
 			loan_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('loan_number').set('store', loan_store);
 		    dijit.byId('loan_number').attr('value', '<?php echo $this->loan_id;?>');
+		},
+		error: function(err) {
+			
+		}
+	});
+}
+var url_loaninfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloan-bymemberid')); ?>';
+function getLoanInfomation(){
+	loan_number = dijit.byId('loan_number').get('value');
+	dijit.byId('client_name').reset();
+	if(loan_number=="" || loan_number==-1){
+		return false;
+	}
+		dojo.xhrPost({
+	    url: url_loaninfo,	
+		content:{ 
+			'loan_id':loan_number
+			},		    
+		handleAs:"json",
+		load: function(data) {	
+			dijit.byId('client_name').attr('value',data.customer_id);
+		},
+		error: function(err) {
+		}
+	});
+}
+var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
+function getClientByBranch(){
+	branch_id = dijit.byId('branch_id').get('value');
+	dijit.byId('client_name').reset();
+	if(branch_id=='' || branch_id==null){
+		var client_store  = getDataStorefromJSON('id','name',);
+		dijit.byId('client_name').set('store', client_store);
+		return false;
+	}
+	dojo.xhrPost({
+		url: url_getclient,	
+		content:{ 
+		    'branch_id':branch_id,
+		},
+		handleAs:"json",
+		load: function(data) {
+			
+			client_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('client_name').set('store', client_store);
+		    dijit.byId('client_name').attr('value', '<?php echo $this->client_id;?>');
 		},
 		error: function(err) {
 			

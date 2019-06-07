@@ -1284,23 +1284,23 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	return $db->fetchAll($sql);
   }
   function getAllClientNumber($branch_id=null){
-  	$db = $this->getAdapter();
-  	$sql = " SELECT c.`client_id` AS id  ,c.client_number AS name, c.`branch_id`
-  	FROM `ln_client` AS c WHERE (c.`name_en`!='' OR c.name_kh!='') AND c.status=1  " ;
-  	if($branch_id!=null){
-  		$sql.=" AND c.`branch_id`= $branch_id ";
-  	}
-  	$sql.="  order BY c.`client_id` DESC ";
-  	return $db->fetchAll($sql);
+//   	$db = $this->getAdapter();
+//   	$sql = " SELECT c.`client_id` AS id  ,c.client_number AS name, c.`branch_id`
+//   	FROM `ln_client` AS c WHERE (c.`name_en`!='' OR c.name_kh!='') AND c.status=1  " ;
+//   	if($branch_id!=null){
+//   		$sql.=" AND c.`branch_id`= $branch_id ";
+//   	}
+//   	$sql.="  order BY c.`client_id` DESC ";
+//   	return $db->fetchAll($sql);
+		return $this->getAllClient($branch_id);
   }
   function getAllClient($branch_id=null){//loan
   	$db = $this->getAdapter();
   	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
-  	c.`name_kh` AS name , client_number
+  	CONCAT(COALESCE(c.`client_number`,''),'-',COALESCE(c.`name_kh`,'')) AS name , client_number
   	FROM `ln_client` AS c WHERE (c.`name_en`!='' OR c.name_kh!='') AND c.status=1  " ;
   	if($branch_id!=null){
   		$sql.=" AND c.`branch_id`= $branch_id ";
-  
   	}
   	$sql.="  order BY c.`client_id` DESC ";
   	return $db->fetchAll($sql);

@@ -20,7 +20,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 	    			'guarantor_relative'=>$data['and_name'],
 					'note'				=>$data['note'],
 					'date'				=>$data['date_estate'],
-					'status'			=>$data['Stutas'],
+					'status'			=>1,//$data['Stutas'],
 	    		);
 	    	$id_call = $this->insert($arr);
 	    	$ids = explode(",",$data['record_row']);
@@ -35,7 +35,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 	    				'owner_name'		=>$data['owner_name'.$i],
 	    				'number_collecteral'=>$data['number_collteral'.$i],
 	    				'issue_date'		=>$data['issue_date'.$i],
-	    				'status'			=>$data['Stutas'],
+	    				'status'			=>1,//$data['Stutas'],
 	    				'note'				=>$data['note'.$i],
 	    				);
 	    		$this->insert($array);
@@ -117,7 +117,12 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 		$sql=" SELECT id ,branch_name ,
 		(SELECT loan_number FROM `ln_loan` WHERE id=v_getallcallateral.loan_id limit 1) as loan_number,
 		client_code ,name_kh,collecteral_code,co_id,join_with , relative , 
-		date ,note ,status FROM `v_getallcallateral` ";
+		date  ";
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->caseStatusShowImage("status");
+		$sql.=" FROM `v_getallcallateral` ";
+		
 		if($search['status_search']>-1){
 			$where.=" AND status=".$search['status_search'];
 		}

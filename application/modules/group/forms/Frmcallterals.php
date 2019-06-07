@@ -21,7 +21,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		$_title->setAttribs(array(
 				'dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				//'class'=>'fullside',
+				'class'=>'fullside',
 				'placeholder'=>$this->tr->translate("SEARCH_COLLTERAL")
 		));
 		$_title->setValue($request->getParam("adv_search"));

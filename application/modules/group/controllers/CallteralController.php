@@ -24,10 +24,9 @@ class Group_CallteralController extends Zend_Controller_Action {
 									'end_date'		=>date('Y-m-d'));
 			    	}
 			$rs_rows= $db->geteAllcallteral($search);//call frome model
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","LOAN_NO","CLIENT_NO","CUSTOMER_NAME","COLLTERAL_CODE","STAFF_NAME","AND_NAME","RELATIVE_WITH","DATE","NOTE","STATUS");
+			$collumns = array("BRANCH_NAME","LOAN_NO","CLIENT_NO","CUSTOMER_NAME","COLLTERAL_CODE","STAFF_NAME","AND_NAME","RELATIVE_WITH","DATE","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'callteral','action'=>'edit',
 			);
@@ -61,14 +60,14 @@ class Group_CallteralController extends Zend_Controller_Action {
 			try {
 				$db = $db_call->addcallteral($calldata);
 				if(!empty($calldata['save_close'])){
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/callteral/index');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/callteral/index');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/callteral/add');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/callteral/add');
 				}
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/callteral/add');
 			} catch (Exception $e) { 
-				Application_Form_FrmMessage::message("Application Error");
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+				Application_Form_FrmMessage::message("Application Error");
+				
 			}
 		}
 		$fm = new Group_Form_Frmcallterals();
@@ -78,8 +77,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$this->view->row=$row;
 		
 		$db = new Application_Model_DbTable_DbGlobal();
-		$this->view->allclient = $db->getAllClient();
-		$this->view->allclient_number = $db->getAllClientNumber();
+		
 		$db = new Application_Model_GlobalClass();
 		$this->view->collect_option = $db->getCollecteralOption();
 		$this->view->owner_type = $db->getCollecteralTypeOption();
@@ -91,8 +89,6 @@ class Group_CallteralController extends Zend_Controller_Action {
 		array_unshift($rs, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
 		$this->view->call_all= $rs;
 		
-		$db_global = new Application_Model_DbTable_DbGlobal();
-		$this->view->loan_number = $db_global->getLoanNumberByBranch(1);
 	}
 	
 	public function editAction()
@@ -127,8 +123,10 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$this->view->frm_callteral = $frm;
 		
 		$db = new Application_Model_DbTable_DbGlobal();
-		$this->view->allclient = $db->getAllClient();
-		$this->view->allclient_number = $db->getAllClientNumber();
+		
+// 		$this->view->allclient = $db->getAllClient();
+// 		$this->view->allclient_number = $db->getAllClientNumber();
+
 		$db = new Application_Model_GlobalClass();
 		$this->view->collect_option = $db->getCollecteralOption();
 		$this->view->owner_type = $db->getCollecteralTypeOption();
