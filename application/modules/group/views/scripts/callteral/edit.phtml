@@ -31,29 +31,29 @@ $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 					for(var n = 0; n < rowIDArray.length; n++){
 					var row_id = dijit.byId('collect_type'+rowIDArray[n]).get('value');
 						if(row_id=='' || row_id==-1){
-							alert("Please Select Collteral Type!");
+							alert("<?php echo $tr->translate("Please Select Collteral Type");?>!");
 							dijit.byId('collect_type'+rowIDArray[n]).focus();
 							return false;
 							}
 						}
 					}				
 				 if(dijit.byId('branch_id').get('value')==''){
-				     alert('Please Select Branch Name!');
+				     alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> !');
                          dijit.byId('branch_id').focus();
                          return false;
                  }
 				if(dijit.byId('co_name').get('value')==''){
-				         alert('Please Select Staff Name!');
+				         alert('<?php echo $tr->translate("Please Select Staff");?> !');
                          dijit.byId('co_name').focus();
                          return false;
                  }
                  if(dijit.byId('client_name').get('value')==''){
-				         alert('Please Select Client Name!');
+				         alert('<?php echo $tr->translate("PLEASE_SELECT_CLIENT");?> !');
                          dijit.byId('client_name').focus();
                          return false;
                  }
                   if(dijit.byId('record_row').get('value')==''){
-				         alert('Please Select collateral must be record!');
+				         alert('<?php echo $tr->translate("Please Select collateral must be record");?>!');
                          return false;
                  }
 				return true;
