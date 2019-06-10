@@ -49,12 +49,13 @@ Class Group_Form_Frmreturncollteral extends Zend_Dojo_Form {
 		$_title->setAttribs(array(
 				'dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
+				'class'=>'fullside',
 				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
 		));
 		$_title->setValue($request->getParam("adv_search"));
 
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
-		$_status_search->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>"false",
+		$_status_search->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>"false",'class'=>'fullside',
 				'queryExpr'=>'*${0}*',));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
@@ -92,7 +93,7 @@ Class Group_Form_Frmreturncollteral extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 				));
-		$options= array(1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
+		$options= array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DEACTIVE"));
 		$stutas->setMultiOptions($options);
 		
 		$receiver_name=new Zend_Dojo_Form_Element_ValidationTextBox('receiver_name');
@@ -154,7 +155,7 @@ Class Group_Form_Frmreturncollteral extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 		));
 		$rows = $db->getAllBranchName();
-		$options=array(''=>"------Select Branch Name------");
+		$options=array(''=>$this->tr->translate("PLEASE_SELECT_BRANCH"));
 		if(!empty($rows))
 			foreach($rows AS $row){
 			$options[$row['br_id']]=$row['branch_namekh'];

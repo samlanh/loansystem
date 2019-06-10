@@ -242,6 +242,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'class'=>'fullside',
 				'onchange'=>'CalculateDate();'));
 		$_date = $request->getParam("start_date");
 		

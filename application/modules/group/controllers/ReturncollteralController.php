@@ -1,6 +1,6 @@
 <?php
 class Group_ReturncollteralController extends Zend_Controller_Action {
-	const REDIRECT_URL='/group';protected $tr;
+	const REDIRECT_URL='/group/returncollteral';protected $tr;
 	public function init()
 	{$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		/* Initialize action controller here */
@@ -10,22 +10,20 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 	public function indexAction(){
 			try{
 				$db = new Group_Model_DbTable_DbReturnCollteral();
-			    		if($this->getRequest()->isPost()){
-			    			$search=$this->getRequest()->getPost();
-			    		}
-			    		else{
-			    			$search = array(
-			    					'adv_search' => '',
-			    					'status_search' => -1,
-			    					'start_date'=>date('Y-m-d'),
-			    					'end_date'=>date('Y-m-d'),
-			    					'branch_id'=>'');
-			    		}//print_r($search);exit();
-			$rs_rows= $db->getAllReturnCollteral($search);//call frome model
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rowss = $glClass->getImgActive($rs_rows, BASE_URL, true);
+	    		if($this->getRequest()->isPost()){
+	    			$search=$this->getRequest()->getPost();
+	    		}
+	    		else{
+	    			$search = array(
+	    					'adv_search' => '',
+	    					'status_search' => -1,
+	    					'start_date'=>date('Y-m-d'),
+	    					'end_date'=>date('Y-m-d'),
+	    					'branch_id'=>'');
+	    		}
+			$rs_rowss= $db->getAllReturnCollteral($search);//call frome model
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","CUSTOMER_CODE","CUSTOMER_NAME","GIVER_NAME","RECEIVER_NAME","DATE","NOTE","BY_USER","STATUS");
+			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_CODE","CUSTOMER_NAME","GIVER_NAME","RECEIVER_NAME","DATE","NOTE","BY_USER","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'returncollteral','action'=>'edit',
 			);
@@ -46,13 +44,12 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			try {
 				 $db->addReturnCollteral($data);
 				if(!empty($data['save_close'])){
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/returncollteral/index');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/index');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/returncollteral/add');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/add');
 				}
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/returncollteral/add');
 			} catch (Exception $e) { 
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				Application_Form_FrmMessage::Sucessfull('INSERT_FAIL', self::REDIRECT_URL . '/index');
 			}
 		}
 		$fm = new Group_Form_Frmchangecollteral();
@@ -75,15 +72,16 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 		try {
 				$db->updateReturnCollteral($data);
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL .'/returncollteral/index');
+				Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS', self::REDIRECT_URL .'/index');
 			} catch (Exception $e) {
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				Application_Form_FrmMessage::Sucessfull('EDIT_FAIL', self::REDIRECT_URL . '/index');
 			}
 		}
 		
 		$id = $this->getRequest()->getParam('id');
 		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'), self::REDIRECT_URL);
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), self::REDIRECT_URL);
+			exit();
 		}
 		$row  = $db->getReturnCollteralbyid($id);
 		$this->view->row = $row;

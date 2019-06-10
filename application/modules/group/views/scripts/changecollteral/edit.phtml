@@ -34,24 +34,24 @@ dojo.require("dijit.Dialog");
 					for(var n = 0; n < rowIDArray.length; n++){
 					var row_id = dijit.byId('tocollect_type'+rowIDArray[n]).get('value');
 					if(row_id==''){
-							alert("Please Select Collteral Type!");
+							alert("<?php echo $tr->translate("Please Select Collteral Type");?>!");
 							dijit.byId('tocollect_type'+rowIDArray[n]).focus();
 							return false;
 						}
 					}
 				}
 				if(dijit.byId('branch_id').get('value')==''){
-                    alert('Please Select Branch !');
+                    alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> ');
                     dijit.byId('branch_id').focus();
                     return false;
                 }
                 if(dijit.byId('client_name').get('value')==''){
-                    alert('Please Select Client Name !');
+                    alert('<?php echo $tr->translate("PLEASE_SELECT_CLIENT");?> !');
                     dijit.byId('client_name').focus();
                     return false;
                 }
                if(dijit.byId('record_row').get('value')==''){
-                    alert('Can not submit without record !');
+                    alert('<?php echo $tr->translate("Can not submit without record");?> !');
                     return false;
                 }
 				return true;
@@ -79,15 +79,15 @@ dojo.require("dijit.Dialog");
 	                   </label>
 	                    <div class="col-md-7 col-sm-7 col-xs-12">
 	                    	<?php echo $frm->getElement('branch_id');echo $frm->getElement('id');?>
+	                    	<input dojoType="dijit.form.TextBox"  id="owner" name="owner" value="" type="hidden">
+							<input dojoType="dijit.form.TextBox"  id="client_coll" name="client_coll" value="" type="hidden">
 	                   </div>
 	                </div>
-	                 <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_CODE");?> :
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("LOAN_NO");?> :
 	                   </label>
 	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<input id="client_code" /><?php //echo $frm->getElement('client_code');?>
-							<input dojoType="dijit.form.TextBox"  id="owner" name="owner" value="" type="hidden">
-							<input dojoType="dijit.form.TextBox"  id="client_coll" name="client_coll" value="" type="hidden">
+	                    	<input id="loan_number" />
 	                   </div>
 	                </div>
 	                 <div class="form-group">
@@ -97,6 +97,7 @@ dojo.require("dijit.Dialog");
 	                    	<input id="client_name" /><?php //echo $frm->getElement('client_name');?>
 	                   </div>
 	                </div>
+	                <!-- 
 	                <div class="form-group">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CUSTOMER_INFO");?> 
 	                   </label>
@@ -106,6 +107,7 @@ dojo.require("dijit.Dialog");
 	                    	<span id="display_info">&nbsp;</span>
 	                   </div>
 	                </div>
+	                 -->
 	               
 	             </div>
 	             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -185,81 +187,63 @@ dojo.require("dijit.Dialog");
 	</div>
 </div>
 <?php 
-	 echo $this->frm_popup_callecteral;
+echo $this->frm_popup_callecteral;
 ?>
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <script type="text/javascript">
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dojo.data.ObjectStore");
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
+dojo.require("dijit.form.DateTextBox");
+var loan_store  = getDataStorefromJSON('id','name',);
+var client_store  = getDataStorefromJSON('id','name',);
 
 dojo.ready(function(){
-	 var client_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
-	});
+	
 	new dijit.form.FilteringSelect({
-	store: dojo.data.ObjectStore({objectStore: client_data}),
-	query: {
-		branch_id: "<?php echo $row['branch_id']; ?>"
-	},            
-	required: true,		           
-	name: "client_name",
-	id: "client_name",
-	searchAttr: "name",
-	autoComplete: false,
-	queryExpr: "*${0}*",
-	class: 'fullside',
-	value:"<?php echo $row['client_id']; ?>",
-	onChange: function() {
-		getClientInfo(2);
-}
+		store: loan_store,
+		required: false,		           
+		name: "loan_number",
+		id: "loan_number",
+		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
+		class: 'fullside',
+		onChange: function() {
+			getLoanInfomation();
+			getClientCollateral()
+		}
+	}, "loan_number");
+	
+	new dijit.form.FilteringSelect({
+		store: client_store,
+		required: true,		           
+		name: "client_name",
+		id: "client_name",
+		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
+		class: 'fullside',
+		onChange: function() {
+		}
 	}, "client_name");
 
-	 var client_number = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
-	});
-	new dijit.form.FilteringSelect({
-	store: dojo.data.ObjectStore({objectStore: client_number}),
-	query: {
-		branch_id: "<?php echo $row['branch_id']; ?>"
-	},            		           
-	name: "client_code",
-	id: "client_code",
-	searchAttr: "name",
-	autoComplete: false,
-	queryExpr: "*${0}*",
-	class: 'fullside',
-	value:"<?php echo $row['client_id']; ?>",
-	onChange: function() {
-		getClientInfo(1);
-    }
-	}, "client_code");
+	
 	temp='';
 	fund_title=0;
 	r = 0;
 	collect_option = '<?php echo $this->collect_option;?>';
 	owner_option = '<?php echo $this->owner_type;?>';
-	innitialize();
-	getClientInfomation();
-	 
+	//innitialize();
+	//getClientInfomation();
+	filterClient();
 	});
 
 
 function filterClient(){
-	branch_id = dijit.byId('branch_id').get('value');
-	dijit.byId('client_name').query.branch_id = branch_id;
-	dijit.byId('client_code').query.branch_id = branch_id;
-	dijit.byId('client_code').reset();
-}
-function getClientInfo(type){
-	if(type==1){
-		customer_code= dijit.byId('client_code').get('value');
-		dijit.byId('client_name').attr('value',customer_code);
-		//addCollecteral();
-		getClientCollateral();
-	}else{
-		customer_code= dijit.byId('client_name').get('value');
-		dijit.byId('client_code').attr('value',customer_code);
-	}
-	getClientInfomation();
+	getloanbyBranch();
+	getClientByBranch();
 }
 var url_submitco = '<?php echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
 function AddNewCo(){
@@ -281,11 +265,6 @@ function popupCheckCO(){
 	if(dijit.byId('co_name').get('value')==-1){
 		 dijit.byId('frm_co').show();
 	}
-}
-
-function checkClientCode(){
-	client_name= dijit.byId('client_name').get('value');
-	dijit.byId('client_code').attr('value',client_name);
 }
 
 var url_clientinfo = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientinfo')); ?>';
@@ -312,33 +291,33 @@ function innitialize(){
 		foreach($this->rows AS $i=>$rs){?>
 			r++;
 			if(fund_title!=1){
-				thead='<th><?php echo $tr->translate("NUM");?></th>';
-				thead+='<th><?php echo $tr->translate("COLETERAL_TYPE");?></th>';
-				thead+='<th><?php echo $tr->translate("OWNER_TYPE");?></th>';
-				thead+='<th><?php echo $tr->translate("OWNER_NAME");?></th>';
-				thead+='<th><?php echo $tr->translate("NUMBER_COLLTERAL");?></th>';
-				thead+='<th><?php echo $tr->translate("COLETERAL_TYPE");?></th>';
-				thead+='<th><?php echo $tr->translate("OWNER_TYPE");?></th>';
-				thead+='<th><?php echo $tr->translate("OWNER_NAME");?></th>';
-				thead+='<th><?php echo $tr->translate("NUMBER_COLLTERAL");?></th>';
-				thead+='<th><?php echo $tr->translate("SIGN_DATE");?></th>';
-				thead+='<th><?php echo $tr->translate("ISSUE_BY");?> </th>';
+				thead='<td><?php echo $tr->translate("NUM");?></td>';
+				thead+='<td><?php echo $tr->translate("COLETERAL_TYPE");?></td>';
+				thead+='<td><?php echo $tr->translate("OWNER_TYPE");?></td>';
+				thead+='<td><?php echo $tr->translate("OWNER_NAME");?></td>';
+				thead+='<td><?php echo $tr->translate("NUMBER_COLLTERAL");?></td>';
+				thead+='<td><?php echo $tr->translate("COLETERAL_TYPE");?></td>';
+				thead+='<td><?php echo $tr->translate("OWNER_TYPE");?></td>';
+				thead+='<td><?php echo $tr->translate("OWNER_NAME");?></td>';
+				thead+='<td><?php echo $tr->translate("NUMBER_COLLTERAL");?></td>';
+				thead+='<td><?php echo $tr->translate("SIGN_DATE");?></td>';
+				thead+='<td><?php echo $tr->translate("ISSUE_BY");?> </td>';
 				
 				fund_title=1;
 				dojo.query("#head_title").append(thead);
 	        }
 			temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" >'+r+'<input type="hidden" name="de_id'+r+'" id="de_id'+r+'" dojoType="dijit.form.TextBox"/></td>';
-			temp+='<td><select style=" width:120px;background:#fff; padding-left:5px;" readonly="true" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect"  >'+collect_option+'</select></td>';
-		    temp+='<td><select style=" width:110px; background:#fff; padding-left:5px;" readonly="true" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
-			temp+='<td><input style=" width:130px" type="text" required="false"  readonly="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
-			temp+='<td><input style=" width:100px" type="text" required="false" readonly="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><select class="fullside" style="background:#fff; padding-left:5px;" readonly="true" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect"  >'+collect_option+'</select></td>';
+		    temp+='<td><select class="fullside" style=" background:#fff; padding-left:5px;" readonly="true" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
+			temp+='<td><input class="fullside" style="  type="text" required="false"  readonly="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input class="fullside" style=" type="text" required="false" readonly="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 
-			temp+='<td><select style=" width:130px;background:#fff; padding-left:5px;" id="tocollect_type'+r+'" name="tocollect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')" >'+collect_option+'</select></td>';
-		    temp+='<td><select style=" width:90px; background:#fff; padding-left:5px;" id="toowner_type'+r+'" name="toowner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
-			temp+='<td><input style=" width:90%;" type="text" required="false" name="toowner_name'+r+'" id="toowner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
-			temp+='<td><input type="text" style=" width:110px"  name="tonumber_collteral'+r+'" id="tonumber_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
-			temp+='<td><input type="text" style="width:110px" name="issue_date'+r+'" id="issue_date'+r+'" value="<?php echo date("Y-m-d",strtotime($rs['issue_date']));?>" dojoType="dijit.form.DateTextBox"/></td>';
-			temp+='<td><input style=" width:110px" type="text" name="tonote'+r+'" id="tonote'+r+'" dojoType="dijit.form.TextBox" /><input type="hidden" name="coid'+r+'" id="coid'+r+'" dojoType="dijit.form.TextBox" /> </td>';
+			temp+='<td><select class="fullside" style=" width:130px;background:#fff; padding-left:5px;" id="tocollect_type'+r+'" name="tocollect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')" >'+collect_option+'</select></td>';
+		    temp+='<td><select class="fullside" style="background:#fff; padding-left:5px;" id="toowner_type'+r+'" name="toowner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
+			temp+='<td><input  class="fullside" style="  type="text" required="false" name="toowner_name'+r+'" id="toowner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input class="fullside" type="text" style=" name="tonumber_collteral'+r+'" id="tonumber_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input class="fullside" type="text"  name="issue_date'+r+'" id="issue_date'+r+'" value="<?php echo date("Y-m-d",strtotime($rs['issue_date']));?>" dojoType="dijit.form.DateTextBox"/></td>';
+			temp+='<td><input class="fullside" type="text" name="tonote'+r+'" id="tonote'+r+'" dojoType="dijit.form.TextBox" /><input type="hidden" name="coid'+r+'" id="coid'+r+'" dojoType="dijit.form.TextBox" /> </td>';
 			tmp='<tr style="border:1px solid #ccc; font-size:11px !important" id="row_capital'+r+'">'
 			tmp+="</tr>";
 				dojo.query("#t_amountmoneytype").append(tmp);
@@ -417,5 +396,170 @@ if(dijit.byId('frm_call_add').validate()){
 		});
 	}
 }
+var oldloan_id = "<?php echo $row['loan_id']; ?>";
+var url_clientcall = '<?php echo $this->url(array('module'=>'group','controller'=>'callteral','action'=>'getclientcollateralbyloan')); ?>';
+function getClientCollateral(){
+	fund_title=0;
+	dojo.query("#showrecord").append('');
+	loan_number = dijit.byId('loan_number').get('value');
+	if(loan_number=='' || loan_number==null){
+		return false;
+	}
+	if(loan_number==oldloan_id){
+		innitialize();
+		return false;
+	}
+	tmp='<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">';
+	tmp+='<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>';
+	tmp+='</table>';
+	dojo.query("#showrecord").append(tmp);
+		dojo.xhrPost({
+	    url: url_clientcall,	
+		content:{ 
+			'loan_id':loan_number
+			},		    
+		handleAs:"json",
+		load: function(data) {	
+			if(data==''){
+				alert('No Collateral To Change !');
+			}
+			for(i=0;i<data.length;i++){
+		
+			r++;
+			if(fund_title!=1){
+				thead='<td><?php echo $tr->translate("DEL");?></td>';
+				thead+='<td><?php echo $tr->translate("COLETERAL_TYPE");?></td>';
+				thead+='<td><?php echo $tr->translate("OWNER_TYPE");?></td>';
+				thead+='<td><?php echo $tr->translate("OWNER_NAME");?></td>';
+				thead+='<td><?php echo $tr->translate("NUMBER_COLLTERAL");?></td>';
+				thead+='<td><?php echo $tr->translate("COLETERAL_TYPE");?></td>';
+				thead+='<td><?php echo $tr->translate("OWNER_TYPE");?></td>';
+				thead+='<td><?php echo $tr->translate("OWNER_NAME");?></td>';
+				thead+='<td><?php echo $tr->translate("NUMBER_COLLTERAL");?></td>';
+				thead+='<td><?php echo $tr->translate("SIGN_DATE");?></td>';
+				thead+='<td><?php echo $tr->translate("ISSUE_BY");?> </td>';
+				fund_title=1;
+				dojo.query("#head_title").append(thead);
+	        }
+			temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+			temp+='<td><select class="fullside" style=" width:120px;background:#fff; padding-left:5px;" readonly="true" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect"  >'+collect_option+'</select></td>';
+		    temp+='<td><select class="fullside" style=" width:110px; background:#fff; padding-left:5px;" readonly="true" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" >'+owner_option+'</select></td>';
+			temp+='<td><input class="fullside" style="  type="text"  readonly="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input class="fullside" style=" type="text" required="false" readonly="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 
+			temp+='<td><select class="fullside" style=" width:130px;background:#fff; padding-left:5px;"  id="tocollect_type'+r+'" name="tocollect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')"  >'+collect_option+'</select></td>';
+		    temp+='<td><select class="fullside" style=" width:90px; background:#fff; padding-left:5px;"  id="toowner_type'+r+'" name="toowner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
+			temp+='<td><input class="fullside" style=" width:90%;" type="text" required="false"  name="toowner_name'+r+'" id="toowner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input class="fullside" type="text" style="width:110px"  name="tonumber_collteral'+r+'" id="tonumber_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input class="fullside" type="text" constraints="{datePattern:'+"'dd/MM/yyyy'"+'}" name="issue_date'+r+'" id="issue_date'+r+'" dojoType="dijit.form.DateTextBox"/></td>';
+			temp+='<td><input class="fullside" style="  type="text" name="tonote'+r+'"  id="tonote'+r+'" dojoType="dijit.form.TextBox" /><input type="hidden" name="coid'+r+'" id="coid'+r+'" dojoType="dijit.form.TextBox" /> </td>';
+
+			
+			tmp='<tr style="border:1px solid #ccc; font-size:11px !important" id="row_capital'+r+'">'
+			tmp+="</tr>";
+			
+				dojo.query("#t_amountmoneytype").append(tmp);
+				
+			dojo.html.set(dojo.byId("row_capital"+r),temp, {
+			    parseContent: true,
+			});
+			if(dijit.byId("record_row").get('value')!="") {
+				var ids = dijit.byId("record_row").value;
+				dijit.byId("record_row").attr('value',ids+','+r);
+			} else { dijit.byId("record_row").attr('value',r);}
+			
+				dijit.byId('collect_type'+r).attr('value',data[i].collecteral_type);
+				dijit.byId('owner_type'+r).attr('value',data[i].owner_type);
+				dijit.byId('owner_name'+r).attr('value',data[i].owner_name);
+				dijit.byId('toowner_name'+r).attr('value',data[i].owner_name);
+				
+				dijit.byId('number_collteral'+r).attr('value',data[i].number_collecteral);
+				dijit.byId('coid'+r).attr('value',data[i].id);
+				dijit.byId('client_coll').attr('value',data[i].client_coll);
+				setOwnerNameCollecteralById(r);
+			}
+		},
+		error: function(err) {
+		}
+	});
+}
+
+var url_loan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getallloanbybranch')); ?>';
+var oldbranch_id = "<?php echo $row['branch_id']; ?>";
+function getloanbyBranch(){
+	branch_id = dijit.byId('branch_id').get('value');
+	dijit.byId('loan_number').reset();
+	if(branch_id=='' || branch_id==null){
+		var loan_store  = getDataStorefromJSON('id','name',);
+		dijit.byId('loan_number').set('store', loan_store);
+		return false;
+	}
+	dojo.xhrPost({
+		url:url_loan,	
+		content:{ 
+		    'branch_id':dijit.byId('branch_id').get('value'),
+		},
+		handleAs:"json",
+		load: function(data) {
+			loan_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('loan_number').set('store', loan_store);
+		    if(oldbranch_id==branch_id){
+		   	 	dijit.byId('loan_number').set('value', '<?php echo $row['loan_id']; ?>');
+		    }
+		},
+		error: function(err) {
+			
+		}
+	});
+}
+var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
+function getClientByBranch(){
+	branch_id = dijit.byId('branch_id').get('value');
+	dijit.byId('client_name').reset();
+	if(branch_id=='' || branch_id==null){
+		var client_store  = getDataStorefromJSON('id','name',);
+		dijit.byId('client_name').set('store', client_store);
+		return false;
+	}
+	dojo.xhrPost({
+		url: url_getclient,	
+		content:{ 
+		    'branch_id':branch_id,
+		},
+		handleAs:"json",
+		load: function(data) {
+			
+			client_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('client_name').set('store', client_store);
+		    if(oldbranch_id==branch_id){
+		   	 	dijit.byId('client_name').set('value', '<?php echo $row['client_id']; ?>');
+		    }
+		},
+		error: function(err) {
+			
+		}
+	});
+}
+var url_loaninfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloan-bymemberid')); ?>';
+function getLoanInfomation(){
+	loan_number = dijit.byId('loan_number').get('value');
+	dijit.byId('client_name').reset();
+	dijit.byId('giver_name').attr('value',"");
+	if(loan_number=="" || loan_number==-1){
+		return false;
+	}
+		dojo.xhrPost({
+	    url: url_loaninfo,	
+		content:{ 
+			'loan_id':loan_number
+			},		    
+		handleAs:"json",
+		load: function(data) {	
+			dijit.byId('client_name').attr('value',data.customer_id);
+			dijit.byId('giver_name').attr('value',data.customer_name);
+		},
+		error: function(err) {
+		}
+	});
+}
 </script>

@@ -1100,6 +1100,7 @@ function round_up($value, $places)
     	l.interest_rate ,l.loan_number,
     	l.payment_method,l.branch_id,
     	l.customer_id AS client_id,
+    	(SELECT c.name_kh FROM `ln_client` as c WHERE c.client_id=l.customer_id LIMIT 1) AS customer_name,
     	l.co_id ,
     	l.zone_id AS zone_id,
     	l.level

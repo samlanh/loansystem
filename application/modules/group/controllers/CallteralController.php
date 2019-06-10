@@ -124,9 +124,6 @@ class Group_CallteralController extends Zend_Controller_Action {
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		
-// 		$this->view->allclient = $db->getAllClient();
-// 		$this->view->allclient_number = $db->getAllClientNumber();
-
 		$db = new Application_Model_GlobalClass();
 		$this->view->collect_option = $db->getCollecteralOption();
 		$this->view->owner_type = $db->getCollecteralTypeOption();
@@ -137,5 +134,16 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$rs=$db->getCollteralType();
 		array_unshift($rs, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
 		$this->view->call_all= $rs;
+    }
+    
+    
+    function getclientcollateralbyloanAction(){//At callecteral when click client
+    	if($this->getRequest()->isPost()){
+    		$db = new Group_Model_DbTable_DbCallteral();
+    		$data = $this->getRequest()->getPost();
+    		$code = $db->getClientCallateralBYLoanId($data['loan_id']);
+    		print_r(Zend_Json::encode($code));
+    		exit();
+    	}
     }
 }

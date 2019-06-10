@@ -42,8 +42,9 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 	    	}
 	    	$db->commit();
     	}catch(exception $e){
-    		Application_Form_FrmMessage::message("Application Error");
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    		Application_Form_FrmMessage::message("Application Error");
+    		
     		$db->rollBack();
     	}
 	}
@@ -146,6 +147,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 			$s_where[]="REPLACE(note,' ','')  			LIKE'%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
+		$where.=" GROUP BY v_getallcallateral.loan_id ";
 		$order = " ORDER BY id DESC ";
 		return $db->fetchAll($sql.$where.$order);
 	}
@@ -161,6 +163,13 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 			$pre.='0';
 		}
 		return "CL".$pre.$new_acc_no;
+	}
+	
+	public function getClientCallateralBYLoanId($loan_id){
+		$db = $this->getAdapter();
+		$sql = " SELECT cc.id AS client_coll ,cd.* FROM `ln_client_callecteral` AS cc , `ln_client_callecteral_detail` AS cd WHERE
+		cd.is_return=0 AND cd.client_coll_id = cc.id AND cc.loan_id = ".$loan_id;
+		return $db->fetchAll($sql);
 	}
 }
 
