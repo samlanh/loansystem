@@ -55,17 +55,16 @@ input.btn_borwse_image {
 			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if(dijit.byId('branch_id').get('value')==''){
-					alert('Please Select Branch Name !!!');
+					alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> ');
 					dijit.byId("branch_id").focus();
 					return false;
 			    }
 				if(dijit.byId("position").get("value")==""){
-					alert("Please Select Position Name!!!");
+					alert('<?php echo $tr->translate("Please Select Position Name");?> ');
 					dijit.byId("position").focus();
 					return false;
 				}
-				dijit.byId("save_new").attr("disabled",true);
-				dijit.byId("save_close").attr("disabled",true);
+				loadingBlock();
 				return true;
 			} else {
 				return false;
@@ -239,13 +238,6 @@ input.btn_borwse_image {
 										</div>
 				                   </div>
 				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('status');?>
-				                   </div>
-				                </div>
 				               
 				             </div>
 				             <!--/. OTHER_IFO  -->
@@ -351,12 +343,10 @@ input.btn_borwse_image {
 	        <div class="clearfix"></div>
 		  	<div class="card-box">
             	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
-		    		<input type="hidden" name="exchangefrom" value="2" />
-					<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
 					<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button"  iconClass="dijitIconClear"/>
-					<input type="button"  onclick="submitDataClose()" value="save_close" name="save_close" id="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+					<input type="submit" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
 						iconClass="dijitEditorIcon dijitEditorIconSave" />
-					<input type="submit" value="save_new" name="save_new" id="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
+					<input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
 						iconClass="dijitEditorIcon dijitEditorIconSave" />
     			</div>
     		</div>
@@ -479,31 +469,4 @@ var url_staffcode = '<?php echo $this->url(array('module'=>'payroll','controller
 		});
 	}
 
-	function submitDataClose(){
-		if(dijit.byId('branch_id').get('value')==''){
-			alert('Please Select Branch Name !!!');
-			dijit.byId("branch_id").focus();
-			return false;
-	    }
-		if(dijit.byId("position").get("value")==""){
-			alert("Please Select Position Name!!!");
-			dijit.byId("position").focus();
-			return false;
-		}
-		if(dijit.byId('add_techer').validate()) {
-			dijit.byId('save_close').set('disabled',true);
-			dijit.byId('save_new').set('disabled',true);
-			var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'co','action'=>'add')); ?>';
-			dojo.xhrPost({
-			    url: url_submit,	
-				form: dojo.byId("add_techer"),		    
-				load: function(data) {
-					alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-					window.location.href ="<?php echo $this->baseUrl();?>/loan/co";
-				},
-				error: function(e) {
-				}
-			});
-		}
-	}
 </script>

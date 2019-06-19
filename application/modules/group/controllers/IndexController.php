@@ -1,10 +1,12 @@
 <?php
 class Group_indexController extends Zend_Controller_Action {
 	const REDIRECT_URL = '/group/index';
+	protected $tr;
 	public function init()
 	{
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
+		$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function indexAction(){
 		try{
@@ -262,7 +264,7 @@ class Group_indexController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Application_Model_DbTable_DbGlobal();
 			$dataclient=$db->getAllClientNumber($data['branch_id']);
-			array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>'---Add New Client---') );
+			array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>$this->tr->translate("Add New Client")) );
 			print_r(Zend_Json::encode($dataclient));
 			exit();
 		}
@@ -301,7 +303,7 @@ class Group_indexController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Application_Model_DbTable_DbGlobal();
 			$dataclient=$db->getAllClientGroup($data['branch_id']);
-			array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>'---Add New Client---') );
+			array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>$this->tr->translate("Add New Client")) );
 			print_r(Zend_Json::encode($dataclient));
 			exit();
 		}
@@ -311,7 +313,7 @@ class Group_indexController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Application_Model_DbTable_DbGlobal();
 			$dataclient=$db->getAllClientGroupCode($data['branch_id']);
-			array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>'---Add New Client---') );
+			array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>$this->tr->translate("Add New Client")) );
 			print_r(Zend_Json::encode($dataclient));
 			exit();
 		}
@@ -321,7 +323,7 @@ class Group_indexController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Application_Model_DbTable_DbGlobal();
 			$dataclient=$db->getAllClientGroupCode($data['branch_id']);
-			array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>'---Add New Client---') );
+			array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>$this->tr->translate("Add New Client")) );
 			print_r(Zend_Json::encode($dataclient));
 			exit();
 		}

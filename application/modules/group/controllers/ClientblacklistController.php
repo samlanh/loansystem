@@ -1,10 +1,12 @@
 <?php
 
 class Group_ClientblacklistController extends Zend_Controller_Action
-{protected $tr;
+{
+	protected $tr;
 
-public function init()
-    {$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
+	public function init()
+    {
+    	$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
         /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
@@ -18,13 +20,12 @@ public function init()
 			try {
 				$db->updatBlackList($data);
 				if(isset($data['save_close'])){
-					Application_Form_FrmMessage::redirectUrl('/group/clientblacklist');
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'),"/group/clientblacklist");
 				}
 				else{
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
-					Application_Form_FrmMessage::redirectUrl('/group/clientblacklist/add');
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'),"/group/clientblacklist/add");
 				}
-				Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				Application_Form_FrmMessage::message('INSERT_SUCCESS');
 				Application_Form_FrmMessage::redirectUrl('/group/clientblacklist/add');
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -49,14 +50,13 @@ public function init()
     		else{
     			$search = array(
     					'adv_search' => '',
+    					'branch' => '',
     					'status_search' => -1,
     					'start_date'=> date('Y-m-d'),
 						'end_date'=>date('Y-m-d'));
     		}
-    		$rs_row= $db->getAllBlackListInList($search);//call frome model
+    		$rs_rows= $db->getAllBlackListInList($search);//call frome model
     		
-    					$glClass = new Application_Model_GlobalClass();
-    					$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
     		$collumns = array("BRANCH_NAME","CUSTOMER_CODE","CUSTOMER_NAME","SEX","SITU_STATUS","NATIONAL_ID","NUMBER","REASON","DATE","STATUS");
     		$link=array(
@@ -89,6 +89,7 @@ public function init()
 		$db = new Group_Model_DbTable_DbClientBlackList();
     	$id = $this->getRequest()->getParam("id");
     	$row = $db->getBlackListById($id);
+    	$this->view->rs = $row;
     	$fm = new Group_Form_FrmClientBlackList();
     	$frm = $fm->FrmClientBlackList($row);
     	Application_Model_Decorator::removeAllDecorator($frm);

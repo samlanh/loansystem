@@ -5,22 +5,21 @@ $frm = $this->Form_client_blacklist;
 <title> <?php echo $tr->translate("CLIENT_BLACK_LIST")?></title>
 <div class="card">
 	<div class="card-content collapse show">
-		<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'group','controller'=>'clientblacklist','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+		<form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
             branch_id = dijit.byId('branch').get('value');
 		      if (branch_id=='' || branch_id==-1){
-		  	     alert('Please Select Branch Name!');
+		  	     alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> ');
 			     dijit.byId('branch').focus();
 			     return false;
 		      }
                 if(dijit.byId('client_name').get('value')==''){
-                   alert('Please Select Client Name');
+                    alert('<?php echo $tr->translate("PLEASE_SELECT_CLIENT");?> !');
                    dijit.byId('client_name').focus();
                    return false;
                }
-				dijit.byId('save_new').set('disabled',true);
-			    dijit.byId('save_close').set('disabled',true);
+				loadingBlock();
 				return true;
 			}else {
 				return false;
@@ -38,7 +37,7 @@ $frm = $this->Form_client_blacklist;
 	    	<div class="card-box">
 				<div class="col-md-4 col-sm-4 col-xs-12">
 					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("BRANCH_INFO");?> 
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CUSTOMER_INFO");?> 
 	                   </label>
 	                </div>
 	                <div class="form-group">
@@ -48,6 +47,13 @@ $frm = $this->Form_client_blacklist;
 	                    	<?php echo $frm->getElement('branch');?>
 	                   </div>
 	                </div>
+	                 <div class="form-group">
+		                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_NAME");?> :
+		                   </label>
+		                    <div class="col-md-7 col-sm-7 col-xs-12">
+		                    	<input id="client_name" /><?php //echo $frm->getElement('client_name')?>
+		                   </div>
+		                </div>
 	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?> :
 	                   </label>
@@ -63,40 +69,13 @@ $frm = $this->Form_client_blacklist;
 	                   </div>
 	                </div>
 	            </div>
-	            <div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CUSTOMER_INFO");?> 
-	                   </label>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_CODE");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<input id="client_code" /><?php //echo $frm->getElement('client_code')?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_NAME");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<input id="client_name" /><?php //echo $frm->getElement('client_name')?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<?php echo $frm->getElement('status')?>
-	                   </div>
-	                </div>
-	            </div>
 	        </div>
 	        <div class="clearfix"></div>
 			    <div class="card-box">
                		<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
 		    			<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" 
 								 iconClass="dijitIconClear" /> 
-				    <input type="button" onclick="submitDataClose();"  value="SAVE_CLOSE" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
+				    <input type="submit"   value="SAVE_CLOSE" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
 								 iconClass="dijitEditorIcon dijitEditorIconSave" /> 
 					<input type="submit" value="SAVE_NEW" label="<?php echo $tr->translate('SAVENEW');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
 								 iconClass="dijitEditorIcon dijitEditorIconSave"/> 
@@ -111,7 +90,6 @@ $frm = $this->Form_client_blacklist;
 dojo.require("dojo.data.ItemFileWriteStore");  
 dojo.require("dijit.form.DateTextBox");
 var client_store  = getDataStorefromJSON('id','name', [] );
-var client_number_store  = getDataStorefromJSON('id','name', [] );
 require(["dojo/ready"], function(ready){
 	 
 	new dijit.form.FilteringSelect({
@@ -127,53 +105,16 @@ require(["dojo/ready"], function(ready){
 		member = dijit.byId('client_name').get('value');
 		if(member==-1){
 		}else{
-			dijit.byId('client_code').attr('value',member);
 		}
     }
 	}, "client_name");
 
-	new dijit.form.FilteringSelect({
-		store: client_number_store,
-		required: false,		           
-		name: "client_code",
-		id: "client_code",
-		searchAttr: "name",
-		autoComplete: false,
-		queryExpr: "*${0}*",
-		class: 'fullside',
-		onChange: function() {
-			member = dijit.byId('client_code').get('value');
-			if(member==-1){
-			}else{
-				dijit.byId('client_name').attr('value',member);
-			}
-	    }
-		}, "client_code");
 
 	
 });
-</script>
-<script type="text/javascript">
 function filterClient(){
 	branch_id = dijit.byId('branch').get('value');
 	getAllClientByBranch(branch_id);
-	getAllClientNumberByBranch(branch_id);
-}
-var url_getclientnum = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientnumberbybranch')); ?>';
-function getAllClientNumberByBranch(branch_id){
-	dojo.xhrPost({
-		url:url_getclientnum,	
-		content:{ 
-		    'branch_id':branch_id
-		},		    
-		handleAs:"json",
-		load: function(data) {
-			client_number_store  = getDataStorefromJSON('id','name', data);		
-		    dijit.byId('client_code').set('store', client_number_store);
-		},
-		error: function(err) {
-		}
-	});
 }
 var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
 function getAllClientByBranch(branch_id){
@@ -191,43 +132,6 @@ function getAllClientByBranch(branch_id){
 		}
 	});
 	
-}
-function getmemberIdGroup(){
-	client_code= dijit.byId('client_code').get('value');
-	dijit.byId('client_name').attr('value',client_code);
-}
-function checkMember(){
-	client_name= dijit.byId('client_name').get('value');
-	dijit.byId('client_code').attr('value',client_name);
-}
-
-function submitDataClose(){
-	 branch_id = dijit.byId('branch').get('value');
-     if (branch_id=='' || branch_id==-1){
- 	     alert('Please Select Branch Name!');
-	     dijit.byId('branch').focus();
-	     return false;
-     }
-       if(dijit.byId('client_name').get('value')==''){
-          alert('Please Select Client Name');
-          dijit.byId('client_name').focus();
-          return false;
-      }
-	if(dijit.byId('frm_add_tran').validate()) {
-		dijit.byId('save_close').set('disabled',true);
-		dijit.byId('save_new').set('disabled',true);
-		var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'clientblacklist','action'=>'add')); ?>';
-		dojo.xhrPost({
-		    url: url_submit,	
-			form: dojo.byId("frm_add_tran"),		    
-			load: function(data) {
-				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-				window.location.href ="<?php echo $this->baseUrl();?>/group/clientblacklist";
-			},
-			error: function(e) {
-			}
-		});
-	}
 }
 
 </script>

@@ -21,10 +21,8 @@ class Loan_CoController extends Zend_Controller_Action {
 						'status_search' => 1);
 			}
 			$rs_rows= $db->getAllCreditOfficer($search);
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("CODE","NAME_KH","NAME_EN","NATIONAL_ID","ADDRESS","PHONE",
+			$collumns = array("BRANCH_NAME","STAFF_CODE","NAME_KH","NAME_EN","NATIONAL_ID","ADDRESS","PHONE",
 					"EMAIL","DEGREE","DEPARTMENT","ANNUAL_LIVES","STATUS");
 			$link=array(
 					'module'=>'loan','controller'=>'co','action'=>'edit',
@@ -43,63 +41,63 @@ class Loan_CoController extends Zend_Controller_Action {
 	
 	}
 	
-	public function settingAction(){
-	try{
-		$db_dept=new Global_Model_DbTable_DbDept();
-		if($this->getRequest()->isPost()){
-			$_data=$this->getRequest()->getPost();
-			$search = array(
-					'title' => $_data['title'],
-					'status' => $_data['status_search']);
-			$limit = $dept_session->limit;
-		}
-		else{
-			$search='';
-		}
-		 $_db = new Global_Model_DbTable_DbSetting();
-		 $rs_rows = $_db->getAllSetting($search);
+// 	public function settingAction(){
+// 	try{
+// 		$db_dept=new Global_Model_DbTable_DbDept();
+// 		if($this->getRequest()->isPost()){
+// 			$_data=$this->getRequest()->getPost();
+// 			$search = array(
+// 					'title' => $_data['title'],
+// 					'status' => $_data['status_search']);
+// 			$limit = $dept_session->limit;
+// 		}
+// 		else{
+// 			$search='';
+// 		}
+// 		 $_db = new Global_Model_DbTable_DbSetting();
+// 		 $rs_rows = $_db->getAllSetting($search);
 			 
-		 $list = new Application_Form_Frmtable();
-		 $collumns = array("KEY_VALUE","KEY_VALUE","BY_USER");
-		 $link=array(
-					'module'=>'global','controller'=>'index','action'=>'setting-edit',
-			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('keyvalue'=>$link));
+// 		 $list = new Application_Form_Frmtable();
+// 		 $collumns = array("KEY_VALUE","KEY_VALUE","BY_USER");
+// 		 $link=array(
+// 					'module'=>'global','controller'=>'index','action'=>'setting-edit',
+// 			);
+// 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('keyvalue'=>$link));
 			    	
-    	}catch (Exception $e){
-    		Application_Form_FrmMessage::message("Application Error");
-			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-    	}
-	    	$frm = new Global_Form_FrmSearchMajor();
-	    	$frm = $frm->FrmSetting();
-	    	Application_Model_Decorator::removeAllDecorator($frm);
-	    	$this->view->frm_search = $frm;
-	}
-	public function settingEditAction(){
-		$frm = new Global_Form_FrmSearchMajor();
-		$_model = new Global_Model_DbTable_DbSetting();
-		if($this->getRequest()->isPost()){
-			try{
-				$_data = $this->getRequest()->getPost();
-				$_model->AddNewSetting($_data);
-				Application_Form_FrmMessage::Sucessfull("/global/index/setting","ការបញ្ជូលដោយជោយជ័យ");
-			}catch (Exception $e){
-				Application_Form_FrmMessage::message("ការបញ្ជូលបរាជ័យ");
-				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-			}
-		}
-		$id = $this->getRequest()->getParam("id");
-		$data=null;
-		if(!empty($id)){
-			$data=$_model->getSettingById($id);
-			$frm = $frm->FrmAddSetting($data);
-			Application_Model_Decorator::removeAllDecorator($frm);
-			$this->view->frm_setting = $frm;
+//     	}catch (Exception $e){
+//     		Application_Form_FrmMessage::message("Application Error");
+// 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+//     	}
+// 	    	$frm = new Global_Form_FrmSearchMajor();
+// 	    	$frm = $frm->FrmSetting();
+// 	    	Application_Model_Decorator::removeAllDecorator($frm);
+// 	    	$this->view->frm_search = $frm;
+// 	}
+// 	public function settingEditAction(){
+// 		$frm = new Global_Form_FrmSearchMajor();
+// 		$_model = new Global_Model_DbTable_DbSetting();
+// 		if($this->getRequest()->isPost()){
+// 			try{
+// 				$_data = $this->getRequest()->getPost();
+// 				$_model->AddNewSetting($_data);
+// 				Application_Form_FrmMessage::Sucessfull("/global/index/setting","ការបញ្ជូលដោយជោយជ័យ");
+// 			}catch (Exception $e){
+// 				Application_Form_FrmMessage::message("ការបញ្ជូលបរាជ័យ");
+// 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+// 			}
+// 		}
+// 		$id = $this->getRequest()->getParam("id");
+// 		$data=null;
+// 		if(!empty($id)){
+// 			$data=$_model->getSettingById($id);
+// 			$frm = $frm->FrmAddSetting($data);
+// 			Application_Model_Decorator::removeAllDecorator($frm);
+// 			$this->view->frm_setting = $frm;
 			
-		}else{
-			Application_Form_FrmMessage::getUrl("/global/index/setting");
-		}
-	}
+// 		}else{
+// 			Application_Form_FrmMessage::getUrl("/global/index/setting");
+// 		}
+// 	}
 	
    function addAction(){
    	if($this->getRequest()->isPost()){

@@ -47,7 +47,7 @@ class Group_ClientController extends Zend_Controller_Action {
 				$data = $this->getRequest()->getPost();
 				$db = new Group_Model_DbTable_DbClient();
 				$db->addClient($data);
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'),"/group/client");
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("Application Error");
 				echo $e->getMessage();
