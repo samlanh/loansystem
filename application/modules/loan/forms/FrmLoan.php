@@ -340,7 +340,7 @@ public function init()
 		
 		$settingEnalbleDate =0;
 		if ($settingEnalbleDate==1){
-			$session_user=new Zend_Session_Namespace('authloan');
+			$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 			if($session_user->level!=1){
 				$_releasedate->setAttribs(array(
 						'readonly'=>true,

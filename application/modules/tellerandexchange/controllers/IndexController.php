@@ -13,7 +13,7 @@ const REDIRECT_URL='/tellerandexchange/index';
 			
 			$session_transfer=new Zend_Session_Namespace('search_xhcange');
 			$db = new Tellerandexchange_Model_DbTable_Dbexchange();
-			$session_user=new Zend_Session_Namespace('authloan');
+			$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 			$user_id = $session_user->user_id;
 		
 			
@@ -66,7 +66,7 @@ const REDIRECT_URL='/tellerandexchange/index';
 	{
 	  // action body       
         //user name for report
-        $session_user=new Zend_Session_Namespace('authloan');
+        $session_user=new Zend_Session_Namespace(SYSTEM_SES);
         $this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
         
         $db_keycode = new Application_Model_DbTable_DbKeycode();
@@ -110,7 +110,7 @@ const REDIRECT_URL='/tellerandexchange/index';
 //  			}
 //  		}
  		
-//  		$session_user=new Zend_Session_Namespace('authloan');
+//  		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 //  		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
  			
 //  		$db_keycode = new Application_Model_DbTable_DbKeycode();
@@ -151,7 +151,7 @@ const REDIRECT_URL='/tellerandexchange/index';
  	// action body
  	//Get value from url
  	
- 	$session_user=new Zend_Session_Namespace('authloan');
+ 	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
  	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
  	
  	$db_keycode = new Application_Model_DbTable_DbKeycode();

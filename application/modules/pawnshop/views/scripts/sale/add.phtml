@@ -5,7 +5,7 @@
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$frm = $this->frm_loan;
 	
-	$session_user=new Zend_Session_Namespace('authloan');
+	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 	$currentBranch = $session_user->branch_id;
 	$currentlevel = $session_user->level;
 ?>

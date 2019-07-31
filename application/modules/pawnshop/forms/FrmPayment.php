@@ -7,7 +7,7 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 	}
 	public function FrmAddPayment($data=null){		
 		
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$currentBranch = $session_user->branch_id;
 		$currentlevel = $session_user->level;
 		

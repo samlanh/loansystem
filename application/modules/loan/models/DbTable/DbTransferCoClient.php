@@ -4,7 +4,7 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'ln_tranfser_co';
 	public function getUserId(){
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		return $session_user->user_id;
 	}
     public function getcoinfo(){
@@ -24,9 +24,13 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     	(SELECT co.co_khname FROM ln_co AS co WHERE co.`co_id` = tf.from LIMIT 1)) AS from_coname,
     	CONCAT (  (SELECT co.`co_code` FROM ln_co AS co WHERE co.`co_id` = tf.to LIMIT 1),",",
     	(SELECT co.co_khname FROM ln_co AS co WHERE co.`co_id` = tf.to LIMIT 1)) AS to_coname,
-    	tf.date,tf.note,
-    	(SELECT `name_en` FROM `ln_view` WHERE TYPE = 3 AND key_code = tf.status ) AS status
-    	FROM ln_tranfser_co AS tf WHERE  tf.type = 1';
+    	tf.date,tf.note
+    	';
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("tf.status");
+    	$sql.=" FROM ln_tranfser_co AS tf WHERE  tf.type = 1 ";
+    	
     	$order = " ORDER BY tf.id DESC";
     	if($search['status']>-1){
     		$where.= " AND tf.status = ".$search['status'];
@@ -45,7 +49,6 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     	if(($search['name_co'])>0){
     		$where.= " AND tf.to = ".$search['name_co'] ;
     	}
-//     	echo $sql.$where.$order;
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllinfoCo($search){//type =2

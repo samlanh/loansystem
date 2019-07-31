@@ -16,7 +16,7 @@ class Installment_Form_FrmPurchase extends Zend_Form
 	}
 	/////////////	Form Purchase		/////////////////
 	public function searchPurchase($data=null){
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$currentBranch = $session_user->branch_id;
 		$currentlevel = $session_user->level;
 		

@@ -581,7 +581,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		$key = new Application_Model_DbTable_DbKeycode();
 		$data=$key->getKeyCodeMiniInv(TRUE);
 		
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$last_name=$session_user->last_name;
 		$username = $session_user->first_name;
 		$user_id = $session_user->user_id;
@@ -791,7 +791,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		$key = new Application_Model_DbTable_DbKeycode();
 		$data=$key->getKeyCodeMiniInv(TRUE);
 		
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$last_name=$session_user->last_name;
 		$username = $session_user->first_name;
 		$user_id = $session_user->user_id;
@@ -994,7 +994,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		$key = new Application_Model_DbTable_DbKeycode();
 		$data=$key->getKeyCodeMiniInv(TRUE);
 	
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$last_name=$session_user->last_name;
 		$username = $session_user->first_name;
 		$user_id = $session_user->user_id;

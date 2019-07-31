@@ -16,11 +16,11 @@ class Installment_Form_FrmSale extends Zend_Form
 	}
 	/////////////	Form Sale		/////////////////
 	public function searchSale($data=null){
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$currentBranch = $session_user->branch_id;
 		$currentlevel = $session_user->level;
 		
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$userName=$session_user->user_name;
 		$GetUserId= $session_user->user_id;
 		$level = $session_user->level;

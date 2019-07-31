@@ -30,7 +30,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
     			'queryExpr'=>'*${0}*',
     	));
     	$rows = $db->getAllBranchName();
-    	$options=array(''=>"------Select------");
+    	$options=array(''=>$this->tr->translate("PLEASE_SELECT_BRANCH"));
     	if(!empty($rows))
     		foreach($rows AS $row){
     		$options[$row['br_id']]=$row['branch_namekh'];
@@ -49,7 +49,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
     	));
     	$db_co = new Loan_Model_DbTable_DbTransferCo();
     	$row_co = $db_co->getcoinfo();
-    	$options_co =array(''=>"---Select From CO Code---");
+    	$options_co =array(''=>$this->tr->translate("Select From CO Code"));
     	if (!empty($row_co))
     		foreach ($row_co AS $row_cos){
     		$options_co[$row_cos['co_id']] = $row_cos['co_code'];
@@ -67,7 +67,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
     	));
     	$db_zo = new Loan_Model_DbTable_DbTransferZone();
     	$row_zo = $db_zo->getzoneinfo();
-    	$options_zo =array(''=>"---Select zone---");
+    	$options_zo =array(''=>$this->tr->translate("Select Zone"));
     	if (!empty($row_co))
     		foreach ($row_zo AS $row_zo){
     		$options_zo[$row_zo['zone_id']] = $row_zo['zone_name'];
@@ -105,10 +105,10 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 				));
 		$row_froms = $db_co->getcoinfo();
-		$options_from =array(''=>"---Select From CO Name---");
+		$options_from =array(''=>$this->tr->translate("Select From CO"));
 		if (!empty($row_froms))
 			foreach ($row_froms AS $row_from){
-			$options_from[$row_from['co_id']] = $row_from['co_khname'];
+			$options_from[$row_from['id']] = $row_from['name'];
 		}
 		$formc_co->setMultiOptions($options_from);
 		
@@ -124,10 +124,10 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 		));
 		$row_co = $db_co->getcoinfo();
-		$options_co =array(''=>"---Select To CO Name---");
+		$options_co =array(''=>$this->tr->translate("Select To CO"));
 		if (!empty($row_co))
 			foreach ($row_co AS $row_cos){
-			$options_co[$row_cos['co_id']] = $row_cos['co_khname'];
+			$options_co[$row_cos['id']] = $row_cos['name'];
 		}
 		$to_co->setMultiOptions($options_co);
 		// 		$options = $db->getClientByTypes(2);
@@ -142,7 +142,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 		));
 		$row_froms = $db_co->getcoinfo();
-		$options_from =array(''=>"---Select To CO Code---");
+		$options_from =array(''=>$this->tr->translate("Select To CO Code"));
 		if (!empty($row_froms))
 			foreach ($row_froms AS $row_from){
 			$options_from[$row_from['co_id']] = $row_from['co_code'];
@@ -151,7 +151,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		
 		$note = new Zend_Dojo_Form_Element_Textarea('Note');
 		$note ->setAttribs(array(
-				'dojoType'=>'dijit.form.SimpleTextarea',
+				'dojoType'=>'dijit.form.Textarea',
 				'class'=>'fullside',
 				'style'=>'width:98%',
 				'required'=>true

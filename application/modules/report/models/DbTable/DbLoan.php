@@ -1397,7 +1397,7 @@ public function getLoanadminFeeIcome($search=null){
       function getExpenseincomereport($search=null){
       	$this->_name='ln_income_expense';
       	$db = $this->getAdapter();
-      	$session_user=new Zend_Session_Namespace('authloan');
+      	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
       	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
       	
@@ -1709,7 +1709,7 @@ AND cl.client_id = $client_id )";
       }
       function getAllExpenseReport($search=null){
       	$db = $this->getAdapter();
-      	$session_user=new Zend_Session_Namespace('authloan');
+      	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
       	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
       	$where = " WHERE ".$from_date." AND ".$to_date;
@@ -1742,7 +1742,7 @@ AND cl.client_id = $client_id )";
       }
 function getAllOtherIncomeReport($search=null,$group_by=null){
       	$db = $this->getAdapter();
-      	$session_user=new Zend_Session_Namespace('authloan');
+      	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
       	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
       	$where = " WHERE ".$from_date." AND ".$to_date;
@@ -1775,7 +1775,7 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       }
       function getTotalOtherIncomeReport($search=null){
       	$db = $this->getAdapter();
-      	$session_user=new Zend_Session_Namespace('authloan');
+      	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
       	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
       	$where = " WHERE ".$from_date." AND ".$to_date;

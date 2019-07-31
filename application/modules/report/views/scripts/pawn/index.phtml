@@ -1,6 +1,6 @@
   <?php 
 	  $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	  $session_user=new Zend_Session_Namespace('authloan');
+	  $session_user=new Zend_Session_Namespace(SYSTEM_SES);
 	  $url_report=$session_user->report_url;
   ?>
   <style>

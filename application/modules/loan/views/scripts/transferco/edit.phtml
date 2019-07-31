@@ -41,30 +41,21 @@
 			<script type="dojo/method" event="onSubmit">			
   				if(this.validate()) {
     				if(dijit.byId('branch_name').get('value')==''){
-		     			alert('Please Select Branch');
+		     			alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> ');
 		     			dijit.byId('branch_name').focus();
 		     			return false;
 		   			}
-		    		if(dijit.byId('co_code').get('value')==''){
-		     			alert('Please Select CO Code');
-		     			dijit.byId('co_code').focus();
-		     			return false;
-		   			}
 					if(dijit.byId('formc_co').get('value')==''){
-		     			alert('Please Select CO Name');
+		     			alert('<?php echo $tr->translate("Please Select CO Name");?> ');
 		    			 dijit.byId('formc_co').focus();
 		     			return false;
 		   			}
-					if(dijit.byId('to_co_code').get('value')==''){
-		     			alert('Please Select To CO Code');
-		     			dijit.byId('to_co_code').focus();
-		     			return false;
-		   			}
 					if(dijit.byId('to_co').get('value')==''){
-		     			alert('Please Select To CO Name');
+		     			alert('<?php echo $tr->translate("Select To CO");?> ');
 		     			dijit.byId('to_co').focus();
 		     			return false;
 		   			}
+					loadingBlock();
     				return true;
    				}else {
     				return false;
@@ -87,13 +78,6 @@
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("FROM_CO");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php  echo $frm->getElement('co_code');?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("FROM_CO");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php  echo $frm->getElement('formc_co');?>
 	                   </div>
 	                </div>
@@ -109,13 +93,6 @@
 					<div class="form-group">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CO_INFO");?> 
 	                   </label>
-	                </div>
-					<div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TO_CO");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php  echo $frm->getElement('to_co_code');?>
-	                   </div>
 	                </div>
 	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TO_CO");?>
@@ -165,25 +142,4 @@
 
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
-	function getClientInfo(type){
-		if(type==1){						
-			id = dijit.byId("co_code").get('value');
-			dijit.byId("formc_co").attr('value',id);
-			dijit.byId("co_code").attr('value',id);
-			
-		}else if(type==2){
-			id = dijit.byId("formc_co").get('value');
-			dijit.byId("formc_co").attr('value',id);
-			dijit.byId("co_code").attr('value',id);
-		}
-		else if(type==3){		
-			to = dijit.byId("to_co").get('value');		
-			dijit.byId("to_co_code").attr('value',to);
-			dijit.byId("to_co").attr('value',to);
-		}else if(type==4){
-			to = dijit.byId("to_co_code").get('value');
-			dijit.byId("to_co_code").attr('value',to);
-			dijit.byId("to_co").attr('value',to);
-		}
-	}
 </script>

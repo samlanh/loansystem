@@ -11,7 +11,7 @@ class Tellerandexchange_CapitalexchangeController extends Zend_Controller_Action
 	public function indexAction(){
 		try{
 // 			$session_transfer=new Zend_Session_Namespace('search_xhcange');
-// 			$session_user=new Zend_Session_Namespace('authloan');
+// 			$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 // 			$user_id = $session_user->user_id;
 			
 			$db = new Tellerandexchange_Model_DbTable_DbCapitalAgent();
@@ -143,7 +143,7 @@ class Tellerandexchange_CapitalexchangeController extends Zend_Controller_Action
 //  	// action body
 //  	//Get value from url
  	
-//  	$session_user=new Zend_Session_Namespace('authloan');
+//  	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 //  	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
  	
 //  	$db_keycode = new Application_Model_DbTable_DbKeycode();

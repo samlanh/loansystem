@@ -95,7 +95,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
 		
 		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 		
 		$this->view->loan_number = $db_global->getSaleinstallmentByBranch(1);
@@ -158,7 +158,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		
 		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
 		
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 		
 // 		$this->view->loan_numbers = $db_global->getLoanNumberByBranch(1);

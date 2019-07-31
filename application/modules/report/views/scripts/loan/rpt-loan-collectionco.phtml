@@ -2,7 +2,7 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$frm = $this->frm_search;
 	$end_dat=$this->date_show;
-	$session_user=new Zend_Session_Namespace('authloan');
+	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 	$level = $session_user->level;
 	$dbloan  = new Report_Model_DbTable_DbLoan();
 ?>

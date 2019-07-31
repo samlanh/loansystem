@@ -4,7 +4,7 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
 {
     protected $_name = 'ln_client_receipt_money';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('authloan');
+    	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	return $session_user->user_id;
     }
     public function getAllinstallmentpayment($search){
@@ -76,7 +76,7 @@ function getAllRemainSchedule($loan_id){
 public function addILPayment($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
-    	$session_user=new Zend_Session_Namespace('authloan');
+    	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	$user_id = $session_user->user_id;
     	try{
     	$reciept_no = $data['reciept_no'];

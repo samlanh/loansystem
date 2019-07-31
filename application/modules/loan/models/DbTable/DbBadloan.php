@@ -5,7 +5,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     protected $_name = 'ln_badloan';
     function addbadloan($_data){
     	$session_transfer=new Zend_Session_Namespace();
-    	$session_user=new Zend_Session_Namespace('authloan');
+    	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	$user_id = $session_user->user_id;
     	$db = $this->getAdapter();
     	$db->beginTransaction();
@@ -65,7 +65,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     function updatebadloan($_data){
     	
     	$session_transfer=new Zend_Session_Namespace();
-    	$session_user=new Zend_Session_Namespace('authloan');
+    	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	$user_id = $session_user->user_id;
     	if($_data['Term']<90){
     		$writ_off = 0;
@@ -135,7 +135,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     }
     function updatebadloan_bad($_data){
     	$session_transfer=new Zend_Session_Namespace();
-    	$session_user=new Zend_Session_Namespace('authloan');
+    	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	$user_id = $session_user->user_id;
     	if($_data['Term']<90){
     		$writ_off = 0;

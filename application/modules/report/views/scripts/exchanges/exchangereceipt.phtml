@@ -1,7 +1,7 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលស់ប្រាក់ដើម",4=>"បង់ផ្តាច់");
-$session_user=new Zend_Session_Namespace('authloan');
+$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 $data = $this->data;
 
 $Exchange = $this->Exchange;

@@ -4,12 +4,14 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'ln_tranfser_co';
     public function getcoinfo(){
-    	$db = $this->getAdapter();
-    	$sql = 'SELECT `co_id`,`branch_id`,`co_code`,`co_khname` FROM `ln_co` WHERE STATUS = 1';
-    	return $db->fetchAll($sql);
+    	$dbgb = new Application_Model_DbTable_DbGlobal();
+    	return $dbgb->getAllCo();
+//     	$db = $this->getAdapter();
+//     	$sql = 'SELECT `co_id`,`branch_id`,`co_code`,`co_khname` FROM `ln_co` WHERE STATUS = 1';
+//     	return $db->fetchAll($sql);
     }
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('authloan');
+    	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	return $session_user->user_id;
     }
     public function getAllinfoCo($search = null){
@@ -51,7 +53,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    		'branch_id'=> $data['branch_name'],
 	    		'from'=> $data['formc_co'],
 	    		'to'=> $data['to_co'],
-	    		'status'=> $data['status'],
+	    		'status'=> 1,//$data['status'],
 	    		'date'=> $data['Date'],
 	    		'note'=> $data['Note'],
 	    		'type'=> 1,
@@ -80,6 +82,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    	
 	    	$db->commit();
     	}catch (Exception $e){
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     		Application_Form_FrmMessage::message("INSERT_FAIL");
     		$db->rollBack();
     	}
@@ -110,6 +113,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     		$db->commit();
     		
     	}catch (Exception $e){
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     		Application_Form_FrmMessage::message("INSERT_FAIL");
     		$db->rollBack();
     	}

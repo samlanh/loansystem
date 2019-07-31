@@ -7,7 +7,7 @@
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	echo $this->frmpupopinfoclient;
 	
-	$session_user=new Zend_Session_Namespace('authloan');
+	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 	$currentBranch = $session_user->branch_id;
 	$currentlevel = $session_user->level;
 ?>

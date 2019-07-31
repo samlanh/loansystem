@@ -12,7 +12,7 @@ class IndexController extends Zend_Controller_Action
     }
     public function indexAction()
     {
-    	$session_user=new Zend_Session_Namespace('authloan');
+    	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	$username = $session_user->first_name;
     	$user_id = $session_user->user_id;
     	if (!empty($user_id)){
@@ -40,7 +40,7 @@ class IndexController extends Zend_Controller_Action
 				$db_user=new Application_Model_DbTable_DbUsers();
 				if($db_user->userAuthenticate($user_name,$password)){					
 					
-					$session_user=new Zend_Session_Namespace('authloan');
+					$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 					$user_id=$db_user->getUserID($user_name);
 					$user_info = $db_user->getUserInfo($user_id);
 					$arr_acl=$db_user->getArrAcl($user_info['user_type']);
@@ -139,7 +139,7 @@ class IndexController extends Zend_Controller_Action
         if($this->getRequest()->getParam('value')==1){        	
         	$aut=Zend_Auth::getInstance();
         	$aut->clearIdentity();        	
-        	$session_user=new Zend_Session_Namespace('authloan');
+        	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
         	
         	$log=new Application_Model_DbTable_DbUserLog();
 			$log->insertLogout($session_user->user_id);
@@ -155,7 +155,7 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
         if ($this->getRequest()->isPost()){ 
-			$session_user=new Zend_Session_Namespace('authloan');    		
+			$session_user=new Zend_Session_Namespace(SYSTEM_SES);    		
     		$pass_data=$this->getRequest()->getPost();
     		if ($pass_data['password'] == $session_user->pwd){
     			    			 

@@ -6,7 +6,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 		$this->_name=$name;
 	}
 	public static function getUserId(){
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		return $session_user->user_id;
 	}
 	function currentlang(){
@@ -32,7 +32,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
     	return $where;
     }
 	public function getUserInfo(){
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$userName=$session_user->user_name;
 		$GetUserId= $session_user->user_id;
 		$level = $session_user->level;
@@ -41,12 +41,12 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 		return $info;
 	}
 	public static function GlobalgetUserId(){
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		return $session_user->user_id;
 	}
 	public function getAccessPermission($branch='branch_id'){
 		
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$currentBranch = $session_user->branch_id;
 		$currentlevel = $session_user->level;
 		if($currentlevel==1){
@@ -2036,6 +2036,23 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	$where.=$this->getAccessPermission('l.`branch_id`');
   	$group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` DESC,c.`client_id` ASC ,d.id ASC ";
   	return $db->fetchAll($sql.$where.$group_by);
+  }
+  
+  function getAllCo($branch_id=null){
+  	$db = $this->getAdapter();
+  	$sql="";
+  	$sql = " SELECT c.`co_id` AS id  ,
+  	c.`branch_id`,
+  	CONCAT(COALESCE(c.`co_code`,''),'-',COALESCE(c.`co_khname`,'')) AS name ,
+  	c.`co_id`,
+  	c.co_code,
+  	c.`co_khname`
+  	FROM `ln_co` AS c WHERE (c.`co_khname`!='') AND c.status=1  " ;
+  	if($branch_id!=null){
+  		$sql.=" AND c.`branch_id`= $branch_id ";
+  	}
+  	$sql.=" ORDER BY CONCAT(COALESCE(c.`co_code`,''),'-',COALESCE(c.`co_khname`,'')) DESC ";
+  	return $db->fetchAll($sql);
   }
 }
 ?>

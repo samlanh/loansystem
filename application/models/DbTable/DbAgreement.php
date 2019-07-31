@@ -5,7 +5,7 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_client';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('authloan');
+    	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	return $session_user->user_id;
     	 
     }

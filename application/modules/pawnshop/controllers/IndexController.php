@@ -83,7 +83,7 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 	    Application_Model_Decorator::removeAllDecorator($frm);
 	    $this->view->Form_Frmcallecterall = $frm;
 	    
-	    $session_user=new Zend_Session_Namespace('authloan');
+	    $session_user=new Zend_Session_Namespace(SYSTEM_SES);
 	    $this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 	    $this->view->leveluser = $session_user->level;
 	    

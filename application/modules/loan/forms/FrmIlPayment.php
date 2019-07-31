@@ -262,7 +262,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		
 		$settingEnalbleDate =0;
 		if ($settingEnalbleDate==1){
-			$session_user=new Zend_Session_Namespace('authloan');
+			$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 			if($session_user->level!=1){
 				$_collect_date->setAttribs(array(
 						'readonly'=>true,

@@ -293,7 +293,7 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 		}
 		public function getAllBranchOption(){
 			$db = new Application_Model_DbTable_DbGlobal();
-			$session_user=new Zend_Session_Namespace('authloan');
+			$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 			$currentBranch = $session_user->branch_id;
 			$currentlevel = $session_user->level;
 			$branch = null;

@@ -148,7 +148,7 @@ class tellerandexchange_SpreadController extends Zend_Controller_Action
 //     	$this->view->ratelist = $db_rate->getCurrentRate();
 //     	$db_keycode = new Application_Model_DbTable_DbKeycode();
 //     	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
-//     	$session_user=new Zend_Session_Namespace('authloan');
+//     	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 //     	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 //     }
     public function incurandoutcuranAction(){
@@ -182,7 +182,7 @@ class tellerandexchange_SpreadController extends Zend_Controller_Action
     	$this->view->ratelist = $db_rate->getCurrentRate();
     	$db_keycode = new Application_Model_DbTable_DbKeycode();
     	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
-    	$session_user=new Zend_Session_Namespace('authloan');
+    	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
     	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
     	
     	$dbEx = new Tellerandexchange_Model_DbTable_Dbexchange();

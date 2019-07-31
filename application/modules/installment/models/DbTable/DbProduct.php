@@ -127,7 +127,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
     	$db->beginTransaction();
 		$user_info = new Application_Model_DbTable_DbGetUserInfo();
 		$result = $user_info->getUserInfo();
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		 $level = $result["level"];
     	try {
@@ -277,7 +277,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 	
 	public function getAllBranchOption($data){
 		$db = new Application_Model_DbTable_DbGlobal();
-// 		$session_user=new Zend_Session_Namespace('authloan');
+// 		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 // 		$currentBranch = $session_user->branch_id;
 // 		$currentlevel = $session_user->level;
 // 		$branch = null;

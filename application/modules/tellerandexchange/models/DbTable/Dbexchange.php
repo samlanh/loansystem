@@ -158,7 +158,7 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 		}
 	}
 	function saveExchange($data){//for save exchange sigle
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$data["to_amount_type"] =$data['exchangeto'];
 		$db = $this->getAdapter();
 		$db->beginTransaction();

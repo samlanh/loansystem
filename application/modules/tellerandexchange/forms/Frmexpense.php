@@ -46,7 +46,7 @@ Class Tellerandexchange_Form_Frmexpense extends Zend_Dojo_Form {
 		));
 		$_Date->setValue(date('Y-m-d'));
 		
-		$session_user=new Zend_Session_Namespace('authloan');
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		if($session_user->level!=1){
 			$_Date->setAttribs(array(
 					'readonly'=>true,

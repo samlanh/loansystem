@@ -9,7 +9,7 @@
 	$vdgb = new Application_Model_DbTable_DbGlobal();
 	$currentlang = $vdgb->currentlang();
 	
-	$session_user=new Zend_Session_Namespace('authloan');
+	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 	$username = $session_user->first_name;
 	$them_style ='soria';
 	$level =  $session_user->level;
