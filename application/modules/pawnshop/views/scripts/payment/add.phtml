@@ -640,8 +640,7 @@ dojo.ready(function(){
 	searchAttr: "name",
 	class: 'fullside',
 	onChange: function() {
-		if(not_submit==0){
-	   }
+		
 }
 	}, "client_id");
 
@@ -661,8 +660,7 @@ dojo.ready(function(){
 	searchAttr: "name",
 	class: 'fullside',
 	onChange: function() {
-		if(not_submit==0){
-		}
+		
 	}
 	}, "client_code");
 
@@ -707,25 +705,19 @@ function filterClient(){
 	}
 	getbranchinfo();
 }
-    var tran_store  = getDataStorefromJSON('','name',null);
-	var tran_status = {};
 function print(){
 	window.frames["print_frame"].document.body.innerHTML=dojo.byId('rpt_print').innerHTML;
     window.frames["print_frame"].window.focus();
     window.frames["print_frame"].window.print();
-	//dijit.byId("frm_add_group_pay").submit();
 	submitData();
-   // hideDialog();
 }
 function hideDialog() {		
 	dijit.byId("frm_client").hide();
-	//submitData()
 }
 function doPrint() {
 	window.frames["print_frame"].document.body.innerHTML=dojo.byId('frm_client').innerHTML;
     window.frames["print_frame"].window.focus();
     window.frames["print_frame"].window.print();
-   // hideDialog();
 }
 </script>
 <script type="text/javascript">
@@ -1214,11 +1206,11 @@ function roundhundred(n){
 	    loading();
 	    window.location.href = "<?php echo $this->baseUrl()."/pawnshop/payment"?>";
 	}
-  var url_branchifo = '<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'getbranch')); ?>';
-  function getbranchinfo(){
+var url_branchifo = '<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'getbranch')); ?>';
+function getbranchinfo(){
   	branch_id = dijit.byId('branch_id').get('value');
   	if(branch_id==''){
-  		alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?>' !);
+  		alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?>!');
   		dijit.byId('branch_id').focus();
   		return false;
   	}
@@ -1236,5 +1228,5 @@ function roundhundred(n){
   			alert("eror receipt");
   		}
   	});
-  }
+ }
 </script>

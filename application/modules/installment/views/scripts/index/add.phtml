@@ -59,8 +59,7 @@
 						dijit.byId('duration').focus();
 						return false;
 					}
-					dijit.byId('savenew').set('disabled',true);
-			   	 	dijit.byId('saveclose').set('disabled',true);
+			   	 	//dijit.byId('saveclose').set('disabled',true);
 					return true;
 				}else {
 					return false;
@@ -244,10 +243,6 @@
 					<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
 		    			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 							 iconClass="dijitIconClear"/>
-						<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
-							 iconClass="dijitIconDelete"/>
-						<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
-							 iconClass="dijitIconNewTask"/>
 						<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW_SCHEDULE")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 							 iconClass="dijitIconNewTask"/>
 					 <input type="button" onclick="showInvoice();" label="<?php echo $tr->translate("PREVIEW_INVOICE")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
@@ -1123,9 +1118,7 @@ function submitDataClose(type){
 			return false;
 		}
 		dijit.byId('saveprint').set('disabled',true);
-		dijit.byId('saveclose').set('disabled',true);
 		dijit.byId('save_close').set('disabled',true);
-		dijit.byId('savenew').set('disabled',true);
 		var url_submit = '<?php echo $this->url(array('module'=>'installment','controller'=>'index','action'=>'submitloan')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	

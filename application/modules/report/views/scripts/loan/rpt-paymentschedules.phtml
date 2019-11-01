@@ -153,8 +153,8 @@ table.content-data{
 		                    <td><?php echo str_replace('.00', '', number_format($row['outstanding'],2));?></td>
 		                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
 		                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
-		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php echo number_format($row['total_payment'],2);//str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
-		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php if($key+1<=4){ echo str_replace('.00', '', number_format($row['total_interest'],2));}?></td>
+		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
+		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php if($row['is_penalty']==1){ echo str_replace('.00', '', number_format($row['total_interest'],2));}?></td>
 		                    <td><?php echo ($row['is_completed']==1)?"បង់ដាច់":""?></td>
 		                </tr>
 	               <?php }}

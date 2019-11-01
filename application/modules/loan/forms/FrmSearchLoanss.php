@@ -136,7 +136,7 @@ Class Loan_Form_FrmSearchLoanss extends Zend_Dojo_Form {
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options='';
+		$options=array();
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}

@@ -72,8 +72,9 @@ class Report_Model_DbTable_DbpawnCollect extends Zend_Db_Table_Abstract
 		WHERE ((`l`.`id` = `d`.`pawn_id`)
 		       AND (`d`.`is_completed` = 0)
 		       AND (`l`.`status` = 1)
-		        AND l.is_dach = 0
-		       AND (`d`.`status` = 1)) ";
+		       AND l.is_dach = 0
+		       AND (`d`.`status` = 1))
+    	       AND ((principle_after+total_interest_after)>0) ";
     	$where ='';
     	
     	$to_date = (empty($search['end_date']))? '1': " date_payment = '".$search['end_date']." 00:00:00'";

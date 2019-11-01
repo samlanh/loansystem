@@ -147,9 +147,7 @@ table.tb-footer tr.style-head {
 			                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</td>
 			                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
 			                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CO_NAME");?>&nbsp;</td>
-			                    
 			                    <td colspan="7">&nbsp;<?php echo $tr->translate("ILLOAN_INFO");?>&nbsp;</td>
-			                    
 			                </tr>
 			                <tr class="style-head">
 			                    <td> &nbsp;<?php echo $tr->translate("RELEASE_DATE");?>&nbsp;</td>
@@ -181,19 +179,20 @@ table.tb-footer tr.style-head {
 						   $dayBath=0;
 		               if(!empty($this->outstandloan)) foreach($this->outstandloan as $key =>$row){?>
 		               <?php 
-		                  if($row['total_principaid']==$row['total_capital']){
+		                  if($row['total_principaid']>=$row['total_capital']){
 		                  	continue;
 		                  }
+		                  
 		                  $i++;
 		               		if($row['termborrow']==1){
 		               			$amt_loanday=$amt_loanday+1;
 		               		}elseif($row['termborrow']==2){
 		               			$amt_loanweek=$amt_loanweek+1;
 		               		}else{
-		               			
 		               			$amt_loanmonth = $amt_loanmonth+1;
 		               		}
 		               		$total_receive= $row['total_principaid'];
+		               		
 			               if($row['curr_type']==1){
 			               		$amt_r = $amt_r+$row['total_capital'];
 			               		$amn_r = $amn_r+$total_receive;
@@ -219,7 +218,6 @@ table.tb-footer tr.style-head {
 									}else{
 										$monthDolar = $monthDolar+1;
 									}
-								
 			               }else{
 			               		$amt_b = $amt_b+$row['total_capital'];
 			               		$amn_b = $amn_b+$total_receive;
@@ -248,7 +246,6 @@ table.tb-footer tr.style-head {
 								<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']).$row['pay_term'];?>&nbsp;</td>
 								<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($total_receive,2).' '.$row['currency_type'];?>&nbsp;</td>
 								<td>&nbsp;
-								<?php //echo $row['total_principaid'];?>
 								<?php 
 									echo (round(($total_receive/$row['total_capital']),2)*100).' %';
 								?>&nbsp;</td>

@@ -18,7 +18,7 @@ class Tellerandexchange_Form_FrmCapitalAgent extends Zend_Dojo_Form
 				'required' =>'true'
 		));
 		$rows = $db->getAllCurrencyType();
-		$options='';
+		$options=array();
 		$options['']=$tr->translate("Choose Currency");
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['id']]=$row['curr_namekh'];
@@ -35,7 +35,7 @@ class Tellerandexchange_Form_FrmCapitalAgent extends Zend_Dojo_Form
 		));
 		
 		$rs = $dbuser->getUserListSelect();
-		$options='';
+		$options=array();
 		if(!empty($rs))foreach($rs AS $row){
 			$options[$row['id']]=$row['name'];
 		}

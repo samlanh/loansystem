@@ -43,7 +43,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
                		<select dojoType="dijit.form.FilteringSelect" class="fullside"  name="selling_type" id="selling_type" >
 	 					<option value="-1"><?php echo $tr->translate('ជ្រើសរើសប្រភេទលក់');?></option>
 	 					<option value="1" <?php if ($this->search['selling_type']==1){ echo 'selected="selected"';}?>><?php echo $tr->translate('ទិញដាច់');?></option>
-	 					<option value="2" <?php if ($this->search['selling_type']==1){ echo 'selected="selected"';}?>><?php echo $tr->translate('បង់រំលស់');?></option>
+	 					<option value="2" <?php if ($this->search['selling_type']==2){ echo 'selected="selected"';}?>><?php echo $tr->translate('បង់រំលស់');?></option>
 	 				</select>
                </div>
                <div class="col-md-2 col-sm-2 col-xs-12">
@@ -161,9 +161,13 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			                <?php 
 			                	$location="";
 			                	$gTotalSell=0;
+			                	$paid=0;
+			                	$balance = 0;
 			                    if(!empty($this->sale)) 
 			                	foreach ($this->sale as $key => $rs){ 
 				                	$gTotalSell = $gTotalSell + $rs["selling_price"];
+				                	$paid=$paid+$rs["paid"];
+				                	$balance = $balance+$rs["balance"];
 				                	if ($rs["selling_type"]==2){
 				                	}
 			                    ?>
@@ -192,8 +196,11 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 				                </tr>
 			                <?php }?>
 			                	<tr style="border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
-			                		<td colspan="12" align="right"><?php echo $tr->translate("Grand Total Price");?>&nbsp;</td>
-			                		<td colspan="4" align="right">&nbsp;<strong><?php echo "$ ".number_format($gTotalSell,2)?></strong>&nbsp;</td>
+			                		<td colspan="10"></td>
+			                		<td align="right">&nbsp;<strong><?php echo "$ ".number_format($gTotalSell,2)?></strong>&nbsp;</td>
+			                		<td colspan="" align="right">&nbsp;<strong><?php echo "$ ".number_format($paid,2)?></strong>&nbsp;</td>
+			                		<td colspan="" align="right">&nbsp;<strong><?php echo "$ ".number_format($balance,2)?></strong>&nbsp;</td>
+			                		<td></td>
 			                	</tr>
 			             </table>
 			    	</td>

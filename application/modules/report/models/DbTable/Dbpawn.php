@@ -368,7 +368,8 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				  AND l.is_dach = 0
 				  AND d.`status`=1
 				  AND c.`client_id` = l.`customer_id` 
-				  AND b.`br_id`=l.branch_id ";
+				  AND b.`br_id`=l.branch_id 
+				  AND ((principle_after+total_interest_after)>0) ";
       	$where='';
       	if(!empty($search['adv_search'])){
       		$s_search = addslashes(trim($search['adv_search']));

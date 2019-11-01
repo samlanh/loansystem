@@ -389,9 +389,6 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
 	   	if(!empty($search['adv_search'])){
 	   		$s_where = array();
 	   		$s_search = addslashes(trim($search['adv_search']));
-// 	   		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-// 	   		$s_where[] = " client_number LIKE '%{$s_search}%'";
-// 	   		$s_where[] = " client_name LIKE '%{$s_search}%'";
 	   		$s_where[] = " receipt_no LIKE '%{$s_search}%'";
 	   		$where .=' AND ('.implode(' OR ',$s_where).')';
 	   		if($s_search=='បង់មុន'){
@@ -517,7 +514,8 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
 		AND l.`is_completed` = 0
 		AND l.`status` = 1
 		AND d.`status` = 1 
-   		AND d.`is_completed` =0";
+   		AND d.`is_completed` =0 
+   	    AND ((principle_after+total_interest_after)>0) ";
    	$where ='';
    	$str_next = '+2 day';
    	$search['end_date']=date("Y-m-d", strtotime($search['end_date'].$str_next));
@@ -585,55 +583,9 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
 	   	AND l.`is_completed` = 0
 	   	AND l.`status` = 1
 	   	AND d.`status` = 1
-	   	AND d.`is_completed` =0 ";
+	   	AND d.`is_completed` =0 
+   		AND ((principle_after+total_interest_after)>0) ";
 	   	
-	//    	$sql=" SELECT
-	//    	`co_khname` AS co_name ,
-	//    	co_code,
-	//    	b.branch_namekh,
-	//    	co.`co_id`,
-	//    	c.`client_number`,
-	//    	c.`name_kh`,
-	//    	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
-	//    	(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
-	//    	(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
-	//    	(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
-	//    	c.`phone`,
-	//    	l.`loan_amount` as total_capital,
-	//    	l.`loan_number`,
-	//    	l.interest_rate  AS interest_rate,
-	//    	l.`date_release`,
-	//    	l.`date_line`,
-	//    	l.`total_duration`,
-	//    	l.`time_collect`,
-	//    	l.`currency_type` AS curr_type,
-	//    	l.`collect_typeterm`,
-	//    	(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
-	//    	(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`pay_term`)) LIMIT 1) AS `Term Borrow`,
-	//    	(SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
-	//    	SUM(d.`principle_after`) AS principle_after,
-	//    	SUM(d.`total_interest_after`) AS total_interest_after,
-	//    	SUM(d.`total_payment_after`) AS total_payment_after,
-	//    	SUM(d.`penelize`) AS penelize,
-	//    	d.`date_payment` ,
-	//    	`d`.`installment_amount`   AS `times`,
-	//    	COUNT(l.`id`) AS amount_late,
-	//    	l.`branch_id`
-	//    	FROM
-	//    	`ln_loan_detail` AS d,
-	//    	`ln_loan` AS l,
-	//    	`ln_co` AS co,
-	//    	`ln_client` AS c ,
-	//    	`ln_branch` AS b
-	//    	WHERE
-	//    	d.`is_completed` = 0
-	//    	AND `l`.`is_badloan`=0
-	//    	AND l.`id` = d.`loan_id`
-	//    	AND l.`status` = 1
-	//    	AND d.`status`=1
-	//    	AND co.`co_id` = l.`co_id`
-	//    	AND c.`client_id` = l.`customer_id`
-	//    	AND b.`br_id`=l.branch_id ";
 	   	$where='';
 	   	if(!empty($search['adv_search'])){
 	   		$s_where = array();

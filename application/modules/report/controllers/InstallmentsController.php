@@ -318,7 +318,6 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 					'end_date'=>date('Y-m-d'),
 					'status' => -1,);
 		}
-// 		$db  = new Report_Model_DbTable_DbLoan();
 		$this->view->date_show=$search['end_date'];
 		$this->view->list_end_date=$search;
 		

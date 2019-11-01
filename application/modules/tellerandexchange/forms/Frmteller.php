@@ -20,7 +20,7 @@ Class Tellerandexchange_Form_Frmteller extends Zend_Dojo_Form {
 				'class'=>'fullside'
 				));
 		$rows = $db->getAllBranchName();
-		$options='';
+		$options=array();
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}
@@ -32,7 +32,7 @@ Class Tellerandexchange_Form_Frmteller extends Zend_Dojo_Form {
 				'class'=>'fullside'
 				));
 		$rows = $db ->getClientByType(1);
-		$options="";
+		$options=array();
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['client_id']]=$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];
 		}

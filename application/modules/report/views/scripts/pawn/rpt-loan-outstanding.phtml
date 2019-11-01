@@ -132,13 +132,10 @@ dojo.require("dijit.form.DateTextBox");
 			               
 		               if(!empty($this->outstandloan))foreach($this->outstandloan as $key =>$row){?>
 		               <?php 
-				               
-		               
-		              		 $total_receive= $row['total_principaid'];
+		              		$total_receive= $row['total_principaid'];
 		               		if($total_receive>=$row['total_capital']){
 		               			continue;
 		               		}
-		               		
 		               		if($row['termborrow']==1){
 		               			$amt_loanday=$amt_loanday+1;
 		               		}elseif($row['termborrow']==2){
@@ -146,8 +143,6 @@ dojo.require("dijit.form.DateTextBox");
 		               		}else{
 		               			$amt_loanmonth = $amt_loanmonth+1;
 		               		}
-		               		
-		               		
 		               		$i++;
 		               		
 			               if($row['curr_type']==1){
@@ -163,7 +158,6 @@ dojo.require("dijit.form.DateTextBox");
 								}else{
 									$monthRiel = $monthRiel+1;
 								}
-								
 			               }elseif($row['curr_type']==2){
 			               		$amt_d = $amt_d+$row['total_capital'];
 			               		$amn_d = $amn_d+$total_receive;
@@ -177,7 +171,6 @@ dojo.require("dijit.form.DateTextBox");
 								}else{
 									$monthDolar = $monthDolar+1;
 								}
-								
 			               }else{
 			               		$amt_b = $amt_b+$row['total_capital'];
 			               		$amn_b = $amn_b+$total_receive;
@@ -192,7 +185,6 @@ dojo.require("dijit.form.DateTextBox");
 									$monthBath = $monthBath+1;
 								}
 			               }
-			               
 		               ?>
 							<tr align="center" class="hover">
 								<td>&nbsp;<?php echo $i; ?>&nbsp;</td>

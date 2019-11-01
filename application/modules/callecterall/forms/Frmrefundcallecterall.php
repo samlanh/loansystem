@@ -9,7 +9,7 @@ Class Callecterall_Form_Frmrefundcallecterall extends Zend_Dojo_Form {
 		$db = new Application_Model_DbTable_DbGlobal();
 		$branch = new Zend_Dojo_Form_Element_FilteringSelect('branch'); 
 		$branch->setAttribs(array( 'dojoType'=>'dijit.form.FilteringSelect', 'class'=>'fullside', 'required' =>'true' )); 
-		$rows = $db->getAllBranchName(); $options=''; if(!empty($rows))foreach($rows AS $row){ $options[$row['br_id']]=$row['branch_namekh']; } 
+		$rows = $db->getAllBranchName(); $options=array(); if(!empty($rows))foreach($rows AS $row){ $options[$row['br_id']]=$row['branch_namekh']; } 
 		$branch->setMultiOptions($options);
 		
 		$db = new Application_Model_DbTable_DbGlobal();

@@ -1491,7 +1491,7 @@ public function getLoanadminFeeIcome($search=null){
       		$where.=" AND v.branch_id = ".$search['branch'];
       	}
       	
-      	if(!empty($search['currency_type'])){
+      	if($search['currency_type']>0){
       		$where.=" AND v.`curr_type` = ".$search['currency_type'];
       	}
       	$order = ' GROUP BY v.`curr_type` ORDER BY v.co_name ';

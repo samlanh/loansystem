@@ -162,7 +162,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 // 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
-		$options='';
+		$options=array();
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}

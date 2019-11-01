@@ -155,11 +155,13 @@ table.tb-footer tr.style-head {
 				               $result_b=0;$result_r=0;$result_d=0;$count_d=0;
 				               $count_r=0;$count_b=0;$amt_loanmonth=0;$amt_loanweek=0;
 				               $amt_loanday=0;
+				               $number = 0;
 			               	if(!empty($this->outstandloan))foreach($this->outstandloan as $key =>$row){?>
 			               	<?php 
 						            if($row['total_principaid']==$row['selling_price']){
 						              continue;
 						            }
+						            $number ++;
 						            $installmentPrice = $row['selling_price'] - $row['paid'];
 			               			$total_receive= $row['total_principaid']- $row['paid'];
 				             	    $amt_d = $amt_d+$installmentPrice;
@@ -168,7 +170,7 @@ table.tb-footer tr.style-head {
 									$count_d=$count_d+1;
 			              	 ?>
 								<tr class="style-rowdata hover" align="center">
-									<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+									<td align="center">&nbsp;<?php echo $number; ?>&nbsp;</td>
 									<td>&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 									<td>&nbsp;<?php echo $row['sale_no'];?>&nbsp;</td>
 									<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>

@@ -99,6 +99,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
 	  		(l.loan_amount) AS total_capital,l.interest_rate,l.payment_method,
 	    	l.time_collect,
 	    	l.zone_id,
+	    	l.times_penalty,
 	    	(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
 	    	l.status AS str ,l.status 
 	    	FROM `ln_loan` AS l
@@ -275,8 +276,8 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     				'is_completed'=>0,
     				'graice_period'=>$data['graice_pariod'],
     				'amount_collect_principal'=>$data['amount_collect'],
-    				'payment_fixed'=>$data['amount_collect_pricipal']
-    				//'deposit'=>$data['deposit'],
+    				'payment_fixed'=>$data['amount_collect_pricipal'],
+    				'times_penalty'=>$data['times_penalty'],
     				//'pay_after'=>$data['pay_late'],// not use
     				);
     			$loan_id = $this->insert($datagroup);//add group loan
@@ -604,6 +605,11 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
 	    				$this->_name='ln_loan_detail';
     				}
     				if($data['amount_collect']==$amount_collect){
+    					$is_penalty = 0;
+    					if($i<=$data['times_penalty']){
+    						$is_penalty =1;
+    					}
+    					 
     					$datapayment = array(
     							'loan_id'=>$loan_id,
     							'outstanding'=>$remain_principal,//good
@@ -619,8 +625,9 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     							'date_payment'=>$next_payment,//good
     							'is_completed'=>0,
     							'status'=>1,
-    							'amount_day'=>$old_amount_day,
-    							'collect_by'=>$data['co_id'],
+    							'amount_day' => $old_amount_day,
+    							'collect_by' => $data['co_id'],
+    							'is_penalty' => $is_penalty,
     							'installment_amount'=>$i
     					);
     					$this->insert($datapayment);
@@ -754,7 +761,8 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     				'is_completed'=>0,
     				'graice_period'=>$data['graice_pariod'],
     				'amount_collect_principal'=>$data['amount_collect'],
-    				'payment_fixed'=>$data['amount_collect_pricipal']
+    				'payment_fixed'=>$data['amount_collect_pricipal'],
+    				'times_penalty'=>$data['times_penalty'],
     		);
     		$loan_id =  $data['id'];
     		$where = $db->quoteInto('id=?', $loan_id);
@@ -764,7 +772,6 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     		$this->_name='ln_loan_detail';
     		$where="loan_id =".$loan_id;
     		$this->delete($where);
-//     		echo $loan_id;exit();
     		
     		$dbtable = new Application_Model_DbTable_DbGlobal();
     		$remain_principal = $data['total_amount'];
@@ -1091,6 +1098,11 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
 	    				$this->_name='ln_loan_detail';
     				}
     				if($data['amount_collect']==$amount_collect){
+    					$is_penalty = 0;
+    					if($i<=$data['times_penalty']){
+    						$is_penalty =1;
+    					}
+    					
     					$datapayment = array(
     							'loan_id'=>$loan_id,
     							'outstanding'=>$remain_principal,//good
@@ -1108,7 +1120,8 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     							'status'=>1,
     							'amount_day'=>$old_amount_day,
     							'collect_by'=>$data['co_id'],
-    							'installment_amount'=>$i
+    							'installment_amount'=>$i,
+    							'is_penalty' => $is_penalty,
     					);
     					$this->insert($datapayment);
     					$amount_collect=0;

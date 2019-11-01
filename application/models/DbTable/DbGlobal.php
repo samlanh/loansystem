@@ -304,7 +304,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 	   	}
 	   	$rows = $this->getAdapter()->fetchAll($sql);
 	   	if($opt!=null){
-	   		$options="";
+	   		$options=array();
 	   		if(!empty($rows))foreach($rows AS $row){
 	   			$options[$row['id']]=($row['displayby']==1)?$row['displayby']:$row['curr_nameen'];
 	   		}
@@ -665,7 +665,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	$rows = $this->getAdapter()->fetchAll($sql);
   	if($option!=null){
-  		$options="";
+  		$options=array();
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['id']]=($row['displayby']==1)?$row['payment_namekh']:$row['payment_nameen'];
   		}
@@ -673,8 +673,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}else{
   		return $rows;
   	}
-//   return $this->getAdapter()->fetchAll($sql);	
-  	
   }
   public function getAllStaffPosition($id=null,$option = null){
   	$db = $this->getAdapter();

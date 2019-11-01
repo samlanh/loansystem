@@ -17,7 +17,7 @@ class Tellerandexchange_Form_FrmTransferCondicton extends Zend_Dojo_Form
 		));
 		
 		$rows = $db->getAllCurrencyType();
-		$options='';
+		$options=array();
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['id']]=$row['curr_namekh'];
 			}
