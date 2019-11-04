@@ -234,6 +234,10 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
 		
+		$formFilter = new Installment_Form_FrmProduct();
+		$this->view->formFilter = $formFilter->add();
+		Application_Model_Decorator::removeAllDecorator($formFilter);
+		
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->footerReport = $frmpopup->getFooterReport();
 	}
@@ -262,6 +266,10 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$frm = $frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
+		
+		$formFilter = new Installment_Form_FrmProduct();
+		$this->view->formFilter = $formFilter->add();
+		Application_Model_Decorator::removeAllDecorator($formFilter);
 		
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->footerReport = $frmpopup->getFooterReport();

@@ -5,6 +5,8 @@
 	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 	$level =$session_user->level;
 	$data = $this->data;
+	
+	$formFilter = $this->formFilter;
 ?>
 <title><?php echo $tr->translate("RPT_INSTALMENT_PAYMENT");?></title>
 <script>
@@ -40,13 +42,10 @@ table.tb-footer tr.style-head {
                		<?php echo $frm->getElement('members');?>
                </div>
                <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('product_id');?>
+               		<?php echo $formFilter->getElement('category');?>
                </div>
            	</div>
            	<div class="form-group">
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('currency_type');?>
-               </div>
                <div class="col-md-3 col-sm-3 col-xs-12">
                		<?php echo $frm->getElement('start_date');?>
                </div>

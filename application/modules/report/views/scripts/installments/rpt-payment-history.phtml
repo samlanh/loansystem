@@ -3,6 +3,8 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_search;
 $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលស់ប្រាក់ដើម",4=>"បង់ផ្តាច់");
 $data = $this->data;
+
+$formFilter = $this->formFilter;
 ?>
 <script>
      dojo.require("dijit.form.DateTextBox");
@@ -38,13 +40,10 @@ table.tb-footer tr.style-head {
                		<?php echo $frm->getElement('members');?>
                </div>
                <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('product_id');?>
+               		<?php echo $formFilter->getElement('category');?>
                </div>
             </div>
             <div class="form-group">
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('currency_type');?>
-               </div>
                <div class="col-md-3 col-sm-3 col-xs-12">
                		<?php echo $frm->getElement('start_date');?>
                </div>

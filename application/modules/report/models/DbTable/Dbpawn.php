@@ -618,6 +618,9 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       			$where.=" AND `crm`.`payment_option` = 2 ";
       		}
       	}
+      	if (!empty($search['currency_type'])){
+      		$where.=" AND `crm`.`currency_type` = ".$search['currency_type'];
+      	}
       	$dbp = new Application_Model_DbTable_DbGlobal();
       	$where.=$dbp->getAccessPermission('`crm`.branch_id');
       	$order=" GROUP BY `crm`.`id` ORDER BY `crm`.`id` DESC ";

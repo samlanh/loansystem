@@ -395,6 +395,10 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
 	   			$where.=" AND payment_option = 2 ";
 	   		}
 	   	}
+	   	if(!empty($search['category'])){
+	   		$where.=" AND (SELECT p.cate_id FROM `ln_ins_product` AS p,`ln_ins_sales_install` AS s
+			WHERE s.product_id=p.id AND s.id=crm.loan_id LIMIT 1) = ".$search['category'];
+	   	}
 	   	$dbp = new Application_Model_DbTable_DbGlobal();
 	   	$where.=$dbp->getAccessPermission('`crm`.`branch_id`');
 	   	
@@ -539,7 +543,9 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
    		$s_where[] = " `d`.`total_interest_after` LIKE '%{$s_search}%'";
    		$where .=' AND ( '.implode(' OR ',$s_where).')';
    	}
-   	
+   	if(!empty($search['category'])){
+   		$where.=" AND (SELECT inp.cate_id FROM `ln_ins_product` AS inp WHERE inp.id = l.`product_id` LIMIT 1) = ".$search['category'];
+   	}
    	$dbp = new Application_Model_DbTable_DbGlobal();
    	$where.=$dbp->getAccessPermission('l.`branch_id`');
    	
