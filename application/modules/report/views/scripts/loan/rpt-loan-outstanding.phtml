@@ -179,7 +179,7 @@ table.tb-footer tr.style-head {
 						   $dayBath=0;
 		               if(!empty($this->outstandloan)) foreach($this->outstandloan as $key =>$row){?>
 		               <?php 
-		                  if($row['total_principaid']>=$row['total_capital']){
+		                  if($row['total_principaid']>=$row['total_capital'] OR $row['total_capital']<=0){
 		                  	continue;
 		                  }
 		                  
