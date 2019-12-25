@@ -49,7 +49,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	l.loan_number,
     	(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
   		CONCAT((SELECT symbol FROM `ln_currency` WHERE id =l.currency_type)  
-  		,l.loan_amount) AS total_capital , interest_rate,
+  		,l.loan_amount) AS total_capital , interest_rate,admin_fee,
   	    (SELECT payment_nameen FROM `ln_payment_method` WHERE id = l.payment_method LIMIT 1) AS payment_method,
   	    CONCAT( l.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =l.pay_term )),
         (SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
