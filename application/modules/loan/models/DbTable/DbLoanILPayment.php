@@ -202,9 +202,9 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     	$pre_fix="PM-";
     	for($i = $acc_no;$i<5;$i++){
     		$pre.='0';
-    	}
-    	return $pre_fix.$pre.$new_acc_no;*/
-		return $pre.$new_acc_no;
+    	}*/
+   		return $pre.$new_acc_no;
+		//return $pre.$new_acc_no;
     }
 	function cancelPayment($id){
 		$db = $this->getAdapter();

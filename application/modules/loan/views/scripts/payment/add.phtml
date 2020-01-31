@@ -1215,6 +1215,7 @@ function getRPNumber(co_id){
 				},	
 				handleAs:"json",
 				load: function(data_loan) {
+					alert(data_loan);
 					dijit.byId('reciept_no').attr('value',data_loan);
 				},
 				error: function(e) {

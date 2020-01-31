@@ -371,7 +371,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Loan_Model_DbTable_DbLoanILPayment();
 			$co_id = $data["co_id"];
-			$row = $db->getIlPaymentRPNumber($co_id);
+			$row = $db->getIlPaymentNumber();//getIlPaymentRPNumber($co_id);
 			print_r(Zend_Json::encode($row));
 			exit();
 		}
