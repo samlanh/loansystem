@@ -406,10 +406,6 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		<td>'.$frm->getElement('title_en').'</td>
 		</tr>
 		<tr>
-		<td>'.$tr->translate("STATUS").'</td>
-		<td>'. $frm->getElement('status').'</td>
-		</tr>
-		<tr>
 		<td colspan="2" align="center">
 		<input type="reset" value="ážŸáŸ†áž¢áž¶áž�" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
 		<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVECLOSE').'" dojoType="dijit.form.Button"

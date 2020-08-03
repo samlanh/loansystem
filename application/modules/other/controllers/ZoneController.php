@@ -1,7 +1,6 @@
 <?php
 class Other_ZoneController extends Zend_Controller_Action {
 	const REDIRECT_URL='/other';
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
 	protected $tr;
     public function init()
     {    	
@@ -90,7 +89,15 @@ class Other_ZoneController extends Zend_Controller_Action {
    		$data['status']=1;
    		$db_co = new Other_Model_DbTable_DbZone();
    		$id = $db_co->addZone($data);
-   		print_r(Zend_Json::encode($id));
+   		
+   		$dbGb = new Application_Model_DbTable_DbGlobal();
+   		$rs= $dbGb->getZoneList();
+   		array_unshift($rs,array ( 'id' => "",'name' => $this->tr->translate("SELECT_ZONE")), array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+   		$arr=array(
+   				'datastore' =>$rs,
+   				'id'		=>$id
+   		);
+   		print_r(Zend_Json::encode($arr));
    		exit();
    	}
    }

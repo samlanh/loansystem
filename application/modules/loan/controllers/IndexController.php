@@ -1,6 +1,5 @@
 <?php
 class Loan_IndexController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
      /* Initialize action controller here */
@@ -54,7 +53,6 @@ class Loan_IndexController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
 		$db = new Application_Model_DbTable_DbGlobal();
-// 		$db->usedonlytimes();
   }
   
   function addAction()
@@ -82,24 +80,6 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$frm_loan=$frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
-		
-//         $db = new Application_Model_DbTable_DbGlobal();
-//        $client=$db->getAllClient();
-//        // $client_type = $db->getclientdtype();
-//         array_unshift($client,array(
-//         'id' => -1,
-//         'name' => '---Add New ---',
-//         'branch_id' => -1
-//         ) );
-//         $this->view->allclient = $client;
-
-//         $client_number= $db->getAllClientNumber();
-//         array_unshift($client_number,array(
-//         'id' => -1,
-//         'name' => '---Add New ---',
-//         'branch_id' => -1
-//         ) );
-//         $this->view->allclient_number=$client_number;
 
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
@@ -166,13 +146,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$db = new Application_Model_DbTable_DbGlobal();
 		$this->view->allclient = $db->getAllClient();
 		$this->view->allclient_number = $db->getAllClientNumber();
-// 		$frmpopup = new Application_Form_FrmPopupGlobal();
-// 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
-// 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-// 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
-// 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
-// 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
-// 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
+		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$co_name = $db->getAllCoNameOnly();
 		array_unshift($co_name,array(
@@ -180,9 +154,12 @@ class Loan_IndexController extends Zend_Controller_Action {
 				'name' => $this->tr->translate("ADD_NEW"),
 		) );
 		$this->view->co_name=$co_name;
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
+		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
 	}
 	public function viewAction(){
-// 		$this->_helper->layout()->disableLayout();
 		$id = $this->getRequest()->getParam('id');
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		if(empty($id)){
@@ -250,13 +227,26 @@ class Loan_IndexController extends Zend_Controller_Action {
 		}
 	}
 	function addNewloantypeAction(){
-	if($this->getRequest()->isPost()){
+		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
 			$data['status']=1;
 			$data['display_by']=1;
 			$db = new Other_Model_DbTable_DbLoanType();
 			$id = $db->addViewType($data);
-			print_r(Zend_Json::encode($id));
+			
+			$info = $db->getListViewById($id);
+			$keycode = empty($info['key_code'])?0:$info['key_code'];
+			
+			$type = $data['type'];
+			$dbGb = new Application_Model_DbTable_DbGlobal();
+			$rs= $dbGb->getVewByType($type);
+			array_unshift($rs,array ( 'id' => "",'name' => $this->tr->translate("PLEASE_SELECT")), array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+			$arr=array(
+					'datastore' =>$rs,
+					'key_code'		=>$keycode
+					);
+			
+			print_r(Zend_Json::encode($arr));
 			exit();
 		}
 	}

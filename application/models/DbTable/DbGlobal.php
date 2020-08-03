@@ -259,19 +259,35 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	return $db->fetchAll($sql);
    }
    public function getZoneList($option=null){
-   	$this->_name='ln_zone';
-   	$sql = " CALL `stGetAllZone`() ";
+//    	$this->_name='ln_zone';
+//    	$sql = " CALL `stGetAllZone`() ";
+//    	$db = $this->getAdapter();
+//    	$rows =  $db->fetchAll($sql);
    	$db = $this->getAdapter();
-   	$rows =  $db->fetchAll($sql);
+   	$sql = "SELECT
+		   	zone_id AS id ,
+		   	CONCAT(COALESCE(zone_name,''),'-',COALESCE(zone_num,'')) AS name,
+		   	zone_id,
+		   	zone_name,
+		   	zone_num
+   	
+   		FROM ln_zone
+   		WHERE status=1 AND  zone_name!=''
+   	";
+   	$rows= $db->fetchAll($sql);
+   	
+   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
    	if(!empty($rows)){
-   	if($option!=null){
+   		if($option!=null){
    		$request=Zend_Controller_Front::getInstance()->getRequest();
    		$action = $request->getControllerName();
-   		if($action=='loan'){$options=array(-1=>"ជ្រើសរើសតំបន់");}
-   		if(!empty($rows))foreach($rows as $rs){
-   				$options[$rs['zone_id']]=$rs['zone_name'].' - '.$rs['zone_num'];}
-   				return $options;
-   	}
+   		if($action=='loan'){
+   			$options=array(-1=>$tr->translate("SELECT_ZONE"));}
+	   		if(!empty($rows))foreach($rows as $rs){
+	   				$options[$rs['id']]=$rs['name'];
+	   		}
+   			return $options;
+   		}
    	}
    	return $rows;
    }
@@ -721,6 +737,8 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   }
   public function getVewOptoinTypeByType($type=null,$option = null,$limit =null,$first_option =null){
   	$db = $this->getAdapter();
+  	
+  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
   	$sql="SELECT id,key_code,name_kh AS name_en ,displayby FROM `ln_view` WHERE status =1 ";//just concate
   	if($type!=null){
   		$sql.=" AND type = $type ";
@@ -732,7 +750,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	if($option!=null){
   		$options=array();
   		if($first_option==null){//if don't want to get first select
-  			$options=array(''=>"ជ្រើសរើស",-1=>"Add New",);
+  			$options=array(''=>$tr->translate("PLEASE_SELECT"),-1=>$tr->translate("ADD_NEW"),);
   		}
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['key_code']]=$row['name_en'];//($row['displayby']==1)?$row['name_kh']:$row['name_en'];
@@ -742,15 +760,26 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		return $rows;
   	}
   }
+  public function getVewByType($type=null){
+  	$db = $this->getAdapter();
+  	$sql="SELECT key_code AS id,name_kh AS name FROM `ln_view` WHERE status =1 AND name_kh!='' ";
+  	if($type!=null){
+  		$sql.=" AND type = $type ";
+  	}
+  	$rows = $db->fetchAll($sql);
+  	return $rows;
+  }
+  
   public function getVewOptoinTypeBys($option = null,$limit =null){
   	$db = $this->getAdapter();
+  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
   	$sql="SELECT id,title_en,title_kh,displayby,date,status FROM ln_callecteral_type WHERE status =1 ";
   	if($limit!=null){
   		$sql.=" LIMIT $limit ";
   	}
   	$rows = $db->fetchAll($sql);
   	if($option!=null){
-  		$options=array(''=>"-----ជ្រើសរើស-----");
+  		$options=array(''=>$tr->translate("PLEASE_SELECT"));
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['id']]=($row['displayby']==1)?$row['title_kh']:$row['title_en'];
   		}

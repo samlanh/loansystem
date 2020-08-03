@@ -10,8 +10,7 @@ class Other_Model_DbTable_DbLoanType extends Zend_Db_Table_Abstract
     	$arr = array(
     			'name_en'=>$data['title_en'],
     			'name_kh'=>$data['title_kh'],
-    			'status'=>$data['status'],
-    			//'displayby'=>$data['display_by'],
+    			'status'=>1,
     			'key_code'=>$key_code,
     			'type'=>$data['type'],
     			
@@ -41,7 +40,7 @@ class Other_Model_DbTable_DbLoanType extends Zend_Db_Table_Abstract
     }
     function getListViewById($id){
     	$db = $this->getAdapter();
-    	$sql="SELECT id,name_en AS title_en,name_kh AS title_kh,displayby ,'date',status,type FROM $this->_name where id=$id ";
+    	$sql="SELECT *,name_en AS title_en,name_kh AS title_kh FROM $this->_name where id=$id ";
     	return $db->fetchRow($sql);
     }
     function getAllviewBYType($search=null,$type=null){

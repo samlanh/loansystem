@@ -10,19 +10,19 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
     }
 	public function addZone($_data){
 		try {
-		$_arr=array(
-				'zone_name'	  => $_data['zone_name'],
-				'zone_num'	  => $_data['zone_number'],
-				'modify_date' => date('Y-m-d'),
-				'status'	  => $_data['status'],
-				'user_id'	  => $this->getUserId()
-		);
-		if(!empty($_data['id'])){
-			$where = 'zone_id = '.$_data['id'];
-			return  $this->update($_arr, $where);
-		}else{
-			return  $this->insert($_arr);
-		}
+			$_arr=array(
+					'zone_name'	  => $_data['zone_name'],
+					'zone_num'	  => $_data['zone_number'],
+					'modify_date' => date('Y-m-d'),
+					'status'	  => $_data['status'],
+					'user_id'	  => $this->getUserId()
+			);
+			if(!empty($_data['id'])){
+				$where = 'zone_id = '.$_data['id'];
+				return  $this->update($_arr, $where);
+			}else{
+				return  $this->insert($_arr);
+			}
 		}catch (Exception $e){
 			echo $e->getMessage();
 		}

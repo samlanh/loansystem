@@ -177,8 +177,7 @@ public function init()
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$opt = $db->getVewOptoinTypeByType(24,1,null,1);
-		$opt[-1]="--- Add New---";
+		$opt = $db->getVewOptoinTypeByType(24,1,null,null);
 		$_loan_type->setMultiOptions($opt);
 		
 		$_loan_types = new Zend_Dojo_Form_Element_FilteringSelect('loan_types');
@@ -201,9 +200,12 @@ public function init()
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$options = $db ->getZoneList(1);
-		$options[-1]=$this->tr->translate("ADD_NEW");
-		$_zone->setMultiOptions($options);
+		$rowZone = $db ->getZoneList();
+		$optionsf=array(''=>$this->tr->translate("SELECT_ZONE"),'-1'=>$this->tr->translate("ADD_NEW"));
+		if(!empty($rowZone))foreach($rowZone AS $row){
+			$optionsf[$row['id']]=$row['name'];
+		}
+		$_zone->setMultiOptions($optionsf);
 		
 		$_zones = new Zend_Dojo_Form_Element_FilteringSelect('zones');
 		$_zones->setAttribs(array(
@@ -213,8 +215,11 @@ public function init()
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$optionsf = $db ->getZoneList(1);
-		$optionsf[-1]=$this->tr->translate("ADD_NEW");
+		$rowZone = $db ->getZoneList();
+		$optionsf=array(''=>$this->tr->translate("SELECT_ZONE"),'-1'=>$this->tr->translate("ADD_NEW"));
+		if(!empty($rowZone))foreach($rowZone AS $row){
+			$optionsf[$row['zone_id']]=$row['zone_name'].' - '.$row['zone_num'];
+		}
 		$_zones->setMultiOptions($optionsf);
 		
 		$_loan_fee = new Zend_Dojo_Form_Element_NumberTextBox('loan_fee');

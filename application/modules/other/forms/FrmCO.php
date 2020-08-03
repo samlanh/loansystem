@@ -160,8 +160,9 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_basic_salary=  new Zend_Dojo_Form_Element_NumberTextBox('basic_salary');
 		$_basic_salary->setAttribs(array('dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'required'=>true
+				'required'=>'false'
 				));
+		$_basic_salary->setValue(0);
 		
 		$_start_work=  new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$_start_work->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',

@@ -83,6 +83,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				'class'	  =>'fullside',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
+				'required' =>'false',
 		));
 		$options = $db ->getAllCOName(1);
 		
