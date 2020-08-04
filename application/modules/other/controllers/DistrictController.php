@@ -21,7 +21,7 @@ class Other_DistrictController extends Zend_Controller_Action {
 			}
 			$rs_rows= $db->getAllDistrict($search);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("DISTRICT_CODE","DISTRICT_KH","DISTRICT_EN","PROVINCE","DATE","STATUS","BY");
+			$collumns = array("DISTRICT_CODE","DISTRICT_NAME","PROVINCE","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'district','action'=>'edit',
 			);
@@ -41,6 +41,7 @@ class Other_DistrictController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db_district = new Other_Model_DbTable_DbDistrict();
+				$_data['status']=1;
 				$db_district->addDistrict($_data);
 				if(!empty($_data['save_close'])){
 					Application_Form_FrmMessage::message($this->tr->translate('INSERT_SUCCESS'));

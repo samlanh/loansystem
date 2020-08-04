@@ -33,7 +33,13 @@ class Callecterall_Model_DbTable_DbCallecterall extends Zend_Db_Table_Abstract
     }
     function geteAllid($search=null){
     	$db = $this->getAdapter();
-    	$sql=" SELECT id,title_en,title_kh,date,status FROM $this->_name where 1";
+    	$sql=" SELECT id,title_kh,date";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("status");
+    	$sql.=" FROM $this->_name WHERE 1
+    	";
+    	
     	$Other=" ORDER BY id DESC";
     	$where = '';
     	 

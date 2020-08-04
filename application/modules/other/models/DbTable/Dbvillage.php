@@ -13,8 +13,9 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 		$_arr=array(
 				'code'	  => $_data['code'],
 				'commune_id'	  => $_data['commune_name'],
-				'village_name'	  => $_data['village_name'],
+				'village_name'	  => $_data['village_namekh'],
 				'village_namekh'	  => $_data['village_namekh'],
+// 				'village_name'	  => $_data['village_name'],
 				//'displayby'	  => $_data['display'],
 				'status'	  => $_data['status'],
 				'modify_date' => Zend_Date::now(),
@@ -58,16 +59,27 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 	function getAllVillage($search=null){
 		$db = $this->getAdapter();
 		$sql =" SELECT
-				v.vill_id,v.village_namekh,v.village_name,
+				v.vill_id,v.village_namekh,
 				(SELECT commune_namekh FROM ln_commune WHERE v.commune_id=com_id LIMIT 1) AS commune_name,
 				d.district_namekh,p.province_kh_name,
-				v.modify_date,(SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code=v.status LIMIT 1) AS status, 
-				(SELECT first_name FROM rms_users WHERE id=v.user_id LIMIT 1) AS user_name
-				FROM ln_village AS v,`ln_commune` AS c, `ln_district` AS d , `ln_province` AS p
-				WHERE 
+				v.modify_date
+				 ";
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->caseStatusShowImage("v.status");
+		$sql.=",
+		(SELECT first_name FROM rms_users WHERE id=v.user_id LIMIT 1) AS user_name
+		FROM 
+			ln_village AS v,
+			`ln_commune` AS c, 
+			`ln_district` AS d , 
+			`ln_province` AS p
+		WHERE 
 			v.commune_id = c.com_id
 			AND c.district_id = d.dis_id 
-			AND d.pro_id = p.province_id ";
+			AND d.pro_id = p.province_id
+		";
+		
 		$where = '';
         if(!empty($search['province_name'])){
         	$where.= " AND p.province_id = ".$search['province_name'];

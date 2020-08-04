@@ -18,10 +18,11 @@
 			 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if(dijit.byId('province_name').get('value')==''){
-				 alert('Please Select Province');
+				 alert('<?php echo $tr->translate('Please Select Province');?>');
 				 dijit.byId('province_name').focus();
                  return false;
                 }
+				loadingBlock();
 				dijit.byId("save_close").set("disabled",true);
 				dijit.byId("save_new").set("disabled",true);
 				return true;
@@ -39,31 +40,26 @@
 	                   </div>
 	                </div>
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DISTRICT_NAME_KHMER");?>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DISTRICT_NAME");//$tr->translate("DISTRICT_NAME_KHMER");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement("district_namekh");?>
 	                   </div>
 	                </div>
+	                <!-- 
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DISTRICT_NAME_EN");?>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php //echo $tr->translate("DISTRICT_NAME_EN");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php  echo $frm->getElement('district_name');?>
+	                   		<?php  //echo $frm->getElement('district_name');?>
 	                   </div>
 	                </div>
+	                 -->
 	                 <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PROVINCE_NAME");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php  echo $frm->getElement('province_name');?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php  echo $frm->getElement('status');?>
 	                   </div>
 	                </div>
 	                <div class="form-group">
@@ -84,10 +80,12 @@
 function submitDataClose(){
 	if(dijit.byId('province_name').get('value')==''){
 		 dijit.byId('province_name').focus();
-		 alert('Please Select Province');
+		 alert('<?php echo $tr->translate('Please Select Province');?>');
        return false;
       }
+	
 	if(dijit.byId('add_techer').validate()) {
+		loadingBlock();
 		dijit.byId('save_close').set('disabled',true);
 		dijit.byId('save_new').set('disabled',true);
 		var url_submit = '<?php echo $this->url(array('module'=>'other','controller'=>'district','action'=>'add')); ?>';

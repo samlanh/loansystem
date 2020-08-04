@@ -17,7 +17,8 @@
 		<form id="add_province" action="<?php echo $this->url(array('module'=>'other','controller'=>'province','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			 <script type="dojo/method" event="onSubmit">			
 				if(this.validate()) {
-                	dijit.byId("save_new").set("disabled",true);
+					loadingBlock();                	
+					dijit.byId("save_new").set("disabled",true);
 					dijit.byId("save_close").set("disabled",true);
 					return true;
 				} else {
@@ -34,19 +35,21 @@
 	                   </div>
 	                </div>
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("KH_PROVINCE");?>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PROVINCE_NAME");//$tr->translate("KH_PROVINCE");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $province->getElement("kh_province");?>
 	                   </div>
 	                </div>
+	               <!-- 
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EN_PROVINCE");?>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php //echo $tr->translate("EN_PROVINCE");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php echo $province->getElement("en_province");?>
+	                   		<?php //echo $province->getElement("en_province");?>
 	                   </div>
 	                </div>
+	                -->
 	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
 	                   </label>

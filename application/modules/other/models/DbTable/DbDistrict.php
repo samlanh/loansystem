@@ -13,8 +13,9 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 		$_arr=array(
 				'code'	  			=> $_data['code'],
 				'pro_id'	  		=> $_data['province_name'],
-				'district_name'	  	=> $_data['district_name'],
+				'district_name'	  	=> $_data['district_namekh'],
 				'district_namekh'	=> $_data['district_namekh'],
+// 				'district_name'	  	=> $_data['district_name'],
 				//'displayby'	  => $_data['display'],
 				'status'	  		=> $_data['status'],
 				'modify_date' 		=> Zend_Date::now(),
@@ -52,12 +53,18 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql = "SELECT
 					dis_id,code,
-					district_namekh,district_name, 
+					district_namekh,
 					 (SELECT province_kh_name FROM ln_province WHERE province_id=pro_id limit 1) As province_name
-					,modify_date,
-					(SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = ln_district.status  LIMIT 1) AS status_name,
-				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
-		 FROM $this->_name ";
+					,modify_date
+				 ";
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->caseStatusShowImage("ln_district.status");
+		$sql.=",
+		(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
+		 FROM $this->_name
+		";
+		
 		$where = ' WHERE 1 ';
 		
 		if($search['search_status']>-1){

@@ -18,9 +18,10 @@
 			 <script type="dojo/method" event="onSubmit">			
 				if(this.validate()) {
                		if(dijit.byId('province_name').get('value')==''){
-				 		alert('Please Select Province');
+				 		alert('<?php echo $tr->translate('Please Select Province');?>');
                  		return false;
                 	}
+					loadingBlock();
 					return true;
 				} else {
 					return false;
@@ -36,20 +37,22 @@
 	                   </div>
 	                </div>
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DISTRICT_NAME_KHMER");?>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DISTRICT_NAME");//$tr->translate("DISTRICT_NAME_KHMER");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement("district_namekh");?>
+	                   		<?php  echo $frm->getElement('id');?>
 	                   </div>
 	                </div>
+	               <!-- 
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DISTRICT_NAME_EN");?>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php //echo $tr->translate("DISTRICT_NAME_EN");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php  echo $frm->getElement('district_name');?>
-								<?php  echo $frm->getElement('id');?>
+	                   		<?php  //echo $frm->getElement('district_name');?>
 	                   </div>
 	                </div>
+	                -->
 	                 <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PROVINCE_NAME");?>
 	                   </label>

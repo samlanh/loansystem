@@ -24,20 +24,21 @@ dojo.require("dijit.Dialog");
 			 <script type="dojo/method" event="onSubmit">			
 				if(this.validate()) {
                 	if(dijit.byId("province_name").get("value")=='' || dijit.byId("province_name").get("value")==0){
-						alert("Please Select Province Name !!!");
+						alert("<?php echo $tr->translate('Please Select Province');?> !!!");
 						dijit.byId("province_name").focus();
 						return false;
 					}
                	 	if(dijit.byId("district_name").get("value")==''){
-						alert("Please Select District Name!!!");
+						alert("<?php echo $tr->translate('Please Select District Name');?>!!!");
 						dijit.byId("district_name").focus();
 						return false;
 					}
 					if(dijit.byId("commune_name").get("value")==''){
-						alert("Please Select Commune Name!!!");
+						alert("<?php echo $tr->translate('Please Select Commune Name');?>!!!");
 						dijit.byId("commune_name").focus();
 						return false;
 					}
+					loadingBlock();
                	 	dijit.byId("save_new").attr("disabled",true);
 					dijit.byId("save_close").attr("disabled",true);
 					return true;
@@ -55,19 +56,21 @@ dojo.require("dijit.Dialog");
 	                   </div>
 	                </div>
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("VILLAGE_KH");?>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("VILLAGE");//$tr->translate("VILLAGE_KH");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php  echo $commune->getElement('village_namekh');?>
 	                   </div>
 	                </div>
+	                <!-- 
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("VILLAGE_NAME");?>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php //echo $tr->translate("VILLAGE_NAME");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php  echo $commune->getElement('village_name'); ?>
+	                   		<?php  //echo $commune->getElement('village_name'); ?>
 	                   </div>
 	                </div>
+	                 -->
 	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PROVINCE_NAME");?>
 	                   </label>
@@ -88,13 +91,6 @@ dojo.require("dijit.Dialog");
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<input id="commune_name" ><?php  //echo $commune->getElement('commune_name');?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php  echo $commune->getElement('status');?>
 	                   </div>
 	                </div>
 	                <div class="form-group">
@@ -124,6 +120,7 @@ dojo.ready(function(){
 	required: false,		           
 	name: "district_name",
 	id: "district_name",
+	placeHolder:"<?php echo $tr->translate("DISTRICT")?>",
 	searchAttr: "name",
 	class: 'fullside',
 		onChange: function() {
@@ -142,6 +139,7 @@ dojo.ready(function(){
 	required: false,		           
 	name: "commune_name",
 	id: "commune_name",
+	placeHolder:"<?php echo $tr->translate("COMMUNE")?>",
 	searchAttr: "name",
 	class: 'fullside',
 	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខា​កូន!",	
@@ -224,7 +222,7 @@ function addNewDistrict(){
 			load: function(data) {	
 				var myNewItem1 = {					
 						id: data,
-						name: dijit.byId('pop_district_name').get('value')+' - '+dijit.byId('pop_district_namekh').get('value'),
+						name: dijit.byId('pop_district_namekh').get('value'),
 				};			
 				addDataToSelectbox(dijit.byId('district_name'), district_store, myNewItem1, data);	
 				dijit.byId('frm_district').reset();
@@ -244,11 +242,10 @@ function addNewCommune(){
 			form:dojo.byId('form_commune'),
 			handleAs:"json",
 			load: function(data) {	
-				communeen = dijit.byId('commune_nameen').get('value');
 				communekh = dijit.byId('commune_namekh').get('value');
 				var Itemcommune = {					
 						id: data,
-						name: communeen+' - '+communekh,
+						name: communekh,
 				};			
 				addDataToSelectbox(dijit.byId('commune_name'), commune_store, Itemcommune, data);
 				dijit.byId('frm_commune').reset();
@@ -274,21 +271,22 @@ function showPopupCommune(){
 
 function submitDataClose(){
 	if(dijit.byId("province_name").get("value")=='' || dijit.byId("province_name").get("value")==0){
-		alert("Please Select Province Name !!!");
+		alert("<?php echo $tr->translate('Please Select Province');?> !!!");
 		dijit.byId("province_name").focus();
 		return false;
 	}
     if(dijit.byId("district_name").get("value")==''){
-		alert("Please Select District Name!!!");
+		alert("<?php echo $tr->translate('Please Select District Name');?>!!!");
 		dijit.byId("district_name").focus();
 		return false;
 	}
 	if(dijit.byId("commune_name").get("value")==''){
-		alert("Please Select Commune Name!!!");
+		alert("<?php echo $tr->translate('Please Select Commune Name');?>!!!");
 		dijit.byId("commune_name").focus();
 		return false;
 	}
 	if(dijit.byId('add_techer').validate()) {
+		loadingBlock();
 		dijit.byId("save_new").attr("disabled",true);
 		dijit.byId("save_close").attr("disabled",true);
 		var url_submit = '<?php echo $this->url(array('module'=>'other','controller'=>'village','action'=>'add')); ?>';

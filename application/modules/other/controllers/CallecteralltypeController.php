@@ -52,10 +52,8 @@ public function init()
     					'status_search' => -1);
     		}
     		$rs_rows= $db->geteAllid($search);//call frome model
-    		$glClass = new Application_Model_GlobalClass();
-    		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("NAME_EN","NAME_KH","DATE","STATUS");
+    		$collumns = array("TITLE","DATE","STATUS");
     		$link=array(
     				'module'=>'other','controller'=>'callecteralltype','action'=>'edit',
     		);

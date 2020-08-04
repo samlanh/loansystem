@@ -5,20 +5,16 @@ class Group_Model_DbTable_DbCallecteralltype extends Zend_Db_Table_Abstract
     protected $_name = 'ln_callecteral_type';
     function addcallecterall($data){
     	$db = $this->getAdapter();
-//     	$sql=" SELECT key_code FROM ln_view WHERE type=13 AND status = 1 
-//     	ORDER BY key_code DESC LIMIT 1 ";
-//     	$numer_record = $db->fetchOne($sql);
-    	
-    	
     	$arr = array(
-    			'title_en'=>$data['title_en'],
+    			'title_en'=>$data['title_kh'],
     			'title_kh'=>$data['title_kh'],
     			'date'=>$data['date'],
-    			'status'=>$data['status'],
+    			'status'=>1,
+    			
+//     			'title_en'=>$data['title_en'],
     			//'displayby'=>$data['display_by'],
 //     			'key_code'=>$numer_record+1,
 //     			'type'=>13,
-    			
     			);
          $id=$this->insert($arr);
      
@@ -26,20 +22,22 @@ class Group_Model_DbTable_DbCallecteralltype extends Zend_Db_Table_Abstract
     
     public function addCallteralAjax($data){
     	$arr = array(
-    			'title_en'	=>$data['title_en'],
+    			'title_en'=>$data['title_kh'],
     			'title_kh'	=>$data['title_kh'],
     			'date'		=>date("Y-m-d"),
     			'status'	=>$data['status'],
+//     			'title_en'	=>$data['title_en'],
     			);
          return $this->insert($arr);
     }
     
     function updatcallecterall($data){
     	$arr = array(
-    			'title_en'=>$data['title_en'],
+    			'title_en'=>$data['title_kh'],
     			'title_kh'=>$data['title_kh'],
     			'date'=>$data['date'],
     			'status'=>$data['status'],
+//     			'title_en'	=>$data['title_en'],
     			//'displayby'=>$data['display_by'],
     			);
     	$where=" id = ".$data['id'];

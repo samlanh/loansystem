@@ -53,12 +53,18 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
 	function getAllCommune($search=null){
 		$db = $this->getAdapter();
 		$sql = "SELECT com_id,CODE,
- 				commune_namekh,commune_name,
+ 				commune_namekh,
  				(SELECT district_namekh FROM `ln_district` WHERE district_id = dis_id) AS district_name,
- 				modify_date,(SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = ln_commune.status LIMIT 1) AS status_name,
-     			(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) AS user_name
- 				FROM ln_commune";
-		//$sql = " SELECT * FROM v_getallcommune ";
+ 				modify_date
+     			";
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->caseStatusShowImage("ln_commune.status");
+		$sql.=",
+			(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) AS user_name
+ 			FROM ln_commune
+		";
+		
 		$where = ' WHERE 1 ';
 		if(!empty($search['adv_search'])){
 			$s_where = array();

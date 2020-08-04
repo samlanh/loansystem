@@ -24,7 +24,7 @@ class Other_VillageController extends Zend_Controller_Action {
 			}
 			$rs_rows= $db->getAllVillage($search);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("VILLAGENAME_KH","VILLAGE_NAME","COMMNUE_NAME","DISTRICT_NAME","PROVINCE_NAME","DATE","STATUS","BY");
+			$collumns = array("VILLAGE","COMMNUE_NAME","DISTRICT_NAME","PROVINCE_NAME","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'village','action'=>'edit',
 			);
@@ -45,6 +45,7 @@ class Other_VillageController extends Zend_Controller_Action {
 			$db = new Other_Model_DbTable_Dbvillage();
 			$_data = $this->getRequest()->getPost();
 			try{
+				$_data['status']=1;
 				$db->addVillage($_data);
 				if(!empty($_data['save_close'])){
 					Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'),self::REDIRECT_URL . '/village/index');

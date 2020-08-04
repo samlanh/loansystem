@@ -12,8 +12,9 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
     public function addNewProvince($_data){
     	$_arr=array(
     			'code' 			   => $_data['code'],
-    			'province_en_name' => $_data['en_province'],
+    			'province_en_name' => $_data['kh_province'],
     			'province_kh_name' => $_data['kh_province'],
+//     			'province_en_name' => $_data['en_province'],
     			//'displayby'	       => $_data['display'],
     			'modify_date'      => Zend_Date::now(),
     			'status'           => $_data['status'],
@@ -32,9 +33,10 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
     public function updateProvince($_data,$id){
     	$_arr=array(
     			'code' 			   => $_data['code'],
-    			'province_en_name' => $_data['en_province'],
+    			'province_en_name' => $_data['kh_province'],
     			'province_kh_name' => $_data['kh_province'],
     			//'displayby'	       => $_data['display'],
+//     			'province_en_name' => $_data['en_province'],
     			'modify_date'      => Zend_Date::now(),
     			'status'           => $_data['status'],
     			'user_id'	       => $this->getUserId()
@@ -44,12 +46,17 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
     }
     function getAllProvince($search=null){
     	$db = $this->getAdapter();
-    	$sql = " SELECT province_id AS id,code,province_en_name,province_kh_name,
-    	modify_date,
-    	     (SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = ln_province.status LIMIT 1) AS status_name,
-    	(SELECT CONCAT(last_name,' ',first_name) FROM rms_users WHERE id=user_id )AS user_name
-    	FROM $this->_name
-    	WHERE 1 AND province_kh_name!=''";
+    	$sql = " SELECT province_id AS id,code,province_kh_name,
+    	modify_date
+    	";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->caseStatusShowImage("ln_province.status");
+    	$sql.="
+	    	,(SELECT CONCAT(last_name,' ',first_name) FROM rms_users WHERE id=user_id )AS user_name
+	    	FROM $this->_name
+	    	WHERE 1 AND province_kh_name!=''
+    	";
     	$order=" order by province_id DESC";
     	$where = '';
     	if(!empty($search['title'])){
