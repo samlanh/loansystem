@@ -6,6 +6,7 @@ class Loan_CoController extends Zend_Controller_Action {
     {    	
      /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
+    	$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
 	
@@ -128,29 +129,32 @@ class Loan_CoController extends Zend_Controller_Action {
    }
    
    function editAction(){
-   	$db_co = new Other_Model_DbTable_DbCreditOfficer();
-   	if($this->getRequest()->isPost()){
-   		$_data = $this->getRequest()->getPost();
-   		try{
-   			$db_co->addCreditOfficer($_data);
-   			Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS !",'/loan/co');
-   		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("EDIT_FAIL");
-   			$err =$e->getMessage();
-   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
-   		}
-   	}
-   	$id = $this->getRequest()->getParam("id");
-   	$row = $db_co->getCOById($id);
-   	$this->view->row=$row;
-   	$this->view->photo = $row['photo'];
-   	if(empty($row)){
-   		$this->_redirect('payroll/co');
-   	}
-   	$frm = new Other_Form_FrmCO();
-   	$frm_co=$frm->FrmAddCO($row);
-   	Application_Model_Decorator::removeAllDecorator($frm_co);
-   	$this->view->frm_co = $frm_co;
+	   	$db_co = new Other_Model_DbTable_DbCreditOfficer();
+	   	if($this->getRequest()->isPost()){
+	   		$_data = $this->getRequest()->getPost();
+	   		try{
+	   			$db_co->addCreditOfficer($_data);
+	   			Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS",'/loan/co');
+	   		}catch(Exception $e){
+	   			Application_Form_FrmMessage::message("EDIT_FAIL");
+	   			$err =$e->getMessage();
+	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
+	   		}
+	   	}
+	   	$id = $this->getRequest()->getParam("id");
+	   	$row = $db_co->getCOById($id);
+	   	$this->view->row=$row;
+	   	$this->view->photo = $row['photo'];
+	   	if(empty($row)){
+	   		$this->_redirect('payroll/co');
+	   	}
+	   	$frm = new Other_Form_FrmCO();
+	   	$frm_co=$frm->FrmAddCO($row);
+	   	Application_Model_Decorator::removeAllDecorator($frm_co);
+	   	$this->view->frm_co = $frm_co;
+	   	
+	   	$frmpopup = new Application_Form_FrmPopupGlobal();
+	   	$this->view->frmpopupdepartment = $frmpopup->frmPopupDepartment();
    }
    
    public function addNewcoAction(){
@@ -166,16 +170,25 @@ class Loan_CoController extends Zend_Controller_Action {
    	}
    }
    
-   public function addnewdepartmentAction(){
-   	if($this->getRequest()->isPost()){
-   		$db = new Payroll_Model_DbTable_DbDepartment();
-   		$_data = $this->getRequest()->getPost();
-   		$id = $db->addDepartmentPop($_data);
-   		print_r(Zend_Json::encode($id));
-   		exit();
-   	}
+	 public function addnewdepartmentAction(){
+	   	if($this->getRequest()->isPost()){
+	   		$db = new Payroll_Model_DbTable_DbDepartment();
+	   		$_data = $this->getRequest()->getPost();
+	   		$id = $db->addDepartmentPop($_data);
+	   		
+	   		$dbGb = new Application_Model_DbTable_DbGlobal();
+	   		$rs = $dbGb->getAllDepartment(null,null);
+	   		
+	   		array_unshift($rs,array ( 'id' => "",'name' => $this->tr->translate("SELECT_DEPARTMENT")), array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+	   		$arr=array(
+	   				'datastore' =>$rs,
+	   				'id'		=>$id
+	   		);
+	   		
+	   		print_r(Zend_Json::encode($arr));
+	   		exit();
+	   	}
    }
-   
    function getstaffcodeAction(){
    	if($this->getRequest()->isPost()){
    		$db = new Application_Model_DbTable_DbGlobal();

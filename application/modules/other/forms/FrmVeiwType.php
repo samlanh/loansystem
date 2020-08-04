@@ -97,7 +97,9 @@ Class Other_Form_FrmVeiwType extends Zend_Dojo_Form {
 			$name_kh->setValue($data['title_kh']);
 			$_display->setValue($data['displayby']);
 			$_status->setValue($data['status']);
-			$date_call->setValue($data['date']);
+			if (!empty($data['date'])){
+				$date_call->setValue($data['date']);
+			}
 			$_type->setValue($data['type']);
 		    $_id->setValue($data['id']);
 			

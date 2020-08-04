@@ -712,7 +712,11 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   
   public function getAllDepartment($id=null,$option = null){
   	$db = $this->getAdapter();
-  	$sql=" SELECT id,department_kh,department_en,displayby
+  	$sql=" SELECT id,
+	  	department_kh,
+	  	department_en,
+	  	displayby,
+	  	department_kh AS name
   	FROM `ln_department` WHERE status =1 ";
   	if($id!=null){
   		$sql.=" AND id = $id LIMIT 1";
@@ -1365,7 +1369,7 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	$sql ="SELECT * FROM `ln_view_type`";
   	
   	$result = $db->fetchAll($sql);
-  	$options=array('-1'=>"------Select View Type------");
+  	$options=array('-1'=>$this->tr->translate("Select View Type"));
   	if($opt!=null){
   		if(!empty($result))foreach($result AS $row){
   			    $options[$row['id']]=$row['name'];

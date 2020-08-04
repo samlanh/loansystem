@@ -12,9 +12,10 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
     function addDepartment($_data){
     	$arr = array(
     			'department_kh'=>$_data['department_kh'],
-    			'department_en'=>$_data['department_en'],
-    			'status'=>$_data['status'],
+    			'department_en'=>$_data['department_kh'],
+    			'status'=>1,
     			'date'=>date('Y-m-d'),
+//     			'department_en'=>$_data['department_en'],
     			//'displayby'=>$_data['display'],
     			'user_id'=>$this->getUserId(),
     	);
@@ -23,9 +24,10 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
     function addDepartmentPop($_data){
     	$arr = array(
     			'department_kh'=>$_data['department_kh'],
-    			'department_en'=>$_data['department_en'],
-    			'status'=>$_data['status_pop'],
+    			'department_en'=>$_data['department_kh'],
+    			'status'=>1,
     			'date'=>date('Y-m-d'),
+//     			'department_en'=>$_data['department_en'],
     			//'displayby'=>$_data['display_pop'],
     			'user_id'=>$this->getUserId(),
     	);
@@ -34,10 +36,11 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
     function upDateDepartment($_data){
     	$arr = array(
     			'department_kh'=>$_data['department_kh'],
-    			'department_en'=>$_data['department_en'],
+    			'department_en'=>$_data['department_kh'],
     			'status'=>$_data['status'],
     			'date'=>date('Y-m-d'),
-    			//'displayby'=>$_data['display'],
+//     			'department_en'=>$_data['department_en'],
+// 				'displayby'=>$_data['display'],
     			'user_id'=>$this->getUserId(),
     	);
     	$where = " id = ".$_data['id'];
@@ -55,7 +58,7 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$str=$search['adv_search'];
 		$status=$search['status_search'];
-		$sql="SELECT id,department_kh,department_en  ";
+		$sql="SELECT id,department_kh  ";
 		
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$sql.=$dbp->caseStatusShowImage("status");

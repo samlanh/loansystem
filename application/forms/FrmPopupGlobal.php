@@ -381,16 +381,12 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 	';
 		$str.='<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 		<tr>
-		<td nowrap>'.$tr->translate("TITLE_KH").'</td>
+		<td nowrap>'.$tr->translate("TITLE").'</td>
 		<td>'.$frm->getElement('title_kh').'</td>
 		</tr>
 		<tr>
-		<td nowrap>'.$tr->translate("TITLE_EN").'</td>
-		<td>'.$frm->getElement('title_en').'</td>
-		</tr>
-		<tr>
 		<td colspan="2" align="center">
-		<input type="reset" value="ážŸáŸ†áž¢áž¶áž�" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
+		<input type="reset" value="'.$tr->translate('CLEAR').'" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
 		<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVECLOSE').'" dojoType="dijit.form.Button"
 		iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="addNewloanType();"  />
 		</td>
@@ -478,22 +474,12 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 				<div data-dojo-type="dijit.Dialog"  id="department" >
 					<form id="frm_department" >';
 		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+					
 					<tr>
-						<td>'.$tr->translate("DEPARTMENT_EN").'</td>
-						<td>'.$frm->getElement('department_en').'</td>
-					</tr>
-					<tr>
-						<td>'.$tr->translate("DEPARTMENT_KH").'</td>
+						<td>'.$tr->translate("DEPARTMENT").'</td>
 						<td>'.$frm->getElement('department_kh').'</td>
 					</tr>
-					<tr>
-						<td>'.$tr->translate("DISPAY").'</td>
-						<td>'.$frm->getElement('display_pop').'</td>
-					</tr>
-					<tr>
-						<td>'.$tr->translate("STATUS").'</td>
-						<td>'.$frm->getElement('status_pop').'</td>
-					</tr>
+					
 					<tr>
 						<td colspan="2" align="center">
 						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"

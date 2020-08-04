@@ -357,6 +357,7 @@ input.btn_borwse_image {
 
 
 <?php  echo $this->frmpopupdepartment;?>
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <script type="text/javascript">
 
 function readURL(input) {
@@ -375,7 +376,6 @@ $("#photo").change(function(){
 
 dojo.require("dojo.data.ItemFileWriteStore"); 
 dojo.require("dojo.date.locale");
-
 dojo.require("dojo.data.ObjectStore");
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
@@ -427,22 +427,34 @@ dojo.require("dojo.html");
 			dijit.byId('department').show();
 		}
 	}
+
+	var departmentStore  = getDataStorefromJSON('id','name',<?php print_r(Zend_Json::encode(array()));?> );
+	new dijit.form.FilteringSelect({
+		autoComplete: false,
+		queryExpr: "*${0}*",             
+	    id: "department_id",
+	    name: "department_id",  
+	    class: 'fullside',  
+	    onChange: function() {          
+	    	popupDepartment();
+	    } 
+	}, "department_id");
 	function addNewDepartment(){
-		var url_submit = '<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'addnewdepartment')); ?>';
-				dojo.xhrPost({
+		var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'co','action'=>'addnewdepartment')); ?>';
+		dojo.xhrPost({
 			    url: url_submit,	
 				form: dojo.byId("frm_department"),		    
 				handleAs:"json", 
 				load: function(data) {	
-					labelen = dijit.byId('department_en').get('value');
-					labelkh = dijit.byId('department_kh').get('value');
-					$('#department_id').val(labelen);
-					$('input[name="department_id"]').val(data);
+					departmentStore  = getDataStorefromJSON('id','name', data.datastore);	
+				    dijit.byId('department_id').set('store', departmentStore);
+				    dijit.byId('department_id').set('value', data.id);
+				    
 					dojo.byId('frm_department').reset(); 
 					dijit.byId('department').hide();
 				},
 				error: function(e) {
-				alert("Your message could not be sent, please try again!.");
+					alert("Your message could not be sent, please try again!.");
 				}
 			});
 	}

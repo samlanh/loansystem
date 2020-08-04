@@ -22,7 +22,7 @@ class Loan_DepartmentController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllStaffDepartment($search);
 			
 			$list = new Application_Form_Frmtable();
-			$collumns = array("DEPARTMENT_KH","DEPARTMENT_EN","STATUS");
+			$collumns = array("DEPARTMENT_KH","STATUS");
 			$link=array(
 					'module'=>'loan','controller'=>'department','action'=>'edit',
 			);
@@ -47,13 +47,11 @@ class Loan_DepartmentController extends Zend_Controller_Action {
 	  	try {
 	  	        $db->addDepartment($_data);
 	  			if(!empty($_data['save_close'])){
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/department/index');
-				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/department/add');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/department/index');
 				}
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/department/add');
+				Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/department/add');
 	  	}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message("INSERT_FAIL");
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}
@@ -71,14 +69,14 @@ class Loan_DepartmentController extends Zend_Controller_Action {
    }
  
    function editAction(){
-    $db = new Payroll_Model_DbTable_DbDepartment();
+    	$db = new Payroll_Model_DbTable_DbDepartment();
 	   	if($this->getRequest()->isPost()){
 	   		$_data = $this->getRequest()->getPost();
 	   		try{
 	   			$db->upDateDepartment($_data);
-	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/loan/department');
+	   			Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS",'/loan/department');
 	   		}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message("EDIT_FAIL");
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}
@@ -92,7 +90,6 @@ class Loan_DepartmentController extends Zend_Controller_Action {
 		 $frm_partment=$frm->FrmAddDepartment($row);
 		 Application_Model_Decorator::removeAllDecorator($frm_partment);
 		 $this->view->frm_department = $frm_partment;
-		   	
    }
 }
 

@@ -19,10 +19,10 @@ public function init()
 			try {
 				$db->addViewType($data);
 				if(isset($data['save_new'])){
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::message('INSERT_SUCCESS');
 				}
 				if(isset($data['save_close'])){
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::message('INSERT_SUCCESS');
 					Application_Form_FrmMessage::redirectUrl('/other/loantype');
 				}
 			} catch (Exception $e) {
@@ -52,7 +52,7 @@ public function init()
     		$glClass = new Application_Model_GlobalClass();
     		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("NAME_EN","NAME_KH","TYPE","STATUS");
+    		$collumns = array("TITLE","TYPE","STATUS");
     		$link=array(
     				'module'=>'other','controller'=>'loantype','action'=>'edit',
     		);
