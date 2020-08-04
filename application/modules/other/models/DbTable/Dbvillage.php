@@ -34,8 +34,9 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$_arr=array(
 				'commune_id'	  => $_data['commune_name'],
-				'village_name'	  => $_data['village_name'],
+				'village_name'	  => $_data['village_namekh'],
 				'village_namekh'	  => $_data['village_namekh'],
+// 				'village_name'	  => $_data['village_name'],
 				//'displayby'	  => $_data['display'],
 				'status'	  => $_data['status'],
 				'modify_date' => Zend_Date::now(),

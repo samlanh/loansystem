@@ -228,7 +228,7 @@ require(["dojo/ready"], function(ready){
 		}
 	}, "loan_number");
 		getClientInfo(1);
-		
+		filterClient();
     });
 });
 function filterClient(){
@@ -434,6 +434,7 @@ function getLoanInfomation(){
 		}
 	});
 }
+var ClientIdFromAuto= '<?php echo empty($this->row['client_id'])?0:$this->row['client_id'];?>'
 var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
 function getClientByBranch(){
 	branch_id = dijit.byId('branch_id').get('value');
@@ -453,6 +454,7 @@ function getClientByBranch(){
 			
 			client_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('client_name').set('store', client_store);
+		    dijit.byId('client_name').set('value', ClientIdFromAuto);
 		},
 		error: function(err) {
 			

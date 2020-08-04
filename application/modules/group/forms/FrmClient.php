@@ -222,7 +222,6 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$options=array($this->tr->translate("SELECT_PROVINCE")); //array(''=>"------Select Province------",-1=>"Add New");
 		if(!empty($rows))foreach($rows AS $row){
 			if($row['province_en_name']=="ភ្នំពេញ"){
-				//exit();
 				$_province->setValue($row['province_id']);
 			}
 			$options[$row['province_id']]=$row['province_en_name'];
@@ -246,7 +245,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		
 		$_commune = new Zend_Dojo_Form_Element_FilteringSelect('commune');
 // 		$rows =  $db->getCommune();
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>$this->tr->translate("SELECT_COMMUNE"),-1=>$this->tr->translate("ADD_NEW"));
 // 		if(!empty($rows))foreach($rows AS $row) $options[$row['com_id']]=$row['commune_name'];
 		$_commune->setMultiOptions($options);
 		$_commune->setAttribs(array(
@@ -267,7 +266,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 		));
 // 		$rows =  $db->getVillage();
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>$this->tr->translate("SELECT_VILLAGE"),-1=>$this->tr->translate("ADD_NEW"));
 // 		if(!empty($rows))foreach($rows AS $row) $options[$row['vill_id']]=$row['village_name'];
 		$_village->setMultiOptions($options);
 		

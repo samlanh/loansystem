@@ -150,6 +150,7 @@ class Group_indexController extends Zend_Controller_Action {
 		$this->view->frm_popup_comm = $dbpop->frmPopupCommune();
 		$this->view->frm_popup_district = $dbpop->frmPopupDistrict();
 		$this->view->frm_popup_clienttype = $dbpop->frmPopupclienttype();
+		
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$db = new Application_Model_DbTable_DbGlobal();
 		$client_type = $db->getclientdtype();

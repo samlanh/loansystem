@@ -69,7 +69,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 				'required' =>'true'
 		));
 		$rows = $db->getAllBranchName();
-		$options_branch=array(''=>"---ជ្រើសរើសឈ្មោះសាខា---");
+		$options_branch=array(''=>$this->tr->translate("SELECT_BRANCH"));
 		if(!empty($rows))foreach($rows AS $row){
 			$options_branch[$row['br_id']]=$row['branch_namekh'];
 		}
@@ -78,7 +78,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		
 		$approve_by = new Zend_Dojo_Form_Element_FilteringSelect('approve_by');
 		$rows = $db ->getAllCOName();
-		$options_approve=array(''=>"---ážŸáŸ’ážœáŸ‚áž„ážšáž€áž¢áŸ’áž“áž€áž™áž›áŸ‹áž–áŸ’ážšáž˜---");
+		$options_approve=array(''=>$this->tr->translate("SELECT_CREDIT_OFFICER"));
 		if(!empty($rows))foreach($rows AS $row) $options_approve[$row['co_id']]=$row['co_khname'];
 		$approve_by->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -122,6 +122,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 				//'required'=>'true',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
 				'class'=>'fullside',
+				'placeholder'=>$this->tr->translate("START_DATE"),
 				'onchange'=>'CalculateDate();'));
 		$_date = $request->getParam("start_date");
 		

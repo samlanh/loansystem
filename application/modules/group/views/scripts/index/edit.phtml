@@ -189,7 +189,7 @@ input.btn_borwse_image {
 								                   </div>
 								                </div>
 								                 <div class="form-group">
-								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Group");?> :
+								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Group No");?> :
 								                   </label>
 								                    <div class="col-md-7 col-sm-7 col-xs-12">
 								                    	<?php echo $frm->getElement('group_no');?>
@@ -246,7 +246,7 @@ input.btn_borwse_image {
 								                </div>
 								                <div class="form-group">
 								                    <div class="col-md-12 col-sm-12 col-xs-12">
-								                     <label class="control-label " for="first-name"><?php echo $tr->translate("AUTO_COLLATERAL");?> :
+								                     <label class="control-label " for="first-name"><strong><?php echo $tr->translate("AUTO_COLLATERAL");?></strong> :
 								                   	</label>
 								                    	<?php  echo $frm->getElement('chackcall');?>
 								                   </div>
@@ -518,6 +518,7 @@ dojo.ready(function(){
 	required: false,		           
 	name: "district",
 	id: "district",
+	placeHolder:"<?php echo $tr->translate("DISTRICT")?>",
 	searchAttr: "name",
 	autoComplete: false,
 	queryExpr: "*${0}*",
@@ -541,6 +542,7 @@ dojo.ready(function(){
 	autoComplete: false,
 	queryExpr: "*${0}*",
 	searchAttr: "name",
+	placeHolder:"<?php echo $tr->translate("COMMUNE")?>",
 	value: "<?php echo $this->row['com_id'];?>",
 	class: 'fullside',
 		onChange: function() {
@@ -561,6 +563,7 @@ dojo.ready(function(){
 	required: false,		           
 	name: "village",
 	id: "village",
+	placeHolder:"<?php echo $tr->translate("VILLAGE")?>",
 	searchAttr: "name",
 	class: 'fullside',
 	value: "<?php echo $this->row['village_id'];?>",
@@ -579,6 +582,7 @@ dojo.ready(function(){
 		name: "client_d_type",
 		id: "client_d_type",
 		searchAttr: "name",
+		placeHolder:"<?php echo $tr->translate("DOCUMENT_TYPE")?>",
 		autoComplete: false,
 		queryExpr: "*${0}*",
 		class: 'fullside',
@@ -598,6 +602,7 @@ dojo.ready(function(){
 		required: false,		           
 		name: "join_d_type",
 		id: "join_d_type",
+		placeHolder:"<?php echo $tr->translate("DOCUMENT_TYPE")?>",
 		searchAttr: "name",
 		autoComplete: false,
 		queryExpr: "*${0}*",
@@ -618,6 +623,7 @@ dojo.ready(function(){
 		required: false,		           
 		name: "guarantor_d_type",
 		id: "guarantor_d_type",
+		placeHolder:"<?php echo $tr->translate("DOCUMENT_TYPE")?>",
 		searchAttr: "name",
 		autoComplete: false,
 		queryExpr: "*${0}*",
@@ -761,11 +767,11 @@ function addVillage(){
 			form:dojo.byId('form_village'),
 			handleAs:"json",
 			load: function(data) {
-				labelen = dijit.byId('village_name').get('value');
+				//labelen = dijit.byId('village_name').get('value');
 				labelkh = dijit.byId('village_namekh').get('value');
 				var villageItem1 = {					
 						id: data,
-						name:labelkh +' - '+labelen,
+						name:labelkh,
 				};			
 				addDataToSelectbox(dijit.byId('village'), village_store, villageItem1, data);	
 				dijit.byId('frm_village').reset();
@@ -829,7 +835,7 @@ function addNewDistrict(){
 			load: function(data) {	
 				var myNewItem1 = {					
 						id: data,
-						name:dijit.byId('pop_district_namekh').get('value')+' - '+ dijit.byId('pop_district_name').get('value'),
+						name:dijit.byId('pop_district_namekh').get('value'),
 				};			
 				addDataToSelectbox(dijit.byId('district'), district_store, myNewItem1, data);	
 				dijit.byId('frm_district').reset();
@@ -849,11 +855,10 @@ function addNewCommune(){
 			form:dojo.byId('form_commune'),
 			handleAs:"json",
 			load: function(data) {	
-				communeen = dijit.byId('commune_nameen').get('value');
 				communekh = dijit.byId('commune_namekh').get('value');
 				var Itemcommune = {					
 						id: data,
-						name:communekh+' - '+communeen,
+						name:communekh,
 				};			
 				addDataToSelectbox(dijit.byId('commune'), commune_store, Itemcommune, data);
 				dijit.byId('frm_commune').reset();
@@ -871,27 +876,27 @@ function addNewDocumentType(){
 	dojo.xhrPost({
 		url:document_type_url,	
 		content:{ 
-		    'title_en':dijit.byId('clienttype_nameen').get('value'),
+		    'title_en':dijit.byId('clienttype_namekh').get('value'),
 		    'title_kh':dijit.byId('clienttype_namekh').get('value'),
 		    'type':23,
 		},
 		handleAs:"json",
 		load: function(data) {	
-			clienttypeen = dijit.byId('clienttype_nameen').get('value');
+			//clienttypeen = dijit.byId('clienttype_nameen').get('value');
 			clienttypekh = dijit.byId('clienttype_namekh').get('value');
 			if(doc_type==1){
 				document_type = dijit.byId('client_d_type');
-				
 			}else if(doc_type==2){
 				document_type = dijit.byId('join_d_type');
 			}else{
 				document_type = dijit.byId('guarantor_d_type');
 			}
 
-			 var myNewItem1 = {					
-						id: data,
-						name: clienttypekh+'-'+clienttypeen
-				};			
+			var myNewItem1 = {					
+					id: data,
+					name: clienttypekh
+			};
+						
 			addDataToSelectbox(document_type, d_datastore, myNewItem1, data);		
 			dijit.byId('frm_clienttype').reset();
 			dijit.byId('frm_clienttype').hide();

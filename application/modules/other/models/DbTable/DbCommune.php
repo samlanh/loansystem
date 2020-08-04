@@ -31,7 +31,8 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
 		$_arr=array(
 				'district_id' => $_data['district_nameen'],
 				'commune_namekh'=> $_data['commune_namekh'],
-				'commune_name'=> $_data['commune_nameen'],
+				'commune_name'=> $_data['commune_namekh'],
+// 				'commune_name'=> $_data['commune_nameen'],
 				//'displayby'=> $_data['display'],
 				'status'	  => 1,
 				'modify_date' => Zend_Date::now(),

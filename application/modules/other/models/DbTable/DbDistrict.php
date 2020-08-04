@@ -30,8 +30,9 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 	public function addDistrictByAjax($_data){
 		$_arr=array(
 				'pro_id'	  		=> $_data['province_names'],
-				'district_name'	  	=> $_data['pop_district_name'],
+				'district_name'	  	=> $_data['pop_district_namekh'],
 				'district_namekh'	=> $_data['pop_district_namekh'],
+// 				'district_name'	  	=> $_data['pop_district_name'],
 				//'displayby'	  => $_data['display'],
 				'status'	  		=> 1,
 				'modify_date' 		=> Zend_Date::now(),
