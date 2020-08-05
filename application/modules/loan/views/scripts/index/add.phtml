@@ -381,7 +381,7 @@ require(["dojo/ready"], function(ready){
 	onChange: function() {
 		customer_code = dijit.byId('customer_code').get('value');
 		if(customer_code==-1){
-			showPopupclient();
+			window.open("<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add')); ?>","_blank");
 		}else{
 			dijit.byId('member').attr('value',customer_code);
 		}
@@ -570,10 +570,11 @@ function filterClient(){
 		dijit.byId('customer_code').query.branch_id = branch_id;
 		dijit.byId('customer_code').reset();
 		getLoanByBranch();
-		getAllClientByBranch(branch_id);
+		//getAllClientByBranch(branch_id);
 		getAllClientNumberByBranch(branch_id);
 }
-var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
+/*
+var url_getclient = '<?php //echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
 function getAllClientByBranch(branch_id){
 	dojo.xhrPost({
 		url:url_getclient,	
@@ -589,6 +590,8 @@ function getAllClientByBranch(branch_id){
 		}
 	});
 }
+ * 
+ */
 var url_co = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-coname')); ?>';
 function getAllCo(){
 	dojo.xhrPost({
@@ -606,20 +609,28 @@ function getAllCo(){
 }
 var url_getclientnum = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientnumberbybranch')); ?>';
 function getAllClientNumberByBranch(branch_id){
+	if(branch_id=='' || branch_id=='-1'){
+		client_number_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode(array()));?>);		
+	    dijit.byId('customer_code').set('store', client_number_store);
+	    dijit.byId('member').set('store', client_number_store);
+		return false;
+	}
 	dojo.xhrPost({
 		url:url_getclientnum,	
 		content:{ 
-		    'branch_id':branch_id
+		    'branch_id':branch_id,'no_addnew':1
 		},		    
 		handleAs:"json",
 		load: function(data) {
 			client_number_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('customer_code').set('store', client_number_store);
+		    dijit.byId('member').set('store', client_number_store);
 		},
 		error: function(err) {
 		}
 	});
 }
+
 var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
 function getLoanByBranch(){
 	branch_id = dijit.byId('branch_id').get('value');
@@ -943,18 +954,6 @@ function zone(){
 	    if(dijit.byId('zone').get('value')==-1){
 	    	dijit.byId("frm_zone").show();
         }
-}
-
-
-
-
-function showPopupclient(){
-	if(dijit.byId('branch_id')!=''){
-		dijit.byId("frmpop_client").show();
-	}else{
-		alert('Please Select Branch First!');
-		dijit.byId('branch_id').focus();
-		}
 }
 function popupcreditofficer(){
 	branch_id = dijit.byId('branch_id').get('value');
