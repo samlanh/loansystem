@@ -109,7 +109,7 @@ dojo.require("dijit.form.DateTextBox");
 	              
                ?>
                 <?php 
-                if($id!=$row['client_id']){
+                if($id!=$row['loan_id']){
                 	
                 ?>
                 <?php if($key>0){?>
@@ -119,7 +119,14 @@ dojo.require("dijit.form.DateTextBox");
              <?php ?>
                <thead>
                 <tr class="style">
-                	<td colspan="11" style="background:rgb(237, 237, 237) none repeat scroll 0% 0%"><a style="color:#000;" title="បង្កាន់ដៃតម្កល់ទ្រព្យដាក់ធានា" target="_blank" href="<?php echo $calleteralurl."/id/".$row['client_id'];?>">&nbsp;<span style="text-align:center; font-size:12px; "><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_code'].' , '.$row['name_kh'].' - '.$row['client_name']; ?></a></td>
+                	<td colspan="11" style="background:rgb(237, 237, 237) none repeat scroll 0% 0%">
+                		<a style="color:#000;" title="បង្កាន់ដៃតម្កល់ទ្រព្យដាក់ធានា" target="_blank" href="<?php echo $calleteralurl."/id/".$row['loan_id'];?>">&nbsp;
+                			<span style="text-align:center; font-size:12px; ">
+                			<?php echo $tr->translate("LOAN_NO");?> <?php  echo $row['loan_number']; ?>
+                			<?php echo $tr->translate("CUSTOMER_NAME");?> 
+                			</span><?php  echo $row['client_code'].' , '.$row['name_kh'].' - '.$row['client_name']; ?>
+                		</a>
+                	</td>
                 </tr>
                  <tr class="style" align="center" style="font-weight:bold; line-height: 20px; background: #ccd9ff; font-size:12px; padding:5px 0px; ">
                     <td style="text-align:center; font-size:12px; "><?php echo $tr->translate("NUM");?> </td>
@@ -136,7 +143,7 @@ dojo.require("dijit.form.DateTextBox");
                 </tr>
                 </thead>
                 <?php }
-                $id = $row['client_id'];
+                $id = $row['loan_id'];
                 ?>
 				<tr class="hover" align="center"  <?php if($row['is_return']==1)echo'style="background:#ccc;"';?> >
 					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>

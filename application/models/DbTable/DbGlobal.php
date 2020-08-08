@@ -2085,5 +2085,99 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	$sql.=" ORDER BY CONCAT(COALESCE(c.`co_code`,''),'-',COALESCE(c.`co_khname`,'')) DESC ";
   	return $db->fetchAll($sql);
   }
+  
+  function getCollectPaymentSqlSt(){
+  	$sql=" SELECT
+			  (SELECT  `ln_branch`.`branch_namekh`  FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_name`,
+			  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = `crm`.`currency_type`) LIMIT 1) AS `currency_typeshow`,
+			  (SELECT `c`.`co_khname` FROM `ln_co` `c` WHERE (`c`.`co_id` = `crm`.`co_id`) LIMIT 1) AS `co_name`,
+			  (SELECT `l`.`loan_number` FROM `ln_loan` `l`  WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
+			  (SELECT `c`.`name_kh` FROM `ln_client` `c`  WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
+			  (SELECT `c`.`client_number`  FROM `ln_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
+			  (SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
+			  `crm`.`id`                   AS `id`,
+			  `crm`.`co_id`                AS `co_id`,
+			  `crm`.`loan_id`              AS `loan_id`,
+			  `crm`.`client_id`            AS `client_id`,
+			  `crm`.`receipt_no`           AS `receipt_no`,
+			  `crm`.`branch_id`            AS `branch_id`,
+			  `crm`.`date_pay`             AS `date_pay`,
+			  `crm`.`date_payment`         AS `date_payment`,
+			  `crm`.`date_input`           AS `date_input`,
+			  `crm`.`note`                 AS `note`,
+			  `crm`.`user_id`              AS `user_id`,
+			  `crm`.`status`               AS `status`,
+			  `crm`.`payment_option`       AS `payment_option`,
+			  `crm`.`currency_type`        AS `currency_type`,
+			  `crm`.`is_payoff`            AS `is_payoff`,
+			  `crm`.`begining_balance`     AS `begining_balance`,
+			  `crm`.`total_payment`        AS `total_payment`,
+			  `crm`.`principal_amount`     AS `principal_amount`,
+			  `crm`.`interest_amount`      AS `interest_amount`,
+			  `crm`.`principal_paid`       AS `principal_paid`,
+			  `crm`.`interest_paid`        AS `interest_paid`,
+			  `crm`.`service_paid`         AS `service_paid`,
+			  `crm`.`penalize_paid`        AS `penalize_paid`,
+			  `crm`.`total_paymentpaid`    AS `total_paymentpaid`,
+			  `crm`.`recieve_amount`       AS `amount_recieve`,
+			  `crm`.`return_amount`        AS `return_amount`,
+			  `crm`.`penalize_amount`      AS `penelize`,
+			  `crm`.`service_chargeamount` AS `service_charge`,
+			  `crm`.`client_id`            AS `client_id`,
+			  `crm`.`paid_times`           AS `paid_times`,
+			  	crm.is_closed,
+			  CASE
+				WHEN  crm.payment_option = 1 THEN 'បង់ធម្មតា'
+				WHEN  crm.payment_option = 2 THEN 'បង់មុន'
+				WHEN  crm.payment_option = 3 THEN 'បង់រំលស់ប្រាក់ដើម'
+				WHEN  crm.payment_option = 4 THEN 'បង់ផ្តាច់'
+			END AS payment_option_title
+			
+			FROM `ln_client_receipt_money` `crm`
+			WHERE ((`crm`.`status` = 1)
+			       AND (`crm`.`status` = 1))
+  
+  	";
+  	return $sql;
+  }
+  
+  function sqlGetCalleteral(){
+  	$sql="
+		  SELECT
+		  `c`.`id`                 AS `id`,
+		  `c`.`loan_id`            AS `loan_id`,
+		  `d`.`number_collecteral` AS `number_collecteral`,
+		  `d`.`is_return`          AS `is_return`,
+		  `d`.`issue_date`         AS `issue_date`,
+		  `d`.`note`               AS `note`,
+		   (SELECT `l`.`loan_number` FROM `ln_loan` `l`  WHERE (`l`.`id` = `c`.`loan_id`) LIMIT 1) AS `loan_number`,
+		   
+		  (SELECT `ln_branch`.`branch_namekh`  FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `c`.`branch_id`)  LIMIT 1) AS `branch_name`,
+		  (SELECT `ln_co`.`co_khname` FROM `ln_co` WHERE (`ln_co`.`co_id` = `c`.`co_id`) LIMIT 1) AS `co_id`,
+		  `d`.`collecteral_code`   AS `collecteral_code`,
+		  
+		  `d`.`owner_name`         AS `owner_name`,
+		  (SELECT `ln_client`.`client_number`  FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`)  LIMIT 1) AS `client_code`,
+		  `d`.`owner_name`         AS `collecteral_type`,
+		  (SELECT   `ln_view`.`name_kh` FROM `ln_view` WHERE ((`ln_view`.`type` = 21)  AND (`ln_view`.`key_code` = `d`.`owner_type`))) AS `collecteral_owner`,
+		  (SELECT `ct`.`title_en` FROM `ln_callecteral_type` `ct` WHERE (`ct`.`id` = `d`.`collecteral_type`)) AS `collecteral_title_en`,
+		  (SELECT `ct`.`title_kh` FROM `ln_callecteral_type` `ct` WHERE (`ct`.`id` = `d`.`collecteral_type`)) AS `collecteral_title_kh`,
+		  (SELECT `ln_client`.`name_kh` FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`)  LIMIT 1) AS `name_kh`,
+		  (SELECT `ln_client`.`name_en` FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`) LIMIT 1) AS `client_name`,
+		  `c`.`client_id`          AS `client_id`,
+		  `c`.`branch_id`          AS `branch_id`,
+		  (SELECT `ln_client`.`join_with` FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`) LIMIT 1) AS `join_with`,
+		  (SELECT `ln_client`.`relate_with` FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`) LIMIT 1) AS `relative`,
+		  (SELECT `ln_client`.`spouse_name` FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`) LIMIT 1) AS `spouse_name`,
+		  `c`.`date`               AS `date`,
+		  `c`.`status`             AS `status`
+		FROM (`ln_client_callecteral` `c`
+		   JOIN `ln_client_callecteral_detail` `d`)
+		WHERE ((`c`.`id` = `d`.`client_coll_id`)
+		       AND (`c`.`status` = 1)
+		       AND (`d`.`status` = 1))
+  	";
+  	return $sql;
+  }
 }
 ?>

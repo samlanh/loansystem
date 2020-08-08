@@ -1577,5 +1577,26 @@ function rptLoanTrasferzoneAction(){//release all loan
  	}
  }
  
+ function paymenthistoryAction(){
+ 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	
+ 	$id = $this->getRequest()->getParam('id');
+ 	$id = empty($id)?0:$id;
+ 	
+ 	$rs =$rs=$db->getPaymentByCustomer($id);
+ 	if (empty($rs)){
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index");
+ 		exit();
+ 	}
+ 	
+ 	$this->view->loantotalcollect_list = $rs;
+ 	$this->view->rescheduleFee = $db->getAdminFeeByCustomerReschedule($id);
+ 
+ 	$frmpopup = new Application_Form_FrmPopupGlobal();
+ 	$this->view->footerReport = $frmpopup->getFooterReport();
+ }
+ 
 }
 

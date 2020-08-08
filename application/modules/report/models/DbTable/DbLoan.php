@@ -2289,6 +2289,28 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	}
       }
       
+      
+      public function getPaymentByCustomer($id){
+      	$db = $this->getAdapter();
+      	
+      	$dbgb = new Application_Model_DbTable_DbGlobal();
+      	$sql = $dbgb->getCollectPaymentSqlSt();
+      	$sql.=" AND  `crm`.`loan_id` = $id ";
+      	$sql.=" ORDER BY `crm`.`date_input` DESC,crm.receipt_no DESC ";
+      	return $db->fetchAll($sql);
+      }
+      function getAdminFeeByCustomerReschedule($id){
+      	$db = $this->getAdapter();
+      	$sql="
+      	SELECT SUM(rs.`admin_fee`) AS total_adminfee,l.`currency_type`
+      	FROM `ln_reschedule` AS rs,
+      	`ln_loan` AS l WHERE l.id  = rs.loan_id
+      	";
+      	$where =" AND l.id = $id";
+      	$where.=" GROUP BY l.`currency_type`";
+      	return $db->fetchAll($sql.$where);
+      }
+      
      
       
  }

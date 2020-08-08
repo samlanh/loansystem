@@ -95,38 +95,40 @@ class Report_Model_DbTable_DbLnClient extends Zend_Db_Table_Abstract
     }
     public function getAllCalleteral($search=null){
     	$db = $this->getAdapter();
-    	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
-    	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
+    	$from_date =(empty($search['start_date']))? '1': " c.date >= '".$search['start_date']." 00:00:00'";
+    	$to_date = (empty($search['end_date']))? '1': " c.date <= '".$search['end_date']." 23:59:59'";
     	$where = " AND ".$from_date." AND ".$to_date;
-		$sql =" SELECT id ,branch_name ,co_id ,collecteral_code,client_code ,client_id,client_name,name_kh, join_with , relative , 
-		collecteral_type,collecteral_owner,number_collecteral,issue_date,collecteral_title_kh,collecteral_title_en,date ,note ,status ,is_return FROM 
-		`v_getallcallateral` WHERE 1";
+    	
+    	$dbGb = new Application_Model_DbTable_DbGlobal();
+		$sql= $dbGb->sqlGetCalleteral();    	
+//     	$sql.=" AND d.is_return=0 ";
+		
 		if($search['status_search']>-1){
- 			$where.=" AND status=".$search['status_search'];
+ 			$where.=" AND c.status=".$search['status_search'];
  		}
 		if(!empty($search['branch_id'])){
-			$where.=" AND branch_id = ".$search['branch_id'];
+			$where.=" AND c.branch_id = ".$search['branch_id'];
 		}
 		if(!empty($search['adv_search'])){
 			$s_where=array();
 			$s_search=trim($search['adv_search']);
 			
-			$s_where[]=" number_collecteral LIKE'%{$s_search}%'";
-			$s_where[]=" collecteral_owner LIKE'%{$s_search}%'";
-			$s_where[]=" collecteral_title_en LIKE'%{$s_search}%'";
-			$s_where[]=" collecteral_type LIKE'%{$s_search}%'";
-			$s_where[]=" branch_name LIKE'%{$s_search}%'";
-			$s_where[]=" co_id LIKE'%{$s_search}%'";
-			$s_where[]=" collecteral_code LIKE'%{$s_search}%'";
-			$s_where[]=" client_code LIKE'%{$s_search}%'";
-			$s_where[]=" name_kh LIKE'%{$s_search}%'";
-			$s_where[]=" client_name LIKE'%{$s_search}%'";
-			$s_where[]=" join_with LIKE'%{$s_search}%'";
-			$s_where[]=" relative LIKE'%{$s_search}%'";
-			$s_where[]=" note LIKE'%{$s_search}%'";
+			$s_where[]=" `d`.`number_collecteral` LIKE'%{$s_search}%'";
+			$s_where[]=" `d`.`owner_name` LIKE'%{$s_search}%'";
+			$s_where[]=" (SELECT `ct`.`title_en` FROM `ln_callecteral_type` `ct` WHERE (`ct`.`id` = `d`.`collecteral_type`)) LIKE'%{$s_search}%'";
+			$s_where[]=" (SELECT `ct`.`title_kh` FROM `ln_callecteral_type` `ct` WHERE (`ct`.`id` = `d`.`collecteral_type`)) LIKE'%{$s_search}%'";
+			$s_where[]=" (SELECT `ln_branch`.`branch_namekh`  FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `c`.`branch_id`)  LIMIT 1) LIKE'%{$s_search}%'";
+			$s_where[]=" (SELECT `ln_co`.`co_khname` FROM `ln_co` WHERE (`ln_co`.`co_id` = `c`.`co_id`) LIMIT 1) LIKE'%{$s_search}%'";
+			$s_where[]=" `d`.`collecteral_code` LIKE'%{$s_search}%'";
+			$s_where[]=" (SELECT `ln_client`.`client_number`  FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`)  LIMIT 1) LIKE'%{$s_search}%'";
+			$s_where[]=" (SELECT `ln_client`.`name_kh`  FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`)  LIMIT 1) LIKE'%{$s_search}%'";
+			$s_where[]=" (SELECT `ln_client`.`name_en`  FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`)  LIMIT 1) LIKE'%{$s_search}%'";
+			$s_where[]=" (SELECT `ln_client`.`join_with`  FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`)  LIMIT 1) LIKE'%{$s_search}%'";
+			$s_where[]=" (SELECT `ln_client`.`relate_with`  FROM `ln_client` WHERE (`ln_client`.`client_id` = `c`.`client_id`)  LIMIT 1) LIKE'%{$s_search}%'";
+			$s_where[]=" d.note LIKE'%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		$order = " ORDER BY client_id ";
+		$order = " ORDER BY c.client_id ";
     	return $db->fetchAll($sql.$where.$order);
     }
 function geteAllcallteral($search=null){
@@ -201,14 +203,14 @@ function geteAllcallteral($search=null){
 				}
 			return $db->fetchAll($sql.$where);
 	}
-	function getCalleteralByClient($client_id){
-			$db = $this->getAdapter();
-			$sql =" SELECT id ,branch_name ,co_id ,collecteral_code,client_code ,client_id,client_name,name_kh, join_with , relative ,spouse_name ,owner_name,
-			collecteral_type,collecteral_owner,number_collecteral,issue_date,collecteral_title_en,collecteral_title_kh,date ,note ,status ,is_return FROM
-			`v_getallcallateral` WHERE client_id = $client_id AND status=1 and is_return=0 ";
-			$order = " ORDER BY client_id ";
-			return $db->fetchAll($sql.$order);
-	}
+// 	function getCalleteralByClient($client_id){
+// 			$db = $this->getAdapter();
+// 			$sql =" SELECT id ,branch_name ,co_id ,collecteral_code,client_code ,client_id,client_name,name_kh, join_with , relative ,spouse_name ,owner_name,
+// 			collecteral_type,collecteral_owner,number_collecteral,issue_date,collecteral_title_en,collecteral_title_kh,date ,note ,status ,is_return FROM
+// 			`v_getallcallateral` WHERE client_id = $client_id AND status=1 and is_return=0 ";
+// 			$order = " ORDER BY client_id ";
+// 			return $db->fetchAll($sql.$order);
+// 	}
 	function getChangeCollteralByClientId($client_id){
 		$db = $this->getAdapter();
 	
@@ -321,6 +323,16 @@ function geteAllcallteral($search=null){
 					ln_client AS cl 
 					WHERE ( cl.client_id = $client_id ) ";
 		return $db->fetchRow($sql);
+	}
+	
+	function getCalleteralByLoanID($loan_id){
+		$db = $this->getAdapter();
+		$sql =" SELECT
+		*
+		FROM
+		`v_getallcallateral` WHERE loan_id = $loan_id AND status=1 AND is_return=0";
+		$order = " ORDER BY client_id ";
+		return $db->fetchAll($sql.$order);
 	}
 }
 

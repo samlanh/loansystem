@@ -4,10 +4,12 @@ echo $this->headTitle($tr->translate("IL_DISBURSE"));
 $frm = $this->frm_search;
 
 $url_Payment = $this->baseUrl()."/loan/payment/add/id/"; 
+$url_edit = $this->baseUrl()."/loan/index/edit/id/";
 $url_agreement = $this->baseUrl()."/report/loan/agreement/id/";
 $url_schedule = $this->baseUrl()."/report/loan/rpt-paymentschedules/id/";
 $url_reschedule = $this->baseUrl()."/loan/repaymentschedule/add/id/";
 $url_badloan = $this->baseUrl()."/loan/badloan/add/id/";
+$url_PaymenHistory = $this->baseUrl()."/report/loan/paymenthistory/id/";
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -91,6 +93,8 @@ $(function(){
 			var m = "clicked: " + key;
 			 if(key=="payment"){
 				url='<?php echo $url_Payment;?>';
+			 }else if(key=="edit"){
+					url='<?php echo $url_edit;?>';
 			}else if(key=="agreement"){
 				url='<?php echo $url_agreement;?>';
 			}else if(key=="schedulePay"){
@@ -99,6 +103,8 @@ $(function(){
 				url='<?php echo $url_reschedule;?>';
 			}else if(key=="badloan"){
 				url='<?php echo $url_badloan;?>';
+			}else if(key=="PaymenHistory"){
+				url='<?php echo $url_PaymenHistory;?>';
 			}
 			gotoAction();
 			//window.console && console.log(m) || alert(m); 
@@ -106,8 +112,10 @@ $(function(){
 		items: {
 			"payment": {name: "<?php echo $tr->translate("ADD_PAYMENT");?>", icon: "fa-money", accesskey: "c o p y"},
 			"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text"},
+			"edit": {name: "<?php echo $tr->translate("EDIT");?>", icon: "edit", accesskey: "e"},
 			"schedulePay": {name: "<?php echo $tr->translate("SCHEDULE_PAYMENT");?>", icon: "fa-calendar"},
 			"reschedule": {name: "<?php echo $tr->translate("REPAYMENTSCHEDULE");?>", icon: "fa-calendar"},
+			"PaymenHistory": {name: "<?php echo $tr->translate("PAYMENT_HISTORY");?>", icon: "fa-money", accesskey: "c o p y"},
 			"badloan": {name: "<?php echo $tr->translate("BADLOAN");?>", icon: "fa-times"},
 		}
 	});
