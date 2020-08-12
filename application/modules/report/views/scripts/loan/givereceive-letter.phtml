@@ -1,0 +1,228 @@
+<?php 
+	$client = $this->client;
+	$loan = $this->loanInfo;
+	$collateral = $this->collateral;
+	$data = $this->data;
+	$month = array("01"=>"មករា","02"=>"កុម្ភៈ","03"=>"មីនា","04"=>"មេសា","05"=>"ឧសភា","06"=>"មិថុនា","07"=>"កក្កដា","08"=>"សីហា","09"=>"កញ្ញា","10"=>"តុលា","11"=>"វិច្ឆិកា","12"=>"ធ្នូ",);
+	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+	$dbgb = new Application_Model_DbTable_DbGlobal();
+?>
+<script src="<?php echo $this->baseUrl();?>/js/pdbs_js.js"  type="text/javascript"></script>
+<meta charset="utf-8">
+<title><?php echo $tr->translate('GIVE_RECEIVE_LETTER');?></title>
+
+<div class="reportblog">
+	<div class="card-box">
+    	<div class="col-sm-12 border-botom">
+	    	<div class="col-sm-8 pd-0">
+	   			<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('GIVE_RECEIVE_LETTER');?></h4>
+    		</div>
+    		<div class="col-sm-4 text-right">
+    		</div>
+    	</div>
+    </div>	
+	<style>
+		.noneprint{
+			display: table-cell !important; 
+		}
+		.reff{ font-size: 20px !important; line-height:34px !important;}
+		#divPrint tr td h2, #divPrint p,#divPrint pre,#divPrint span,#divPrint td span,#divPrint td{ font-size: 20px !important; line-height:34px !important;}
+		#padding-left-p-2{
+		 padding-left: 105px !important;	
+		}
+		.padding-buttom{
+			margin-top: -5px !important;
+		}
+		#divPrint #printfooter{display: none !important;}
+	</style>
+	<div  id="exportword">
+	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+		<tr>
+	    	<td align="center">
+	    		<div id="divPrint">
+		    	 	<style>		
+						td span {
+						}
+					    #padding-left-p-2{
+						 padding-left: 105px !important;	
+						}
+						.padding-buttom{
+							margin-top: -5px !important;
+						}
+						tr td h2,p,pre,span{ font-size: 16px ; line-height:32px;}
+						#padding-left{
+						padding-left: 18px;
+						}
+						.padding-buttom{
+							margin-top: -5px;
+						}
+						#padding-left-p-2{
+						 margin-top:-1px; 
+						 padding-left: 85px;	
+						}
+						#padding-left-p{
+					    	padding-left: 105px;
+						}
+						th{padding: 5px;}
+						span.value{ line-height:12px;display: inline-block; text-align: center; padding: 0 2px;}
+						span.child {display:block; margin-left:25px; line-height: 20px;}
+						div.pages-break{
+							page-break-inside:auto; page-break-after:auto; 
+						}
+						body {
+						    position: relative;
+						}
+						#printfooter {
+						    position: absolute;
+						    bottom: 0;
+						    position: fixed;
+						    display: block ;
+						width: 100%;
+						}
+						ul.collateral-list {
+						    width: 100%;
+						    padding: 0;
+						    margin: 0;
+						    padding-left: 75px;
+						}
+						/*
+						span.border_bt.value {
+						    border-bottom: dashed 1px #000; padding: 0 10px;
+						}
+						* */
+					    </style>
+	    			<div class="pages-break">
+	    				<table style="font-family:'Times New Roman','Khmer OS Battambang'; text-align: center; width: 100%; margin-left: 0px">
+							<tbody>
+								<tr style="text-align:center; line-height:24px; font-size:15px; font-family:'Times New Roman','Khmer OS Battambang';">
+									 <td width="30%" align="left" valign="top"><span><img style="max-width:100%;" src="<?php echo $this->baseUrl()."/";?>images/logo.jpg" ></span>
+									 </td>
+									 <td width="40%" align="center" valign="top" style="padding-left: 25px;">
+									 	<span style="line-height: 30px; font-family:'Khmer OS Muol Light';">
+										 	ព្រះរាជាណាចក្រកម្ពុជា
+										 	<br>
+											  ជាតិ សាសនា ព្រះមហាក្សត្រ
+										  </span>
+										  <br>
+										 <img src="<?php echo $this->baseUrl()."/";?>images/agreementsign.JPG" style="width: 80px;height: 17px;"><br>
+										 <span style=" line-height:24px; font-size: 15px; font-family:'Khmer OS Muol Light'; text-decoration: underline;">លិខិតប្រគល់ និងទទួលប្រាក់</span><br />
+										<br />
+									 </td>
+									 <td>
+								 	</td>
+								</tr>
+								<tr>
+						 			<td colspan="3">
+						 				<?php 
+						 				$title="លោក";
+						 				if($client['sex']==2){
+						 					$title="លោកស្រី";
+						 				}
+						 				?>
+						 				<span style="text-align: justify; display:inline-block; width:100%;">
+						 					<span id="padding-left">&nbsp;</span><?php echo $title;?> <span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 100px;"><?php echo $client['name_kh'];?></span> ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['sexKH'];?></span> 
+						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
+						 					សញ្ជាតិ <?php echo $client['nationality'];?> កាន់<?php echo $client['docTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['nation_id']);?> 
+						 					ចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
+						 					
+						 					<?php if (!empty($client['join_with'])){?>
+						 					<br />
+						 					<span id="padding-left">&nbsp;</span>និងឈ្មោះ<span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 80px;"><?php echo $client['join_with'];?></span>ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['join_sexKH'];?></span> 
+						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
+						 					សញ្ជាតិ <?php echo $client['with_nationality'];?> កាន់<?php echo $client['joinDocTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['join_nation_id']);?> 
+						 					ចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob_join_acc'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob_join_acc']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob_join_acc']))); ?> 
+						 					មុខរបរ <?php echo $client['with_job'];?> ត្រូវជា <?php echo $client['relate_with'];?>
+						 					<?php }?>
+						 					
+						 					មានទីលំនៅភូមិ <?php echo $client['villageName'];?> 
+						 					ឃុំ/សង្កាត់ <?php echo $client['communeName'];?> 
+						 					ស្រុក/ខណ្ឌ/ក្រុង <?php echo $client['district_name'];?> 
+						 					ខេត្ត/រាជធានី <?php echo $client['province_kh_name'];?>។ 
+						 				</span>
+						 				<br /><br />
+						 				<span style="text-align: justify; display:inline-block; width:100%;">
+						 					<span id="padding-left">&nbsp;</span>
+						 					បានទទួលបា្រក់ចំនួន <span class="value border_bt" style="min-width: 120px;"><strong><?php echo number_format($loan['loan_amount'],2)." ".$loan['currency_type'];?></strong></span>(<span class="value border_bt" style="min-width: 110px;"><span id="lable_loankhmer"></span> <?php echo $loan['currency_type'];?></span>)ពីឈ្មោះ 
+						 					<span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 100px;"><?php echo $loan['gm_name'];?></span> ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $loan['gmSexTitle'];?></span> 
+						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['gm_dob'])));?> ខែ<?php echo $month[date("m",strtotime($loan['gm_dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['gm_dob']))); ?> 
+						 					សញ្ជាតិ <?php echo $loan['gm_nationality'];?> 
+						 					កាន់អត្តសញ្ញាណប័ណ្ណលេខ <?php echo $dbgb->getNumberInkhmer($loan['gm_nation_id']);?> ចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['gm_issue_date'])));?> ខែ<?php echo $month[date("m",strtotime($loan['gm_issue_date']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['gm_issue_date']))); ?> 
+						 					មុខរបរ <?php echo $loan['gm_occupation'];?> 
+						 					មានទីលំនៅ <?php echo $loan['gm_address'];?>។
+						 				</span>
+						 				<br /><br />
+						 				<span style="text-align: justify; display:inline-block; width:100%;">
+						 					<span id="padding-left">&nbsp;</span>
+						 					ខ្ញុំបាទឈ្មោះ <span style="font-family:'Times New Roman','Khmer OS Muol Light';"><?php echo $client['name_kh'];?></span>  និង ឈ្មោះ  <span style="font-family:'Times New Roman','Khmer OS Muol Light';"><?php echo $client['join_with'];?></span> 
+						 					សូមធានាអះអាងនៅចំពោះមុខច្បាប់ថានៅថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_line'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_line']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_line']))); ?>  
+						 					នឹងប្រគល់បា្រក់ចំនួន <strong><?php echo number_format($loan['loan_amount'],2)." ".$loan['currency_type'];?></strong> (<span class="value border_bt" style="min-width: 110px;"><span id="lable_loankhmer_II"></span> <?php echo $loan['currency_type'];?></span>)
+						 					មកឲ្យឈ្មោះ <span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 100px;"><?php echo $loan['gm_name'];?></span> វិញគ្រប់ចំនួន ។ បើដល់ថ្ងៃកំណត់ខាងលើខ្ញុំបាទមិនគោរពតាមការអះអាងខាងលើទេខ្ញុំបាទសុខចិត្តទទួលខុសត្រូវទាំងស្រុងចំពោះមុខច្បាប់ ។
+					 					</span>
+						 					
+					 					<span style="text-align: justify; display:inline-block; width:100%;">
+					 						<span id="padding-left">&nbsp;</span>ខ្ញុំបាទសូមផ្តិតមេដៃស្តាំទុកជាភស្តុតាងនៃការទទួលខុសត្រូវចំពោះមុខច្បាប់ ។
+					 					</span>
+						 			</td>
+						 		</tr>
+						 		<tr>
+						 			<td colspan="3" style=" text-align: right; font-size: 14px">
+						 				ធ្វើនៅ,រាជធានីភ្នំពេញថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_release'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_release']))); ?>
+						 			</td>
+						 		</tr>
+							  </tbody>
+						  </table>
+						  <table border="0" style="width: 100%; font-family:'Times New Roman','Khmer OS Battambang';">
+			 					<tr style=" text-align: center; white-space: nowrap;">
+			 						<td width="20%">ស្នាមមេដៃស្តាំអ្នកប្រគល់បា្រក់</td>
+				 					<td></td>
+				 					<td width="20%">សាក្សីអ្នកប្រគល់បា្រក់</td>
+				 					<td></td>
+				 					<td width="20%">សាក្សីអ្នកទទួលបា្រក់</td>
+				 					<td></td>
+				 					<td width="20%">ស្នាមមេដៃស្តាំអ្នកទទួលបា្រក់</td>
+			 					</tr>
+			 					<tr>
+			 						<td style="height: 70px;">&nbsp;</td>
+			 					</tr>
+			 					<tr style=" text-align: center;">
+			 						<td><?php echo $loan['gm_name'];?></td>
+			 						<td></td>
+			 						<td>
+			 							<span style="display: inline-block; width: 100px; border-bottom: dashed 1px #000;">&nbsp;</span>
+			 						</td>
+			 						<td></td>
+			 						<td><?php if (!empty($client['spouse_name'])){
+			 							echo $client['spouse_name'];
+			 							?>
+			 						<?php }else{?>
+			 						<span style="display: inline-block; width: 100px; border-bottom: dashed 1px #000;">&nbsp;</span>
+			 						<?php }?></td>
+			 						<td></td>
+			 						<td><?php echo $client['name_kh']; echo empty($client['join_with'])?"":" និង ".$client['join_with']?></td>
+			 					</tr>
+		 				</table>
+			        </div>
+			        <script>
+							a_sold ='<?php echo ($loan['loan_amount']) ?>';
+							money_khmersold=read_money_in_khmer(a_sold);
+							
+							decimalmoney_khmersold='<?php echo substr(number_format($loan['loan_amount'],2),-2);?>';
+							str_centsold = 'សេន';
+							if(decimalmoney_khmersold>0){string_sold='និង';}else{string_sold="";str_cent_sold='';}
+							last_number_sold='<?php echo substr(number_format($loan['loan_amount'],2),-2);?>';
+							
+							if(last_number_sold<=0){last_number_sold='';}
+							money_khmersold = money_khmersold+" "+string_sold+" "+read_in_khmer_from_10_to_99(decimalmoney_khmersold)+''+read_in_khmer_from_0_to_9(last_number_sold)+''+str_cent_sold;
+							dojo.byId('lable_loankhmer').innerHTML=money_khmersold+" ";
+							dojo.byId('lable_loankhmer_II').innerHTML=money_khmersold+" ";
+							//dojo.byId('lable_pricekhmer1').innerHTML=money_khmersold+" ";
+					</script>
+			         <div id="printfooter">
+			        	</div>
+		        </div>
+        	 </td>	
+		</tr>
+	</table>
+	</div>
+</div>
+

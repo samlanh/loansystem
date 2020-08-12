@@ -1597,6 +1597,51 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$frmpopup = new Application_Form_FrmPopupGlobal();
  	$this->view->footerReport = $frmpopup->getFooterReport();
  }
+ function givereceiveLetterAction(){
+ 	$db = new Application_Model_DbTable_DbAgreement();
+ 	$id =$this->getRequest()->getParam('id');
+ 	$row = $db->getLoanById($id);
+ 	$this->view->loanInfo=$row;
+ 	if(empty($row)){
+ 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
+ 	}
  
+ 	$rs = $db->getClientLoanInfo($row['customer_id']);
+ 	$this->view->client =$rs;
+ 
+ 	$collateral = $db->getLoanCollateral($id);
+ 	$this->view->collateral = $collateral;
+ 
+ 	$frm = new Application_Form_FrmSearchGlobal();
+ 	$form = $frm->FrmSearchLoadSchedule();
+ 	Application_Model_Decorator::removeAllDecorator($form);
+ 	$this->view->form_filter = $form;
+ 
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ }
+ function givereceiveDocLetterAction(){
+ 	$db = new Application_Model_DbTable_DbAgreement();
+ 	$id =$this->getRequest()->getParam('id');
+ 	$row = $db->getLoanById($id);
+ 	$this->view->loanInfo=$row;
+ 	if(empty($row)){
+ 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
+ 	}
+ 
+ 	$rs = $db->getClientLoanInfo($row['customer_id']);
+ 	$this->view->client =$rs;
+ 
+ 	$collateral = $db->getLoanCollateral($id);
+ 	$this->view->collateral = $collateral;
+ 
+ 	$frm = new Application_Form_FrmSearchGlobal();
+ 	$form = $frm->FrmSearchLoadSchedule();
+ 	Application_Model_Decorator::removeAllDecorator($form);
+ 	$this->view->form_filter = $form;
+ 
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ }
 }
 

@@ -10,6 +10,10 @@ $url_schedule = $this->baseUrl()."/report/loan/rpt-paymentschedules/id/";
 $url_reschedule = $this->baseUrl()."/loan/repaymentschedule/add/id/";
 $url_badloan = $this->baseUrl()."/loan/badloan/add/id/";
 $url_PaymenHistory = $this->baseUrl()."/report/loan/paymenthistory/id/";
+$url_Callateral = $this->baseUrl()."/report/groupmember/calleteral-letter/id/";
+
+$url_givereceive_letter = $this->baseUrl()."/report/loan/givereceive-letter/id/";
+$url_givereceive_doc_letter = $this->baseUrl()."/report/loan/givereceive-doc-letter/id/";
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -97,6 +101,12 @@ $(function(){
 					url='<?php echo $url_edit;?>';
 			}else if(key=="agreement"){
 				url='<?php echo $url_agreement;?>';
+			}else if(key=="calleteral-letter"){
+				url='<?php echo $url_Callateral;?>';
+			}else if(key=="givereceive-letter"){
+				url='<?php echo $url_givereceive_letter;?>';
+			}else if(key=="givereceive-doc-letter"){
+				url='<?php echo $url_givereceive_doc_letter;?>';
 			}else if(key=="schedulePay"){
 				url='<?php echo $url_schedule;?>';
 			}else if(key=="reschedule"){
@@ -112,6 +122,9 @@ $(function(){
 		items: {
 			"payment": {name: "<?php echo $tr->translate("ADD_PAYMENT");?>", icon: "fa-money", accesskey: "c o p y"},
 			"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text"},
+			"calleteral-letter": {name: "<?php echo $tr->translate("CALLETERAL_LETTER");?>", icon: "fa-file-text"},
+			"givereceive-letter": {name: "<?php echo $tr->translate("GIVE_RECEIVE_LETTER");?>", icon: "fa-file-text"},
+			"givereceive-doc-letter": {name: "<?php echo $tr->translate("GIVE_RECEIVE_DOC_LETTER");?>", icon: "fa-file-text"},
 			"edit": {name: "<?php echo $tr->translate("EDIT");?>", icon: "edit", accesskey: "e"},
 			"schedulePay": {name: "<?php echo $tr->translate("SCHEDULE_PAYMENT");?>", icon: "fa-calendar"},
 			"reschedule": {name: "<?php echo $tr->translate("REPAYMENTSCHEDULE");?>", icon: "fa-calendar"},

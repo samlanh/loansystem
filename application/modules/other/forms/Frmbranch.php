@@ -196,6 +196,13 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
 		));
 		
+		$gm_occupation = new Zend_Dojo_Form_Element_TextBox('gm_occupation');
+		$gm_occupation->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		
 		$_gm_address = new Zend_Dojo_Form_Element_Textarea('gm_address');
 		$_gm_address->setAttribs(array(
 				'dojoType'=>'dijit.form.Textarea',
@@ -280,6 +287,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 			$gm_nationality->setValue($data['gm_nationality']);
 			$gm_nation_id->setValue($data['gm_nation_id']);
 			$gm_issue_date->setValue($data['gm_issue_date']);
+			$gm_occupation->setValue($data['gm_occupation']);
 			$_gm_address->setValue($data['gm_address']);
 			$with_gm_name->setValue($data['with_gm_name']);
 			$_with_gm_sex->setValue($data['with_gm_sex']);
@@ -302,6 +310,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				$gm_nationality,
 				$gm_nation_id,
 				$gm_issue_date,
+				$gm_occupation,
 				$_gm_address,
 				$with_gm_name,
 				$_with_gm_sex,
