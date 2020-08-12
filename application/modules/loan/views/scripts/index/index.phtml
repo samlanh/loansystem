@@ -14,6 +14,7 @@ $url_Callateral = $this->baseUrl()."/report/groupmember/calleteral-letter/id/";
 
 $url_givereceive_letter = $this->baseUrl()."/report/loan/givereceive-letter/id/";
 $url_givereceive_doc_letter = $this->baseUrl()."/report/loan/givereceive-doc-letter/id/";
+$url_comfirm_letter = $this->baseUrl()."/report/loan/comfirm-letter/id/";
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -103,6 +104,8 @@ $(function(){
 				url='<?php echo $url_agreement;?>';
 			}else if(key=="calleteral-letter"){
 				url='<?php echo $url_Callateral;?>';
+			}else if(key=="comfirm-letter"){
+				url='<?php echo $url_comfirm_letter;?>';
 			}else if(key=="givereceive-letter"){
 				url='<?php echo $url_givereceive_letter;?>';
 			}else if(key=="givereceive-doc-letter"){
@@ -123,6 +126,7 @@ $(function(){
 			"payment": {name: "<?php echo $tr->translate("ADD_PAYMENT");?>", icon: "fa-money", accesskey: "c o p y"},
 			"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text"},
 			"calleteral-letter": {name: "<?php echo $tr->translate("CALLETERAL_LETTER");?>", icon: "fa-file-text"},
+			"comfirm-letter": {name: "<?php echo $tr->translate("COMFIRM_LETTER");?>", icon: "fa-file-text"},
 			"givereceive-letter": {name: "<?php echo $tr->translate("GIVE_RECEIVE_LETTER");?>", icon: "fa-file-text"},
 			"givereceive-doc-letter": {name: "<?php echo $tr->translate("GIVE_RECEIVE_DOC_LETTER");?>", icon: "fa-file-text"},
 			"edit": {name: "<?php echo $tr->translate("EDIT");?>", icon: "edit", accesskey: "e"},
