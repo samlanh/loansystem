@@ -40,17 +40,15 @@ class Other_BranchController extends Zend_Controller_Action {
 	
 	function addAction()
 	{
-		//$this->_redirect("/other/branch");
 		if($this->getRequest()->isPost()){//check condition return true click submit button
 			$_data = $this->getRequest()->getPost();
 			$_dbmodel = new Other_Model_DbTable_DbBranch();
 			try {
 				$_dbmodel->addbranch($_data);
 				if(!empty($_data['save_new'])){
-					Application_Form_FrmMessage::message($this->tr->translate("INSERT_SUCCESS"));
-				}else{
-					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . "/branch/index");
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . "/branch/index/add");
 				}
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . "/branch/index");
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message($this->tr->translate("INSERT_FAIL"));
 				$err =$e->getMessage();

@@ -58,6 +58,14 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 					'dob_join_acc'  => $_data['dob_join_acc'],
 					'join_sex'  => $_data['join_sex'],
 					'group_no'  => $_data['group_no'],
+					
+					'nationality'  => $_data['nationality'],
+					'with_nationality'  => $_data['with_nationality'],
+					'issue_date'  => $_data['issue_date'],
+					'with_issue_date'  => $_data['with_issue_date'],
+					'spouse_issue_date'  => $_data['spouse_issue_date'],
+					'with_job'  => $_data['with_job'],
+					'modify_date'  => date("Y-m-d H:i:s"),
 			);
 		
 			$part= PUBLIC_PATH.'/images/profile/';

@@ -227,14 +227,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$options[$row['province_id']]=$row['province_en_name'];
 		}
 		$_province->setMultiOptions($options);
-// 		$_province->setValue($request->getParam('province'));
 		
 		
 		$_district = new Zend_Dojo_Form_Element_FilteringSelect('district');
-// 		$rows =  $db->getAllDistrict();
-// 		$options=array(''=>"------Select------",-1=>"Add New");
-// 		if(!empty($rows))foreach($rows AS $row) $options[$row['dis_id']]=$row['district_name'];
-// 		$_district->setMultiOptions($options);
 		$_district->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
@@ -244,9 +239,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		
 		$_commune = new Zend_Dojo_Form_Element_FilteringSelect('commune');
-// 		$rows =  $db->getCommune();
 		$options=array(''=>$this->tr->translate("SELECT_COMMUNE"),-1=>$this->tr->translate("ADD_NEW"));
-// 		if(!empty($rows))foreach($rows AS $row) $options[$row['com_id']]=$row['commune_name'];
 		$_commune->setMultiOptions($options);
 		$_commune->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -265,9 +258,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-// 		$rows =  $db->getVillage();
 		$options=array(''=>$this->tr->translate("SELECT_VILLAGE"),-1=>$this->tr->translate("ADD_NEW"));
-// 		if(!empty($rows))foreach($rows AS $row) $options[$row['vill_id']]=$row['village_name'];
 		$_village->setMultiOptions($options);
 		
 		$_house = new Zend_Dojo_Form_Element_TextBox('house');
@@ -287,17 +278,8 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_group_no->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				//'required' =>'true'
 		));
 		
-// 		$_id_type = new Zend_Dojo_Form_Element_FilteringSelect('id_type');
-// 		$_id_type->setAttribs(array(
-// 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
-// 				'required' =>'true'
-// 		));
-// 		$rows =  $db->GetAllIDType();
-// 		$_id_type->setMultiOptions($rows);
 		
 		$_id_no = new Zend_Dojo_Form_Element_TextBox('id_no');
 		$_id_no->setAttribs(array(
@@ -332,7 +314,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 		));
 		$jobrs = $db->getJobName();
-		$options=array(''=>$this->tr->translate("SELECT_JOB"),-1=>$this->tr->translate("ADD_NEW"));
+		$options=array(''=>$this->tr->translate("SELECT_JOB"));//,-1=>$this->tr->translate("ADD_NEW")
 		if(!empty($jobrs))foreach($jobrs AS $row) $options[$row['job']]=$row['job'];
 		$job->setMultiOptions($options);
 		
@@ -354,7 +336,6 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.CheckBox',
 				//'checked'=>'checked'
 		));
-// 		$_id=new Zend_Form_Element_Hidden('id');
 		$_id = new Zend_Form_Element_Hidden("id");
 		$_desc = new Zend_Dojo_Form_Element_TextBox('desc');
 		$_desc->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',
@@ -370,7 +351,45 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				0=>$this->tr->translate("DACTIVE"));
 		$_status->setMultiOptions($_status_opt);
 		
-// 		$_id = new Zend_Form_Element_Hidden('id');
+		
+		$nationality = new Zend_Dojo_Form_Element_TextBox('nationality');
+		$nationality->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		$nationality->setValue("ខ្មែរ");
+		
+		$with_nationality = new Zend_Dojo_Form_Element_TextBox('with_nationality');
+		$with_nationality->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		$with_nationality->setValue("ខ្មែរ");
+		
+		$issue_date = new Zend_Dojo_Form_Element_DateTextBox('issue_date');
+		$issue_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
+		));
+		
+		$with_issue_date = new Zend_Dojo_Form_Element_DateTextBox('with_issue_date');
+		$with_issue_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
+		));
+		
+		$spouse_issue_date = new Zend_Dojo_Form_Element_DateTextBox('spouse_issue_date');
+		$spouse_issue_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
+		));
+		
+		$with_job = new Zend_Dojo_Form_Element_TextBox('with_job');
+		$with_job->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		
 		if($data!=null){
 // 			print_r($data);
 			$_branch_id->setValue($data['branch_id']);
@@ -406,8 +425,6 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_guarantor_with->setValue($data['guarantor_with']);
 			$_guarantor_tel->setValue($data['guarantor_tel']);
             $client_d_type->setValue($data['client_d_type']);
-// 			$join_d_type->setValue($data['join_d_type']);
-// 			$guarantor_d_type->setValue($data['guarantor_d_type']);
 			$guarantor_address->setValue($data['guarantor_address']);
 
 			$_dob_Guarantor->setValue($data['dob_guarantor']);
@@ -415,12 +432,29 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_dob->setValue($data['dob']);
 			$_join_sex->setValue($data['join_sex']);
 			$_group_no->setValue($data['group_no']);
-// 			print_r($data);
+			
+			$nationality->setValue($data['nationality']);
+			$with_nationality->setValue($data['with_nationality']);
+			if (!empty($data['issue_date'])){
+			$issue_date->setValue(date("Y-m-d",strtotime($data['issue_date'])));
+			}
+			if (!empty($data['with_issue_date'])){
+			$with_issue_date->setValue(date("Y-m-d",strtotime($data['with_issue_date'])));
+			}
+			$spouse_issue_date->setValue($data['spouse_issue_date']);
+			$with_job->setValue($data['with_job']);
 		}
 		$this->addElements(array($client_d_type,$guarantor_address,$_relate_tel,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_no,$_join_sex,
 				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$dob_join_acc,$_dob_Guarantor,$clienttype_namekh,$clienttype_nameen,
-				$_group_no));
+				$_group_no,
+				$nationality,
+				$with_nationality,
+				$issue_date,
+				$with_issue_date,
+				$spouse_issue_date,
+				$with_job
+				));
 		return $this;
 		
 	}	

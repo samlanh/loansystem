@@ -18,6 +18,8 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		
+		$dbgb = new Application_Model_DbTable_DbGlobal();
+		
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
@@ -154,6 +156,106 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'style'=>'min-height: 50px;'
 		));
 		
+		
+		$gm_name = new Zend_Dojo_Form_Element_ValidationTextBox('gm_name');
+		$gm_name->setAttribs(array(
+				'dojoType'=>'dijit.form.ValidationTextBox',
+				'class'=>'fullside',
+				'required'=>true,
+		));
+		$_gm_sex = new Zend_Dojo_Form_Element_FilteringSelect('gm_sex');
+		$_gm_sex->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt_status = $dbgb->getVewOptoinTypeByType(11,1);
+		unset($opt_status[-1]);
+		unset($opt_status['']);
+		$_gm_sex->setMultiOptions($opt_status);
+		
+		$gm_dob= new Zend_Dojo_Form_Element_DateTextBox('gm_dob');
+		$gm_dob->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
+		));
+		$gm_nationality = new Zend_Dojo_Form_Element_TextBox('gm_nationality');
+		$gm_nationality->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		$gm_nationality->setValue("ខ្មែរ");
+		
+		$gm_nation_id = new Zend_Dojo_Form_Element_TextBox('gm_nation_id');
+		$gm_nation_id->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		$gm_issue_date = new Zend_Dojo_Form_Element_DateTextBox('gm_issue_date');
+		$gm_issue_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
+		));
+		
+		$_gm_address = new Zend_Dojo_Form_Element_Textarea('gm_address');
+		$_gm_address->setAttribs(array(
+				'dojoType'=>'dijit.form.Textarea',
+				'class'=>'fullside',
+				'style'=>'min-height: 50px;'
+		));
+		
+		$with_gm_name = new Zend_Dojo_Form_Element_ValidationTextBox('with_gm_name');
+		$with_gm_name->setAttribs(array(
+				'dojoType'=>'dijit.form.ValidationTextBox',
+				'class'=>'fullside',
+				'required'=>true,
+		));
+		$_with_gm_sex = new Zend_Dojo_Form_Element_FilteringSelect('with_gm_sex');
+		$_with_gm_sex->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt_status = $dbgb->getVewOptoinTypeByType(11,1);
+		unset($opt_status[-1]);
+		unset($opt_status['']);
+		$_with_gm_sex->setMultiOptions($opt_status);
+		
+		$with_gm_dob= new Zend_Dojo_Form_Element_DateTextBox('with_gm_dob');
+		$with_gm_dob->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
+		));
+		$with_gm_nationality = new Zend_Dojo_Form_Element_TextBox('with_gm_nationality');
+		$with_gm_nationality->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		$with_gm_nationality->setValue("ខ្មែរ");
+		
+		$with_gm_nation_id = new Zend_Dojo_Form_Element_TextBox('with_gm_nation_id');
+		$with_gm_nation_id->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		$with_gm_issue_date = new Zend_Dojo_Form_Element_DateTextBox('with_gm_issue_date');
+		$with_gm_issue_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
+		));
+		
+		$with_gm_occupation = new Zend_Dojo_Form_Element_TextBox('with_gm_occupation');
+		$with_gm_occupation->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		
+		$with_gm_is = new Zend_Dojo_Form_Element_TextBox('with_gm_is');
+		$with_gm_is->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>false,
+		));
+		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if(!empty($data)){
 			$br_id->setValue($data['br_id']);
@@ -169,10 +271,47 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 			$branch_status->setValue($data['status']);
 			$branch_display->setValue($data['displayby']);
 			$_description->setValue($data['description']);
+			
+			$gm_name->setValue($data['gm_name']);
+			$_gm_sex->setValue($data['gm_sex']);
+			if (!empty($data['gm_dob'])){
+			$gm_dob->setValue(date("Y-m-d",strtotime($data['gm_dob'])));
+			}
+			$gm_nationality->setValue($data['gm_nationality']);
+			$gm_nation_id->setValue($data['gm_nation_id']);
+			$gm_issue_date->setValue($data['gm_issue_date']);
+			$_gm_address->setValue($data['gm_address']);
+			$with_gm_name->setValue($data['with_gm_name']);
+			$_with_gm_sex->setValue($data['with_gm_sex']);
+			if (!empty($data['with_gm_dob'])){
+			$with_gm_dob->setValue(date("Y-m-d",strtotime($data['with_gm_dob'])));
+			}
+			$with_gm_nationality->setValue($data['with_gm_nationality']);
+			$with_gm_nation_id->setValue($data['with_gm_nation_id']);
+			$with_gm_issue_date->setValue($data['with_gm_issue_date']);
+			$with_gm_occupation->setValue($data['with_gm_occupation']);
+			$with_gm_is->setValue($data['with_gm_is']);
 		}
 		
 		$this->addElements(array($select_branch_nameen,$prefix_code,$_btn_search,$_title,$_status,$br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$_fax ,$branch_note,
-				$branch_status,$branch_display,$_description));
+				$branch_status,$branch_display,$_description,
+				
+				$gm_name,
+				$_gm_sex,
+				$gm_dob,
+				$gm_nationality,
+				$gm_nation_id,
+				$gm_issue_date,
+				$_gm_address,
+				$with_gm_name,
+				$_with_gm_sex,
+				$with_gm_dob,
+				$with_gm_nationality,
+				$with_gm_nation_id,
+				$with_gm_issue_date,
+				$with_gm_occupation,
+				$with_gm_is
+				));
 		
 		return $this;
 		

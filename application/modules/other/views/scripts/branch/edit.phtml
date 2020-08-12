@@ -12,6 +12,7 @@
 <?php  $frm = $this->frm_branch;?>
 <script>
        dojo.require("dijit.form.Textarea");
+       dojo.require("dijit.form.DateTextBox");
 </script>
 <style>
 .image-box {
@@ -119,15 +120,6 @@ input.btn_borwse_image {
 	                   </div>
 	                </div>
 	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_STATUS");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php echo $frm->getElement("branch_status");?>
-	                   </div>
-	                </div>
-	             </div>
-	             <div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("BRANCH_ADDRESS");?> 
 	                   </label>
 	                </div>
@@ -152,28 +144,150 @@ input.btn_borwse_image {
 	                   		<?php echo $frm->getElement("br_address");?>
 	                   </div>
 	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_STATUS");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("branch_status");?>
+	                   </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                  <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_IMAGE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+							<div class="account-image">
+								<div class="image-box">
+									<img id="profile_wiew" src="<?php echo $photo;?>" alt=""  />
+								</div>
+								<div class="button_browse">
+								<div id='preview'></div>	
+										<span>Upload <span ><i class="fa fa-camera" aria-hidden="true"></i></span></span>
+										<input class="btn_borwse_image" type="file" id="photo" name="photo" />
+								</div>
+							</div>
+	                   </div>
+	                </div>
 	                
 	             </div>
 	             <div class="col-md-4 col-sm-4 col-xs-12">
 					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("BRANCH_IMAGE");?> 
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("BRANCH_MANAGER");?> 
 	                   </label>
 	                </div>
 					<div class="form-group">
-	                   <div class="col-md-12 col-sm-12 col-xs-12">
-								<div class="account-image">
-									<div class="image-box">
-										<img id="profile_wiew" src="<?php echo $photo;?>" alt=""  />
-									</div>
-									<div class="button_browse">
-									<div id='preview'></div>	
-											<span>Upload <span ><i class="fa fa-camera" aria-hidden="true"></i></span></span>
-											<input class="btn_borwse_image" type="file" id="photo" name="photo" />
-									</div>
-								</div>
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("gm_name");?>
 	                   </div>
 	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SEX");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("gm_sex");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DOB");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("gm_dob");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NATIONALITY");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("gm_nationality");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NATION_ID");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("gm_nation_id");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ISSUE_DATE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("gm_issue_date");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENT_ADDRESS");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("gm_address");?>
+	                   </div>
+	                </div>
+	                
 	             </div>
+	             <div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("WITH_BRANCH_MANAGER");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("with_gm_name");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SEX");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("with_gm_sex");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DOB");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("with_gm_dob");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NATIONALITY");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("with_gm_nationality");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NATION_ID");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("with_gm_nation_id");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ISSUE_DATE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("with_gm_issue_date");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("JOB_TYPE");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("with_gm_occupation");?>
+	                   </div>
+	                </div>
+	                <div class="form-group">
+	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("RELATIVE_WITH");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<?php echo $frm->getElement("with_gm_is");?>
+	                   </div>
+	                </div>
+	               </div>
 	         </div>
 	         <div class="card-box">
 	        	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">

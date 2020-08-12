@@ -139,6 +139,13 @@ input.btn_borwse_image {
 								                   </div>
 								                </div>
 								                <div class="form-group">
+								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NATIONALITY");?> :
+								                   </label>
+								                    <div class="col-md-7 col-sm-7 col-xs-12">
+								                    	<?php echo $frm->getElement('nationality');?>
+								                   </div>
+								                </div>
+								                <div class="form-group">
 								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SEX");?> <span class="required">*</span> :
 								                   </label>
 								                    <div class="col-md-7 col-sm-7 col-xs-12">
@@ -258,6 +265,13 @@ input.btn_borwse_image {
 								                   </div>
 								                </div>
 								                <div class="form-group">
+								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ISSUE_DATE");?> :
+								                   </label>
+								                    <div class="col-md-7 col-sm-7 col-xs-12">
+								                    	<?php echo $frm->getElement('issue_date');?>
+								                   </div>
+								                </div>
+								                <div class="form-group">
 								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PHOTO");?> :
 								                   </label>
 								                    <div class="col-md-7 col-sm-7 col-xs-12">
@@ -302,6 +316,13 @@ input.btn_borwse_image {
 								                   </div>
 								                </div>
 								                <div class="form-group">
+								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NATIONALITY");?> :
+								                   </label>
+								                    <div class="col-md-7 col-sm-7 col-xs-12">
+								                    	<?php echo $frm->getElement('with_nationality');?>
+								                   </div>
+								                </div>
+								                <div class="form-group">
 								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("RELATIVE_WITH");?> :
 								                   </label>
 								                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -327,6 +348,20 @@ input.btn_borwse_image {
 								                   </label>
 								                   <div class="col-md-7 col-sm-7 col-xs-12">
 								                    	<?php echo $frm->getElement('join_nation_id');?>
+								                   </div>
+								                </div>
+								                <div class="form-group">
+								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ISSUE_DATE");?> :
+								                   </label>
+								                    <div class="col-md-7 col-sm-7 col-xs-12">
+								                    	<?php echo $frm->getElement('with_issue_date');?>
+								                   </div>
+								                </div>
+								                <div class="form-group">
+								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("JOB_TYPE");?> :
+								                   </label>
+								                   <div class="col-md-7 col-sm-7 col-xs-12">
+								                    	<?php echo $frm->getElement('with_job');?>
 								                   </div>
 								                </div>
 								                <div class="form-group">
@@ -375,6 +410,13 @@ input.btn_borwse_image {
 								                   </label>
 								                   <div class="col-md-7 col-sm-7 col-xs-12">
 								                    	<?php echo $frm->getElement('spouse_nationid');?>
+								                   </div>
+								                </div>
+								                <div class="form-group">
+								                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ISSUE_DATE");?> :
+								                   </label>
+								                    <div class="col-md-7 col-sm-7 col-xs-12">
+								                    	<?php echo $frm->getElement('spouse_issue_date');?>
 								                   </div>
 								                </div>
 								            </div>
@@ -474,8 +516,11 @@ input.btn_borwse_image {
 	    readURL(this);
 	});
 	
-	function popupJobOption(){
+	function popupJobOption(type=0){
 		job = dijit.byId('job').get('value');
+		if(type==1){
+			job = dijit.byId('with_job').get('value');
+		}
 		if(job==-1){
 			dijit.byId('frm_jobtype').show();
 		}
@@ -485,7 +530,7 @@ input.btn_borwse_image {
 		 if(dijit.byId('form_job').validate()){
 			labeljob = dijit.byId('job_name').get('value');
 			$('#job').val(labeljob);
-			$('input[name="job"]').val(labeljob);				
+			$('input[name="job"]').val(labeljob);		
 			dijit.byId('frm_jobtype').hide();
 		}
 	}

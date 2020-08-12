@@ -33,7 +33,26 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
 	    			'description'=>$_data['description'],
 	    			'other'=>$_data['branch_note'],
 	    			'status'=>1,//$_data['branch_status'],
-	    			'images_branch'=>$photo
+	    			'images_branch'=>$photo,
+	    			
+	    			'gm_name'=>$_data['gm_name'],
+	    			'gm_sex'=>$_data['gm_sex'],
+	    			'gm_dob'=>$_data['gm_dob'],
+	    			'gm_nationality'=>$_data['gm_nationality'],
+	    			'gm_nation_id'=>$_data['gm_nation_id'],
+	    			'gm_issue_date'=>$_data['gm_issue_date'],
+	    			'gm_address'=>$_data['gm_address'],
+	    			'with_gm_name'=>$_data['with_gm_name'],
+	    			'with_gm_sex'=>$_data['with_gm_sex'],
+	    			'with_gm_dob'=>$_data['with_gm_nationality'],
+	    			'with_gm_nationality'=>$_data['with_gm_nationality'],
+	    			'with_gm_nation_id'=>$_data['with_gm_nation_id'],
+	    			
+	    			'with_gm_issue_date'=>$_data['with_gm_issue_date'],
+	    			'with_gm_occupation'=>$_data['with_gm_occupation'],
+	    			'with_gm_is'=>$_data['with_gm_is'],
+	    			'create_date'=>date("Y-m-d H:i:s"),
+	    			'modify_date'=>date("Y-m-d H:i:s"),
 	    			);
 	    	$this->insert($_arr);//insert data
     	}catch(Exception $e){
@@ -52,6 +71,25 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
 	    			'description'=>$_data['description'],
 	    			'other'=>$_data['branch_note'],
 	    			'status'=>$_data['branch_status'],
+	    			
+	    			'gm_name'=>$_data['gm_name'],
+	    			'gm_sex'=>$_data['gm_sex'],
+	    			'gm_dob'=>$_data['gm_dob'],
+	    			'gm_nationality'=>$_data['gm_nationality'],
+	    			'gm_nation_id'=>$_data['gm_nation_id'],
+	    			'gm_issue_date'=>$_data['gm_issue_date'],
+	    			'gm_address'=>$_data['gm_address'],
+	    			'with_gm_name'=>$_data['with_gm_name'],
+	    			'with_gm_sex'=>$_data['with_gm_sex'],
+	    			'with_gm_dob'=>$_data['with_gm_nationality'],
+	    			'with_gm_nationality'=>$_data['with_gm_nationality'],
+	    			'with_gm_nation_id'=>$_data['with_gm_nation_id'],
+	    			
+	    			'with_gm_issue_date'=>$_data['with_gm_issue_date'],
+	    			'with_gm_occupation'=>$_data['with_gm_occupation'],
+	    			'with_gm_is'=>$_data['with_gm_is'],
+	    			'modify_date'=>date("Y-m-d H:i:s"),
+	    			
 	    			);
 	    	$part= PUBLIC_PATH.'/images/';
 	    	if (!file_exists($part)) {

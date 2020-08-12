@@ -10,16 +10,35 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
     	 
     }
     public function getLoanById($loan_id){//for loan Agreement
-    	$sql="SELECT l.*,
-    	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
-    	(SELECT branch_nameen FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS shop_name,
-    	(SELECT br_address FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS br_address,
+    	$sql="
+    	SELECT l.*,
+	    	br.branch_namekh AS branch_name,
+	    	br.branch_nameen AS shop_name,
+	    	br.br_address AS br_address,
+	    	br.gm_name,
+	       (SELECT name_kh FROM `ln_view` WHERE TYPE =11 AND br.gm_sex=key_code LIMIT 1) AS gmSexTitle,
+	    	br.gm_dob,
+	    	br.gm_nationality,
+	    	br.gm_nation_id,
+	    	br.gm_issue_date,
+	    	br.gm_address,
+	    	br.with_gm_name,
+	    	(SELECT name_kh FROM `ln_view` WHERE TYPE =11 AND br.with_gm_sex=key_code LIMIT 1) AS withGmSexTitle,
+	    	br.with_gm_dob,
+	    	br.with_gm_nationality,
+	    	br.with_gm_nation_id,
+	    	br.with_gm_issue_date,
+	    	br.with_gm_occupation,
+	    	br.with_gm_is,
     	(SELECT curr_namekh FROM `ln_currency` WHERE id = l.currency_type LIMIT 1) AS currency_type,
     	(SELECT name_en FROM `ln_view` WHERE TYPE =14 AND l.pay_term=key_code LIMIT 1) AS payTermEN,
     	(SELECT name_kh FROM `ln_view` WHERE TYPE =14 AND l.pay_term=key_code LIMIT 1) AS payTermKH,
     	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = l.user_id LIMIT 1) AS user_name
+    	
     	FROM
-    	`ln_loan` AS l WHERE 1 ";
+    	`ln_loan` AS l,
+		ln_branch AS br
+    	WHERE br.br_id =l.branch_id ";
     	if(!empty($loan_id)){
     		$sql.=" AND l.id = $loan_id LIMIT 1";
     	}
@@ -55,6 +74,7 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 			(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`join_d_type`=id LIMIT 1) AS joinDocTypEN,
 			(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypKH,
 			(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypEN,
+			(SELECT vl.`village_namekh` FROM ln_village AS vl WHERE vl.vill_id = c.`village_id` LIMIT 1 ) AS villageName,
 			(SELECT cm.`commune_namekh` FROM ln_commune AS cm WHERE cm.com_id = c.`com_id` LIMIT 1 ) AS communeName,
 			(SELECT `d`.`district_namekh` FROM `ln_district` AS `d` WHERE (`d`.`dis_id` = c.dis_id ) LIMIT 1) AS `district_name`,
 			(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id LIMIT 1) AS province_kh_name,
