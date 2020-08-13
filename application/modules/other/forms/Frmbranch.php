@@ -181,7 +181,6 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$gm_nationality->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		$gm_nationality->setValue("ខ្មែរ");
 		
@@ -189,7 +188,6 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$gm_nation_id->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		$gm_issue_date = new Zend_Dojo_Form_Element_DateTextBox('gm_issue_date');
 		$gm_issue_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
@@ -200,7 +198,6 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$gm_occupation->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		
 		$_gm_address = new Zend_Dojo_Form_Element_Textarea('gm_address');
@@ -214,7 +211,6 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$with_gm_name->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
-				'required'=>true,
 		));
 		$_with_gm_sex = new Zend_Dojo_Form_Element_FilteringSelect('with_gm_sex');
 		$_with_gm_sex->setAttribs(array(
@@ -234,7 +230,6 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$with_gm_nationality->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		$with_gm_nationality->setValue("ខ្មែរ");
 		
@@ -242,7 +237,6 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$with_gm_nation_id->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		$with_gm_issue_date = new Zend_Dojo_Form_Element_DateTextBox('with_gm_issue_date');
 		$with_gm_issue_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
@@ -253,14 +247,12 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$with_gm_occupation->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		
 		$with_gm_is = new Zend_Dojo_Form_Element_TextBox('with_gm_is');
 		$with_gm_is->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		
 		$_id = new Zend_Form_Element_Hidden('id');

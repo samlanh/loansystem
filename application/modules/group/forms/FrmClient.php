@@ -356,7 +356,6 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$nationality->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		$nationality->setValue("ខ្មែរ");
 		
@@ -364,7 +363,6 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$with_nationality->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		$with_nationality->setValue("ខ្មែរ");
 		
@@ -387,7 +385,6 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$with_job->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>false,
 		));
 		
 		if($data!=null){
