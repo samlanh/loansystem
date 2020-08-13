@@ -129,7 +129,7 @@
 						 					ចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['with_gm_issue_date'])));?> ខែ<?php echo $month[date("m",strtotime($loan['with_gm_issue_date']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['with_gm_issue_date']))); ?> 
 						 					មុខរបរ <?php echo $loan['with_gm_occupation'];?> ត្រូវជា <?php echo $loan['with_gm_is'];?> 
 						 					<?php }?>
-						 					មានទីលំនៅ <?php echo $loan['gm_address'];?> ជាភាគីម្ចាស់បា្រក់ចាប់ពីពេលនេះតទៅហៅកាត់ថាភាគីអក្ស “ក” ។
+						 					មានទីលំនៅ <?php echo $loan['gm_address'];?> ជាភាគីម្ចាស់បា្រក់ចាប់ពីពេលនេះតទៅហៅកាត់ថាភាគី “ក” ។
 						 				</span>
 						 				<span style=" text-align:left; display:inline-block; width:100%;  font-family:'Khmer OS Muol Light'; text-decoration: underline;">និងៈ</span>
 						 				<span style="text-align: justify; display:inline-block; width:100%;">
@@ -151,7 +151,7 @@
 						 					ស្រុក/ខណ្ឌ/ក្រុង <?php echo $client['district_name'];?> 
 						 					ខេត្ត/រាជធានី <?php echo $client['province_kh_name'];?>។ 
 						 					<br />
-						 					<span id="padding-left">&nbsp;</span>ជាភាគីអ្នកខ្ចីបា្រក់ចាប់ពីពេលនេះតទៅហៅកាត់ថាភាគីអក្ស “ខ” ភាគីទាំងពីរបានព្រមព្រៀងគ្នាតាមប្រការខាងក្រោម: 
+						 					<span id="padding-left">&nbsp;</span>ជាភាគីអ្នកខ្ចីបា្រក់ចាប់ពីពេលនេះតទៅហៅកាត់ថាភាគី “ខ” ភាគីទាំងពីរបានព្រមព្រៀងគ្នាតាមប្រការខាងក្រោម: 
 						 				</span>
 						 			</td>
 						 		</tr>
@@ -187,8 +187,8 @@
 											</script>
 						 				</span>
 						 				<span style="text-align: justify; display:inline-block; width:100%;">
-						 					<span style="text-decoration: underline; font-weight: 600;">ប្រការ២:</span> ភាគី “ខ” សន្យាថានិងផ្តល់ការបា្រក់ ចំនួន <?php echo $loan['interest_rate'];?>% (<span id="lable_interestkhmer"></span>ភាគរយ) ក្នុងមួយ<?php echo $durationType;?>ទៅ 
-						 					អោយភាគី “ក”ដោយស្ម័គ្រចិត្តហើយសន្យាថានិងសងបា្រក់មកអោយភាគី “ក” 
+						 					<span style="text-decoration: underline; font-weight: 600;">ប្រការ២:</span> ភាគី “ខ” សន្យាថានឹងផ្តល់ការបា្រក់ ចំនួន <?php echo $loan['interest_rate'];?>% (<span id="lable_interestkhmer"></span>ភាគរយ) ក្នុងមួយ<?php echo $durationType;?>ទៅ 
+						 					អោយភាគី “ក”ដោយស្ម័គ្រចិត្តហើយសន្យាថានឹងសងបា្រក់មកអោយភាគី “ក” 
 						 					វិញគ្រប់ចំនួននៅថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_line'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_line']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_line']))); ?> ជាកំហិត ។ 
 						 					<script>
 													a_interest ='<?php echo ($loan['interest_rate']) ?>';
