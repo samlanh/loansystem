@@ -115,8 +115,10 @@
 						 			<td colspan="3">
 						 				<?php 
 						 				$title="លោក";
+										$sentenceTitle = "ខ្ញុំបាទឈ្មោះ";
 						 				if($client['sex']==2){
 						 					$title="លោកស្រី";
+											$sentenceTitle = "នាងខ្ញុំឈ្មោះ";
 						 				}
 						 				?>
 						 				<span style="text-align: justify; display:inline-block; width:100%;">
@@ -153,7 +155,10 @@
 						 				<br /><br />
 						 				<span style="text-align: justify; display:inline-block; width:100%;">
 						 					<span id="padding-left">&nbsp;</span>
-						 					ខ្ញុំបាទឈ្មោះ <span style="font-family:'Times New Roman','Khmer OS Muol Light';"><?php echo $client['name_kh'];?></span>  និង ឈ្មោះ  <span style="font-family:'Times New Roman','Khmer OS Muol Light';"><?php echo $client['join_with'];?></span> 
+						 					<?php echo $sentenceTitle;?> <span style="font-family:'Times New Roman','Khmer OS Muol Light';"><?php echo $client['name_kh'];?></span>  
+											<?php if(!empty($client['join_with'])){?>
+											និងឈ្មោះ  <span style="font-family:'Times New Roman','Khmer OS Muol Light';"><?php echo $client['join_with'];?></span> 
+											<?php } ?>
 						 					សូមធានាអះអាងនៅចំពោះមុខច្បាប់ថានៅថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_line'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_line']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_line']))); ?>  
 						 					នឹងប្រគល់បា្រក់ចំនួន <strong><?php echo number_format($loan['loan_amount'],2)." ".$loan['currency_type'];?></strong> (<span class="value border_bt" style="min-width: 110px;"><span id="lable_loankhmer_II"></span> <?php echo $loan['currency_type'];?></span>)
 						 					មកឲ្យឈ្មោះ <span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 100px;"><?php echo $loan['gm_name'];?></span> វិញគ្រប់ចំនួន ។ បើដល់ថ្ងៃកំណត់ខាងលើខ្ញុំបាទមិនគោរពតាមការអះអាងខាងលើទេខ្ញុំបាទសុខចិត្តទទួលខុសត្រូវទាំងស្រុងចំពោះមុខច្បាប់ ។
