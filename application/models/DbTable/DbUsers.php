@@ -237,6 +237,7 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 	function insertUser($data){
 		
 		$_user_data=array(
+			'branch_id'=>empty($data['branch_id'])?0:$data['branch_id'],
 	    	'last_name'=>$data['last_name'],
 			'first_name'=>$data['first_name'],
 			'user_name'=>$data['user_name'],
@@ -253,6 +254,7 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 	    	'last_name'=>$data['last_name'],
 			'first_name'=>$data['first_name'],
 			'user_name'=>$data['user_name'],
+			'branch_id'=>empty($data['branch_id'])?0:$data['branch_id'],
 // 			'password'=> MD5($data['password']),
 			'user_type'=> $data['user_type'],
 			'active'=> $data['active']			
