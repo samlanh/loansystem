@@ -49,6 +49,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$currentBranch = $session_user->branch_id;
 		$currentlevel = $session_user->level;
+		$currentBranch = empty($currentBranch)?0:$currentBranch;
 		if($currentlevel==1){
 			$result = "";
 			return $result;
