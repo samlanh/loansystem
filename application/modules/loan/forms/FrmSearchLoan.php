@@ -14,7 +14,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
-		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
+		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",'required' =>'false',
 				'queryExpr'=>'*${0}*','class'=>'fullside',));
 		$_status_opt = array(
 				1=>$this->tr->translate("ACTIVE"),
@@ -99,6 +99,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				'class'   =>'fullside',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
+				'required' =>'false',
 		));
 		$opt = array(-1=>$this->tr->translate("SELECT_CURRENCY_TYPE"),2=>$this->tr->translate("DOLLAR"),1=>$this->tr->translate("REILS"),3=>$this->tr->translate("BATH"));
 		$_currency_type->setMultiOptions($opt);
@@ -197,7 +198,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_pay_every = new Zend_Dojo_Form_Element_FilteringSelect('pay_every');
 		$_pay_every->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'required' =>'true',
+				'required' =>'false',
 				'onchange'=>'changeCollectType();','class'=>'fullside',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
@@ -216,7 +217,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 			$opt_client[$row['id']]=$row['name'];
 		}}
 		$client_name->setMultiOptions($opt_client);
-		$client_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
+		$client_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",'required' =>'false',
 				'queryExpr'=>'*${0}*','class'=>'fullside',));
 		$client_name->setValue($request->getParam("client_name"));
 		
@@ -245,7 +246,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
 		$_repayment_method->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'required' =>'true',
+				'required' =>'false',
 				'class'=>'fullside',
 				'onchange'=>'chechPaymentMethod()',
 				'autoComplete'=>"false",

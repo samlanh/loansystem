@@ -29,7 +29,25 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
       	     }
     	}
     	else{
-    		return round($value,2);
+			
+			return round($value,2);
+			
+			/* //condiction ក្បៀស តូចជាង ឬស្មើ 0.5 កំណត់យកតម្លៃ 0.5 នឹង ក្បៀស ធំជាង ឬស្មើ 0.5 កំណត់យកតម្លៃ 1.00  នឹង ក្បៀសស្មើ 0 កំណត់យកតម្លៃ 0.0
+				$new_value = round($value,2);
+				$arrFloat = explode('.',$new_value);
+				$arrFloat[1] = empty($arrFloat[1])?0:$arrFloat[1];
+				
+				if($arrFloat[1]>50){
+					return round($arrFloat[0]+1,2);
+				}elseif($arrFloat[1]>0){
+					return round($arrFloat[0]+(0.5),2);
+				}else{
+					return round($arrFloat[0],2);
+					
+				}
+			*/
+			
+    		
     	}
     }
     public function addNewLoanILTest($data){

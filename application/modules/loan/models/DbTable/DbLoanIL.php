@@ -62,7 +62,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
 		 CASE    
 		WHEN  l.is_badloan = 0 THEN ''
 		WHEN  l.is_badloan = 1 THEN '$is_badloan'
-		END AS is_badloan
+		END AS is_badloan,
+		 (SELECT first_name FROM `rms_users` WHERE id =l.user_id LIMIT 1) AS user_name
             ";
     	
     	$dbp = new Application_Model_DbTable_DbGlobal();
@@ -76,8 +77,12 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		$s_where[] = "REPLACE(l.loan_number,' ','')  	LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(l.loan_amount,' ','')  LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(l.interest_rate,' ','')  LIKE '%{$s_search}%'";
-    		$where .=' AND ('.implode(' OR ',$s_where).')';
+    		
+    		$s_where[] = "REPLACE((SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1),' ','')  LIKE '%{$s_search}%'";
+    		$s_where[] = "REPLACE((SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1),' ','')  LIKE '%{$s_search}%'";
+			$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
+		
     	if($search['status']>-1){
     		$where.= " AND l.status = ".$search['status'];
     	}
@@ -106,9 +111,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	}
     		
     	$order = " ORDER BY l.id DESC";
-    	$db = $this->getAdapter();    
     	$where.= $dbp->getAccessPermission("l.branch_id");
-    	
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllRescheduleLoan($search,$reschedule =null){
@@ -139,6 +142,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		$s_where[] = "REPLACE(l.loan_number,' ','')  	LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(l.loan_amount,' ','')  LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(l.interest_rate,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[] = "REPLACE((SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1),' ','')  LIKE '%{$s_search}%'";
+    		$s_where[] = "REPLACE((SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1),' ','')  LIKE '%{$s_search}%'";
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
     	if($search['status']>-1){
