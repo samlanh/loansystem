@@ -1079,6 +1079,19 @@ function rptLoanTrasferzoneAction(){//release all loan
  			}
  		}
  	}
+	
+	$rescheduleFee = $db->getAdminFeeByReschedule($search);
+	if(!empty($rescheduleFee)){
+ 		foreach($rescheduleFee as $row){
+ 			if($row['currency_type']==1){//riel
+ 				$income['adminfee_r']=$row['total_adminfee'];
+ 			}elseif($row['currency_type']==2){//dollar
+ 				$income['adminfee_d']=$row['total_adminfee'];
+ 			}else{//bath
+ 				$income['adminfee_b']=$row['total_adminfee'];
+ 			}
+ 		}
+ 	}
  	
  	$rsincome = $db->getAllOtherIncomeReport($search,1);
  	if(!empty($rsincome)){
