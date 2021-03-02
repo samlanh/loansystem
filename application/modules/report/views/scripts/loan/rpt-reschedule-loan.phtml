@@ -131,6 +131,7 @@ table.content-data{
 	                    <td>&nbsp;<?php echo $tr->translate("CLIENT_NO");?>&nbsp;</td>
 	                    <td>&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
 	                    <td>&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</td>
+	                    <td>&nbsp;<?php echo $tr->translate("ADMIN_FEE");?>&nbsp;</td>
 	                    <td>&nbsp;<?php echo $tr->translate("INTEREST RATE");?>&nbsp;</td>
 	                    <td>&nbsp;<?php echo $tr->translate("RELEASED_DATE");?>&nbsp;</td>
 	                    <td>&nbsp;<?php echo $tr->translate("RESCHEDULE_AMOUNT");?>&nbsp;</td>
@@ -147,12 +148,15 @@ table.content-data{
 	               if(!empty($this->loanrelease_list)) foreach($this->loanrelease_list as $key =>$row){?>
 	               <?php 
 	              if($row['curr_type']==1){
+	              		$other_fee_r = $other_fee_r+$row['admin_fee'];
 	               		$amt_r = $amt_r+$row['re_amount'];
 	               		$total_r=$amt_r+$amn_r+$other_fee_r;
 	               }elseif($row['curr_type']==2){
+	               		$other_fee_d = $other_fee_d+$row['admin_fee'];
 	               		$amt_d = $amt_d+$row['re_amount'];
 	               		$total_d=$amt_d+$amn_d+$other_fee_d;
 	               }else{
+	               		$other_fee_b = $other_fee_b+$row['admin_fee'];
 	               		$amt_b = $amt_b+$row['re_amount'];
 	               		$total_b=$amt_b+$amn_b+$other_fee_b;
 	               }
@@ -168,6 +172,7 @@ table.content-data{
 						<td>&nbsp;<?php echo $row['interest_rate']; ?>&nbsp;</td>
 						<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_release']));?>&nbsp;</td>
 						<td>&nbsp;<?php echo number_format($row['re_amount'],2).' '.$row['currency_type']; ?>&nbsp;</td>
+						<td>&nbsp;<?php echo $row['admin_fee'];?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['re_interest_rate'];?>&nbsp;</td>
 						<td>&nbsp;<?php echo date('d/m/Y',strtotime($row['reschedule_date']));; ?>&nbsp;</td>
 						<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['maturity']));?>&nbsp;</td>
@@ -182,19 +187,23 @@ table.content-data{
 					 <tr class="style-head" align="center">
 	                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>
 	                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
+	                    <td><?php echo $tr->translate("ADMIN_FEE");?></td>
 	                </tr>
 					</thead>
 	                 <tr>
 	                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
 	                    <td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
+	                    <td>&nbsp;<?php echo number_format($other_fee_d,2);?>&nbsp;</td>
 	                 </tr>
 	                 <tr>
 	                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
 	                    <td>&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
+	                    <td>&nbsp;<?php echo number_format($other_fee_r,2);?>&nbsp;</td>
 	                </tr>
 	                 <tr>
 	                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
 	                    <td>&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
+	                    <td>&nbsp;<?php echo number_format($other_fee_b,2);?>&nbsp;</td>
 	                </tr>
 	              </table>
 	              <br />

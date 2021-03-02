@@ -721,7 +721,8 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$end_date = $search['end_date'];
       
       	$db = $this->getAdapter();
-      	$sql = "SELECT  SUM(admin_fee) AS admin_fee,SUM(other_fee) AS other_fee  FROM
+      	$sql = "SELECT  SUM(admin_fee) AS admin_fee,SUM(other_fee) AS other_fee,
+      	currency_type  FROM
       	v_loanreleased WHERE (admin_fee> 0 OR other_fee>0 )";
       	$where ='';
       	if(!empty($search['advance_search'])){
@@ -2254,11 +2255,9 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       }
       function getAdminFeeByReschedule($search){
       	$db = $this->getAdapter();
-      	$sql="
-      	SELECT SUM(rs.`admin_fee`) AS total_adminfee,l.`currency_type` 
+      	$sql="SELECT SUM(rs.`admin_fee`) AS total_adminfee,l.`currency_type` 
 			FROM `ln_reschedule` AS rs,
-			`ln_loan` AS l WHERE l.id  = rs.loan_id
-      	";
+			`ln_loan` AS l WHERE l.id  = rs.loan_id";
       	$where ="";
       	if($search['branch_id']>0){
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];

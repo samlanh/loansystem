@@ -47,7 +47,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$sql=" SELECT l.id,
     	 (SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
     	l.loan_number,
-    	(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
+    	c.name_kh AS client_name_kh,
   		CONCAT((SELECT symbol FROM `ln_currency` WHERE id =l.currency_type)  
   		,l.loan_amount) AS total_capital , interest_rate,admin_fee,
   	    (SELECT payment_nameen FROM `ln_payment_method` WHERE id = l.payment_method LIMIT 1) AS payment_method,
@@ -62,14 +62,20 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
 		 CASE    
 		WHEN  l.is_badloan = 0 THEN ''
 		WHEN  l.is_badloan = 1 THEN '$is_badloan'
+
+		END AS is_badloan ";
+		END AS is_badloan= ";
 		END AS is_badloan,
 		 (SELECT first_name FROM `rms_users` WHERE id =l.user_id LIMIT 1) AS user_name
             ";
     	
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->caseStatusShowImage("l.status");
-    	$sql.=" FROM `ln_loan` AS l
-				WHERE loan_type =1 ";
+    	$sql.=" FROM `ln_loan` AS l,
+    	             ln_client as c
+				WHERE 
+				c.client_id = l.customer_id
+    		 AND l.loan_type =1 ";
     	
     	if(!empty($search['adv_search'])){
     		$s_where = array();
@@ -77,6 +83,12 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		$s_where[] = "REPLACE(l.loan_number,' ','')  	LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(l.loan_amount,' ','')  LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(l.interest_rate,' ','')  LIKE '%{$s_search}%'";
+    		
+    		$s_where[] = "REPLACE(c.name_kh,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[]=" REPLACE(c.phone,' ','') LIKE '%{$s_search}%'";
+    		$s_where[]=" REPLACE(c.tel,' ','') LIKE '%{$s_search}%'";
+    		
+    		$where .=' AND ('.implode(' OR ',$s_where).')';
     		
     		$s_where[] = "REPLACE((SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1),' ','')  LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE((SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1),' ','')  LIKE '%{$s_search}%'";
@@ -123,7 +135,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$sql=" SELECT l.id,
     	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
     	l.loan_number,
-    	(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
+    	c.name_kh AS client_name_kh,
     	CONCAT((SELECT symbol FROM `ln_currency` WHERE id =l.currency_type)
     	,l.loan_amount) AS total_capital , interest_rate,
     	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = l.payment_method LIMIT 1) AS payment_method,
@@ -134,7 +146,11 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->caseStatusShowImage("l.status");
-    	$sql.=" FROM `ln_loan` AS l	WHERE l.loan_type =1 ";
+    	$sql.=" FROM `ln_loan` AS l,
+    	        ln_client as c
+    		WHERE 
+    		c.client_id = l.customer_i
+    		AND l.loan_type =1 ";
     	
     	if(!empty($search['adv_search'])){
     		$s_where = array();
@@ -142,6 +158,9 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		$s_where[] = "REPLACE(l.loan_number,' ','')  	LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(l.loan_amount,' ','')  LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(l.interest_rate,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[] = "REPLACE(c.name_kh,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[]=" REPLACE(c.phone,' ','') LIKE '%{$s_search}%'";
+    		$s_where[]=" REPLACE(c.tel,' ','') LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE((SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1),' ','')  LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE((SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1),' ','')  LIKE '%{$s_search}%'";
     		$where .=' AND ('.implode(' OR ',$s_where).')';
@@ -174,6 +193,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	}
     	$order = " ORDER BY l.id DESC";
     	$where.= $dbp->getAccessPermission("l.branch_id");
+    	
     	return $db->fetchAll($sql.$where.$order);
     }
 //     function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//group id

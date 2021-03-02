@@ -67,14 +67,14 @@ table.content-data{
 					<tr>
 	                	  <td style=" " valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" /> </td>
 	                	  <td colspan="2" align="left" >
-	                	  <h2 style="font-weight:normal; text-align:left; font-size:16px; font-family:'Khmer os battambang';"><?php echo $tr->translate("ADDRESS_COMPANY");?>
+	                	  <h2 style="font-weight:normal; text-align:left; font-size:12px; font-family:'Khmer os battambang';"><?php echo $tr->translate("ADDRESS_COMPANY");?>
 	                	  	<br /><?php echo $tr->translate("TEL_COMPANY");?>
 	                	  </h2>
 	                	  </td>
 	                </tr>
 	                <tr>
 	                	<td colspan="3" align="center">
-	                		<h2 style="font-weight:normal; text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
+	                		<h2 style="font-weight:normal; text-align:center; font-size:16px; font-family:'Khmer OS Muol Light'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
 	               		</td>
 	                </tr> 
 	                <?php $db = new Application_Model_DbTable_DbGlobal();
@@ -118,7 +118,7 @@ table.content-data{
 	            <table id="exportExcel" class="content-data"  border="1"​ >
 	                 <tr class="style-head" align="center" style="line-height: 40px;">
 	                    <td><?php echo $tr->translate("NUM");?></td>
-	                    <td><?php echo $tr->translate("ថ្ងៃ-ខែ ឆ្នាំ");?></td>
+	                    <td><?php echo $tr->translate("ថ្ងៃ-ខែ-ឆ្នាំ");?></td>
 	                    <td><?php echo $tr->translate("AMOUNT_DATE");?></td>
 	                    <td><?php echo $tr->translate("PRINCIPLE");?></td>
 	                    <td><?php echo $tr->translate("OS_AMOUNT");?></td>
@@ -148,7 +148,7 @@ table.content-data{
 		                    <?php $str_day = date('D',strtotime($row['date_payment']));
 		                    	$day_as_khmer = $dayin_khmer[$str_day];
 		                    ?>
-		                    <td align="left">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_payment']));?>&nbsp;<?php echo $day_as_khmer; ?></td>
+		                    <td align="left">&nbsp;<?php echo $day_as_khmer; ?>&nbsp;<?php echo date('d-m-Y',strtotime($row['date_payment']));?></td>
 		                    <td><?php echo $row['amount_day'];?></td>
 		                    <td><?php echo str_replace('.00', '', number_format($row['outstanding'],2));?></td>
 		                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
@@ -181,9 +181,9 @@ table.content-data{
 	            </table>
 	            <table width="100%" cellpadding="3">
 	            	<tr class="font_bold" style="height:25px;">
-	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('ACCOUNTING_SIGN');?></td>
-	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('ភ្នាក់ងារឥណទាន'); ?></td> 
-	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('BORROWER');?></td>
+	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol Light'"><?php echo $tr->translate('ACCOUNTING_SIGN');?></td>
+	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol Light'"><?php echo $tr->translate('ភ្នាក់ងារឥណទាន'); ?></td> 
+	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol Light'"><?php echo $tr->translate('BORROWER');?></td>
 	            	</tr>
 	            	<tr>
 	            		<td height="40px">&nbsp;</td>

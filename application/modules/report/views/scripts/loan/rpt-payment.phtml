@@ -240,6 +240,17 @@ table.tb-footer tr.style-head {
 		                		$rescheduldFeeB = $rescheduldFeeB+$rs['total_adminfee'];
 		                	}
 		                }
+ 						if (!empty($this->adminFee)) foreach ($this->adminFee as $rs){
+		                	if($rs['curr_type']==1){
+		                		$rescheduldFeeR = $rescheduldFeeR+$rs['admin_fee'];
+		                	}elseif($rs['curr_type']==2){
+		                		$rescheduldFeeD = $rescheduldFeeD+$rs['admin_fee'];
+		                	}else{
+		                		$rescheduldFeeB = $rescheduldFeeB+$rs['admin_fee'];
+		                	}
+		                }
+		                
+		                
 		                ?>
 		         <table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
 	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
