@@ -21,6 +21,8 @@ function rptLoanDisburseAction(){//release all loan
   				'members'=>'',
   				'product_id'=>-1,
   				'currency_type'=>-1,
+				'completed_status'=>-1,
+				'dach_status'=>-1,
   				'start_date'=> date('Y-m-d'),
   				'end_date'=>date('Y-m-d'));
   	}

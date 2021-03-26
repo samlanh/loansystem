@@ -25,6 +25,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
     				'category'=>'',
     				'selling_type'=>-1,
     				'product_type'=>-1,
+					'completed_status'=>-1,
     					
     			);
     		}

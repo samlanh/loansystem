@@ -131,6 +131,17 @@ class Installment_Form_FrmSale extends Zend_Form
 		$category->setMultiOptions($opt);
 		$category->setValue($request->getParam("category"));
 		
+		$_completed_status = new Zend_Dojo_Form_Element_FilteringSelect('completed_status');
+		$_completed_status->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$options= array(-1=>$this->tr->translate("PLEASE_SELECT"),0=>$this->tr->translate("NOT_COMPLETED_PAYMENT"),1=>$this->tr->translate("COMPLETED_PAYMENT"));
+		$_completed_status->setMultiOptions($options);
+		$_completed_status->setValue($request->getParam("completed_status"));
+		
+		
 // 		if($data!=null){
 // 			$name->setValue($data["item_name"]);
 // 			$pro_code->setValue($data["item_code"]);
@@ -143,7 +154,10 @@ class Installment_Form_FrmSale extends Zend_Form
 // 			$price->setValue($data["price"]);
 // 		}
 		
-		$this->addElements(array($category,$to_date,$from_date,$branch_id,$_title,$_status,$customer));
+		$this->addElements(array($category,$to_date,$from_date,$branch_id,$_title,$_status,$customer,
+		
+		$_completed_status
+		));
 		return $this;
 		
 	}

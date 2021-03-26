@@ -8,6 +8,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 	public function FrmAddIlPayment($data=null){
 		
 		$db = new Application_Model_DbTable_DbGlobal();
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
 		
 		$old_penelize = new Zend_Form_Element_Hidden("old_penelize");
 		$old_penelize->setAttribs(array(
@@ -162,6 +165,14 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		}
 		$_branch_id->setMultiOptions($options);
 		
+		if ($currentlevel!=1){
+			$_branch_id->setValue($currentBranch);
+			$_branch_id->setAttribs(array(
+					'readonly'=>true
+			));
+		}else{
+			$_branch_id->setValue($request->getParam("branch_id"));
+		}
 		
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$rows = $db ->getAllCOName();

@@ -21,6 +21,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 					'category_id' => -1,
 					'status' => -1,
 					'selling_type'=>-1,
+					'completed_status'=>-1,
 					'start_date'=> date('Y-m-d'),
 					'end_date'=>date('Y-m-d'),
 				);
@@ -30,7 +31,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 			
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","INSTALLMENT_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
-					"SOLD_DATE","INVOICE_NO","SALE_TYPE","REPAYMENT_TYPE","INSTALLMENT_DURATION","COMPLETED","STATUS");
+					"SOLD_DATE","INVOICE_NO","SALE_TYPE","REPAYMENT_TYPE","INSTALLMENT_DURATION","COMPLETED","BY","STATUS");
 			$link=array(
 					'module'=>'installment','controller'=>'index','action'=>'view',
 			);
@@ -223,6 +224,10 @@ class Installment_IndexController extends Zend_Controller_Action {
 // 	}
 	/* vandy get Client Installment Information for show on Invoice  */
 	function getclientinsinfoAction(){
+		$db = new Loan_Model_DbTable_DbLoanIL();
+			$Client = $db->getInstallmentClientInfo(1);
+			print_r($Client);
+			exit();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			$db = new Loan_Model_DbTable_DbLoanIL();

@@ -63,12 +63,12 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
 		WHEN  l.is_badloan = 0 THEN ''
 		WHEN  l.is_badloan = 1 THEN '$is_badloan'
 
-		END AS is_badloan ";
-		END AS is_badloan= ";
+		
 		END AS is_badloan,
 		 (SELECT first_name FROM `rms_users` WHERE id =l.user_id LIMIT 1) AS user_name
             ";
-    	
+    //	END AS is_badloan ";
+	//	END AS is_badloan= ";
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->caseStatusShowImage("l.status");
     	$sql.=" FROM `ln_loan` AS l,
@@ -1409,7 +1409,7 @@ public function getLoanInfo($id){//when repayment shedule
     		}
     		return $row;
     	}
-    	return "";
+    	return array();
     }
   
 }

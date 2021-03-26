@@ -28,30 +28,36 @@ dojo.require("dijit.form.DateTextBox");
 	<form method="post">
 		<div class="card-box">
 			<div class="form-group">
-               <div class="col-md-3 col-sm-3 col-xs-12">
+               <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $filter->getElement('adv_search');?>
                </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
+               <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $filter->getElement('branch_id');?>
                </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
+               <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $filter->getElement('members');?>
                </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
+               <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $filter->getElement('product_id');?>
+               </div>
+			   <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $filter->getElement('completed_status');?>
+               </div>
+			   <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $filter->getElement('dach_status');?>
                </div>
             </div>
             <div class="form-group">
-               <div class="col-md-3 col-sm-3 col-xs-12">
+               <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $filter->getElement('currency_type');?>
                </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
+               <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $filter->getElement('start_date');?>
                </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
+				<div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $filter->getElement('end_date');?>
                </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
+               <div class="col-md-2 col-sm-2 col-xs-12">
                		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
                </div>
             </div>
@@ -91,6 +97,12 @@ dojo.require("dijit.form.DateTextBox");
 			}
 		.border_bottom {
 		    border-bottom: 1px solid #000;
+		}
+		tr.redRow {
+			background: #ff000026;
+		}
+		tr.greenRow {
+			background: #a8f1a969;
 		}
 	</style>
 		<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
@@ -196,7 +208,7 @@ dojo.require("dijit.form.DateTextBox");
 		               		}
 		               }
 		               ?>
-						<tr align="center" style="line-height: 18px; white-space: nowrap;" class="hover context-menu-one" oncontextmenu="setrowdata(<?php echo $row['id'];?>);return false;" >
+						<tr align="center" style="line-height: 18px; white-space: nowrap;" class="<?php if($row['is_dach']==1){echo "redRow";} if($row['is_completed']==1){echo "greenRow";} ?> hover context-menu-one" oncontextmenu="setrowdata(<?php echo $row['id'];?>);return false;" >
 							<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 							<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 							<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>

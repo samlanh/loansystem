@@ -312,6 +312,30 @@ public function init()
 		$_admin_fee->setValue(0);
 		
 		$_id = new Zend_Form_Element_Hidden('id');
+		
+		
+		
+		$_completed_status = new Zend_Dojo_Form_Element_FilteringSelect('completed_status');
+		$_completed_status->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$options= array(-1=>$this->tr->translate("PLEASE_SELECT"),0=>$this->tr->translate("NOT_COMPLETED_PAYMENT"),1=>$this->tr->translate("COMPLETED_PAYMENT"));
+		$_completed_status->setMultiOptions($options);
+		$_completed_status->setValue($request->getParam("completed_status"));
+		
+		
+		$_dach_status = new Zend_Dojo_Form_Element_FilteringSelect('dach_status');
+		$_dach_status->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$options= array(-1=>$this->tr->translate("PLEASE_SELECT"),0=>$this->tr->translate("NORMAL_PAWN"),1=>$this->tr->translate("PAWN_DEAD"));
+		$_dach_status->setMultiOptions($options);
+		$_dach_status->setValue($request->getParam("dach_status"));
+		
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
 			$_loan_code->setValue($data['loan_number']);
@@ -344,7 +368,10 @@ public function init()
 				$_client_code,$_branch_id,$_currency_type,$_amount,$_rate,$_releasedate
 				,$_payterm,$_status,$_period,$_repayment_method,$_intest_type,$_loan_code,
 				$_dateline,$_id,
-				$_admin_fee
+				$_admin_fee,
+				
+				$_completed_status,
+				$_dach_status
 				));
 		return $this;
 		

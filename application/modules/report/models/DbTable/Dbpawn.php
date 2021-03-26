@@ -13,6 +13,8 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			  `l`.`level`          AS `loan_level`,
 			  `l`.`term_type`          AS `term_type`,
 			   l.admin_fee,
+			   l.is_dach,
+			   l.is_completed,
 			  (SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code =l.term_type ) term_type,
 			  `l`.`currency_type`  AS `curr_type`,
 			  `l`.`is_completed`   AS `is_completed`,
@@ -68,7 +70,12 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
     	if($search['currency_type']>0){
     		$where.=" AND `l`.`currency_type` = ".$search['currency_type'];
     	}
-
+		if(($search['completed_status'])>-1){
+    		$where.= " AND l.is_completed=".$search['completed_status'];
+    	}
+		if(($search['dach_status'])>-1){
+    		$where.= " AND l.is_dach=".$search['dach_status'];
+    	}
       	 if(!empty($search['adv_search'])){
       	 	$s_where = array();
       	 	$s_search = addslashes(trim($search['adv_search']));
@@ -231,7 +238,8 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				ln_clientsaving AS c
 			WHERE 
 				(`l`.`status` = 1)
-			      AND `c`.`client_id` = `l`.`customer_id`
+			      AND `c`.`client_id` = `l`.`customer_id` 
+				  AND l.is_dach=0
 			      
       	";
       	if($search['branch_id']>0){

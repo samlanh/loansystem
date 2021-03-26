@@ -21,6 +21,8 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 						'co_id' => -1,
 						'status' => -1,
 						'currency_type'=>-1,
+						'completed_status'=>-1,
+						'dach_status'=>-1,
 						'start_date'=> date('Y-m-d'),
 						'end_date'=>date('Y-m-d'),);
 			}
@@ -29,7 +31,7 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","ADMIN_FEE",
 					"REPAYMENT_TYPE","PAWNSHOP_DURATION",
-					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","BY_USER","COMPLETED","STATUS");
+					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","BY_USER","COMPLETED","PAWN_DEAD","STATUS");
 			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);
 
 			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array('branch'=>$link_info,'loan_number'=>$link_info,'receipt_num'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);

@@ -14,8 +14,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
     	$where = " AND ".$from_date." AND ".$to_date;
     	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
-    	$complete = $tr->translate("COMPLETED");
-    	$not_complete = $tr->translate("Not Complete");
+    	$complete = $tr->translate("COMPLETED_PAYMENT");
+    	$not_complete = $tr->translate("NOT_COMPLETED_PAYMENT");
+		$pawnDead = $tr->translate("PAWN_DEAD");
     	$db = $this->getAdapter();
     	$sql = " SELECT id,
 	    		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
@@ -33,7 +34,11 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     			CASE    
 					WHEN  is_completed = 0 THEN '$not_complete'
 					WHEN  is_completed = 1 THEN '$complete'
-				END AS completed_status
+				END AS completed_status,
+				CASE    
+					WHEN  is_dach = 0 THEN ''
+					WHEN  is_dach = 1 THEN '$pawnDead'
+				END AS dach_status
     		 ";
     	
     	$dbp = new Application_Model_DbTable_DbGlobal();
@@ -64,6 +69,12 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	}
     	if(($search['product_id'])>0){
     		$where.= " AND product_id=".$search['product_id'];
+    	}
+		if(($search['completed_status'])>-1){
+    		$where.= " AND is_completed=".$search['completed_status'];
+    	}
+		if(($search['dach_status'])>-1){
+    		$where.= " AND is_dach=".$search['dach_status'];
     	}
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$where.=$dbp->getAccessPermission('branch_id');

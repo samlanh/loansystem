@@ -140,7 +140,9 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	if($search["product_type"]>0){
     		$sql.=' AND p.product_type='.$search["product_type"];
     	}
-    	
+    	if(($search['completed_status'])>-1){
+    		$sql.= " AND s.is_completed=".$search['completed_status'];
+    	}
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->getAccessPermission('branch_id');
     	

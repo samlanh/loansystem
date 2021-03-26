@@ -54,6 +54,9 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 	 					<?php }?>
 	 				</select>
                </div>
+			   <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $frm->getElement("completed_status");?>
+               </div>
                <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $frm->getElement("status");?>
                </div>

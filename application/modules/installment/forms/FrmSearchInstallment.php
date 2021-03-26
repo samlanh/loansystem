@@ -222,6 +222,16 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*','class'=>'fullside',));
 		$client_name->setValue($request->getParam("client_name"));
 		
+		$_completed_status = new Zend_Dojo_Form_Element_FilteringSelect('completed_status');
+		$_completed_status->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$options= array(-1=>$this->tr->translate("PLEASE_SELECT"),0=>$this->tr->translate("NOT_COMPLETED_PAYMENT"),1=>$this->tr->translate("COMPLETED_PAYMENT"));
+		$_completed_status->setMultiOptions($options);
+		$_completed_status->setValue($request->getParam("completed_status"));
+		
 		if($data!=null){
 			//print_r($data);
 // 			$_branch_id->setValue($data['member_id']);
@@ -234,7 +244,10 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 // 		$_groupid,$_group_code,$_customer_code,$_zone
 				$_member,
 				$_pay_every,$_title,$_branch_id,$_releasedate
-				,$_payterm,$_dateline,$_status,$_btn_search,$_repayment_method));
+				,$_payterm,$_dateline,$_status,$_btn_search,$_repayment_method,
+				
+				$_completed_status
+				));
 		return $this;
 		
 	}	

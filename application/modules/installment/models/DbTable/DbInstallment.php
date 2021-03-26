@@ -49,8 +49,8 @@ public function getAllSale($search,$reschedule =null){
 	$where = " AND ".$from_date." AND ".$to_date;
 	 
 	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
-	$complete = $tr->translate("COMPLETED");
-	$not_complete = $tr->translate("Not Complete");
+	$complete = $tr->translate("COMPLETED_PAYMENT");
+	$not_complete = $tr->translate("NOT_COMPLETED_PAYMENT");
 	
 		$db = $this->getAdapter();
 		$sql=" SELECT l.id,
@@ -68,7 +68,8 @@ public function getAllSale($search,$reschedule =null){
 			CASE    
 				WHEN  l.is_completed = 0 THEN '$not_complete'
 				WHEN  l.is_completed = 1 THEN '$complete'
-				END AS completed_status
+				END AS completed_status,
+				 (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=l.user_id )AS user_name
 			";
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$sql.=$dbp->caseStatusShowImage("l.status");
@@ -111,6 +112,9 @@ public function getAllSale($search,$reschedule =null){
 		if(($search['selling_type'])>0){
 			$where.= " AND l.selling_type=".$search['selling_type'];
 		}
+		if(($search['completed_status'])>-1){
+    		$where.= " AND l.is_completed=".$search['completed_status'];
+    	}
 		$where.=$dbp->getAccessPermission('l.branch_id');
 		$order = " ORDER BY l.id DESC";
 		$db = $this->getAdapter();

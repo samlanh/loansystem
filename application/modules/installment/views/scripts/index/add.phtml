@@ -23,6 +23,9 @@
     border: solid 1px #ccc8c8;
         background: #e7ecf7;
 	}
+.hiddenControl{
+	display:none;
+}
 </style>
 <div class="card">
 	<div class="card-content collapse show">
@@ -85,7 +88,7 @@
 	                   		<input dojoType="dijit.form.TextBox" class="fullside" name="sale_no" id="sale_no" value="" type="text">
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="form-group hiddenControl">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CLIENT_NUM");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -733,6 +736,7 @@ var pro_store  = getDataStorefromJSON('id','name');
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		changeCollectType();
+		filterClient();
 	  });
 	new dijit.form.FilteringSelect({
 	store: client_store,
