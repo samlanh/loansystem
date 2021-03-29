@@ -172,7 +172,8 @@ public function addILPayment($data){
 	    			}
 	    			$record_id = $rsloan['id'];
 	    			if($record_id!=""){
-	    				if($option_pay==1 OR $option_pay==2 OR $option_pay==3 OR $option_pay==4){//បង់ធម្មតា
+	    				//if($option_pay==1 OR $option_pay==2 OR $option_pay==3 OR $option_pay==4){//បង់ធម្មតា
+	    				if($option_pay==1 OR $option_pay==2 OR $option_pay==4){//បង់ធម្មតា
 	    					if($option_pay==1){
 	    						$total_principal =$after_principal;
 	    					}elseif($option_pay==3){
@@ -266,6 +267,65 @@ public function addILPayment($data){
 	    	$where = $db->quoteInto("id=?", $receipt_id);
 	    	$this->update($arr, $where);
 	    	
+			$loan_number = $data['loan_number'];
+			if($data['option_pay']==3){//រំលស់ដើម
+			
+				$rs = $this->getRemainSchedule($loan_number);
+				
+    			$principal = 0;
+    			$last_record=0;
+    			$ending_balance=0;
+    			if(!empty($rs)){    				
+//     				/*សម្រាប់បញ្ចូលថាប្រាក់ដើមប្រានរំលស់*/
+    				$sql="SELECT (installment_amount) FROM ln_ins_sales_installdetail WHERE is_completed=1 AND status=1 AND sale_id=".$loan_number." ORDER BY installment_amount DESC LIMIT 1 ";
+    				$start_id = $db->fetchOne($sql);
+					$this->_name="ln_ins_sales_installdetail";
+						$paid_principalall =$data['amount_receive'];
+						$datapayment = array(
+							'sale_id'=>$loan_number,
+							'crm_id'=>$receipt_id,
+							'installment_amount'=>$start_id+1,
+							'outstanding'=>$data['priciple_amount'],//good
+							'outstanding_after'=>$data['priciple_amount'],//good
+							'principal_permonth'=> $paid_principalall,//good
+							'principle_after'=> $paid_principalall,//good
+							'total_interest'=>0,//good
+							'total_interest_after'=>0,//good
+							'total_payment'=>$paid_principalall,//good
+							'total_payment_after'=>$paid_principalall,//good
+							'date_payment'=>$data['collect_date'],//good
+							'is_completed'=>1,
+							'status'=>0,
+							'amount_day'=>0,
+							'installment_amount'=>$start_id+1,
+					);
+					$record_id = $this->insert($datapayment);
+					
+					   $arr = array(
+						'principal_paid'=> $paid_principalall,//check here
+					);
+					$this->_name="ln_ins_receipt_money";
+					$where = $db->quoteInto("id=?", $receipt_id);
+					$this->update($arr, $where);
+			
+					$date_payment = $data['payment_date'];
+					$arr_money_detail = array(
+							'receipt_id'		=> $receipt_id,
+							'lfd_id'			=> $record_id,
+							'date_payment'		=> $date_payment,
+							'capital'			=> $data['priciple_amount'],
+							'remain_capital'	=> $data['priciple_amount'],
+							'principal_permonth'=> $paid_principalall,
+							'total_interest'	=> 0,
+							'total_payment'		=> $paid_principalall,
+							'penelize_amount'	=> 0,
+						);
+					$db->insert("ln_ins_receipt_money_detail", $arr_money_detail);
+				}
+					
+ 	    		
+ 	    	}
+
 	    	$rs = $this->getRemainSchedule($data['loan_number']);
 	    	if(empty($rs)){//update ករណីបង់ចុងក្រោយ គឺ updatE ទៅជាដាច់
 	    		$arr = array(
@@ -307,7 +367,7 @@ public function getIlPaymentNumber(){
 }
    function getSaleinstallbyid($id){//group id
     	$sql ="SELECT s.*
-				,(SELECT SUM(principal_paid) FROM `ln_ins_receipt_money` WHERE loan_id=2) AS principal_paid
+				,(SELECT SUM(principal_paid) FROM `ln_ins_receipt_money` WHERE loan_id=s.id) AS principal_paid
     	 FROM 
 			    	`ln_ins_sales_install` AS s
 			    	WHERE  s.id = $id ";
@@ -320,6 +380,9 @@ public function getIlPaymentNumber(){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+			$session_user=new Zend_Session_Namespace(SYSTEM_SES);
+			$user_id = $session_user->user_id;
+		
     		$sql = "SELECT
     		crm.loan_id
     		FROM ln_ins_receipt_money AS crm
@@ -359,13 +422,37 @@ public function getIlPaymentNumber(){
     			}
     		}
     
+				$arr_client_pay = array(
+    				'principal_amount'	=> 0,
+    				'interest_amount'	=> 0,
+    				'total_payment'		=> 0,
+    				'principal_paid'	=> 0,
+    				'penalize_amount'	=> 0,
+    				'recieve_amount'	=> 0,
+    				'total_paymentpaid'	=> 0,//check
+    				'return_amount'		=> 0,
+    				'note'				=> "Receipt Deleted",
+    				'status'			=> 1,
+    				'user_id'			=> $user_id,
+    				'late_day'			=> 0,
+    				'is_completed'		=> 0,
+    				);
+					
     		$this->_name = "ln_ins_receipt_money";
-    		$where = " id = $id ";
+			$where = "id=".$id;
+			$this->update($arr_client_pay, $where);
+				
+			$this->_name = "ln_ins_sales_installdetail";				
+    		$where = " crm_id = $id ";
     		$this->delete($where);
+			
+		//	$this->_name = "ln_ins_receipt_money";
+    		//$where = " id = $id ";
+    		//$this->delete($where);
     
-    		$this->_name = "ln_ins_receipt_money_detail";
-    		$where = " receipt_id = $id ";
-    		$this->delete($where);
+    		//$this->_name = "ln_ins_receipt_money_detail";
+    		//$where = " receipt_id = $id ";
+    		//$this->delete($where);
     		$db->commit();
     
     	}catch (Exception $e){
@@ -373,6 +460,7 @@ public function getIlPaymentNumber(){
     		Application_Form_FrmMessage::message("Delete Failed");
     	}
     }
+	
     function getRemainSchedule($loan_id){
     	$db = $this->getAdapter();
     	$sql="SELECT *

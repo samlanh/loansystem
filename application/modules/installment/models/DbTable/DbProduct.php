@@ -261,8 +261,8 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
     	return ($rows);
     }
 	public function getallProductbycate($data){
-		$cate_id = $data['category_id'];
-		$branch_id = $data['branch_id'];
+		$cate_id = empty($data['category_id'])?0:$data['category_id'];
+		$branch_id = empty($data['branch_id'])?0:$data['branch_id'];
 		$db=$this->getAdapter();
 // 		$sql = "SELECT id ,item_name AS name FROM `ln_ins_product` WHERE cate_id=".$cate_id;
 		$sql="SELECT p.id ,p.item_name AS name

@@ -191,7 +191,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	$sql="SELECT 
 			sd.*
 		FROM `ln_ins_sales_installdetail` AS sd 
-		WHERE sd.`sale_id`=$saleID";
+		WHERE sd.`sale_id`=$saleID ORDER BY sd.installment_amount ASC,sd.status ASC";
     	return $db->fetchAll($sql);
     }
     function getAllInventoryPurchase($search=null){

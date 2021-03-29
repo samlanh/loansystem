@@ -682,7 +682,7 @@ var url_getreceipt = '<?php echo $this->url(array('module'=>'installment','contr
 function getReceiptbybranch(){
 	branch_id = dijit.byId('branch_id').get('value');
 	if(branch_id==''){
-		alert('Please Select Branch');
+		//alert('Please Select Branch');
 		dijit.byId('branch_id').focus();
 		return false;
 	}
@@ -704,7 +704,7 @@ var url_branchifo = '<?php echo $this->url(array('module'=>'other','controller'=
 function getbranchinfo(){
 	branch_id = dijit.byId('branch_id').get('value');
 	if(branch_id==''){
-		alert('Please Select Branch');
+		//alert('Please Select Branch');
 		dijit.byId('branch_id').focus();
 		return false;
 	}
@@ -1153,6 +1153,7 @@ function stopLoading(){
 }
 var urlClientInfo = '<?php echo $this->url(array('module'=>'installment','controller'=>'index','action'=>'getclientinsinfo')); ?>';
 function getClientInfo(){
+	
 	clientID = dijit.byId('customer_code').get('value');
 	if(clientID=='' || clientID==null){return false;}
 	dojo.xhrPost({

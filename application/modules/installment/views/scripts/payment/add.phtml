@@ -1194,6 +1194,14 @@ function getDayString(num){
 function totalReturn(){
 	receive_amount = dijit.byId('amount_receive').get('value');
 	total_payments = dijit.byId('total_payment').get('value');
+	
+	option_pay = dijit.byId('option_pay').get('value');
+	if(option_pay==3){
+		dijit.byId('os_amount').attr('value',receive_amount.toFixed(2));
+		dijit.byId('total_payment').attr('value',receive_amount.toFixed(2));
+		total_payments=receive_amount;
+		
+	}
 	amonut_return = parseFloat(receive_amount)-parseFloat(total_payments);
 	remain_amount = parseFloat(total_payments)-parseFloat(receive_amount);
 	if(amonut_return<0){

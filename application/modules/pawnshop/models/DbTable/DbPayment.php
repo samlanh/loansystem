@@ -312,6 +312,10 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+			
+			$session_user=new Zend_Session_Namespace(SYSTEM_SES);
+			$user_id = $session_user->user_id;
+		
     		$sql = "SELECT
     			crm.loan_id
     		FROM ln_pawn_receipt_money AS crm
@@ -351,13 +355,38 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     			}
     		}
     
-    		$this->_name = "ln_pawn_receipt_money";
-    		$where = " id = $id ";
-    		$this->delete($where);
+				$arr_client_pay = array(
+    				
+    				'begining_balance'	=> 0,
+    				'principal_amount'	=> 0,
+    				'interest_amount'	=> 0,
+    				'total_payment'		=> 0,
+    				'penalize_amount'	=> 0,
+    				'service_chargeamount'=>0,
+    				'recieve_amount'	=> 0,
+    				'total_paymentpaid'	=> 0,
+    				'return_amount'		=> 0,
+					
+					'principal_paid'=> 0,
+    				'interest_paid'	=> 0,
+    				'penalize_paid'	=> 0,
+    				'service_paid'  => 0,
+					
+    				'note'				=> "Receipt Deleted",
+    				'status'			=> 1,
+    				'user_id'			=> $user_id,
+    				'is_completed'		=> 0,
+    		);
+			$this->_name = "ln_pawn_receipt_money";
+			$where = " id = $id ";
+			$this->update($arr_client_pay, $where);
+    		//$this->_name = "ln_pawn_receipt_money";
+    		//$where = " id = $id ";
+    		//$this->delete($where);
     
-    		$this->_name = "ln_pawn_receipt_money_detail";
-    		$where = " receipt_id = $id ";
-    		$this->delete($where);
+    		//$this->_name = "ln_pawn_receipt_money_detail";
+    		//$where = " receipt_id = $id ";
+    		//$this->delete($where);
     		
     		$this->_name = "ln_pawnshop_detail";
     		$where = " payment_id = $id ";

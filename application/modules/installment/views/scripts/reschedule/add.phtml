@@ -292,8 +292,8 @@ require(["dojo/ready"], function(ready){
 			dijit.byId("product_name").attr("value",<?php echo $this->datarow['product_id'];?>);
 			
 			dijit.byId("date_sold").attr("value",'<?php echo $this->datarow['date_sold'];?>');
-			dijit.byId("outstanding").attr("value",'<?php echo $this->datarow['balance']-$this->datarow['principal_paid'];?>');
-			dijit.byId("balance").attr("value",'<?php echo $this->datarow['balance']-$this->datarow['principal_paid'];?>');
+			dijit.byId("outstanding").attr("value",'<?php echo $this->datarow['selling_price']-$this->datarow['principal_paid'];?>');
+			dijit.byId("balance").attr("value",'<?php echo $this->datarow['selling_price']-$this->datarow['principal_paid'];?>');
 	
 			dijit.byId("paid_date").attr("value",'<?php echo $this->datarow['paid_date'];?>');
 	
@@ -403,6 +403,10 @@ require(["dojo/ready"], function(ready){
 
 var url_getproduct = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'getproductbycate')); ?>';
 function getAllProduct(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if (branch_id=='' || branch_id==-1){
+		return false;
+	}
 	category_id = dijit.byId("category_id").get("value");
 	if(category_id<0){
       return false;
@@ -410,7 +414,8 @@ function getAllProduct(){
 	dojo.xhrPost({
 		url:url_getproduct,	
 		content:{ 
-		    'category_id':category_id
+		    'category_id':category_id,
+		    'branch_id':branch_id
 		},		    
 		handleAs:"json",
 		load: function(data) {

@@ -97,6 +97,11 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
 	    $id = $this->getRequest()->getParam('id');
 	    $id = empty($id)?0:$id;
 	    $this->view->id = $id;
+		
+		$db = new Pawnshop_Model_DbTable_DbPawnshop();
+		$row = $db->getPawnshopById($id);
+		$this->view->datarow = $row;
+	
 	}
 	public function editAction(){
 // 		if($this->getRequest()->isPost()){

@@ -867,6 +867,13 @@ require(["dojo/ready"], function(ready){
 		<?php if ($this->leveluser==1){?>
 		dijit.byId('branch_id').attr('value',1);
 		<?php }?>
+		
+		<?php if(!empty($this->datarow['id'])){?>
+			dijit.byId("branch_id").attr("value",<?php echo $this->datarow['branch_id'];?>);
+			dijit.byId("loan_code").attr("value",'<?php echo $this->datarow['id'];?>');
+			
+		<?php }?>
+		
 		dijit.byId("total_amount").set('readOnly',true);
 		dijit.byId("member").set('readOnly',true);
 		dijit.byId("customer_code").set('readOnly',true);
