@@ -8,6 +8,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 	public function FrmAddIlPayment($data=null){
 		
 		$db = new Application_Model_DbTable_DbGlobal();
+		
+		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		$currentBranch = $session_user->branch_id;
 		$currentlevel = $session_user->level;
