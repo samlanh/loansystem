@@ -173,8 +173,15 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		$payment_il = $db->getInstallPaymentBYId($id);
 		if (!empty($payment_il)){
 			if ($payment_il['is_closed']==1){
-				Application_Form_FrmMessage::Sucessfull("Can not delete this record","/installment/payment");
+				Application_Form_FrmMessage::Sucessfull("Can not delete this record","/installment/payment");exit();
 			}
+			$sale_id = empty($payment_il['loan_id'])?0:$payment_il['loan_id'];
+  			$lastPaymentRecord = $db->getLastPaymentRecord($sale_id);
+  			$lastPayId = empty($lastPaymentRecord['id'])?0:$lastPaymentRecord['id'];
+  			if ($lastPayId!=$id){
+  				Application_Form_FrmMessage::Sucessfull("Only Last Payment Receipt Can Delete","/installment/payment");
+				exit();
+  			}
 		}
 		$delete_sms=$tr->translate('CONFIRM_DELETE');
 		echo "<script language='javascript'>

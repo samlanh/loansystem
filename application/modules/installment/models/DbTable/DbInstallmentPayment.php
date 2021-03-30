@@ -430,6 +430,9 @@ public function getIlPaymentNumber(){
     				'penalize_amount'	=> 0,
     				'recieve_amount'	=> 0,
     				'total_paymentpaid'	=> 0,//check
+					'principal_paid'	=> 0,
+					'interest_paid'		=> 0,
+					'penalize_paid'		=> 0,
     				'return_amount'		=> 0,
     				'note'				=> "Receipt Deleted",
     				'status'			=> 1,
@@ -606,6 +609,7 @@ public function getInstallPaymentBYId($id){
 		   	(SELECT  `c`.`client_number` FROM `ln_ins_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
 		   	(SELECT CONCAT(COALESCE(`u`.`last_name`,''),' ',COALESCE(`u`.`first_name`,'')) FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
 		   	`crm`.`id`                   AS `id`,
+		   	`crm`.`loan_id`                   AS `loan_id`,
 		   	`crm`.`receipt_no`           AS `receipt_no`,
 		   	`crm`.`branch_id`            AS `branch_id`,
 		   	`crm`.`date_pay`             AS `date_pay`,
@@ -643,4 +647,22 @@ public function getInstallPaymentBYId($id){
    		$sql.=" ORDER BY `crm`.`id` DESC LIMIT 1";
    	return $db->fetchRow($sql);
    }
+   
+   function getLastPaymentRecord($sale_id){
+		$db = $this->getAdapter();
+		$sql="SELECT
+		rm.*
+		FROM
+			`ln_ins_receipt_money` AS rm
+		WHERE rm.loan_id = $sale_id 
+		AND rm.total_payment>0
+		 ";
+	
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->getAccessPermission("rm.branch_id");
+		$sql.=" ORDER BY rm.id DESC ";
+		$sql.=" LIMIT 1 ";
+	
+		return $db->fetchRow($sql);
+	}
 }

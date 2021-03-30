@@ -627,4 +627,22 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
 		WHERE rm.id = $id LIMIT 1";
 		return $db->fetchRow($sql);
 	}
+	
+	function getLastPaymentRecord($sale_id){
+		$db = $this->getAdapter();
+		$sql="SELECT
+		rm.*
+		FROM
+			`ln_pawn_receipt_money` AS rm
+		WHERE rm.loan_id = $sale_id 
+		AND rm.total_payment>0
+		 ";
+	
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->getAccessPermission("rm.branch_id");
+		$sql.=" ORDER BY rm.id DESC ";
+		$sql.=" LIMIT 1 ";
+	
+		return $db->fetchRow($sql);
+	}
 }
