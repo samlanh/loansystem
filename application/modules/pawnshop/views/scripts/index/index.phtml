@@ -9,6 +9,7 @@
 	$url_agreement = $this->baseUrl()."/report/pawn/agreement/id/";
 	$url_receipt = $this->baseUrl()."/report/pawn/pawnticketreceipt/id/";
 	$url_schedule = $this->baseUrl()."/report/pawn/rpt-paymentschedules/id/";
+	$urlPaymenthistory = $this->baseUrl()."/report/pawn/paymenthistory/id/";
 	$url_reschedule = $this->baseUrl()."/pawnshop/reschedule/add/id/";
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
@@ -144,6 +145,8 @@ $(function(){
 				url='<?php echo $url_schedule;?>';
 			}else if(key=="reschedule"){
 				url='<?php echo $url_reschedule;?>';
+			}else if(key=="paymenthistory"){
+				url='<?php echo $urlPaymenthistory;?>';
 			}
 			 
 			gotoAction();
@@ -156,6 +159,7 @@ $(function(){
 			"schedule": {name: "<?php echo $tr->translate("SCHEDULE_PAYMENT");?>", icon: "fa-calendar"},
 			"receipt": {name: "<?php echo $tr->translate("PAWN_RECEIPT");?>", icon: "fa-print"},
 			"reschedule": {name: "<?php echo $tr->translate("REPAYMENTSCHEDULE");?>", icon: "fa-calendar"},
+			"paymenthistory": {name: "<?php echo $tr->translate("RPT_PAYMENT_HISTORY");?>", icon: "fa-money"},
 		}
 	});
 });

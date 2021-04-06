@@ -749,6 +749,25 @@ function rptPaymentHistoryAction(){
  	}
  }
  
+ function paymenthistoryAction(){
+	 
+	$db  = new Report_Model_DbTable_Dbpawn();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	$id =$this->getRequest()->getParam('id');
+ 	$id = empty($id)?0:$id;
+	$row =$db->getPaymentListPawnByID($id);
+	if (empty($row)){
+		Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/pawnshop/index");exit();
+	}
+	$this->view->rs = $row;
+		
+	$this->view->LoanFee_list =$db->getTotalAdminFeeByPawn($id);
+	$this->view->rescheduleFee = $db->getTotalAdminFeeByReschedule($id);
+	
+	$frmpopup = new Application_Form_FrmPopupGlobal();
+	$this->view->footerReport = $frmpopup->getFooterReport();
+}
  
 }
 

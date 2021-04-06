@@ -9,6 +9,7 @@
 	$url_schedule = $this->baseUrl()."/report/installments/saleschedule/id/";
 	$url_agreement = $this->baseUrl()."/report/installments/agreement/id/";
 	$url_receipt = $this->baseUrl()."/report/installments/saleinvoice/id/";
+	$urlPaymenthistory = $this->baseUrl()."/report/installments/paymenthistory/id/";
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script>
@@ -121,6 +122,8 @@
 					url='<?php echo $url_agreement;?>';
 				}else if(key=="reschedule"){
 					url='<?php echo $url_reschedule;?>';
+				}else if(key=="paymenthistory"){
+					url='<?php echo $urlPaymenthistory;?>';
 				}
 				gotoAction();
 				//window.console && console.log(m) || alert(m); 
@@ -131,6 +134,7 @@
 				"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text"},
 				"receipt": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-print"},
 				"reschedule": {name: "<?php echo $tr->translate("REPAYMENTSCHEDULE");?>", icon: "fa-calendar"},
+				"paymenthistory": {name: "<?php echo $tr->translate("RPT_PAYMENT_HISTORY");?>", icon: "fa-money"},
 			}
 		});
 	});

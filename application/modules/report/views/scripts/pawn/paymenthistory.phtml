@@ -6,7 +6,7 @@
 	$level =$session_user->level;
 	$data = $this->data;
 ?>
-<title><?php echo $tr->translate("RPT_PAWN_PAYMENT");?></title>
+<title><?php echo $tr->translate("RPT_PAYMENT_HISTORY")." (".$tr->translate("PAWN").")";?></title>
 <script>
      dojo.require("dijit.form.DateTextBox");
 </script>
@@ -21,44 +21,12 @@ table.tb-footer tr.style-head {
 	<div class="card-box">
        	<div class="col-sm-12 border-botom">
 		   	<div class="col-sm-8 pd-0">
-	    		<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('RPT_PAWN_PAYMENT');?></h4>
+	    		<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate("RPT_PAYMENT_HISTORY")." (".$tr->translate("PAWN").")";?></h4>
     		</div>
     		<div class="col-sm-4 text-right">
     		</div>
     	</div>
     </div>	
-	<form method="post">
-		<div class="card-box">
-			<div class="form-group">
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('adv_search');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('branch_id');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('members');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('product_id');?>
-               </div>
-            </div>
-            <div class="form-group">
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('currency_type');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('start_date');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $frm->getElement('end_date');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-               </div>
-            </div>
-        </div>
-	</form>
 <style>
 .noneprint{
 	display: table-cell !important; 
@@ -130,8 +98,7 @@ table.tb-footer tr.style-head {
 		                	<td width="60%" valign="top">
 		                		<ul>
 		                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $data['client_company_name'];?><?php //echo $tr->translate("BRAND_TITLE");?></li>
-		                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("RPT_PAWN_PAYMENT");?></li>
-		                			<li style="text-align:center; font-size:14px;"><?php if (!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
+		                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("RPT_PAYMENT_HISTORY")." (".$tr->translate("PAWN").")";?></li>
 		                		</ul>
 		                   </td>
 		                    <td width="20%"></td>
@@ -177,7 +144,7 @@ table.tb-footer tr.style-head {
 		                	$saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
 		                	$total_d=0;$total_b=0;$total_r=0;
 		                ?>
-		                <?php $is_set =0; if(!empty($this->loantotalcollect_list)) foreach ($this->loantotalcollect_list as $index => $rs){ ?>
+		                <?php $is_set =0; if(!empty($this->rs)) foreach ($this->rs as $index => $rs){ ?>
 		                <?php 
 			               $interest=0;
 						   $interest_amount=0;
@@ -213,10 +180,10 @@ table.tb-footer tr.style-head {
 		               		<td align="center" >&nbsp;<strong><?php echo number_format($rs['penalize_paid'],2);//.' '.$rs['currency_typeshow'];?></strong>&nbsp;</td>
 		               		<td align="center" >&nbsp;<strong><?php echo number_format($rs['service_paid'],2);//.' '.$rs['currency_typeshow'];?></strong>&nbsp;</td>
 		               		<td align="center" >&nbsp;<strong><?php echo number_format($rs["total_paymentpaid"],2).' '.$rs['currency_typeshow'];;?></strong>&nbsp;</td> 
-		               		<td align="center" style=" border-right:3px double black; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_payment"]));?>&nbsp;</td>
-		               		<td align="center">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_input"]));?>&nbsp;</td>
+		               		<td  align="center" style=" border-right:3px double black; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_payment"]));?>&nbsp;</td>
+		               		<td  align="center">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_input"]));?>&nbsp;</td>
 		               		<td align="center" >&nbsp;<strong><?php echo $rs["paid_times"];?></strong>&nbsp;</td> 
-		               		<td align="center">&nbsp;<strong><?php echo $rs["receipt_no"];?></strong>&nbsp;</td>
+		               		<td>&nbsp;<strong><?php echo $rs["receipt_no"];?></strong>&nbsp;</td>
 		               		<td style="font-site:9px; <?php if($rs["payment_option"]==4){echo " background:#ccc";} ?>" align="center" >&nbsp;<?php echo @$opt[$rs["payment_option"]];?>&nbsp;</td>
 		               		<td align="center">&nbsp;<?php echo $rs["user_name"]; ?>&nbsp;</td>
 		                </tr>
@@ -225,8 +192,8 @@ table.tb-footer tr.style-head {
 		                 	$r1=0; $b1=0;$d1=0;
 		             	?>
 		            	<!-- កុំលុបព្រោះទុកបូកជាមួយនិងថ្លៃសេវាពេលចេញកម្ចី -->
-		                <?php if(!empty($this->LoanFee_list)) foreach ($this->LoanFee_list as $key => $row){ ?>
-		                <?php 
+		                <?php if(!empty($this->LoanFee_list)){
+							$row = $this->LoanFee_list;
 			                if($row['currency_type']==1){
 				               	$r1 = $r1+$row['admin_fee'];
 			               }elseif($row['currency_type']==2){

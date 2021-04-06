@@ -507,5 +507,23 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 			Application_Form_FrmMessage::Sucessfull("Closing Entry Success", "/report/installments/rpt-closingentry");
 		}
 	}
+	
+ function paymenthistoryAction(){
+
+		$db  = new Report_Model_DbTable_DbInventory();
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		$id =$this->getRequest()->getParam('id');
+		$id = empty($id)?0:$id;
+	
+		$row =$rs=$db->getPaymentListInstallmentById($id);
+		if (empty($row)){
+			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/installment/index");exit();
+		}
+		$this->view->loantotalcollect_list = $row;
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->footerReport = $frmpopup->getFooterReport();
+	}
 }
 

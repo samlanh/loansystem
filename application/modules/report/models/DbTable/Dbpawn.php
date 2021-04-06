@@ -2566,5 +2566,56 @@ AND cl.client_id = $client_id )";
       		}
       	}
       }
+	  
+	  public function getPaymentListPawnByID($pawnID){
+      	$db = $this->getAdapter();
+			$sql="SELECT
+				  (SELECT
+				     `ln_branch`.`branch_namekh`
+				   FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`)
+				   LIMIT 1) AS `branch_name`,
+				  (SELECT `ln_currency`.`symbol`
+				   FROM `ln_currency`
+				   WHERE (`ln_currency`.`id` = `crm`.`currency_type`) LIMIT 1) AS `currency_typeshow`,
+				  (SELECT `l`.`loan_number` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
+				  (SELECT `l`.`product_id` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `product_id`, 
+				  (SELECT psp.product_kh FROM `ln_pawnshopproduct` AS psp WHERE psp.id = (SELECT `l`.`product_id` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) LIMIT 1) AS proTitle,
+				  (SELECT `c`.`name_kh` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
+				  (SELECT  `c`.`client_number` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
+				  (SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
+				  crm.*
+				  
+				FROM (`ln_pawn_receipt_money` `crm`
+				   JOIN `ln_pawn_receipt_money_detail` `d`)
+				WHERE ((`crm`.`status` = 1)
+				       AND (`crm`.`id` = `d`.`receipt_id`)
+				       AND (`crm`.`status` = 1))
+				";
+      	$where = " AND crm.loan_id = $pawnID ";
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.=$dbp->getAccessPermission('`crm`.branch_id');
+      	$order=" GROUP BY `crm`.`id` ORDER BY `crm`.`id` DESC ";
+      	return $db->fetchAll($sql.$where.$order);
+      }
+	  
+	  public function getTotalAdminFeeByPawn($pawnID){
+      	$db = $this->getAdapter();
+      	$sql = "SELECT  SUM(admin_fee) AS admin_fee,
+						currency_type
+      					 FROM 
+      				ln_pawnshop WHERE status = 1 AND (admin_fee>0)";
+		$where = " AND id = $pawnID ";
+      	return $db->fetchRow($sql.$where);
+      }
+	  
+	  function getTotalAdminFeeByReschedule($pawnID){
+      	$db = $this->getAdapter();
+      	$sql="SELECT SUM(ps.`admin_fee`) AS total_adminfee,ps.`currency_type` FROM `ln_pawnshop_reschedule` AS ps 
+				WHERE 1
+				";
+      	$where = " AND ps.pawnshop_id = $pawnID ";
+      	$where.=" GROUP BY ps.`currency_type`";
+      	return $db->fetchAll($sql.$where);
+      }
  }
 

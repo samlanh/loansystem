@@ -39,7 +39,7 @@
 				$url_report=$db_user->getAclReport(1,'pawn');
 				if(!empty($url_report)){
 				foreach($url_report as $rs){
-					if($rs['action']=='rpt-paymentschedules' || $rs['action']=='index'){continue;}
+					if($rs['action']=='rpt-paymentschedules' || $rs['action']=='index'  || $rs['action']=='paymenthistory'){continue;}
 				?>
 				   <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
 						<a href="<?php echo $this->url(array("module"=>'report',"controller"=>'pawn','action'=>$rs['action']));?>">
