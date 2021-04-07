@@ -521,6 +521,29 @@ public function addILPayment($data){
 	    	$where = $db->quoteInto("id=?", $receipt_id);
 	    	$this->update($arr, $where);
 	    	
+			if($data['option_pay']==3){//រំលស់ដើម
+				$this->_name="ln_loan_detail";
+				$start_id = $this->getCompleteScheduleByLoan($data['loan_number']);
+				$paidAmount = $data['amount_receive'];
+    				$datapayment = array(
+    						'loan_id'				=>$data['loan_number'],
+							'outstanding'			=>$data['priciple_amount'],//good
+							'outstanding_after'		=>$data['priciple_amount'],//good
+							'principal_permonth'	=> $paidAmount,//good
+							'principle_after'		=> $paidAmount,//good
+							'total_interest'		=>0,//good
+							'total_interest_after'	=>0,//good
+							'total_payment'			=>$paidAmount,//good
+							'total_payment_after'	=>$paidAmount,//good
+							'date_payment'			=>$data['collect_date'],//good
+							'is_completed'			=>1,
+							'status'				=>0,
+							'amount_day'			=>0,
+							'installment_amount'=>$start_id+1,
+							'receipt_id'=>$receipt_id,
+					);
+					$this->insert($datapayment);
+			}
 	    	
 // 	    	if($data['option_pay']==3){//រំលស់ដើម
 // 	    		$this->_name="ln_loan_detail";
@@ -568,11 +591,22 @@ public function addILPayment($data){
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
+	
+	function getCompleteScheduleByLoan($id){
+    	$db = $this->getAdapter();
+    	$sql="SELECT COUNT(pd.id) AS count_sch FROM `ln_loan_detail` AS pd WHERE pd.`status`=1 AND pd.`is_completed`=1 AND pd.`loan_id`=$id";
+    	return $db->fetchOne($sql);
+    }
+	
     function deleteRecord($id){
     	
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+			
+			$session_user=new Zend_Session_Namespace(SYSTEM_SES);
+			$user_id = $session_user->user_id;
+		
     		$sql = "SELECT
     		crm.loan_id
     		FROM ln_client_receipt_money AS crm
@@ -612,13 +646,61 @@ public function addILPayment($data){
     			}
     		}
     
+			$arr_client_pay = array(
+	    			
+    				'begining_balance'	=> 0,
+    				'principal_amount'	=> 0,
+    				'interest_amount'	=> 0,
+    				'total_payment'		=> 0,
+    				'penalize_amount'	=> 0,
+    				'service_chargeamount'=>0,
+    				
+    				'recieve_amount'	=> 0,
+    				'total_paymentpaid'	=> 0,//check
+    				'return_amount'		=> 0,
+    				
+    				'note'				=> "Deleted Reciept",
+    				'status'			=> 1,
+    				'user_id'			=> $user_id,
+					
+					'principal_paid'=> 0,
+					'interest_paid'	=> 0,
+					'penalize_paid'	=> 0,
+					'service_paid'  => 0,
+				
+    				);
+					
     		$this->_name = "ln_client_receipt_money";
     		$where = " id = $id ";
-    		$this->delete($where);
+			$this->update($arr_client_pay, $where);
     
+			$arr_money_detail = array(
+				'capital'			=> 0,
+				'remain_capital'	=> 0,
+				'principal_permonth'=> 0,
+				'total_interest'	=> 0,
+				'total_payment'		=> 0,
+				'penelize_amount'	=> 0,
+			);
+								
     		$this->_name = "ln_client_receipt_money_detail";
     		$where = " receipt_id = $id ";
-    		$this->delete($where);
+    		$this->update($arr_money_detail, $where);
+			
+			if(!empty($id)){
+				$this->_name = "ln_loan_detail";
+				$where = " receipt_id = $id ";
+				$this->delete($where);
+			}
+			
+			//$this->_name = "ln_client_receipt_money";
+    		//$where = " id = $id ";
+    		//$this->delete($where);
+			
+    		//$this->_name = "ln_client_receipt_money_detail";
+    		//$where = " receipt_id = $id ";
+    		//$this->delete($where);
+			
     		$db->commit();
     
     	}catch (Exception $e){
@@ -2186,11 +2268,32 @@ public function cancelIlPayment($data){
 	
 	public function getLoanPaymentById($id){ //for add payment reciept get payment by reciept id
 		$db = $this->getAdapter();
-		$sql="SELECT v.*,(SELECT crm.is_closed FROM `ln_client_receipt_money` AS crm WHERE crm.id = v.id LIMIT 1 ) AS is_closed FROM v_getcollectmoney AS v WHERE v.status=1
+		$sql="SELECT v.*,
+			(SELECT crm.loan_id FROM `ln_client_receipt_money` AS crm WHERE crm.id = v.id LIMIT 1 ) AS loan_id, 
+			(SELECT crm.is_closed FROM `ln_client_receipt_money` AS crm WHERE crm.id = v.id LIMIT 1 ) AS is_closed 
+			FROM v_getcollectmoney AS v WHERE v.status=1
 		AND v.`id` = $id ";
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$sql.= $dbp->getAccessPermission("branch_id");
 		$sql.=" LIMIT 1";
+		return $db->fetchRow($sql);
+	}
+	
+	function getLastPaymentRecord($sale_id){
+		$db = $this->getAdapter();
+		$sql="SELECT
+		rm.*
+		FROM
+			`ln_client_receipt_money` AS rm
+		WHERE rm.loan_id = $sale_id 
+		AND rm.total_payment>0
+		 ";
+	
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->getAccessPermission("rm.branch_id");
+		$sql.=" ORDER BY rm.id DESC ";
+		$sql.=" LIMIT 1 ";
+	
 		return $db->fetchRow($sql);
 	}
 }
