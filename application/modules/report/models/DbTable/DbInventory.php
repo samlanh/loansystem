@@ -100,6 +100,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 				(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_namekh,
 				p.item_name,
 				p.`item_code`,
+				s.selling_type,
 				(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =s.selling_type LIMIT 1) AS sellingTypeTitle,
 				(SELECT payment_nameen FROM `ln_payment_method` WHERE id = s.payment_method LIMIT 1) AS paymentMethodTitle,
 				s.* 
@@ -146,7 +147,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->getAccessPermission('branch_id');
     	
-    	$sql.=" ORDER BY s.`id` DESC";
+    	$sql.=" ORDER BY s.`branch_id` DESC, s.selling_type ASC , s.`id` DESC";
     	return $db->fetchAll($sql);
     }
     function getSaleInventoryById($id){
