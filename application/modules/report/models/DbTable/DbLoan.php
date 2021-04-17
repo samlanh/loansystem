@@ -1408,7 +1408,7 @@ public function getLoanadminFeeIcome($search=null){
       	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id = branch_id LIMIT 1) AS branch_name,
       	curr_type,SUM(total_amount) AS total_amount,disc,date,status 
       	FROM $this->_name ";
-      	
+      	$where.=" AND status = 1 ";
       	if($search['currency_type']>0){
       		$where.= " AND curr_type = ".$search['currency_type'];
       	}
@@ -1760,7 +1760,7 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type,
       	curr_type,invoice,
       	status FROM ln_income ";
-      
+      	$where.=" AND status = 1 ";
       	if(!empty($search['currency_type'])){
 	      	if($search['currency_type']>0){
 	      		$where.= " AND curr_type = ".$search['currency_type'];
@@ -2271,6 +2271,24 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	$where.=" GROUP BY l.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
+	  function getAdminFeeByReschedulePawn($search){
+      	$db = $this->getAdapter();
+      	$sql="SELECT SUM(rs.`admin_fee`) AS total_adminfee,l.`currency_type` 
+			FROM `ln_pawnshop_reschedule` AS rs,
+			`ln_pawnshop` AS l WHERE l.id  = rs.pawnshop_id";
+      	$where ="";
+      	if($search['branch_id']>0){
+      		$where.=" AND l.`branch_id` = ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$from_date =(empty($search['start_date']))? '1': " rs.`create_date` >= '".$search['start_date']." 00:00:00'";
+      		$to_date = (empty($search['end_date']))? '1': " rs.`create_date` <= '".$search['end_date']." 23:59:59'";
+      		$where.= " AND ".$from_date." AND ".$to_date;
+      	}
+      	 
+      	$where.=" GROUP BY l.`currency_type`";
+      	return $db->fetchAll($sql.$where);
+      }
       
       function submitClosingEngry($data){
       	$db = $this->getAdapter();
@@ -2309,8 +2327,68 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	$where.=" GROUP BY l.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
-      
-     
+     function getTotalIncomeFromSellPawn($search){
+      	$db = $this->getAdapter();
+      	$sql="SELECT 
+					SUM(rs.selling_price) AS totalSelling
+				FROM `ln_pawn_sale` AS rs WHERE rs.status =1 ";
+      	$where ="";
+      	if($search['branch_id']>0){
+      		$where.=" AND rs.`branch_id` = ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$from_date =(empty($search['start_date']))? '1': " rs.`selling_date` >= '".$search['start_date']." 00:00:00'";
+      		$to_date = (empty($search['end_date']))? '1': " rs.`selling_date` <= '".$search['end_date']." 23:59:59'";
+      		$where.= " AND ".$from_date." AND ".$to_date;
+      	}
+		$where.=" LIMIT 1";
+      	return $db->fetchRow($sql.$where);
+    } 
+     function getTotalSaleInstallmentIncome($search){
+      	$db = $this->getAdapter();
+      	$sql="SELECT 
+					SUM(rs.principal_amount) AS totalPrincipalAmount,
+					SUM(rs.principal_paid) 	AS totalPrincipalPaid,
+					SUM(rs.interest_amount) AS totalInterestAmount,
+					SUM(rs.interest_paid) AS totalInterestPaid,
+					SUM(rs.total_payment) AS totalPayment,
+					SUM(rs.total_paymentpaid) AS totalPaymentPaid,
+					SUM(rs.recieve_amount) AS totalRecieveAmount,
+					SUM(rs.penalize_amount) AS totalPenalizeAmount,
+					SUM(rs.penalize_paid) AS totalPenalizePaid 
+				FROM `ln_ins_receipt_money` AS rs WHERE 1 ";
+      	$where ="";
+      	if($search['branch_id']>0){
+      		$where.=" AND rs.`branch_id` = ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$from_date =(empty($search['start_date']))? '1': " rs.`date_pay` >= '".$search['start_date']." 00:00:00'";
+      		$to_date = (empty($search['end_date']))? '1': " rs.`date_pay` <= '".$search['end_date']." 23:59:59'";
+      		$where.= " AND ".$from_date." AND ".$to_date;
+      	}
+		$where.=" LIMIT 1";
+      	return $db->fetchRow($sql.$where);
+    }
+	
+	function getTotalPurchase($search){
+      	$db = $this->getAdapter();
+      	$sql="SELECT 
+					SUM(rs.total_amount) AS totalAmount
+				FROM `ln_ins_purchase` AS rs WHERE 1 ";
+      	$where ="";
+		$search['typePurchase'] = empty($search['typePurchase'])?1:$search['typePurchase'];
+		$where.=" AND rs.`type` = ".$search['typePurchase'];
+      	if($search['branch_id']>0){
+      		$where.=" AND rs.`branch_id` = ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$from_date =(empty($search['start_date']))? '1': " rs.`date` >= '".$search['start_date']." 00:00:00'";
+      		$to_date = (empty($search['end_date']))? '1': " rs.`date` <= '".$search['end_date']." 23:59:59'";
+      		$where.= " AND ".$from_date." AND ".$to_date;
+      	}
+		$where.=" LIMIT 1";
+      	return $db->fetchRow($sql.$where);
+    }
       
  }
 

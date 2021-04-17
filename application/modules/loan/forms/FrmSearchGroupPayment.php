@@ -7,6 +7,7 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 	}
 	public function AdvanceSearch ($data=null){
 		$request=Zend_Controller_Front::getInstance()->getRequest();
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 // 		$db = new Loan_Model_DbTable_DbGroupPayment();
 		
 		$payment_type = new Zend_Dojo_Form_Element_FilteringSelect("paymnet_type");
@@ -117,9 +118,10 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'autoComplete'=>"false",
+				'class'=>"fullside",
 				'queryExpr'=>'*${0}*',
 		));
-		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
+		$opt = array(-1=>$tr->translate("Select Currency Type"),2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
 		$_currency_type->setValue($request->getParam("currency_type"));
 		if($data!=null){

@@ -1045,8 +1045,21 @@ function rptLoanTrasferzoneAction(){//release all loan
  			'pawn_adminfeer'=>0,
  			'pawn_adminfeed'=>0,
  			'pawn_adminfeeb'=>0,
+			
+ 			'pawn_selling_amount'=>0,
+			
+			//saleInstall
+			'saleTotalPrincipalPaid'=>0,
+ 			'saleTotalInterestPaid'=>0,
+ 			'saleTotalPaymentPaid'=>0,
+ 			'saleTotalRecieveAmount'=>0,
+ 			'saleTotalPenalizePaid'=>0,
+			
+			"sale_purchase" => 0,
+			"sale_retailPurchase" => 0,
  			
  		);
+		
  	$incomecollect = $db->getLoanCollectIcome($search);
  	if(!empty($incomecollect)){
  		foreach($incomecollect as $row){
@@ -1086,11 +1099,14 @@ function rptLoanTrasferzoneAction(){//release all loan
 	if(!empty($rescheduleFee)){
  		foreach($rescheduleFee as $row){
  			if($row['currency_type']==1){//riel
- 				$income['adminfee_r']=$row['total_adminfee'];
+				$income['adminfee_r'] = empty($income['adminfee_r'])?0:$income['adminfee_r'];
+ 				$income['adminfee_r']=$income['adminfee_r']+$row['total_adminfee'];
  			}elseif($row['currency_type']==2){//dollar
- 				$income['adminfee_d']=$row['total_adminfee'];
+				$income['adminfee_d'] = empty($income['adminfee_d'])?0:$income['adminfee_d'];
+ 				$income['adminfee_d']=$income['adminfee_d']+$row['total_adminfee'];
  			}else{//bath
- 				$income['adminfee_b']=$row['total_adminfee'];
+				$income['adminfee_b'] = empty($income['adminfee_b'])?0:$income['adminfee_b'];
+ 				$income['adminfee_b']=$income['adminfee_b']+$row['total_adminfee'];
  			}
  		}
  	}
@@ -1124,6 +1140,10 @@ function rptLoanTrasferzoneAction(){//release all loan
  			$income['pawn_servicefeeb']=$pwin['total_servicepaid'];
  		}
  	}
+	$sellingPawn = $db->getTotalIncomeFromSellPawn($search);
+ 	if (!empty($sellingPawn)){
+		$income['pawn_selling_amount']=$sellingPawn['totalSelling'];
+ 	}
  	$adminfeePawn = $db->incomeAdminFeePawnshop($search);
  	if (!empty($adminfeePawn)){
  		foreach ($adminfeePawn as $pwin){
@@ -1134,6 +1154,22 @@ function rptLoanTrasferzoneAction(){//release all loan
 	 		}else{//bath
 	 			$income['pawn_adminfeeb']=$pwin['tAdminfee'];
 	 		}
+ 		}
+ 	}
+
+	$rescheduleFeePawn = $db->getAdminFeeByReschedulePawn($search);
+	if(!empty($rescheduleFeePawn)){
+ 		foreach($rescheduleFeePawn as $row){
+ 			if($row['currency_type']==1){//riel
+				$income['pawn_adminfeer'] = empty($income['pawn_adminfeer'])?0:$income['pawn_adminfeer'];
+ 				$income['pawn_adminfeer']=$income['pawn_adminfeer']+$row['total_adminfee'];
+ 			}elseif($row['currency_type']==2){//dollar
+				$income['pawn_adminfeed'] = empty($income['pawn_adminfeed'])?0:$income['pawn_adminfeed'];
+ 				$income['pawn_adminfeed']=$income['pawn_adminfeed']+$row['total_adminfee'];
+ 			}else{//bath
+				$income['pawn_adminfeeb'] = empty($income['pawn_adminfeeb'])?0:$income['pawn_adminfeeb'];
+ 				$income['pawn_adminfeeb']=$income['pawn_adminfeeb']+$row['total_adminfee'];
+ 			}
  		}
  	}
  	
@@ -1163,6 +1199,25 @@ function rptLoanTrasferzoneAction(){//release all loan
  		}
  	}
  	
+	$saleInstall=$db->getTotalSaleInstallmentIncome($search);
+	if(!empty($saleInstall)){
+ 		$income['saleTotalPrincipalPaid']	=$saleInstall['totalPrincipalPaid'];
+		$income['saleTotalInterestPaid']	=$saleInstall['totalInterestPaid'];
+		$income['saleTotalPaymentPaid']		=$saleInstall['totalPaymentPaid'];
+		$income['saleTotalRecieveAmount']	=$saleInstall['totalRecieveAmount'];
+		$income['saleTotalPenalizePaid']	=$saleInstall['totalPenalizePaid'];
+ 	}
+	
+	$purchaseExpense = $db->getTotalPurchase($search);
+ 	if (!empty($purchaseExpense)){
+		$income['sale_purchase']=$purchaseExpense['totalAmount'];
+ 	}
+	$search['typePurchase']=2;
+	$retailPurchaseExpense = $db->getTotalPurchase($search);
+ 	if (!empty($retailPurchaseExpense)){
+		$income['sale_retailPurchase']=$retailPurchaseExpense['totalAmount'];
+ 	}
+	
 	$this->view->rsincome=$income;
  	$this->view->list_end_date=$search;
  	

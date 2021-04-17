@@ -3,6 +3,10 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("REPORT_LOANINCOMESTAEMENT"));
 $frm = $this->frm_search;
 $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលស់ប្រាក់ដើម",4=>"បង់ផ្តាច់");
+
+$showLoan=1; //1=show,0 = hidden
+$showPawn=1; //1=show,0 = hidden
+$showSaleInstal=1; //1=show,0 = hidden
 ?>
 <script>
 dojo.require("dijit.form.DateTextBox");
@@ -61,12 +65,15 @@ table.tb-footer tr.style-head {
 	  page-break-inside:avoid; page-break-after:auto;
 	}
 	
-.styleover:hover{ background: #ccc; }
-table tr td ul li{list-style: none;line-height: 25px;}
-ul li{list-style: none;line-height: 25px; }
-th{padding: 2px;}
+	.styleover:hover{ background: #ccc; }
+	table tr td ul li{list-style: none;line-height: 25px;}
+	ul li{list-style: none;line-height: 25px; }
+	th{padding: 2px;}
+	span.title-row {
+		font-weight: bold;
+	}
 </style>
-<table style="font-family: 'Khmer OS Content'; width:100%;">
+<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
 	<tr>
     	<td align="center">
         	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang'; margin:0; padding:0; border:none;">
@@ -90,18 +97,28 @@ th{padding: 2px;}
             <table  style="border-collapse:collapse; font-size:14px; white-space: nowrap;" width="100%" cellspacing="0">
                 <?php 
                 	 $rsincome = $this->rsincome;
+	               		$incomed = 0;
+	               		$incomer = 0;
+	               		$incomeb = 0;
+						
+						$expenseD = 0;
+	               		$expenseR = 0;
+	               		$expenseB = 0;
+						
+						
                 ?>
                 <thead style="font-family:'Times New Roman','Khmer OS Muol Light'">
                 	<tr style="background:#ccd9ff">
-	                	<td>ប្រភេទគណនី</td>
+	                	<td style="padding: 5px;">ប្រភេទគណនី</td>
 	                	<td></td>
 						<td>ដុល្លារ-USD</td>
 						<td>រៀល-KHR</td>
 						<td>បាត-BTH</td>
 					<tr>
                 </thead>
-                <tr class="styleover" >
-               		<td><span>ចំណូល/Revenue</span></td>
+				<?php if($showLoan==1){?>
+                <tr class="styleover " >
+               		<td><span class="title-row">ចំណូល/Revenue</span></td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
@@ -121,29 +138,31 @@ th{padding: 2px;}
                		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome["penalize_paidr"],2);?></td>
                 	<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome["penalize_paidb"],2);?></td>
                 </tr>
-                <tr class="styleover" >
+                <tr class="styleover " >
                		<td>&nbsp;-&nbsp;ចំណូលពី សេវាផ្សេងៗសរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["service_paidd"],2);?></td>
                		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome["service_paidr"],2);?></td>
                		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome["service_paidb"],2);?></td>
                 </tr>
-                 <tr class="styleover" >
+                 <tr class="styleover " >
                		<td>&nbsp;-&nbsp;ចំណូលពី សេវារដ្ឋបាលសរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["adminfee_d"]+$rsincome["other_feed"],2);?></td>
                		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome["adminfee_r"]+$rsincome["other_feer"],2);?></td>
                		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome["adminfee_b"]+$rsincome["other_feeb"],2);?></td>
                 </tr>
+                
+				<?php 
+					$incomed = $rsincome["interest_paidd"]+$rsincome["penalize_paidd"]+$rsincome["service_paidd"]+($rsincome["adminfee_d"]+$rsincome["other_feed"]);
+	               	$incomer = $rsincome["interest_paidr"]+$rsincome["penalize_paidr"]+$rsincome["service_paidr"]+($rsincome["adminfee_r"]+$rsincome["other_feer"]);
+	               	$incomeb = $rsincome["interest_paidb"]+$rsincome["penalize_paidb"]+$rsincome["service_paidb"]+($rsincome["adminfee_b"]+$rsincome["other_feeb"]);
+				}
+				
+				?>
+				<?php if($showPawn==1){?>
                 <tr class="styleover" >
-               		<td>&nbsp;-&nbsp;ចំណូលពី ផ្សេងៗសរុប</td>
-               		<td>&nbsp;&nbsp;</td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['other_incomed'],2);?></td>
-               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['other_incomer'],2);?></td>
-               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['other_incomeb'],2);?></td>
-                </tr>
-                <tr class="styleover" >
-               		<td><span>ចំណូលពីបញ្ចាំ</span></td>
+               		<td><span class="title-row">ចំណូលពីបញ្ចាំ</span></td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
@@ -170,45 +189,124 @@ th{padding: 2px;}
                		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['pawn_adminfeer'],2);?></td>
                		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['pawn_adminfeeb'],2);?></td>
                 </tr>
+				<tr class="styleover" >
+               		<td>&nbsp;-&nbsp;ចំណូលពី ការលក់ទ្រព្យបញ្ចាំ</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['pawn_selling_amount'],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format(0,2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format(0,2);?></td>
+                </tr>
+				<?php 
+					$incomed = $incomed+($rsincome['pawn_interestd']+$rsincome['pawn_penalized']+$rsincome['pawn_adminfeed']+$rsincome['pawn_selling_amount']);
+	               	$incomer = $incomer+($rsincome['pawn_interestr']+$rsincome['pawn_penalizer']+$rsincome['pawn_adminfeer']);
+	               	$incomeb = $incomeb+($rsincome['pawn_interestb']+$rsincome['pawn_penalizeb']+$rsincome['pawn_adminfeeb']);
+				}
+				
+				?>
+				
+				<?php if($showSaleInstal==1){?>
+				<tr class="styleover" >
+               		<td><span class="title-row">ចំណូលពីការលក់ និង​រំលស់</span></td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;&nbsp;</td>
+                </tr>
+				<tr class="styleover" >
+               		<td>&nbsp;-&nbsp;ចំណូលពី ប្រាក់ដើម</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['saleTotalPrincipalPaid'],2);?></td>
+                </tr>
+                <tr class="styleover" >
+               		<td>&nbsp;-&nbsp;ចំណូលពី ការប្រាក់សរុប</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['saleTotalInterestPaid'],2);?></td>
+                </tr>
+                <tr class="styleover" >
+               		<td>&nbsp;-&nbsp;ចំណូលពី ការផាកពិន័យសរុប</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['saleTotalPenalizePaid'],2);?></td>
+                </tr>
+				<?php 
+					$incomed = $incomed+($rsincome['saleTotalPrincipalPaid']+$rsincome['saleTotalInterestPaid']+$rsincome['saleTotalPenalizePaid']);
+				} ?>
+				
+				<tr class="styleover" >
+               		<td><span class="title-row">ចំណូលផ្សេងៗសរុប</span></td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['other_incomed'],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['other_incomer'],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['other_incomeb'],2);?></td>
+					<?php 
+						$incomed = $incomed+$rsincome['other_incomed'];
+						$incomer = $incomer+$rsincome['other_incomer'];
+						$incomeb = $incomeb+$rsincome['other_incomeb'];
+						
+					?>
+                </tr>
+				
 				<tr class="styleover">
                		<td>&nbsp;&nbsp;<span style="font-family:'Times New Roman','Khmer OS Muol Light';font-size: 16px;">ចំណូលសរុបរួមទាំងអស់</span></td>
                		<td>&nbsp;&nbsp;</td>
-               		<?php 
-	               		$incomed = $rsincome["interest_paidd"]+$rsincome["penalize_paidd"]+$rsincome["service_paidd"]+($rsincome["adminfee_d"]+$rsincome["other_feed"])+$rsincome['other_incomed']+($rsincome['pawn_interestd']+$rsincome['pawn_penalized']+$rsincome['pawn_adminfeed']);
-	               		$incomer = $rsincome["interest_paidr"]+$rsincome["penalize_paidr"]+$rsincome["service_paidr"]+($rsincome["adminfee_r"]+$rsincome["other_feer"])+$rsincome['other_incomer']+($rsincome['pawn_interestr']+$rsincome['pawn_penalizer']+$rsincome['pawn_adminfeer']);
-	               		$incomeb = $rsincome["interest_paidb"]+$rsincome["penalize_paidb"]+$rsincome["service_paidb"]+($rsincome["adminfee_b"]+$rsincome["other_feeb"])+$rsincome['other_incomeb']+($rsincome['pawn_interestb']+$rsincome['pawn_penalizeb']+$rsincome['pawn_adminfeeb']);
-               		?>
                		<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang'; ">&nbsp;$&nbsp;<?php echo number_format($incomed,2);?></span></td>
                 	<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang'; ">&nbsp;៛&nbsp;<?php echo number_format($incomer,2);?></span></td>
                 	<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang'; ">&nbsp;฿&nbsp;<?php echo number_format($incomeb,2);?></span></td>
                 </tr>
                  <tr class="styleover" >
-               		<td>ចំណាយ/Expense</td>
+               		<td><span class="title-row">ចំណាយ/Expense</span></td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
                 </tr>
-                <tr class="styleover" >
+				<?php if($showLoan==1){  ?>
+                <tr class="styleover " >
                		<td>&nbsp;-&nbsp;កម្ចីខូច/Loan Writeoff</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['badloan_d'],2);?></td>
                		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['badloan_r'],2);?></td>
                		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['badloan_b'],2);?></td>
                 </tr>
+				<?php 
+					$expenseD = $rsincome['badloan_d'];
+					$expenseR = $rsincome['badloan_r'];
+					$expenseB = $rsincome['badloan_b'];
+					
+				} 
+				?>
+				<?php if($showSaleInstal==1){?>
+				 <tr class="styleover" >
+					<td>&nbsp;-&nbsp;ចំណាយលើ ការបញ្ជារទិញរាយ</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['sale_retailPurchase'],2);?></td>
+               		
+                </tr>
+				 <tr class="styleover" >
+					<td>&nbsp;-&nbsp;ចំណាយលើ ការបញ្ជារទិញដុំ</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['sale_purchase'],2);?></td>
+                </tr>
+				<?php
+					$expenseD = $expenseD+$rsincome['sale_retailPurchase']+$rsincome['sale_purchase'];
+				}?>
                 <tr class="styleover" >
-               		<td>&nbsp;-&nbsp;ចំណាយផ្សេងៗសរុប</td>
+					<td>&nbsp;-&nbsp;ចំណាយផ្សេងៗសរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['expense_d'],2);?></td>
                		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['expense_r'],2);?></td>
                		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['expense_b'],2);?></td>
                 </tr>
+				<?php 
+					$expenseD = $expenseD+$rsincome['expense_d'];
+					$expenseR = $expenseR+$rsincome['expense_r'];
+					$expenseB = $expenseB+$rsincome['expense_b'];
+				?>
                 <tr class="styleover">
                		<td>&nbsp;&nbsp;<span style="font-family:'Times New Roman','Khmer OS Muol Light';font-size: 16px;">Net Income/Lost ចំណេញ/ខាត សរុប</span></td>
                		<td>&nbsp;&nbsp;</td>
-               		<td><span style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;$&nbsp;<?php echo number_format($incomed-$rsincome['badloan_d']-$rsincome['expense_d'],2);?></span></td>
-                	<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang';background:#ccc;padding:5px;">&nbsp;៛&nbsp;<?php echo number_format($incomer-$rsincome['badloan_r']-$rsincome['expense_r'],2);?></span></td>
-                	<td><span style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;฿&nbsp;<?php echo number_format($incomeb-$rsincome['badloan_b']-$rsincome['expense_b'],2);?></span></td>
+               		<td><span style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;$&nbsp;<?php echo number_format($incomed-$expenseD,2);?></span></td>
+                	<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang';background:#ccc;padding:5px;">&nbsp;៛&nbsp;<?php echo number_format($incomer-$expenseR,2);?></span></td>
+                	<td><span style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;฿&nbsp;<?php echo number_format($incomeb-$expenseB,2);?></span></td>
                 </tr>
             </table>
             <br />
