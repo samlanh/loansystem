@@ -6,14 +6,14 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     protected $_name = 'ln_branch';
     function addbranch($_data){
     	try{
-	    	$part= PUBLIC_PATH.'/images/';
+	    	$part= PUBLIC_PATH.'/images/branch/';
 	    	if (!file_exists($part)) {
 	    		mkdir($part, 0777, true);
 	    	}
 	    	$photo ="";
 	    	if (!empty($_FILES['photo']['name'])){
 	    		$ss =   explode(".", $_FILES['photo']['name']);
-	    		$image_name = "pawn".date("Y").date("m").date("d").time().".".end($ss);
+	    		$image_name = "branch_".date("Y").date("m").date("d").time().".".end($ss);
 	    		$tmp = $_FILES['photo']['tmp_name'];
 	    		if(move_uploaded_file($tmp, $part.$image_name)){
 	    			$photo = $image_name;
@@ -93,14 +93,14 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
 	    			'modify_date'=>date("Y-m-d H:i:s"),
 	    			
 	    			);
-	    	$part= PUBLIC_PATH.'/images/';
+	    	$part= PUBLIC_PATH.'/images/branch/';
 	    	if (!file_exists($part)) {
 	    		mkdir($part, 0777, true);
 	    	}
 	    	$photo ="";
 	    	if (!empty($_FILES['photo']['name'])){
 	    		$ss =   explode(".", $_FILES['photo']['name']);
-	    		$image_name = "pawnshop".date("Y").date("m").date("d").time().".".end($ss);
+	    		$image_name = "branch_".date("Y").date("m").date("d").time().".".end($ss);
 	    		$tmp = $_FILES['photo']['tmp_name'];
 	    		if(move_uploaded_file($tmp, $part.$image_name)){
 	    			$photo = $image_name;

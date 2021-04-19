@@ -2,6 +2,8 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("Report Selling Installing"));
  $frm = $this->form_search;
+ 
+ $selingTypeSerch =  $this->search['selling_type'];
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -166,6 +168,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			                	$gTotalSell=0;
 			                	$paid=0;
 			                	$balance = 0;
+								$sellingType="";
 			                    if(!empty($this->sale)) 
 			                	foreach ($this->sale as $key => $rs){ 
 				                	$gTotalSell = $gTotalSell + $rs["selling_price"];
@@ -177,10 +180,17 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			                    <?php 
 			                    if ($location != $rs['branch_id']){
 			                    ?>
-			                     <tr class="style hover" style=" line-height:20px; ">
+			                     <tr class="style hover" style=" line-height:20px; font-family:'Times New Roman','Khmer OS Muol Light';">
 			                     	<td colspan="15" align="center" ><?php echo $rs["branch_namekh"];?></td>
 			                     </tr>
 			                    <?php }$location = $rs['branch_id'];?>
+								<?php 
+			                    if ($sellingType != $rs['selling_type']){
+			                    ?>
+			                     <tr class="style hover" style=" line-height:20px; font-weight:bold;">
+			                     	<td colspan="15" align="center" ><?php echo $rs["sellingTypeTitle"];?></td>
+			                     </tr>
+			                    <?php }$sellingType = $rs['selling_type'];?>
 				                <tr  class="context-menu-one style-rowdata hover"  oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;">
 				               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 				               		<td>&nbsp;<?php echo $rs["sale_no"];?>&nbsp;</td>

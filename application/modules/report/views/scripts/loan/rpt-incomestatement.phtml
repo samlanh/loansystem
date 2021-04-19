@@ -78,11 +78,14 @@ table.tb-footer tr.style-head {
     	<td align="center">
         	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang'; margin:0; padding:0; border:none;">
             	<tr>
-                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" style="height: 85px;max-width: 100%;"></td>
+                	<td width="20%"><span id="projectlogo"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" style="height: 85px;max-width: 100%;"></span></td>
                 	<td width="60%" valign="top">
                 		<ul>
 	                		<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
 							<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_LOANINCOMESTAEMENT");?></li>
+	                		<li style="text-align:center; font-size:14px;">
+								<span id="projectName"></span>
+							</li>
 	                		<li style="text-align:center; font-size:14px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
 	                </td>
@@ -317,3 +320,35 @@ table.tb-footer tr.style-head {
  <?php echo $this->footerReport;?> 
 </div>
 </div>
+
+<script>
+
+require(["dojo/ready"], function(ready){
+	ready(function(){
+		getBranchInfo();
+		
+	});
+});
+function getBranchInfo(){
+	var url_submit = '<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'getbranch')); ?>';
+	branch_id = '<?php echo empty($this->list_end_date['branch_id'])?0:$this->list_end_date['branch_id'];?>';
+	if(branch_id==""|| branch_id==0 || branch_id==-1){
+		return false;
+	}
+	dojo.xhrPost({
+	    url: url_submit,	
+	    content:{ 
+		    'branch_id':branch_id
+		},	
+		load: function(data) {
+			var arr = JSON.parse(data);
+			var imagesUrl = '<img class="view" style="height:80px; max-width: 100%;" src="<?php echo $this->baseUrl()."/images/branch/"?>'+arr.images_branch+'" />';
+			document.getElementById('projectlogo').innerHTML = imagesUrl;
+			document.getElementById('projectName').innerHTML = arr.branch_namekh;
+
+		},
+		error: function(e) {
+		}
+	});
+}
+</script>

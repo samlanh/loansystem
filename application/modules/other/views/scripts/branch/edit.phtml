@@ -3,8 +3,8 @@
 	echo $this->headTitle($tr->translate('UPDATE_BRANCH​​_INFO')); 
 	$photo=$this->baseUrl().'/images/no-image.png';
 	if (!empty($this->row['images_branch'])){
-		if (file_exists(PUBLIC_PATH.'/images/'.$this->row['images_branch'])){
-			$photo=$this->baseUrl().'/images/'.$this->row['images_branch'];
+		if (file_exists(PUBLIC_PATH.'/images/branch/'.$this->row['images_branch'])){
+			$photo=$this->baseUrl().'/images/branch/'.$this->row['images_branch'];
 		}
 		
 	}
