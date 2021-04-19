@@ -40,6 +40,10 @@ public function init()
 			
 			
 	}
+	 public function addAction()
+    {
+		$this->_redirect('/installment/balancestock');
+	}
 	
 }
 
