@@ -243,7 +243,61 @@
 						 		</tr>
 						 		<tr>
 						 			<td colspan="3">
-						 				<table border="0" style="width: 100%;">
+										<table border="0" style="width: 100%; font-size:14px">
+						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center; white-space: nowrap;">
+						 						<td width="25%">ស្នាមមេដៃស្តាំភាគី ម្ចាស់ប្រាក់</td>
+							 					<td></td>
+												<td width="25%">ស្នាមមេដៃស្តាំភាគី សាក្សី</td>
+							 					<td></td>
+							 					<td width="25%">ស្នាមមេដៃស្តាំភាគីអ្នកខ្ចីប្រាក់</td>
+						 					</tr>
+						 					<tr>
+						 						<td style="height: 70px;">&nbsp;</td>
+						 					</tr>
+						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center;">
+						 						<td>ឈ្មោះ <?php echo $loan['gm_name'];?></td>
+						 						<td></td>
+						 						<td>
+												<span style="font-size:12px; ">
+													ឈ្មោះ  
+													<?php if (!empty($client['spouse_name'])){
+														echo $client['spouse_name'];
+														?>
+													<?php }else{?>
+													<span style="display: inline-block; width: 100px;">&nbsp;</span>
+													<?php }?>
+													</span>
+												</td>
+						 						<td></td>
+						 						<td><?php echo $client['name_kh']; echo empty($client['join_with'])?"":" និង ".$client['join_with']?></td>
+						 					</tr>
+											
+											<tr style="text-align: center; vertical-align: top;">
+						 						<td style="font-size:12px; " >
+													<br /><br /><br /><br />
+													លេខ.............................................<br />
+													បានឃើញនិងបញ្ជាក់ថា<br />
+													ហត្ថលេខានេះ ពិតជារបស់លោក<br />
+													.....................................ពិតប្រាកមែន ។<br />
+													ថ្ងៃទី..............ខែ...................ឆ្នាំ................<br />
+													<span style="font-size:12px; font-family:'Times New Roman','Khmer OS Muol Light'; ">ចៅសង្កាត់ / មេឃុំ........................</span>
+												</td>
+												<td colspan="3">
+													
+												</td>
+												<td style="font-size:12px; " >
+													<br />
+													លេខ.............................................<br />
+													បានឃើញនិងបញ្ជាក់ថា<br />
+													ស្នាមមេដៃនេះ ពិតជារបស់....................<br />
+													.....................................ពិតប្រាកមែន ។<br />
+													ថ្ងៃទី..............ខែ...................ឆ្នាំ................<br />
+													<span style="font-size:12px; font-family:'Times New Roman','Khmer OS Muol Light'; ">មេភូមិ...............................</span>
+												</td>
+											</tr>
+										</table>
+						 				<!--
+										<table border="0" style="width: 100%;">
 						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center;">
 						 						<td width="30%">ស្នាមមេដៃស្តាំភាគី ម្ចាស់ប្រាក់</td>
 							 					<td></td>
@@ -252,7 +306,7 @@
 						 					<tr>
 						 						<td style="height: 60px;">&nbsp;</td>
 						 					</tr>
-						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center;">
+						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center; white-">
 						 						<td>ឈ្មោះ <?php echo $loan['gm_name'];?></td>
 						 						<td></td>
 						 						<td><?php echo $client['name_kh']; echo empty($client['join_with'])?"":" និង ".$client['join_with']?></td>
@@ -317,6 +371,7 @@
 											-->
 												
 						 				</table>
+										-->
 						 			</td>
 						 		</tr>				
 							  </tbody>

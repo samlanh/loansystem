@@ -782,13 +782,52 @@ function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
 	var a = new Date(release_date);
 	if(pay_term==3){//month
 		mm = a.getMonth()+amount_date+1;
+		
+		month = a.getMonth()+amount_date;
+		mm = month%12;
+		year = parseInt(month/12);
+		 var dd = a.getDate();
+		 if(dd<10){
+			 dd = "0"+dd;
+		}
+		 if(mm<10){
+			 mm = "0"+mm;
+		}
+		var y = a.getFullYear()+year;
+		var epx_date = y + '-'+ mm + '-'+dd ;
+		dijit.byId('date_line').attr('value',epx_date);
+		
 	}else if(pay_term==2){//week
 		a.setDate(a.getDate() + (amount_date*7)); 
 		var mm = a.getMonth() + 1;
+		
+		var dd = a.getDate();
+		 if(dd<10){
+			 dd = "0"+dd;
+		}
+		 if(mm<10){
+			 mm = "0"+mm;
+		}
+		var y = a.getFullYear();
+		var epx_date = y + '-'+ mm + '-'+dd ;
+		dijit.byId('date_line').attr('value',epx_date);
+	
 	}else if(pay_term==1){
 		a.setDate(a.getDate() + (amount_date)); 
 		var mm = a.getMonth() + 1;
+		
+		var dd = a.getDate();
+		 if(dd<10){
+			 dd = "0"+dd;
+		}
+		 if(mm<10){
+			 mm = "0"+mm;
+		}
+		var y = a.getFullYear();
+		var epx_date = y + '-'+ mm + '-'+dd ;
+		dijit.byId('date_line').attr('value',epx_date);
 	}
+	/**
 	var dd = a.getDate();
 	 if(dd<10){
 		 dd = "0"+dd;
@@ -799,6 +838,7 @@ function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
 	var y = a.getFullYear();
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('date_line').attr('value',epx_date);
+	*/
 	calCulateFirstPayment();
 }
 function calCulateEndDate(){

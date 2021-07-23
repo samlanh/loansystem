@@ -273,11 +273,11 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 		(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = pl.`location_id` LIMIT 1) AS branch_namekh,
 		(SELECT b.branch_nameen FROM `ln_branch` AS b WHERE b.br_id = pl.`location_id` LIMIT 1) AS branch_nameen,
 		(SELECT c.name FROM `ln_ins_category` AS c WHERE c.id = p.`cate_id` LIMIT 1) AS categoryName,
-		(SELECT SUM(pd.`qty`) FROM `ln_ins_purchase_detail` AS pd,`ln_ins_purchase` AS pu WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND pu.`date` <='$to_date' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseQty,
+		(SELECT SUM(pd.`qty`) FROM `ln_ins_purchase_detail` AS pd,`ln_ins_purchase` AS pu WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND pu.`date` <='$to_date' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseQty,
 		(SELECT SUM(pd.`amount`) FROM `ln_ins_purchase_detail` AS pd,`ln_ins_purchase` AS pu 
-WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND pu.`date` <='$to_date' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseAmount,
-		(SELECT COUNT(l.id) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND l.`date_sold` >='$from_date' AND l.`date_sold` <='$to_date'  GROUP BY l.product_id LIMIT 1) AS stockOut,
-		(SELECT SUM(l.selling_price) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND l.`date_sold` >='$from_date' AND l.`date_sold` <='$to_date' GROUP BY l.product_id LIMIT 1) AS stockOutAmount, 
+WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND pu.`date` <='$to_date' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseAmount,
+		(SELECT COUNT(l.id) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND pl.`location_id`=l.branch_id AND l.`date_sold` >='$from_date' AND l.`date_sold` <='$to_date'  GROUP BY l.product_id LIMIT 1) AS stockOut,
+		(SELECT SUM(l.selling_price) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND pl.`location_id`=l.branch_id AND l.`date_sold` >='$from_date' AND l.`date_sold` <='$to_date' GROUP BY l.product_id LIMIT 1) AS stockOutAmount, 
 		p.*,
 		pl.`qty`,pl.`qty_warning` FROM 
 		`ln_ins_product` AS p,
