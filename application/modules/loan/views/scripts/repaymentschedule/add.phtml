@@ -464,6 +464,14 @@ function calCulateEndDate(){
 	release_date = dijit.byId("first_payment").get('value');//just update follow by first payment
 	if(isNaN(amount_date)){
 	}else{
+		setFirstPaymentAndDateLine(pay_term,release_date,amount_date);		
+    }
+	/**
+	pay_term = dijit.byId('pay_every').get('value');
+	amount_date = dijit.byId('period').get('value');
+	release_date = dijit.byId("first_payment").get('value');//just update follow by first payment
+	if(isNaN(amount_date)){
+	}else{
 		var a = new Date(release_date);
 		if(pay_term==3){//month
 			mm = a.getMonth()+amount_date+1;
@@ -485,6 +493,7 @@ function calCulateEndDate(){
 		var epx_date = y + '-'+ mm + '-'+dd ;
 		dijit.byId('date_line').attr('value',epx_date);	
     }
+	*/
 }
 function calCulateAdminFee(){
 	p_income="<?php echo $this->setting['adminfee']?>";
@@ -623,8 +632,9 @@ function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
 	var y = a.getFullYear();
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('date_line').attr('value',epx_date);
-	*/
+	
 	calCulateFirstPayment();
+	*/
 }
 function CalculateDate(){
 	pay_term = dijit.byId('pay_every').get('value');
