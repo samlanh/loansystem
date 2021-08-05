@@ -641,7 +641,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     					$from_date=$next_payment;
 	     				if($i!=1){
 	     					if($data['collect_termtype']!=1){//for loan day
-	     						//$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
+	     						$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
 	     					}	
 	     				}
     				}else{
