@@ -238,6 +238,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     	return $client_number."-".($level+1);
     }
     public function addNewLoanIL($data){
+    
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
@@ -640,7 +641,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     					$from_date=$next_payment;
 	     				if($i!=1){
 	     					if($data['collect_termtype']!=1){//for loan day
-	     						$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
+	     						//$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
 	     					}	
 	     				}
     				}else{
@@ -712,7 +713,6 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     	}catch (Exception $e){
     		$db->rollBack();
     		Application_Form_FrmMessage::message("INSERT_FAIL");
-    		echo $e->getMessage();exit();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }

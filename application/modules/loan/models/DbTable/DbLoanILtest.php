@@ -88,24 +88,14 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     			$data['loan_code']=$data['get_laonnumber'];
     		}
     		$datamember = array(
-    				//'group_id'=>$g_id,
     				'loan_number'=>$data['loan_code'],
-    				//'client_id'=>$data['member'],
     				'payment_method'=>$data['repayment_method'],
-    				//'currency_type'=>$data['currency_type'],
-    				//'total_capital'=>$data['total_amount'],//$data[''],
-    				//'admin_fee'=>$data['loan_fee'],
-    				//'other_fee'=>$data['other_fee'],
     				'interest_rate'=>$data['interest_rate'],
     				'status'=>1,
     				'is_completed'=>0,
     				'branch_id'=>$data['branch_id'],
-    				//'pay_before'=>$data['pay_before'],
-//     				'pay_after'=>$data['pay_late'],
-    				//'graice_period'=>$data['graice_pariod'],
     				'amount_collect_principal'=>$data['amount_collect'],
     				'collect_typeterm'=>$data['collect_termtype'],
-    			//	'loan_number'=>$data['loan_code'],
     				'semi'=>$data['amount_collect_pricipal']
     		);
     		$this->_name='ln_test_loan_member';
@@ -149,10 +139,14 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     		 
     		$loop_payment = ($amount_borrow_term)/($amount_fund_term);
     		$payment_method = $data['repayment_method'];
+    		
+    		$str_next = $dbtable->getNextDateById($data['collect_termtype'],$data['amount_collect']);//for next,day,week,month;
+    		$day_perterm = $dbtable->getSubDaysByPaymentTerm($data['collect_termtype'],$amount_collect);//return amount day for payterm
+    		
     		for($i=1;$i<=$loop_payment;$i++){
     			$amount_collect = $data['amount_collect'];
-    			$day_perterm = $dbtable->getSubDaysByPaymentTerm($data['collect_termtype'],$amount_collect);//return amount day for payterm
-    			$str_next = $dbtable->getNextDateById($data['collect_termtype'],$data['amount_collect']);//for next,day,week,month;
+//     			$day_perterm = $dbtable->getSubDaysByPaymentTerm($data['collect_termtype'],$amount_collect);//return amount day for payterm
+//     			$str_next = $dbtable->getNextDateById($data['collect_termtype'],$data['amount_collect']);//for next,day,week,month;
     		
     			if($payment_method==1){//decline//completed
     				$pri_permonth = $data['total_amount']/(($amount_borrow_term-($data['graice_pariod']*$borrow_term))/$amount_fund_term);
@@ -417,7 +411,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     				$from_date=$next_payment;
      				if($i!=1){
      					if($data['collect_termtype']!=1){//for loan day
-    						$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
+    						//$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
      					}
      				}
     			}else{
@@ -476,7 +470,6 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     		return $rows;
     	}catch (Exception $e){
     		$db->rollBack();
-    		echo $e->getMessage();exit();
     		Application_Form_FrmMessage::message("INSERT_FAIL");
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}

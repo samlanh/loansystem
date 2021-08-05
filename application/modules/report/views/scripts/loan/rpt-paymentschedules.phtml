@@ -148,13 +148,18 @@ table.content-data{
 		                    <?php $str_day = date('D',strtotime($row['date_payment']));
 		                    	$day_as_khmer = $dayin_khmer[$str_day];
 		                    ?>
-		                    <td align="left">&nbsp;<?php echo $day_as_khmer; ?>&nbsp;<?php echo date('d-m-Y',strtotime($row['date_payment']));?></td>
+		                    <td align="left">&nbsp;<?php echo $day_as_khmer; ?>&nbsp;<?php 
+		                    //echo date('d-m-Y',strtotime($row['date_payment']));
+		                    $date = new DateTime($row['date_payment']);
+		                    echo $date->format("d-m-Y");
+		                    
+		                    ?></td>
 		                    <td><?php echo $row['amount_day'];?></td>
-		                    <td><?php echo str_replace('.00', '', number_format($row['outstanding'],2));?></td>
-		                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
-		                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
-		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
-		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php if($row['is_penalty']==1){ echo str_replace('.00', '', number_format($row['total_interest'],2));}?></td>
+		                    <td><?php echo number_format($row['outstanding'],2);?></td>
+		                    <td><?php echo number_format($row['principal_permonth'],2);?></td>
+		                    <td><?php echo number_format($row['total_interest'],2);?></td>
+		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php echo number_format($row['total_payment'],2); ?></td>
+		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php if($row['is_penalty']==1){ echo number_format($row['total_interest'],2);}?></td>
 		                    <td><?php echo ($row['is_completed']==1)?"បង់ដាច់":""?></td>
 		                </tr>
 	               <?php }}

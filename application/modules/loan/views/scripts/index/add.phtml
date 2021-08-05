@@ -1,4 +1,8 @@
 <?php
+// $date_next="2021-8-5";
+// $date= new DateTime($date_next);
+// echo $date->format("D");
+
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
@@ -973,7 +977,6 @@ function addPreviewLoan(){
 				dijit.byId("frm_client").show();
 			},
 			error: function(err) {
-				alert(err);
 			document.getElementsByClassName("overlay")[0].style.display="none";
 			alert("You can not preview this loan number!");
 			}
