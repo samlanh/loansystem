@@ -1034,6 +1034,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  				$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
  			}
  		}
+ 		return $next_payment;
  	}
 	else{//check for sat and sunday
  			while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
@@ -1119,37 +1120,79 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  	}
  }
 function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status=null,$first_payment=null){
-	//return $next_payment;
   	$default_day = Date("d",strtotime($first_payment));
-  	for($i=0;$i<$amount_amount;$i++){
-  		if($default_day>28){
-  			$date= new DateTime($next_payment);
-  			$date->modify($str_next);
-  			$next_payment = $date->format("Y-m-d");
+  	$prev_month=$next_payment;
+  	
+//   	for($i=0;$i<$amount_amount;$i++){
+//   		if($default_day>28){
+//   			$date= new DateTime($next_payment);
+//   			$date->modify($str_next);
+//   			$next_payment = $date->format("Y-m-d");
   			
-  			if($str_next!='+1 month'){
-  				$default_day='d';
-  				$date= new DateTime($next_payment);
-  				$date->modify($str_next);
-  				$next_payment = $date->format("Y-m-$default_day");
-  			}else{
+//   			if($str_next!='+1 month'){
+//   				$default_day='d';
 //   				$date= new DateTime($next_payment);
 //   				$date->modify($str_next);
 //   				$next_payment = $date->format("Y-m-$default_day");
-//   				$str_next='-1 month';
+//   			}else{
+// //   				$date= new DateTime($next_payment);
+// //   				$date->modify($str_next);
+// //   				$next_payment = $date->format("Y-m-$default_day");
+// //   				$str_next='-1 month';
   				
-//   				$date= new DateTime($next_payment);
-//   				$date->modify($str_next);
-//   				$next_payment = $date->format("Y-m-d");
+// //   				$date= new DateTime($next_payment);
+// //   				$date->modify($str_next);
+// //   				$next_payment = $date->format("Y-m-d");
+//   			}
+//   		}else{
+//   			if($str_next!='+1 month'){
+//   				$default_day='d';
+//   			}
+//   			$date= new DateTime($next_payment);
+//   			$date->modify($str_next);
+//   			$next_payment = $date->format("Y-m-$default_day");
+//   		}
+//   	}
+  	if($default_day>28){
+  		if($str_next!='+1 month'){//week,day
+  			$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
+  			$default_day='d';
+  			if($str_next=='+1 day'){//if day
+  			}else{
+  				$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));//code here have problem
   			}
-  		}else{
-  			if($str_next!='+1 month'){
-  				$default_day='d';
+  		}else{//months
+  			if($default_day==31){
+  				$date= new DateTime($next_payment);
+  				$date->modify('+1 day');
+  				$next_payment = $date->format("Y-m-t");
+  	
+  			}else if($default_day==29 OR $default_day==30){
+  				$date= new DateTime($prev_month);
+  				$pre_month = $date->format("m");
+  				$prev_month = $pre_month;
+  					
+  				if($pre_month=='01'){
+  					$date= new DateTime($next_payment);
+  					$next_payment = $date->format("Y-02-20");
+  					$date= new DateTime($next_payment);
+  					$next_payment = $date->format("Y-m-t");
+  				}//for Feb
+  				else{
+  					$date= new DateTime($next_payment);
+  					$date->modify('+1 month');
+  					$next_payment = $date->format("Y-m-$default_day");
+  				}
   			}
-  			$date= new DateTime($next_payment);
-  			$date->modify($str_next);
-  			$next_payment = $date->format("Y-m-$default_day");
+  			
   		}
+  	}else{
+  		if($str_next!='+1 month'){
+  			$default_day='d';
+  		}
+  		$date= new DateTime($next_payment);
+  		$date->modify($str_next);
+  		$next_payment = $date->format("Y-m-$default_day");
   	}
   		return $next_payment;
   }
