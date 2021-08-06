@@ -149,7 +149,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$sql.=" FROM `ln_loan` AS l,
     	        ln_client as c
     		WHERE 
-    		c.client_id = l.customer_i
+    		c.client_id = l.customer_id
     		AND l.loan_type =1 ";
     	
     	if(!empty($search['adv_search'])){

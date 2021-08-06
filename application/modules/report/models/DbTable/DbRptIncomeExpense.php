@@ -69,7 +69,7 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 		(SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1) AS category,
 		(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type
 		FROM $this->_name ";
-	
+		$where.= " AND status = 1 ";
 		if (!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = trim(addslashes($search['adv_search']));
@@ -80,9 +80,11 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 	
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
+		/*
 		if($search['status']>-1){
 			$where.= " AND status = ".$search['status'];
 		}
+		*/
 		if($search['currency_type']>-1){
 			$where.= " AND curr_type = ".$search['currency_type'];
 		}
