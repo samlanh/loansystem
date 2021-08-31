@@ -22,18 +22,24 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 			$s_where[] = " title LIKE '%{$s_search}%'";
 			$s_where[] = " total_amount LIKE '%{$s_search}%'";
 			$s_where[] = " invoice LIKE '%{$s_search}%'";
+			$s_where[] = " reciept_no LIKE '%{$s_search}%'";
+			$s_where[] = " (SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1) LIKE '%{$s_search}%'";
 	
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
-		}
+		$where.= " AND status = 1 ";
+		
 		if($search['currency_type']>-1){
 			$where.= " AND curr_type = ".$search['currency_type'];
 		}
 		if(!empty($search['category_id'])){
 			$where.= " AND category_id = ".$search['category_id'];
 		}
+		if(!empty($search['branch_id'])){
+			if($search['branch_id']>0){
+				$where.=" AND branch_id= ".$search['branch_id'];
+			}
+    	}
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$where.=$dbp->getAccessPermission('branch_id');
 		$order=" order by id desc ";
@@ -77,6 +83,8 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 			$s_where[] = " title LIKE '%{$s_search}%'";
 			$s_where[] = " total_amount LIKE '%{$s_search}%'";
 			$s_where[] = " invoice LIKE '%{$s_search}%'";
+			$s_where[] = " reciept_no LIKE '%{$s_search}%'";
+			$s_where[] = " (SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1) LIKE '%{$s_search}%'";
 	
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
@@ -91,6 +99,11 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 		if(!empty($search['category_id'])){
 			$where.= " AND category_id = ".$search['category_id'];
 		}
+		if(!empty($search['branch_id'])){
+			if($search['branch_id']>0){
+				$where.=" AND branch_id= ".$search['branch_id'];
+			}
+    	}
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$where.=$dbp->getAccessPermission('branch_id');
 		$order=" order by id desc ";

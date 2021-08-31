@@ -70,6 +70,7 @@ Class Tellerandexchange_Form_FrmIncome extends Zend_Dojo_Form {
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}
 		$_branch_id->setMultiOptions($options);
+		$_branch_id->setValue($request->getParam("branch_id"));
 		
 		
 		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('Stutas');

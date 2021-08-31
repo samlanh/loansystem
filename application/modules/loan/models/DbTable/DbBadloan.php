@@ -221,6 +221,9 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     		$s_where[]="REPLACE(l.note,' ','')  		LIKE '%{$s_search}%'";
     		$s_where[]="REPLACE(l.total_amount,' ','')  LIKE '%{$s_search}%'";
     		$s_where[]="REPLACE(l.intrest_amount,' ','')LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE((SELECT ld.loan_number FROM `ln_loan` AS ld WHERE ld.id=l.loan_id LIMIT 1),' ','')LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE((SELECT name_kh FROM `ln_client` WHERE client_id = l.client_code LIMIT 1),' ','')LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE((SELECT client_number FROM `ln_client` WHERE client_id = l.client_code LIMIT 1),' ','')LIKE '%{$s_search}%'";
     		$s_where[]=" l.tem = '{$s_search}' ";
     		$where .=' AND ('.implode(' OR ',$s_where).' )';
     	}

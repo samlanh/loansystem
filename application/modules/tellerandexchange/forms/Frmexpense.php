@@ -70,6 +70,7 @@ Class Tellerandexchange_Form_Frmexpense extends Zend_Dojo_Form {
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}
 		$_branch_id->setMultiOptions($options);
+		$_branch_id->setValue($request->getParam("branch_id"));
 		
 		
 		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('Stutas');
@@ -142,6 +143,7 @@ Class Tellerandexchange_Form_Frmexpense extends Zend_Dojo_Form {
 		$_category_id->setMultiOptions($options_category);
 	
 		$_category_id->setValue($request->getParam("category_id"));
+		
 		
 		if($data!=null){
 			

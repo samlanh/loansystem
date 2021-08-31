@@ -112,6 +112,8 @@ class Tellerandexchange_Model_DbTable_DbIncome extends Zend_Db_Table_Abstract
 			$s_where[] = "REPLACE(title,' ','')  		LIKE '%{$s_search}%'";
 			$s_where[] = "REPLACE(total_amount,' ','')  LIKE '%{$s_search}%'";
 			$s_where[] = "REPLACE(invoice,' ','')  		LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(reciept_no,' ','')  		LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE((SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1),' ','')  		LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		if($search['status']>-1){
@@ -123,7 +125,14 @@ class Tellerandexchange_Model_DbTable_DbIncome extends Zend_Db_Table_Abstract
 		if(!empty($search['category_id'])){
 			$where.= " AND category_id = ".$search['category_id'];
 		}
-	    $order=" order by id desc ";
+		if(!empty($search['branch_id'])){
+			if($search['branch_id']>0){
+				$where.=" AND branch_id= ".$search['branch_id'];
+			}
+    	}
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.=$dbp->getAccessPermission('branch_id');
+	    $order=" ORDER BY id DESC ";
 		return $db->fetchAll($sql.$where.$order);
 	}
 

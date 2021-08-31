@@ -40,8 +40,10 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     		$s_where = array();
     		$s_search = str_replace(' ', '', addslashes(trim($search['advance_search'])));
     		//$s_where[] = "REPLACE(lcrmd.`loan_number`,' ','')  LIKE '%{$s_search}%'";
-    		$s_where[] = "REPLACE(lcrm.`receipt_no`,' ','')    LIKE '%{$s_search}%'";
-    		$s_where[] = " (SELECT loan_number FROM `ln_loan` WHERE ln_loan.id=lcrm.loan_id AND loan_number ) LIKE '%{$s_search}%'";
+    		$s_where[] = " REPLACE(lcrm.`receipt_no`,' ','')    LIKE '%{$s_search}%'";
+    		$s_where[] = " REPLACE((SELECT loan_number FROM `ln_loan` WHERE ln_loan.id=lcrm.loan_id AND loan_number ),' ','') LIKE '%{$s_search}%'";
+			$s_where[] = " REPLACE((SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lcrm.`client_id`),' ','')    LIKE '%{$s_search}%'";
+			$s_where[] = " REPLACE((SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=lcrm.`client_id`),' ','')    LIKE '%{$s_search}%'";
     		
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
