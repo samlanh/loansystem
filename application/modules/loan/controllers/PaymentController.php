@@ -395,5 +395,26 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	function updaterecieptpaymentAction(){
+		$db  = new Report_Model_DbTable_DbLoan();
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		$id =$this->getRequest()->getParam('id');
+		$id = empty($id)?0:$id;
+		$row = $db->getLoanPaymentById($id);
+		if(empty($row)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/loan/payment');
+			exit();
+		}
+		$this->view->loanPayment = $row ;
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$receipt_id = $db->updateReceiptLoan($_data);
+			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS",'/loan/payment/updaterecieptpayment/id/'.$receipt_id );
+			exit();
+		}
+		
+	 }
 }
 

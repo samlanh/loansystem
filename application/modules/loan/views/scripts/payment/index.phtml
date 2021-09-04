@@ -4,6 +4,7 @@ echo $this->headTitle($tr->translate("IL_PAYMENT"));
 $frm = $this->frm_search;
 $url_delete = $this->baseUrl()."/loan/payment/delete/id/";
 $url_receipt = $this->baseUrl()."/report/loan/recieptpayment/id/";
+$urlEditreceipt = $this->baseUrl()."/loan/payment/updaterecieptpayment/id/";
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -59,11 +60,14 @@ $(function(){
 				indexkey = 'delete';
 			 }else if(key=="receipt"){
 					url='<?php echo $url_receipt;?>';
+			}else if(key=="editreceipt"){
+				url='<?php echo $urlEditreceipt;?>';
 			}
 			gotoAction();
 			//window.console && console.log(m) || alert(m); 
 		},
 		items: {
+			"editreceipt": {name: "<?php  echo $tr->translate("EDIT_PAYMENT_RECEIPT");?>", icon: "fa-edit"},
 			"receipt": {name: "<?php  echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-print"},
 			"delete": {name: "<?php echo $tr->translate("DELETE");?>", icon: "fa-trash-o", accesskey: "c o p y"},
 			

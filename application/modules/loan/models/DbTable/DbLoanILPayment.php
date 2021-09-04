@@ -317,7 +317,8 @@ public function addILPayment($data){
     	$user_id = $session_user->user_id;
     	try{
     	$reciept_no = $data['reciept_no'];
-    	$sql="SELECT receipt_no  FROM ln_client_receipt_money WHERE receipt_no='$reciept_no' ORDER BY id DESC LIMIT 1 ";
+    	/*
+		$sql="SELECT receipt_no  FROM ln_client_receipt_money WHERE receipt_no='$reciept_no' ORDER BY id DESC LIMIT 1 ";
     	$acc_no = $db->fetchOne($sql);    	
     	//getIlPaymentRPNumber
     	if($acc_no){
@@ -325,6 +326,10 @@ public function addILPayment($data){
     	}else{
     		$reciept_no = $data['reciept_no'];
     	}
+		*/
+		if(empty($data['reciept_no'])){
+			$reciept_no=$this->getIlPaymentNumber();
+		}
     				
 		$amount_receive = $data["amount_receive"];//ប្រាក់ទទួលបាន
 		$remain_money = $amount_receive;
@@ -2297,6 +2302,32 @@ public function cancelIlPayment($data){
 		$sql.=" LIMIT 1 ";
 	
 		return $db->fetchRow($sql);
+	}
+	
+	function updateReceiptLoan($data){
+		$db = $this->getAdapter();
+		if(!empty($data)){
+			$receipt_id = $data['receipt_id'];
+			$row = $this->getLoanPaymentById($receipt_id);
+			$otherNote = "";
+			if(empty($row['other_note'])){
+				$otherNote =" Edit By User ID: ".$this->getUserId();
+			}else{
+				$otherNote =$row['other_note'].", Edit By User ID: ".$this->getUserId();
+			}
+			$arr = array(
+					'date_pay'		=> $data['date_input'],
+					'date_input'		=> $data['date_input'],
+					'receipt_no'		=> $data['receipt_no'],
+					'note'=>$data['note'],
+					'modify_date'=>date("Y-m-d H:i:s"),
+					'other_note'=>$otherNote
+			);
+			$this->_name="ln_client_receipt_money";
+			$where = $db->quoteInto("id=?", $receipt_id);
+			$this->update($arr, $where);
+			return $receipt_id;;
+		}
 	}
 }
 
