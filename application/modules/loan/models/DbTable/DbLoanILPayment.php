@@ -380,6 +380,9 @@ public function addILPayment($data){
     				'is_completed'		=> $is_compleated,
     				'payment_option'	=> $data["option_pay"],
     				'currency_type'		=> $data["currency_type"],
+					
+					'create_date'=>date("Y-m-d H:i:s"),
+					'modify_date'=>date("Y-m-d H:i:s"),
 //     				'is_payoff'=>0
     				);
     		
