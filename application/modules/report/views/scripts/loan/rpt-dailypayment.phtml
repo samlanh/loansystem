@@ -329,6 +329,25 @@ table.content-data{
 		                    <td><?php echo $tr->translate("OTHER_FEE");?></td>
 		                </tr>
 						</thead>
+						
+						<?php 
+						$rescheduldFeeR=0;
+		                $rescheduldFeeD=0;
+		                $rescheduldFeeB=0;
+						 if (!empty($this->rescheduleFee)) foreach ($this->rescheduleFee as $rs){
+		                	if($rs['currency_type']==1){
+		                		//$rescheduldFeeR = $rescheduldFeeR+$rs['total_adminfee'];
+								$r1 = $r1+$rs['total_adminfee'];
+		                	}elseif($rs['currency_type']==2){
+		                		//$rescheduldFeeD = $rescheduldFeeD+$rs['total_adminfee'];
+								$d1 = $d1+$rs['total_adminfee'];
+		                	}else{
+		                		//$rescheduldFeeB = $rescheduldFeeB+$rs['total_adminfee'];
+								$b2 = $b2+$rs['total_adminfee'];
+		                	}
+		                }
+						
+						?>
 		                 <tr >
 		                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
 		                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
