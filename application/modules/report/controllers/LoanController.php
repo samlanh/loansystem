@@ -1342,6 +1342,8 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$this->view->rsincome= $db->getAllOtherIncomeReport($search);//call frome model
  	$this->view->rsexpense= $db->getAllExpenseReport($search);//call frome model
  	$this->view->LoanFee_list =$db->getALLLFee($search);
+	$this->view->rescheduleFee = $db->getAdminFeeByReschedule($search);
+	
  	
  	$this->view->list_end_date = $search;
  	$frm = new Loan_Form_FrmSearchLoan();
