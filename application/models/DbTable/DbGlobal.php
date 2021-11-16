@@ -114,7 +114,8 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 				WHERE 
 					l.`is_completed` = 0 
 			  		AND l.status=1 
-			  		AND l.is_badloan=0 ORDER BY l.loan_number DESC ";
+			  		ORDER BY l.loan_number DESC ";
+			//AND l.is_badloan=0 
 			return $db->fetchAll($sql);
 	}
 	public function getSaleinstallmentByBranch($type){

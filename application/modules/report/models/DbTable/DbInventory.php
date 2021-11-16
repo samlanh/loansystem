@@ -159,6 +159,13 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	    	c.phone AS phone,
 	    	c.sex AS sex,
 	    	c.dob AS dob,
+	    	c.guarantor_name,
+	    	c.guarantor_gender,
+	    	c.guarantor_nationid,
+	    	c.guarantor_d_type,
+	    	c.guarantor_tel,
+	    	c.dob_guarantor,
+	    	c.guarantor_with,
 	    	(SELECT name_kh FROM `ln_view` WHERE TYPE = 23 AND id =c.client_d_type LIMIT 1) AS document_type,
 	    	c.nation_id AS nation_id,
 	    	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE `ln_village`.`vill_id` = c.village_id Limit 1) AS `village_name`,
@@ -166,11 +173,21 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 			(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE `d`.`dis_id` = c.dis_id LIMIT 1) AS `district_name`,
 			(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id LIMIT 1) AS province_kh_name,
 	    	(SELECT cc.name FROM `ln_ins_producttype` AS  cc WHERE cc.id=p.`product_type` LIMIT 1) AS catName,
-	    	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_namekh,
-	    	(SELECT b.branch_nameen FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_nameen,
-	    	(SELECT b.br_address FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS br_address,
-	    	(SELECT b.branch_tel FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_tel,
-	    	(SELECT b.description FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS description,
+	    	b.branch_namekh AS branch_namekh,
+	    	b.branch_nameen  AS branch_nameen,
+	    	b.br_address AS br_address,
+	    	b.branch_tel AS branch_tel,
+	    	b.description description,
+	    	b.gm_name,
+	    	b.gm_sex,
+	    	b.gm_dob,
+	    	b.gm_nationality,
+	    	b.gm_nation_id,
+	    	b.gm_issue_date,
+	    	b.gm_occupation,
+	    	b.gm_address,
+	    	b.images_branch,
+	    
 	    	p.item_name,
 	    	(SELECT cate.name FROM `ln_ins_category` AS cate WHERE cate.id=p.cate_id LIMIT 1) as cate_name,
 	    	p.`item_code`,
@@ -179,12 +196,14 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	    	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = s.user_id LIMIT 1) AS user_name,
 	    	s.*
 	    	FROM `ln_ins_sales_install` AS s,
-	    	`ln_ins_product` AS p,
-	    	ln_ins_client AS c
+		    	`ln_ins_product` AS p,
+		    	ln_ins_client AS c,
+		    	ln_branch as b
 	    	WHERE
-	    	s.product_id = p.id
-	    	AND c.client_id = s.customer_id
-	    	AND s.`status` =1 AND s.id = $id limit 1";
+		    	s.product_id = p.id
+		    	AND s.branch_id = b.br_id 
+		    	AND c.client_id = s.customer_id
+		    	AND s.`status` =1 AND s.id = $id limit 1";
     	return $db->fetchRow($sql);
     }
     function getSaleInventorySchedule($saleID){

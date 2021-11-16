@@ -1063,13 +1063,14 @@ public function addILPayment($data){
    				WHERE 
    					 l.status=1
    					 AND l.is_completed=0
-   					 AND l.is_badloan=0
+   					 
    					 AND l.`customer_id`=lc.`client_id`
    					 AND l.`id` = ld.`loan_id`	  
    					 AND ld.`status`=1
    					 AND ld.is_completed=0
    					 AND l.`loan_type`=1   					     					   
    					 AND l.`id` = ".$loan_number;
+    		//AND l.is_badloan=0
     		
     	return $db->fetchAll($sql);
    }

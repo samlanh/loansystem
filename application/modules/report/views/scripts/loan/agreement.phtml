@@ -50,7 +50,7 @@
 						.padding-buttom{
 							margin-top: -5px !important;
 						}
-    	 				.reff{ font-size: 16px !important; line-height:34px !important;}
+    	 				.reff{ font-size: 14px !important; line-height:32px !important;}
 						tr td h2,p,pre,span{ font-size: 14px ; line-height:22px;}
 						#padding-left{
 						padding-left: 18px;
@@ -87,19 +87,26 @@
 						    margin: 0;
 						    padding-left: 75px;
 						}
-						/*
-						span.border_bt.value {
-						    border-bottom: dashed 1px #000; padding: 0 10px;
-						}
-						* */
+						.boxsign{text-align: left;
+								    border-bottom: 1px dotted;
+								    padding: 3px;
+								    margin: 85px 10px 10px 10px;}
+							.totop{margin-top:-15px;}
+						@page  
+							{ 
+							    size: auto;  
+							    margin: 5mm 12mm 0mm 12mm;  
+							} 
 					    </style>
 	    			<div class="pages-break">
 	    				<table style="font-family:'Times New Roman','Khmer OS Battambang'; text-align: center; width: 100%; margin-left: 0px">
 							<tbody>
 								<tr style="text-align:center; line-height:24px; font-size:15px; font-family:'Times New Roman','Khmer OS Battambang';">
-									 <td width="30%" align="left" valign="top"><span><img style="max-width:100%;" src="<?php echo $this->baseUrl()."/";?>images/logo.jpg" ></span>
+									 <td width="33%" align="left" valign="top"><br />
+									 <span>គណនីអតិថិជនៈ <?php echo $client['client_number'];?></span><br />
+									 <span>គណនីកម្ចីៈ <?php echo $loan['loan_number'];?></span>
 									 </td>
-									 <td width="40%" align="center" valign="top" style="padding-left: 25px;">
+									 <td width="33%" align="center" valign="top" style="padding-left: 25px;">
 									 	<span style="line-height: 30px; font-family:'Khmer OS Muol Light';">
 										 	ព្រះរាជាណាចក្រកម្ពុជា
 										 	<br>
@@ -108,274 +115,112 @@
 										  <br>
 										 <img src="<?php echo $this->baseUrl()."/";?>images/agreementsign.JPG" style="width: 80px;height: 17px;"><br>
 										 <span style=" line-height:24px; font-size: 15px; font-family:'Khmer OS Muol Light'; text-decoration: underline;">កិច្ចសន្យាខ្ចីប្រាក់</span><br />
-										
 									 </td>
-									 <td>
-								 	</td>
+									 <td width="33%"></td>
 								</tr>
 								<tr>
+						 			<td colspan="3" style="text-align: center; font-size: 14px;">
+						 				ធ្វើនៅថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_release'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_release']))); ?>
+						 			</td>
+						 		</tr>
+								<tr>
 						 			<td colspan="3">
-						 				<span style=" text-align:left; display:inline-block; width:100%;  font-family:'Khmer OS Muol Light'; text-decoration: underline;">រវាងៈ</span>
 						 				<span style="text-align: justify; display:inline-block; width:100%;">
-						 					<span id="padding-left">&nbsp;</span>ឈ្មោះ <span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 100px;"><?php echo $loan['gm_name'];?></span> ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $loan['gmSexTitle'];?></span> 
-						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['gm_dob'])));?> ខែ<?php echo $month[date("m",strtotime($loan['gm_dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['gm_dob']))); ?> 
-						 					សញ្ជាតិ <?php echo $loan['gm_nationality'];?> 
-						 					កាន់អត្តសញ្ញាណប័ណ្ណលេខ <?php echo $dbgb->getNumberInkhmer($loan['gm_nation_id']);?> ចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['gm_issue_date'])));?> ខែ<?php echo $month[date("m",strtotime($loan['gm_issue_date']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['gm_issue_date']))); ?> 
-						 					<?php if (!empty($loan['with_gm_name'])){?>
-						 					និងឈ្មោះ <span style="font-family:'Times New Roman','Khmer OS Muol Light';"><?php echo $loan['with_gm_name'];?></span> 
-						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['with_gm_dob'])));?> ខែ<?php echo $month[date("m",strtotime($loan['with_gm_dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['with_gm_dob']))); ?> 
-						 					សញ្ជាតិ <?php echo $loan['with_gm_nationality'];?> 
-						 					កាន់អត្តសញ្ញាណប័ណ្ណ លេខ<?php echo $dbgb->getNumberInkhmer($loan['with_gm_nation_id']);?> 
-						 					ចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['with_gm_issue_date'])));?> ខែ<?php echo $month[date("m",strtotime($loan['with_gm_issue_date']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['with_gm_issue_date']))); ?> 
-						 					មុខរបរ <?php echo $loan['with_gm_occupation'];?> ត្រូវជា <?php echo $loan['with_gm_is'];?> 
-						 					<?php }?>
-						 					មានទីលំនៅ <?php echo $loan['gm_address'];?> ជាភាគីម្ចាស់បា្រក់ចាប់ពីពេលនេះតទៅហៅកាត់ថាភាគី “ក” ។
+						 				ភាគីអោយខ្ចីប្រាក់ៈ អិនវ៉ាយហ្វាយនែន តំណាងដោយលោក <span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 100px;"><?php echo $loan['gm_name'];?></span>  តំណាងអោយភាគី“ក”  
 						 				</span>
-						 				<span style=" text-align:left; display:inline-block; width:100%;  font-family:'Khmer OS Muol Light'; text-decoration: underline;">និងៈ</span>
+						 				<span style=" text-align:center; display:inline-block; width:100%;  font-family:'khmer os battambang'; ">និង</span>
 						 				<span style="text-align: justify; display:inline-block; width:100%;">
-						 					<span id="padding-left">&nbsp;</span>ឈ្មោះ <span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 100px;"><?php echo $client['name_kh'];?></span> ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['sexKH'];?></span> 
+						 					ឈ្មោះ <span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 50px;"><?php echo $client['name_kh'];?></span> ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['sexKH'];?></span> 
 						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
-						 					សញ្ជាតិ <?php echo $client['nationality'];?> កាន់<?php echo $client['docTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['nation_id']);?> 
-						 					ចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
+						 					 កាន់<?php echo $client['docTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['nation_id']);?> 
 						 					
 						 					<?php if (!empty($client['join_with'])){?>
-						 					និងឈ្មោះ<span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 80px;"><?php echo $client['join_with'];?></span>ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['join_sexKH'];?></span> 
+						 					និងឈ្មោះ<span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 50px;"><?php echo $client['join_with'];?></span>ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['join_sexKH'];?></span> 
 						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
-						 					សញ្ជាតិ <?php echo $client['with_nationality'];?> កាន់<?php echo $client['joinDocTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['join_nation_id']);?> 
-						 					ចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob_join_acc'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob_join_acc']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob_join_acc']))); ?> 
-						 					មុខរបរ <?php echo $client['with_job'];?> ត្រូវជា <?php echo $client['relate_with'];?>
+						 					កាន់<?php echo $client['joinDocTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['join_nation_id']);?> 
+						 					<?php if(!empty($client['relate_with'])){?>ត្រូវជា <?php echo $client['relate_with'];?><?php }?>
 						 					<?php }?>
 						 					
 						 					មានទីលំនៅភូមិ <?php echo $client['villageName'];?> 
 						 					ឃុំ/សង្កាត់ <?php echo $client['communeName'];?> 
-						 					ស្រុក/ខណ្ឌ/ក្រុង <?php echo $client['district_name'];?> 
+						 					ស្រុក/ខណ្ឌ <?php echo $client['district_name'];?> 
 						 					ខេត្ត/រាជធានី <?php echo $client['province_kh_name'];?>។ 
-						 					<br />
-						 					<span id="padding-left">&nbsp;</span>ជាភាគីអ្នកខ្ចីបា្រក់ចាប់ពីពេលនេះតទៅហៅកាត់ថាភាគី “ខ” ភាគីទាំងពីរបានព្រមព្រៀងគ្នាតាមប្រការខាងក្រោម: 
+						 					តំណាងអោយភាគី “ខ”
 						 				</span>
 						 			</td>
 						 		</tr>
 						 		<tr>
 						 			<td colspan="3">
-						 				<span style=" text-align:center; display:inline-block; width:100%;  text-decoration: underline;">កម្មវត្ថុនៃកិច្ចសន្យា</span>
-						 				<span style="text-align: justify; display:inline-block; width:100%;">
-						 					<?php $durationType=""; $day=1; 
-						 						if ($loan['pay_term']==1){ $durationType="ថ្ងៃ";
-						 						}else if ($loan['pay_term']==1){ 
-						 							$day=7; $durationType="សប្តាហ៏";
-						 						}else if ($loan['pay_term']==3){ 
-						 							$day=30; $durationType="ខែ";
-						 						}?>
-						 					<span style="text-decoration: underline; font-weight: 600;">ប្រការ១:</span> 
-						 					ភាគី“ខ” បានខ្ចីបា្រក់ពីភាគី “ក” ចំនួន<span class="value border_bt" style="min-width: 120px;"><strong><?php echo number_format($loan['loan_amount'],2)." ".$loan['currency_type'];?></strong></span>(<span class="value border_bt" style="min-width: 110px;"><span id="lable_loankhmer"></span> <?php echo $loan['currency_type'];?></span>) 
-						 					រយៈពេល <?php echo $dbgb->getNumberInkhmer($loan['total_duration']);?> (<?php echo $durationType;?>) 
-						 					គិតចាប់ពីថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['first_payment'])));?> ខែ<?php echo $month[date("m",strtotime($loan['first_payment']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['first_payment']))); ?> 
-						 					រហូតដល់ ថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_line'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_line']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_line']))); ?>  ។
-						 					<script>
-													a_sold ='<?php echo ($loan['loan_amount']) ?>';
-													money_khmersold=read_money_in_khmer(a_sold);
-													
-													decimalmoney_khmersold='<?php echo substr(number_format($loan['loan_amount'],2),-2);?>';
-													str_centsold = 'សេន';
-													if(decimalmoney_khmersold>0){string_sold='និង';}else{string_sold="";str_cent_sold='';}
-													last_number_sold='<?php echo substr(number_format($loan['loan_amount'],2),-2);?>';
-													
-													if(last_number_sold<=0){last_number_sold='';}
-													money_khmersold = money_khmersold+" "+string_sold+" "+read_in_khmer_from_10_to_99(decimalmoney_khmersold)+''+read_in_khmer_from_0_to_9(last_number_sold)+''+str_cent_sold;
-													dojo.byId('lable_loankhmer').innerHTML=money_khmersold+" ";
-													//dojo.byId('lable_pricekhmer1').innerHTML=money_khmersold+" ";
-											</script>
-						 				</span>
-						 				<span style="text-align: justify; display:inline-block; width:100%;">
-						 					<span style="text-decoration: underline; font-weight: 600;">ប្រការ២:</span> ភាគី “ខ” សន្យាថានឹងផ្តល់ការបា្រក់ ចំនួន <?php echo $loan['interest_rate'];?>% (<span id="lable_interestkhmer"></span>ភាគរយ) ក្នុងមួយ<?php echo $durationType;?>ទៅ 
-						 					អោយភាគី “ក”ដោយស្ម័គ្រចិត្តហើយសន្យាថានឹងសងបា្រក់មកអោយភាគី “ក” 
-						 					វិញគ្រប់ចំនួននៅថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_line'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_line']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_line']))); ?> ជាកំហិត ។ 
-						 					<script>
-													a_interest ='<?php echo ($loan['interest_rate']) ?>';
-													money_khmerInterest=read_money_in_khmer(a_interest);
-													
-													decimalmoney_khmerInterest='<?php echo substr(number_format($loan['interest_rate'],2),-2);?>';
-													str_centsold = '';
-													if(decimalmoney_khmerInterest>0){string_sold='ចុច';}else{string_sold="";str_cent_sold='';}
-													last_number_sold='<?php echo substr(number_format($loan['interest_rate'],2),-2);?>';
-													
-													if(last_number_sold<=0){last_number_sold='';}
-													money_khmerInterest = money_khmerInterest+" "+string_sold+" "+read_in_khmer_from_10_to_99(decimalmoney_khmerInterest)+''+read_in_khmer_from_0_to_9(last_number_sold)+''+str_cent_sold;
-													dojo.byId('lable_interestkhmer').innerHTML=money_khmerInterest+" ";
-											</script>
-						 				</span>
-						 				<span style="text-align: justify; display:inline-block; width:100%;">
-						 					<span id="padding-left">&nbsp;</span>
-						 					ភាគី“ខ”អះអាងថាខ្លួនខ្ចីបា្រក់នេះពីភាគី“ក”ដោយខ្លួនបានតម្កល់: 
-						 					<?php if (!empty($collateral)){?>
-						 						<ul class="collateral-list">
-									    		<?php foreach ($collateral as $key => $col){
-									    			?>
-									    			<li>
-									    		<?php echo $col['calleteralTitle'];?> លេខ <?php echo $dbgb->getNumberInkhmer($col['number_collecteral']);?> ចុះថ្ងៃទី <?php if (!empty($col['issue_date'])){ echo $dbgb->getNumberInkhmer(date("d",strtotime($col['issue_date'])))." ខែ ".$month[date("m",strtotime($col['issue_date']))]." ឆ្នាំ ".$dbgb->getNumberInkhmer(date("Y",strtotime($col['issue_date'])));}?> ចេញដោយ  <?php echo $col['note'];?>។
-									    			</li>
-									    		<?php }?>
-									    		</ul>
-									    	<?php }?>
-									    	<span id="padding-left">&nbsp;</span>ដើម្បីដាក់ធានាសំណងអោយភាគី“ក” ហើយក្នុងករណីដែលឯកសារខាងលើមានបញ្ហាក្នុងករណីណាមួយ ខ្ញុំបាទសុខចិត្តទទួលខុសត្រូវទាំងស្រុងចំពោះមុខច្បាប់  ។
-						 					<br />
-						 					<span id="padding-left">&nbsp;</span>
-						 					ដើម្បីដាក់ធានាសំណងអោយភាគី “ក” ក្នុងករណីដែលខ្លួនគ្មានបា្រក់គ្រប់ចំនួនសងទៅអោយភាគី “ក” នោះទេនោះខ្លួនសុខចិត្តប្រគល់នូវទ្រព្យធានា ខាងលើដែលមានតម្កល់ជូន ដល់ភាគី “ក” ទៅជាម្ចាស់សិទ្ធិករដោយ ពុំទាមទារអ្វីទាំងអស់ ។ 
-						 				</span>
-						 				<span style="text-align: justify; display:inline-block; width:100%;">
-						 					<span style="text-decoration: underline; font-weight: 600;">ប្រការ៣:</span> លក្ខខណ្ឌនៃកិច្ចសន្យា 
-						 					<br />
-						 					<span id="padding-left">&nbsp;</span>
-						 					ភាគី “ក” និងភាគី “ខ” សន្យាគោរពយ៉ាងម៉ឺងម៉ាត់តាមរាល់កិច្ចសន្យាខាងលើក្នុងករណីមានការអនុវត្តផ្ទុយឬដោយរំលោភ លើលក្ខខ័ណ្ឌណាមួយនៃកិច្ចសន្យានេះភាគីដែលល្មើសត្រូវទទួលខុសត្រូវចំពោះមុខច្បាប់ជាធរមាន រាល់សោហ៊ុយចំណាយទាក់ទងក្នុងការដោះស្រាយលើវិវាទជាបន្ទុករបស់ភាគីដែលរំលោភបំពានលើកិច្ចសន្យា ។
-					 						<br />
-					 						<span id="padding-left">&nbsp;</span>
-					 						កិច្ចសន្យានេះត្រូវបានធ្វើឡើងដោយមានការព្រមព្រៀងពិតប្រាកដដោយសេរីគ្មានការបង្ខិតបង្ខំពីភាគីណាមួយឡើយហើយមានប្រសិទ្ធភាពចាប់ពីថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_release'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_release']))); ?>។
-						 					<br />
-						 						<span id="padding-left">&nbsp;</span>
-						 						កិច្ចសន្យានេះត្រូវបានធ្វើឡើងជា ២ច្បាប់ ១ច្បាប់ដើម សំរាប់ភាគី“ក” និង១ច្បាប់ថតចម្លង    សំរាប់ ភាគី“ខ”  ។
-					 					</span>
-						 			</td>
-						 		</tr>	
-						 		<tr>
-						 			<td colspan="3" style=" text-align: right; font-size: 14px">
-						 				ធ្វើនៅរាជធានីភ្នំពេញចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_release'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_release']))); ?>
+						 				<span style=" text-align:center; display:inline-block; width:100%;">ភាគី“ក”និងភាគី “ខ” ព្រមព្រៀងចុះកិច្ចសន្យាខ្ចីប្រាក់ ដោយអនុវត្តតាមរាល់ប្រការខាងក្រោមៈ</span>
 						 			</td>
 						 		</tr>
 						 		<tr>
 						 			<td colspan="3">
-										<table border="0" style="width: 100%; font-size:14px">
-						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center; white-space: nowrap;">
-						 						<td width="25%">ស្នាមមេដៃស្តាំភាគី ម្ចាស់ប្រាក់</td>
-							 					<td></td>
-												<td width="25%">ស្នាមមេដៃស្តាំភាគី សាក្សី</td>
-							 					<td></td>
-							 					<td width="25%">ស្នាមមេដៃស្តាំភាគីអ្នកខ្ចីប្រាក់</td>
-						 					</tr>
-						 					<tr>
-						 						<td style="height: 70px;">&nbsp;</td>
-						 					</tr>
-						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center;">
-						 						<td>ឈ្មោះ <?php echo $loan['gm_name'];?></td>
-						 						<td></td>
-						 						<td>
-												<span style="font-size:12px; ">
-													ឈ្មោះ  
-													<?php if (!empty($client['spouse_name'])){
-														echo $client['spouse_name'];
-														?>
-													<?php }else{?>
-													<span style="display: inline-block; width: 100px;">&nbsp;</span>
-													<?php }?>
-													</span>
-												</td>
-						 						<td></td>
-						 						<td><?php echo $client['name_kh']; echo empty($client['join_with'])?"":" និង ".$client['join_with']?></td>
-						 					</tr>
-											
-											<tr style="text-align: center; vertical-align: top;">
-						 						<td style="font-size:12px; " >
-													<br /><br /><br /><br />
-													លេខ.............................................<br />
-													បានឃើញនិងបញ្ជាក់ថា<br />
-													ហត្ថលេខានេះ ពិតជារបស់លោក<br />
-													.....................................ពិតប្រាកមែន ។<br />
-													ថ្ងៃទី..............ខែ...................ឆ្នាំ................<br />
-													<span style="font-size:12px; font-family:'Times New Roman','Khmer OS Muol Light'; ">ចៅសង្កាត់ / មេឃុំ........................</span>
-												</td>
-												<td colspan="3">
-													
-												</td>
-												<td style="font-size:12px; " >
-													<br />
-													លេខ.............................................<br />
-													បានឃើញនិងបញ្ជាក់ថា<br />
-													ស្នាមមេដៃនេះ ពិតជារបស់....................<br />
-													.....................................ពិតប្រាកមែន ។<br />
-													ថ្ងៃទី..............ខែ...................ឆ្នាំ................<br />
-													<span style="font-size:12px; font-family:'Times New Roman','Khmer OS Muol Light'; ">មេភូមិ...............................</span>
-												</td>
-											</tr>
+							 			<table width="100%" border="0"> 
+					             			<tr>
+					             				<td><span style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">ប្រការ១</span>	</td>
+					             				<td></td>
+					             			</tr>
+											  <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;width:9%;"><b>-</b></td>
+												    <td align="justify" style="padding-left:5px">ការស្នើសុំខ្ចីប្រាក់សេចក្តីណែនាំពីគោលការណ៍នៃការអោយខ្ចីប្រាក់“ក”យល់ព្រមអោយភាគី“ខ”ខ្ចីប្រាក់ហើយ
+													ភាគី“ខ”ក៏យល់ព្រមសងមកភាគី“ក”វិញជាដាច់ខាតនូវប្រាក់ខ្ចីតាមចំនួននិងរាល់លក្ខខណ្ឌដែលបានព្រមព្រៀង។</td>  
+											  </tr>
+											   <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;width:9%;"><b>-</b></td>
+												    <td align="justify" style="padding-left:5px">ភាគី“ខ”អះអាងថា ទ្រព្យសម្បត្តិដែលបានដាក់ធានា ពិតជាកម្មសិទ្ធិស្របច្បាប់ផ្ទាល់របស់ខ្លួនឬ អ្នកធានាជំនួស ដោយពុំជាប់ពាក់ព័ន្ធនឹងអ្វីមួយឬជនណាមួយឡើយ ដែលធ្វើអោយបាត់បង់កាតព្វកិច្ចជាកម្មសិទ្ធករ ហើយបើផ្ទុយពីនេះនឹងទទួលខុសត្រូវចំពោះមុខច្បាប់
+												    ។</td>  
+											  </tr>
+											  <tr>
+					             				<td><span style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">ប្រការ២</span>	</td>
+					             				<td></td>
+					             			</tr>
+					             			<tr>
+											    <td align="justify" style="vertical-align:top; text-align:right;width:9%;"><b>-</b></td>
+											    <td align="justify" style="padding-left:5px">ភាគី“ក”និងភាគី“ខ” សន្យាគោរពយ៉ាងម៉ឺងម៉ាត់តាមរាល់ប្រការនៃកិច្ចសន្យាខាងលើ។ ករណីមានការអនុវត្តផ្ទុយលើកិច្ចសន្យានេះ ភាគីដែលល្មើស ត្រូវទទួលខុលត្រូវចំពោះមុខច្បាប់ជាធរមាន។រាល់សោហ៊ុយចំណាយទាក់ទងក្នុងការដោះស្រាយលើវិវាទ ជាបន្ទុករបស់ភាគីរំលោភបំពានលើកិច្ចសន្យា។</td>  
+										  </tr>
 										</table>
-						 				<!--
-										<table border="0" style="width: 100%;">
-						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center;">
-						 						<td width="30%">ស្នាមមេដៃស្តាំភាគី ម្ចាស់ប្រាក់</td>
-							 					<td></td>
-							 					<td width="30%">ស្នាមមេដៃស្តាំភាគីអ្នកខ្ចីប្រាក់</td>
-						 					</tr>
-						 					<tr>
-						 						<td style="height: 60px;">&nbsp;</td>
-						 					</tr>
-						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center; white-">
-						 						<td>ឈ្មោះ <?php echo $loan['gm_name'];?></td>
-						 						<td></td>
-						 						<td><?php echo $client['name_kh']; echo empty($client['join_with'])?"":" និង ".$client['join_with']?></td>
-						 					</tr>
-											<tr style="text-align: center; vertical-align: top;">
-						 						<td style="font-size:12px; " >
-													<br /><br /><br /><br />
-													លេខ.............................................<br />
-													បានឃើញនិងបញ្ជាក់ថា<br />
-													ហត្ថលេខានេះ ពិតជារបស់លោក<br />
-													.....................................ពិតប្រាកមែន ។<br />
-													ថ្ងៃទី..............ខែ...................ឆ្នាំ................<br />
-													<span style="font-size:12px; font-family:'Times New Roman','Khmer OS Muol Light'; ">ចៅសង្កាត់ / មេឃុំ........................</span>
-												</td>
-												<td style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center;">
-													ស្នាមមេដៃស្តាំភាគី សាក្សី
-													<br /><br />
-													<br /><br />
-													<br /><br />
-													<span style="font-size:12px; ">
-													ឈ្មោះ  
-													<?php if (!empty($client['spouse_name'])){
-														echo $client['spouse_name'];
-														?>
-													<?php }else{?>
-													<span style="display: inline-block; width: 100px;">&nbsp;</span>
-													<?php }?>
-													</span>
-												</td>
-												<td style="font-size:12px; " >
-													<br />
-													លេខ.............................................<br />
-													បានឃើញនិងបញ្ជាក់ថា<br />
-													ស្នាមមេដៃនេះ ពិតជារបស់....................<br />
-													.....................................ពិតប្រាកមែន ។<br />
-													ថ្ងៃទី..............ខែ...................ឆ្នាំ................<br />
-													<span style="font-size:12px; font-family:'Times New Roman','Khmer OS Muol Light'; ">មេភូមិ...............................</span>
-												</td>
-											</tr>
-						 					<!--
-											<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center;">
-						 						<td colspan="3">
-						 						<br /><br />
-						 						ស្នាមមេដៃស្តាំភាគី សាក្សី</td>
-						 					</tr>
-											
-											
-						 					<tr>
-						 						<td style="height: 60px;">&nbsp;</td>
-						 					</tr>
-						 					<tr style="font-family:'Times New Roman','Khmer OS Muol Light'; text-align: center;">
-						 						<td colspan="3" >
-						 						ឈ្មោះ  
-						 						<?php if (!empty($client['spouse_name'])){
-						 							echo $client['spouse_name'];
-						 							?>
-						 						<?php }else{?>
-						 						<span style="display: inline-block; width: 100px;">&nbsp;</span>
-						 						<?php }?>
-						 						</td>
-						 					</tr>
-											-->
-												
-						 				</table>
-										-->
 						 			</td>
-						 		</tr>				
-							  </tbody>
-						  </table>
+						 		</tr>
+						 		<tr>	  	
+				             		<td colspan="3">
+				             			<table cellpadding="3" border="1" align="center" width="100%" style="border:1px solid #000;border-collapse:collapse;font-family:'Times New Roman','Khmer OS Battambang';line-height: 10px;">
+										    <tr>
+										    	<td valign="top" rowspan="2" class="reff" style="vertical-align:top;width:23%;text-align:center;font-weight:200;">
+													បានឃើញ និងបញ្ជាក់ថា៖ស្នាមមេដៃស្តាំ និងឈ្មោះមានទ្រព្យសម្បតិ្តស្របច្បាប់ហើយព្រមដាក់ធានាបំណុលដែលបានខ្ចីភាគី “ក”ពិតប្រាកដមែន ហើយទ្រព្យធានានេះពុំមានពាក់ព័ន្ធទំនាស់អ្វីឡើយ។<p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;lin">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div style="text-align: left;width: 90%;border-bottom:1px dotted #000;margin: 0 auto;">មេភូមិ</div>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										        <td valign="top" class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;">
+										        	<p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div class="totop">ស្នាមមេដៃអ្នកធានា</div>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										        <td valign="top"  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div class="totop">ស្នាមមេដៃកូនបំណុលភាគី “ខ”</div>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										    </tr> 
+										   <tr>
+										   		
+										         <td valign="top"  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div class="totop">ស្នាមមេដៃអ្នកធានា</div><span style="font-family:'Khmer OS Muol Light'">&nbsp;</span>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										        <td valign="top"  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div class="totop">ស្នាមមេដៃកូនបំណុលភាគី “ខ”</div><span style="font-family:'Khmer OS Muol Light'">&nbsp;</span>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										       
+										   </tr>
+									</table>
+			             		</td>
+			             	</tr>
+						</table>
+				 			</td>
+				 		</tr>				
+					  </tbody>
+				  </table>
 			        </div>
 			         <div id="printfooter">
 			        	</div>

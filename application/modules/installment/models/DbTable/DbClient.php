@@ -45,6 +45,7 @@ class Installment_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'house'	      => $_data['house'],
 				
 				'guarantor_name' => $_data['spouse'],
+				'guarantor_gender' => $_data['guarantor_gender'],
 				'guarantor_d_type'=> $_data['guarantor_d_type'],
 				'guarantor_nationid'=>$_data['spouse_nationid'],
 				'dob_guarantor'=>$_data['dob_guarantor'],
@@ -65,7 +66,6 @@ class Installment_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			return  $this->insert($_arr);
 		}
 		}catch(Exception $e){
-			echo $e->getMessage();exit();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 	}

@@ -129,7 +129,6 @@ class Group_indexController extends Zend_Controller_Action {
 				//}
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("EDIT_FAILE");
-				echo $e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}

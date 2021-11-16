@@ -1,7 +1,16 @@
 <?php 
 $sale = $this->sale;
-$sex="";
-if ($sale['sex']==1){ $sex="ប្រុស";}else if ($sale['sex']==2){ $sex="ស្រី";} 
+
+function getGender($gender_id){
+	$sex="";
+	if($gender_id==1){
+		$sex="ប្រុស";
+	}else if ($gender_id==2){
+		$sex="ស្រី";
+	}
+	return $sex;
+}
+
 $age="";
 if (!empty($sale['dob']) && $sale['dob'] !='0000-00-00'){
 	$from = new DateTime($sale['dob']);
@@ -23,15 +32,15 @@ $dbgb = new Application_Model_DbTable_DbGlobal();
 		    		<div id="divPrint">
 			    	 	<style>		
 						    #padding-left-p-2{
-							 padding-left: 105px !important;	
+							 	padding-left: 105px !important;	
 							}
 							.padding-buttom{
 								margin-top: -5px !important;
 							}
-	    	 				.reff{ font-size: 16px !important; line-height:34px !important;}
-							tr td h2,p,pre,span{ font-size: 14px ; line-height:24px;}
+	    	 				.reff{ font-size: 14px !important; line-height:32px !important;}
+							tr td h2,p,pre,span,td{ font-size: 14px ; line-height:22px;}
 							#padding-left{
-							padding-left: 18px;
+								/*padding-left: 18px;*/
 							}
 							#bold-padding-right{
 								margin-right: 15px;
@@ -72,101 +81,127 @@ $dbgb = new Application_Model_DbTable_DbGlobal();
 							    border-bottom: dashed 1px #000; padding: 0 10px;
 							}
 							td{line-height: 26px;}
-							
+							.boxsign{text-align: left;
+								    border-bottom: 1px dotted;
+								    padding: 3px;
+								    margin: 65px 10px 10px 10px;}
+							.totop{margin-top:-15px;}
+							@page  
+							{ 
+							    size: auto;   /* auto is the initial value */ 
+							    margin: 3mm 12mm 0mm 12mm;  
+							} 
 						    </style>
 			    	<div class="pages-break">
 			        	<table width="100%" style="font-family:'Times New Roman','Khmer OS Battambang'; padding:0; margin:0; border:0px;" >
 			        	<tr>
-			                <td width="30%" valign="top"></td>
+			                <td width="30%" valign="top">
+			                	<img src="<?php echo $this->baseUrl();?>/images/branch/<?php echo $sale['images_branch'];?>" style="max-width:100%">
+			                	<div style="font-weight: bold;margin-top:15px;">លេខកិច្ចសន្យា : <?php echo $sale['sale_no'];?></div>
+			                	</td>
 			                <td width="40%" align="center" >
-			                	<span style=" line-height:34px; font-size:16px; text-decoration: underline; font-family:'Khmer OS Muol Light';">ព្រះរាជាណាចក្រកម្ពុជា <br /><span>ជាតិ សាសនា ព្រះមហាក្សត្រ</span></span><br>
-			               		<span style="text-align:center; line-height:34px;font-family:'Khmer OS Muol Light';">កិច្ចសន្យាបង់រំលស់</span>
+			                	<span style=" line-height:34px; font-size:16px; text-decoration: underline; font-family:'Khmer OS Muol';">ព្រះរាជាណាចក្រកម្ពុជា <br /><span>ជាតិ សាសនា ព្រះមហាក្សត្រ</span></span><br>
+			               		<span style="text-align:center; line-height:28px; width: 100%; display: block; font-size:16px; font-family: 'Tacteing';"><img src="<?php echo $this->baseUrl();?>/images/agreementsign.jpg" height="25px"></span>
+			               		<span style="text-align:center; line-height:34px;font-family:'Khmer OS Muol';white-space: nowrap;">កិច្ចសន្យាបង់រំលោះគ្រឿងអេឡិចត្រូនិច</span>
+			                	<p style="text-align: center; font-family:'Khmer OS Battambang'; font-weight:200;white-space: nowrap;">ធ្វើនៅថ្ងៃទី <?php echo date("d",strtotime($sale['date_sold']));?> ខែ <?php echo $month[date("m",strtotime($sale['date_sold']))];?> ឆ្នាំ <?php echo date("Y",strtotime($sale['date_sold']));?></p>
 			                </td>
 			                <td width="30%" valign="top"></td>
 			             </tr> 
 			             <tr>
 			             	<td colspan="3">
-			             		<p style="font-family:'Khmer OS Battambang','Times New Roman',; text-align:justify; line-height:24px; font-size:12px; font-weight: normal !important;">
-										<span style="width: 100%; display: block; line-height: 32px;"><span id="padding-left">ភាគី “ក” ម្ចាស់ហាង<strong><?php echo str_replace("ហាង", "", $sale['branch_nameen']);?></strong> ឈ្មោះ <strong>យុក សុខហួង</strong> មានទីតាំង ៖ <strong><?php echo $sale['br_address'];//echo str_replace("ទីតាំង", "", $data['branch-add-client']) ;?>។</strong>
-										និង ភាគី “ខ” អ្នកបង់រំលស់<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>ឈ្មោះ <span class="value" style="min-width: 80px;"><strong><?php echo $sale['client_name_kh'];?></strong></span> ភេទ  <span class="value" style="min-width: 20px;"><?php echo $sex;?></span> អាយុ <span class="value" style="min-width: 20px;"><?php echo $dbgb->getNumberInkhmer($age)?></span>ឆ្នាំ ថ្ងៃខែឆ្នាំកំណើត៖  <span class="value" style="min-width: 20px;"><strong><?php if(!empty($sale['dob']) && $sale['dob'] !='0000-00-00'){ echo $dbgb->getNumberInkhmer(date("d",strtotime($sale['dob'])))." ".$month[date("m",strtotime($sale['dob']))]." ".$dbgb->getNumberInkhmer(date("Y",strtotime($sale['dob'])));}?></strong></span>។ កាន់អត្តសញ្ញាណប័ណ្ណលេខ៖ <span class="value" style="min-width: 60px;"><?php echo $sale['nation_id'];?></span>។
-										អាសយដ្ឋានបច្ចុប្បន្ន ភូមិ <strong><span class="value" style="min-width: 60px;"><?php echo $sale['village_name'];?></span> ឃុំ/សង្កាត់ <span class="value" style="min-width: 60px;"><?php echo $sale['commune_name'];?></span> ស្រុក <span class="value" style="min-width: 60px;"><?php echo $sale['district_name'];?></span> ខេត្ត <span class="value" style="min-width: 60px;"><?php echo $sale['province_kh_name'];?></span></strong>។ ទូរស័ព្ទ៖ <span class="value" style="min-width: 60px;"><strong><?php echo $sale['phone'];?></strong></span>
+			             	<?php //print_r($sale);?>
+			             		<p style="font-family:'Khmer OS Battambang','Times New Roman',; text-align:justify; line-height:22px; font-weight: normal !important;">
+										<span style="width: 100%; display: block; line-height: 32px;">
+											<span id="padding-left">ភាគីក្រុមហ៊ុនបង់រំលស់ តំណាងដោយលោក<strong><?php echo $sale['gm_name'];?></strong>អោយភាគី “ខ”។</span>
 										</span>
-										</span>           		
+				             			<span id="padding-left">ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ<span class="value" style="min-width:40px;"><strong><?php echo $sale['client_name_kh'];?></strong></span> ភេទ  <span class="value" style="min-width:10px;"><?php echo getGender($sale['sex']);?></span>ថ្ងៃខែឆ្នាំកំណើត  <span class="value" style="min-width: 20px;"><strong><?php if(!empty($sale['dob']) && $sale['dob'] !='0000-00-00'){ echo $dbgb->getNumberInkhmer(date("d",strtotime($sale['dob'])))." ".$month[date("m",strtotime($sale['dob']))]." ".$dbgb->getNumberInkhmer(date("Y",strtotime($sale['dob'])));}?></strong></span> កាន់អត្តសញ្ញាណប័ណ្ណលេខ៖ <span class="value" style="min-width: 60px;"><?php echo $sale['nation_id'];?></span>
+											<?php if(!empty($sale['guarantor_name'])){?>
+											និងឈ្មោះ <strong><?php echo $sale['guarantor_name'];?></strong> ភេទ <?php echo getGender($sale['guarantor_gender']);?>
+											ថ្ងៃខែឆ្នាំកំណើត <span class="value" style="min-width: 20px;"><strong><?php if(!empty($sale['dob_guarantor']) && $sale['dob_guarantor'] !='0000-00-00'){ echo $dbgb->getNumberInkhmer(date("d",strtotime($sale['dob_guarantor'])))." ".$month[date("m",strtotime($sale['dob_guarantor']))]." ".$dbgb->getNumberInkhmer(date("Y",strtotime($sale['dob_guarantor'])));}?></strong></span> កាន់អត្តសញ្ញាណប័ណ្ណលេខ៖ <span class="value" style="min-width:40px;"><?php echo $sale['guarantor_nationid'];?></span>
+											<?php if(!empty($sale['guarantor_with'])){?>ត្រូវជា<span class="value" style="min-width:20px;"><?php echo $sale['guarantor_with'];?></span><?php }?>។
+											<?php }?>
+											អាសយដ្ឋានភូមិ <span class="value" style="min-width:20px;"><?php echo $sale['village_name'];?></span> ឃុំ/សង្កាត់ <span class="value" style="min-width:30px;"><?php echo $sale['commune_name'];?></span> ស្រុក <span class="value" style="min-width:30px;"><?php echo $sale['district_name'];?></span> ខេត្ត <span class="value" style="min-width:40px;"><?php echo $sale['province_kh_name'];?></span>
+											។ ទូរសព្ទ៖ <span class="value" style="min-width:30px;"><?php echo $sale['phone'];?></span>
+											<strong>តំណាងអោយភាគី“ខ”។</strong>
+										</span> 
 				             			<p style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">ភាគីទាំងពីរបានព្រមព្រៀងគ្នាដូចខាងក្រោម</p>
-				             			<span id="padding-left">ភាគី “ក” យល់ព្រមអោយ ភាគី “ខ” ខ្ចីប្រាក់បង់ <span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>ចំនួន <span class="value" style="min-width: 20px;font-size: 16px; !important;"><strong><?php echo $sale['balance']." $";?></strong></span> ។ ហើយ ភាគី “ខ” យល់ព្រម បង់រំលស់ តាមតារាងខាងក្រោម។
-										</span>
-										<p style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">បញ្ជាក់</p>					
-					             		<span style="width: 100%; display: block; line-height: 28px;margin-top: -15px;">
-					             			<table width="100%" border="0"> 
-											  <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;width:9%;
-												"><b>១.</b></td>
-												    <td align="justify" style="padding-left:5px">ភាគី “ខ” ត្រូវតែបង់រំលស់នៅទីតាំងហាងលក់ <span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span> នឹងភ្ជាប់មកជាមួយនូវឯកសារបង់រំលស់។</td>  
+				             			<span>ភាគី “ក”យល់ព្រមអោយ ភាគី “ខ”ខ្ចីប្រាក់បង់ <span class="value" style="min-width:20px;"><?php echo $sale['catName'];?></span>ចំនួន <span class="value" style="min-width: 20px;"><strong><?php echo number_format($sale['balance'],0)." ដុល្លារអាមេរិក";?></strong></span> ។ ហើយ ភាគី “ខ” យល់ព្រម បង់រំលស់ តាមតារាងខាងក្រោម។</span>
+					             		<div style="width: 100%; display: block; line-height: 28px;">
+						             			<table width="100%" border="0"> 
+							             			<tr>
+							             				<td><span style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">ប្រការ១</span>	</td>
+							             				<td></td>
+							             			</tr>
+												  <tr>
+													    <td align="justify" style="vertical-align:top; text-align:right;width:9%;"><b>-</b></td>
+													    <td align="justify" style="padding-left:5px">ការស្នើសុំបង់រំលោះគ្រឿងអេឡិចត្រូនិច សេចក្តីណែនាំពីគោលការណ៍ នៃការអោយបង់រំលោះភាគី“ក”យល់ព្រមអោយភាគី“ខ”បង់រំលោះគ្រឿងអេឡិចត្រូនិចហើយភាគី“ខ”ក៏យល់ព្រមបង់ប្រាក់រំលោះប្រចាំខែមកភាគី“ក”វិញជាដាច់ខាតតាមចំនួននិងរាល់លក្ខខណ្ឌដែលបានព្រមព្រៀង។</td>  
+												  </tr>
+												   <tr>
+													    <td align="justify" style="vertical-align:top; text-align:right;"><b>-<b></td>
+													    <td align="justify" style="padding-left:5px">ភាគី“ខ”អះអាងថា រាល់ឯកសារនិងព័ត៌មានដែលបានផ្តល់អោយមកភាគី“ក” ពិតជាត្រឹមត្រូវ១០០%។</td>  
+												  </tr> 
+												    <tr>
+													    <td align="justify" style="vertical-align:top; text-align:right;"><b>-<b></td>
+													    <td align="justify" style="padding-left:5px">ភាគី“ខ”ត្រូវបង់ថ្លៃសេវ៉ារៀបចំឯកសារមកខាងភាគី“ក”អោយបានគ្រប់ចំនួនកំណត់។</td>  
+												  </tr> 
+												    <tr>
+													    <td align="justify" style="vertical-align:top; text-align:right;"><b>-<b></td>
+													    <td align="justify" style="padding-left:5px">ភាគី“ខ”ត្រូវមកបង់បា្រក់រំលស់នៅកន្លែងដែលខាងក្រុមហ៊ុនបានកំណត់ជាដាច់ខាត។</td>  
+												  </tr>
+												  <tr>
+													    <td align="justify" style="vertical-align:top; text-align:right;"><b>-<b></td>
+													    <td align="justify" style="padding-left:5px">ភាគី“ខ”ត្រូវបង់ប្រាក់រំលស់ចាប់ពីពេលដែលបានកំណត់ក្នុងតារាងបង់រំលស់យឺតបំផុតត្រឹម៧ថ្ងៃ។</td> 
+												  </tr>
+												  <tr>
+													    <td align="justify" style="vertical-align:top; text-align:right;"><b>-<b></td>
+													    <td align="justify" style="padding-left:5px">ប្រសិនបើ ភាគី“ខ” យឺតយ៉ាវក្នុងការបង់ប្រាក់រំលស់ រហូតដល់៣០ថ្ងៃ ខាងក្រុមហ៊ុននឹងធ្វើការដកហូត គ្រឿងអេឡិចត្រូនិច យកមកវិញជាបណ្តោះអាសន្នដើម្បីធ្វើការដោះស្រាយនិងធ្វើការផាកពិន័យ។</td> 
+												  </tr>
+												  <tr>
+						             				<td><span style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">ប្រការ២</span>	</td>
+						             				<td></td>
+						             			</tr>
+						             			<tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;"><b><b></td>
+												    <td align="justify" style="padding-left:5px">ភាគីភាគី“ក”និងភាគី“ខ” សន្យាគោរពយ៉ាងម៉ឺងម៉ាត់តាមរាល់ប្រការនៃកិច្ចសន្យាខាងលើ។ ករណីមានការអនុវត្តផ្ទុយពីកិច្ចសន្យានេះ ភាគីដែលល្មើស ត្រូវទទួលខុលត្រូវចំពោះមុខច្បាប់ជាធរមាន។រាល់សោហ៊ុយចំណាយទាក់ទងក្នុងការដោះស្រាយលើវិវាទ ជាបន្ទុករបស់ភាគីរំលោភបំពានលើកិច្ចសន្យា។<tr>
 											  </tr>
-											   <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;"><b>២.<b></td>
-												    <td align="justify" style="padding-left:5px">ភាគី “ខ” យល់ព្រមមិនកែប្រែ លក់ ផ្ទេរ ឫ ដាក់បន្ទុកណាមួយលើ<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>អោយទៅភាគីណាមួយ (ផ្សេងក្រៅពីភាគី “ខ” ខ្លួនឯង) ឡើយ ហើយភាគី “ខ” យល់ព្រមរក្សា <span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span> អោយបានល្អរហូតដល់ពេលបង់រំលស់ចប់សព្វគ្រប់ទាំងស្រុង។</td>  
-											  </tr> 
-											    <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៣.<b></td>
-												    <td align="justify" style="padding-left:5px">ក្នុងករណី ភាគី “ខ” ខកខាន មិនបានមកបង់ប្រាក់នៅ ថ្ងៃខែឆ្នាំ ដែលបានកំណត់ក្នុង កិច្ចសន្យា ដែលបានព្រមព្រៀងគ្នានោះ មានន័យថាហួសរយៈ ពេល១ថ្ងៃភាគី “ខ” ត្រូវបានផាកពិន័យជាទឹកប្រាក់ចំនួន ១$។ ហើយបើ ភាគី “ខ” នៅតែបន្តសកម្មភាពបែបនេះទៀតរហូតហួសរយៈពេល ៤ថ្ងៃ ភាគី “ខ” ត្រូវតែយក<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>មកលក់អោយភាគី “ក” ដាច់ខាតដើម្បីកាត់ខាតទៅតាមតម្លៃទីផ្សារ<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>។</td>  
-											  </tr> 
-											    <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៤.<b></td>
-												    <td align="justify" style="padding-left:5px">ក្នុងករណីភាគី “ខ” មិនមកបង់ប្រាក់អោយភាគី “ក” នៅថ្ងៃដែលបានកំណត់នោះ ភាគី “ក” មានសិទ្ធប្ដឹងទៅសមត្ថកិច្ច ដើម្បីដកហូតយក<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>វិញដោយឥតល័ក្ខខ័ណ្ឌ។</td>  
-											  </tr>
-											  <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៥.<b></td>
-												    <td align="justify" style="padding-left:5px">ក្នុងករណីភាគី “ខ” ចង់បង់ផ្តាច់ឱ្យភាគី “ក” លើស១ថ្ងៃគិតការប្រាក់កន្លះខែ លើស១៥ថ្ងៃ គិតការប្រាក់១ខែ។</td> 
-											  </tr>
-											  <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៦.<b></td>
-												    <td align="justify" style="padding-left:5px">ផ្តល់សិទ្ធិកាន់កាប់បណ្តោះអាសន្នដល់ភាគី “ខ” ក្នុងកំឡុងពេលបង់រំលស់<?php echo $sale['catName'];?> ។</td> 
-											  </tr>
-											  <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៧.<b></td>
-												    <td align="justify" style="padding-left:5px">ករណីភាគី “ខ” មានចេតនាដក ប្រព័ន្ធ GPS ចេញពី<?php echo $sale['catName'];?>ត្រូវតែទទួលខុសត្រូវ ចំពោះមុខច្បាប់ ។</td> 
-											  </tr>
-											  <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៨.<b></td>
-												    <td align="justify" style="padding-left:5px">ករណីប្រព័ន្ធ GPS ខុសបច្ចេកទេស អត់ដំណើរការ ភាគី “ខ” ត្រូវតែយក<?php echo $sale['catName'];?>មកអោយ ខាងភាគី “ក” វិញដើម្បីដោះស្រាយ អោយប្រព័ន្ធGPS 
-												    	ដំណើរការវិញក្នុងការផ្តល់ព័ត៌មានពី ភាគី “ក” ក្នុងរយៈពេល៣ថ្ងៃ ។</td> 
-											  </tr>
-											   <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៩.<b></td>
-												    <td align="justify" style="padding-left:5px">ភាគី “ក” និង ភាគី “ខ” យល់ព្រមតាមបញ្ញាតិទាំងឡាយនៃកិច្ចព្រមព្រៀងនេះ។ ក្នុងករណីដែលមានការបំពានបញ្ញាតិណាមួយ នៃកិច្ចព្រមព្រៀង ភាគីដែលបំពាន ត្រូវ ទទួលខុសត្រូវចំពោះមុខច្បាប់នៃព្រះរាជាណាចក្រកម្ពុជា។</td>  
-											  </tr>
-											  <tr>
-												    <td align="justify" style="vertical-align:top; text-align:right;"><b>១០.<b></td>
-												    <td align="justify" style="padding-left:5px">ដើម្បីជាសក្ខីភាពនៃកិច្ចព្រមព្រៀងគ្នានេះភាគី “ខ” យល់ព្រមផ្ដិតមេដៃនិងភាគី “ក” យល់ព្រមចុះហត្ថលេខាលើកិច្ចសន្យាព្រមព្រៀងនេះនៅកាលបរិច្ឆេទដែលបានកំណត់។</td> 
-											  </tr>
+											 </td> 
+											</tr>
 											</table>
-											<p style="text-align: right; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ស.រ ថ្ងៃទី <?php echo date("d",strtotime($sale['date_sold']));?> ខែ <?php echo $month[date("m",strtotime($sale['date_sold']))];?> ឆ្នាំ <?php echo date("Y",strtotime($sale['date_sold']));?></p>
-					             		</span>
-			  			           		</p>    		       
-					           		  <tr>	  	
-			             		<td colspan="3">
-			             			<table align="center" width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';">
-									    <tr>
-									    	<td class="reff" style="width:25%;text-align:center; text-decoration:underline; font-family:'Khmer OS Muol Light';font-weight:200;"></td>
-									        <td>&nbsp;</td>
-									        <td class="reff" style="width:25%;text-align:center; text-decoration:underline; font-family:'Khmer OS Muol Light';font-weight:200;"></td>
-									        <td>&nbsp;</td>
-									        <td class="reff" style="width:25%;text-align:center; text-decoration:underline; font-family:'Khmer OS Muol Light';font-weight:200;"></td>
-									    </tr> 
-									   <tr style="font-size: 14px;">
-									        <td class="reff" style="width:23%;text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;">ស្នាមមេដៃ ភាគី“ខ”</td>
-									         <td>&nbsp;</td>
-									         <td class="reff" style="width:23%;text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;">ស្នាមមេដៃអ្នកធានា ភាគី“ខ”</td>
-									        <td>&nbsp;</td>
-									        <td class="reff" style="text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;">ហត្ថលេខា ភាគី“ក”</td>
-									   </tr>
-								</table>
-			             	</td>
-			             </tr>
-			             <tr height="19px">
-							    <td colspan="3">&nbsp;</td>
-						</tr>
+										</div>
+									</td>
+								</tr>
+					           	<tr>	  	
+				             		<td colspan="3">
+				             			<table cellpadding="3" border="1" align="center" width="100%" style="border:1px solid #000;border-collapse:collapse;font-family:'Times New Roman','Khmer OS Battambang';line-height: 10px;">
+										    <tr>
+										    	<td valign="top" rowspan="2" class="reff" style="vertical-align:top;width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;lin">ថ្ងៃទី <?php echo date("d",strtotime($sale['date_sold']));?> ខែ <?php echo $month[date("m",strtotime($sale['date_sold']))];?> ឆ្នាំ <?php echo date("Y",strtotime($sale['date_sold']));?></p>
+													<div class="totop">ហត្ថលេខានិងឈ្មោះ</div>
+													ក្រុមហ៊ុនរំលស់ NNSL
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										        <td  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;">
+										        	<p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($sale['date_sold']));?> ខែ <?php echo $month[date("m",strtotime($sale['date_sold']))];?> ឆ្នាំ <?php echo date("Y",strtotime($sale['date_sold']));?></p>
+													<div class="totop">ហត្ថលេខានិងឈ្មោះអ្នកធានា</div>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										        <td  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($sale['date_sold']));?> ខែ <?php echo $month[date("m",strtotime($sale['date_sold']))];?> ឆ្នាំ <?php echo date("Y",strtotime($sale['date_sold']));?></p>
+													<div class="totop">ស្នាមមេដៃកូនបំណុលភាគី “ខ”</div>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										    </tr> 
+										   <tr>
+										   		<td valign="top"  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($sale['date_sold']));?> ខែ <?php echo $month[date("m",strtotime($sale['date_sold']))];?> ឆ្នាំ <?php echo date("Y",strtotime($sale['date_sold']));?></p>
+													<div class="totop">ហត្ថលេខានិងឈ្មោះ</div><span style="font-family:'Khmer OS Muol Light'">ម្ចាស់ហាង</span>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										        <td valign="top"  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($sale['date_sold']));?> ខែ <?php echo $month[date("m",strtotime($sale['date_sold']))];?> ឆ្នាំ <?php echo date("Y",strtotime($sale['date_sold']));?></p>
+													<div class="totop">ស្នាមមេដៃកូនបំណុលភាគី “ខ”</div><span style="font-family:'Khmer OS Muol Light'">&nbsp;</span>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										   </tr>
+									</table>
+			             		</td>
+			             	</tr>
 			        </table>
 		        	 </td>	
 		        </div>

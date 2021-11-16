@@ -1481,15 +1481,15 @@ public function getLoanadminFeeIcome($search=null){
       	curr_type,
       	(v.total_amount) AS total_amount
       		FROM  v_badloan AS v 
-      	WHERE v.status=1 ";
+      	WHERE v.status=1 AND v.tem =5 ";
       	$where='';
       	$from_date =(empty($search['start_date']))? '1': " v.payof_date >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " v.payof_date <= '".$search['end_date']." 23:59:59'";
       	 
       	$where.= " AND ".$from_date." AND ".$to_date;
       
-      	if(!empty($search['branch'])){
-      		$where.=" AND v.branch_id = ".$search['branch'];
+      	if(!empty($search['branch_id'])){
+      		$where.=" AND v.branch_id = ".$search['branch_id'];
       	}
       	
       	if($search['currency_type']>0){

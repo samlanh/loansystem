@@ -4,11 +4,13 @@
 	
 	$month = array("01"=>"មករា","02"=>"កុម្ភៈ","03"=>"មីនា","04"=>"មេសា","05"=>"ឧសភា","06"=>"មិថុនា","07"=>"កក្កដា","08"=>"សីហា","09"=>"កញ្ញា","10"=>"តុលា","11"=>"វិច្ឆិកា","12"=>"ធ្នូ",);
 	$dbgb = new Application_Model_DbTable_DbGlobal();
+	$client = $this->client;
 ?>
 <meta charset="utf-8">
 <script>
 	dojo.require("dijit.form.DateTextBox");
 </script>
+<script src="<?php echo $this->baseUrl();?>/js/pdbs_js.js"  type="text/javascript"></script>
 <title><?php echo $tr->translate("CALLETERAL_LETTER");?></title>
 
 <div class="reportblog">
@@ -42,13 +44,13 @@
 			#divPrint ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold; list-style-type: none;}
 			#divPrint td ul li{list-style: none; }
 			.padding-left{
-						padding-left: 18px;
-						}
+				padding-left: 18px;
+				}
 			</style>
 			<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
 				<tr>
-			    	<td align="center">
-			        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+			    	<td align="center" colspan="3">
+			        	<table  width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
 			            	<tr>
 			                	<td width="20%"></td>
 			                	<td width="60%" align="center" valign="top" >
@@ -66,77 +68,132 @@
 			        </td>
 			    </tr>
 			    <tr>
-			    	<td>
+			    	<td width="33%">លេខអតិថិជន: <?php echo $rows[0]['client_code'];?></td>
+			    	<td width="33%"><p style="font-weight:200;  font-family:'Times New Roman','Khmer OS Muol Light';text-decoration: underline;text-align:center;">បង្កាន់ដៃតម្កល់ទ្រព្យធានា</p>
+			    	</td>
+			    	<td width="33%"></td>
+			    </tr>
+			    <tr>
+			    	<td></td>
+			    	<td align="center" style="white-space: nowrap;">ធ្វើនៅថ្ងៃទីថ្ងៃទី..........ខែ............ឆ្នាំ..............</td>
+			    	<td></td>
+			    </tr>
+			    <tr>
+			    	<td colspan="3">
 			            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
 			                <?php //if(empty($this->calleteral_list)){?>
 			                 <tr align="center" style="font-weight:bold; padding:5px 0px; ">
-			                    <td colspan="2" style="font-family:'Times New Roman','Khmer OS Battambang';text-align: left; border:1px solid #fff; border-bottom: 1px solid #000;" valign="top">
-			                    	 <p style="font-weight:200; color:blue; font-family:'Times New Roman','Khmer OS Muol Light';text-decoration: underline;">បង្កាន់ដៃតម្កល់ទ្រព្យធានា</p>
-								     <p style="font-weight:200; color:blue; font-family:'Times New Roman','Khmer OS Muol Light'; text-decoration: underline;">ក.អត្តសញ្ញាណ</p>
+			                    <td colspan="3" style="font-family:'Times New Roman','Khmer OS Battambang';text-align: left; border:1px solid #fff; border-bottom: 1px solid #000;" valign="top">
+			                    	 
+			                    	 
+								     <p style="font-weight:200; font-family:'Times New Roman','Khmer OS Muol Light'; text-decoration: underline;">ក.អត្តសញ្ញាណ</p>
 										<br />
-									 <p>១.អតិថិជនឈ្មោះ <span style="font-family:'Times New Roman','Khmer OS Muol Light'; padding: 0 10px; "><?php echo $rows[0]['name_kh']?></span> <span style="font-family:'Times New Roman','Khmer OS Muol Light';">និង</span> <span style="font-family:'Times New Roman','Khmer OS Muol Light'; padding: 0 10px; "><?php echo $rows[0]['join_with'];?></span></p>
-									 <p>២.ម្ចាស់កម្មសិទ្ធិឈ្មោះ...........<strong style="font-weight: bold;"><?php //echo $rows[0]['spouse_name']?></strong>..........................	<span style="font-family:'Times New Roman','Khmer OS Muol Light';">និង</span> .....................................</p>
-										<br />
+									 <span style="text-align: justify; display:inline-block; width:100%;">១.ភាគីសុំខ្ចីប្រាក់ឈ្មោះ 
+						 					<span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 50px;"><?php echo $client['name_kh'];?></span> ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['sexKH'];?></span> 
+						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
+						 					 កាន់<?php echo $client['docTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['nation_id']);?> 
+						 					
+						 					<?php if (!empty($client['join_with'])){?>
+						 					និងឈ្មោះ<span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 50px;"><?php echo $client['join_with'];?></span> ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['join_sexKH'];?></span> 
+						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
+						 					កាន់<?php echo $client['joinDocTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['join_nation_id']);?> 
+						 					<?php if(!empty($client['relate_with'])){?>ត្រូវជា <?php echo $client['relate_with'];?><?php }?>
+						 					<?php }?>
+						 					
+						 					មានទីលំនៅភូមិ <?php echo $client['villageName'];?> 
+						 					ឃុំ/សង្កាត់ <?php echo $client['communeName'];?> 
+						 					ស្រុក/ខណ្ឌ <?php echo $client['district_name'];?> 
+						 					ខេត្ត/រាជធានី <?php echo $client['province_kh_name'];?>។ 
+						 					តំណាងអោយភាគី “ខ”។
+						 				</span>
+						 				<span style="text-align: justify; display:inline-block; width:100%;">២.ប្រាក់ខ្ចីដែលភាគី ”ខ” បានទទួលចំនួនជាលេខ<strong> <?php echo number_format($rows[0]['loan_amount'],2)?> ជាអក្សរ <span id="lable_loankhmer" style="font-weight: bold;"></span>
+						 				<?php echo $rows[0]['currency_type'];?>។</strong>
+						 				<script>
+													a_sold ='<?php echo ($rows[0]['loan_amount']) ?>';
+													money_khmersold=read_money_in_khmer(a_sold);
+													
+													decimalmoney_khmersold='<?php echo substr(number_format($rows[0]['loan_amount'],2),-2);?>';
+													str_centsold = 'សេន';
+													if(decimalmoney_khmersold>0){string_sold='និង';}else{string_sold="";str_cent_sold='';}
+													last_number_sold='<?php echo substr(number_format($rows[0]['loan_amount'],2),-2);?>';
+													
+													if(last_number_sold<=0){last_number_sold='';}
+													money_khmersold = money_khmersold+" "+string_sold+" "+read_in_khmer_from_10_to_99(decimalmoney_khmersold)+''+read_in_khmer_from_0_to_9(last_number_sold)+''+str_cent_sold;
+													dojo.byId('lable_loankhmer').innerHTML=money_khmersold+" ";
+													//dojo.byId('lable_pricekhmer1').innerHTML=money_khmersold+" ";
+											</script>
+						 				</span>
+										<!-- <p>២.ម្ចាស់កម្មសិទ្ធិឈ្មោះ...........<strong style="font-weight: bold;"><?php //echo $rows[0]['spouse_name']?></strong>..........................	<span style="font-family:'Times New Roman','Khmer OS Muol Light';">និង</span> .....................................</p>
+										<br /> 
 									 <p><span class="padding-left">&nbsp;</span>ដាក់ទ្រព្យធានាឫដាក់បញ្ចាំលើបា្រក់កម្ចី  <span style="padding:0px 10px;width:15px; height: 15px; border:1px solid #000;">&nbsp;</span> ផ្ទាល់ខ្លួន 	<span style="padding:0px 10px;margin-left:15px;width:20px; height: 15px; border:1px solid #000;">&nbsp;</span> ជំនួសឲ្យកូនបំណុល ដែលបានខ្ចីបា្រក់ ។</p> 
-									 <p style=" font-weight:200; color:blue; font-family:'Times New Roman','Khmer OS Muol Light';line-height: 15px; text-decoration: underline;">ខ.ប្រភេទលិខិតសម្គាល់ទ្រព្យធានា</p>
+									 -->
+									 <br> 
+									 <p style=" font-weight:200;font-family:'Times New Roman','Khmer OS Muol Light';line-height: 15px; text-decoration: underline;">ខ.ប្រភេទលិខិតសម្គាល់ទ្រព្យធានា</p>
+									 <br> 
 									 <?php if(!empty($rows))foreach ($rows as $key =>$row){?>
 									 	<p style="font-weight:200; font-family:'Times New Roman','Khmer OS Battambang';">
 									 	<?php echo $dbgb->getNumberInkhmer($key+1);?> .<?php echo $row['collecteral_title_kh'];?>លេខៈ <span style="padding: 0 10px;"><?php echo $row['number_collecteral'];?></span> 
 									 	ចុះថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($row['issue_date'])));?> ខែ<?php echo $month[date("m",strtotime($row['issue_date']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($row['issue_date'])));?> 
+									 	<?php if(!empty($row['note'])){?>
 									 	ចេញដោយ 
 									 	<span style="font-family:'Times New Roman','Khmer OS Muol Light';"><?php echo $row['note'];?></span>។
+									 	<?php }?>
 									 	</p>
 									 <?php }?>
 			                    </td>
 			                </tr>
 			                 <tr>
-			                	<td align="center" valign="top" width="50%">
+			                	<td align="center" valign="top" width="33%">
 			                	    <p> 
 										ថ្ងៃទី..........ខែ............ឆ្នាំ..............
 			                	  	</p> 
-			                		<p>ស្នាមមេដៃស្តាំអ្នកទទួលប្លង់</p>
+			                		<p>ហត្ថលេខា និង ឈ្មោះ<br />
+										អិនវ៉ាយហ្វាយនែន
+			                		</p>
+									<p style="height:100px;"></p>
+									<p></p>
+									
+									<p> 
+										ឈ្មោះ....................................
+			                	  	</p> 
+									<br />
+			                	</td>
+			                	<td align="center" valign="top" width="33%">
+			                	    <p> 
+										ថ្ងៃទី..........ខែ............ឆ្នាំ..............
+			                	  	</p> 
+			                		<p>ស្នាមមេដៃស្តាំនិងឈ្មោះភាគី “ក”</p>
 									<p style="height:70px;"></p>
-									<p><span style="width: 85%; display: inline-block; border-bottom: dashed 1px #000;">&nbsp;</span></p>
+									ឈ្មោះ....................................
+									<p><span style="width: 100%; display: inline-block; border-bottom: solid 1px #000;">&nbsp;</span></p>
 									
 									<p> 
 										ថ្ងៃទី..........ខែ............ឆ្នាំ..............
 			                	  	</p> 
-			                		<p>ស្នាមមេដៃស្តាំអ្នកប្រគល់ឲ្យប្លង់វិញ</p>
+			                		<p>ស្នាមមេដៃស្តាំនិងឈ្មោះភាគី “ក”</p>
 									<p style="height:70px;"></p>
-									<p><span style="width: 85%; display: inline-block; border-bottom: dashed 1px #000;">&nbsp;</span></p>
+									<p>ឈ្មោះ....................................</p>
 									<br />
 			                	</td>
 			                	<td align="center" valign="top">
 			                	     <p>ថ្ងៃទី..........ខែ............ឆ្នាំ..............</p> 
-			                	     <p>ស្នាមមេដៃស្តាំអ្នកប្រគល់ប្លង់</p>
+			                	     <p>ស្នាមមេដៃម្ចាស់ស្តាំទ្រព្យភាគី “ខ”</p>
 									 <p style="height:70px;"></p>
-									<p><span style="width: 85%; display: inline-block; border-bottom: dashed 1px #000;">&nbsp;</span></p>
+									 ឈ្មោះ....................................
+									<p><span style="width: 100%; display: inline-block; border-bottom: solid 1px #000;">&nbsp;</span></p>
 									
 									 <p>ថ្ងៃទី..........ខែ............ឆ្នាំ..............</p> 
-			                	     <p>ស្នាមមេដៃស្តាំអ្នកទទួលយកប្លង់វិញ</p>
+			                	     <p>ស្នាមមេដៃស្តាំម្ចាស់ទ្រព្យភាគី “ខ”</p>
 									 <p style="height:70px;"></p>
-									<p><span style="width: 85%; display: inline-block; border-bottom: dashed 1px #000;">&nbsp;</span></p>
+									<p>ឈ្មោះ....................................</p>
 									<br />
 			                	</td>
 			                </tr>
 			                <tr>
-			                	<td colspan="2" style="border-left: solid 1px #fff; border-right: solid 1px #fff;">
-			                	   &nbsp;
-			                	</td>
-			                </tr>
-			                <tr>
-			                	<td align="center" valign="top" height="200px">
-			                	   
-			                	</td>
-			                	<td align="center" valign="top">
-			                	
-			                	</td>
-			                </tr>
-			                <tr>
-			                	<td colspan="2" style="border: 1px solid #fff;border-top: 1px solid #000;" valign="top">
+			                	<td colspan="3" style="border: 1px solid #fff;border-top: 1px solid #000;" valign="top">
 			                	១-ម្ចាស់កម្មសិទ្ធិត្រូវរក្សាបង្កាន់ដៃនេះសម្រាប់ដកយកប័ណ្ណកម្មសិទ្ធិរបស់ខ្លួន<br />
 								២-មានតែអ្នកដែលបានដាក់បញ្ចាំទេទើបមានសិទ្ធិដកយកប័ណ្ណកម្មសិទ្ធនេះវិញ <br />
-								៣-ម្ចាស់កម្មសិទ្ធិអាចយកប័ណ្ណក្មសិទ្ធិវិញលុះត្រាតែសងរួចបំណុល
+								៣-ម្ចាស់កម្មសិទ្ធិអាចយកប័ណ្ណកម្មសិទ្ធិវិញលុះត្រាតែសងរួចបំណុល
 			                	 </td>
 			                </tr>
 			              </table>

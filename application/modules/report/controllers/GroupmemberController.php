@@ -242,6 +242,10 @@ class Report_GroupMemberController extends Zend_Controller_Action {
  			exit();
  		}
  		$this->view->calleteral_list = $rs;
+ 		$client_id = ($rs[0]['client_id']);
+ 		$db = new Application_Model_DbTable_DbAgreement();
+ 		$this->view->client = $db->getClientLoanInfo($client_id);
+ 		//print_r($db->getClientLoanInfo($client_id));
  	}
  	function contractLetterAction(){
  		

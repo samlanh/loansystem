@@ -103,6 +103,16 @@ Class Installment_Form_FrmClient extends Zend_Dojo_Form {
 		unset($opt_status['']);
 		$_sex->setMultiOptions($opt_status);
 		
+		$_guarantor_gender = new Zend_Dojo_Form_Element_FilteringSelect('guarantor_gender');
+		$_guarantor_gender->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt_status = $db->getVewOptoinTypeByType(11,1);
+		unset($opt_status[-1]);
+		unset($opt_status['']);
+		$_guarantor_gender->setMultiOptions($opt_status);
+		
 		
 		$_situ_status = new Zend_Dojo_Form_Element_FilteringSelect('situ_status');
 		$_situ_status->setAttribs(array(
@@ -248,6 +258,8 @@ Class Installment_Form_FrmClient extends Zend_Dojo_Form {
 			$_id->setValue($data['client_id']);
 			$job->setValue($data['job']);
 			$national_id->setValue($data['nation_id']);
+			
+			$_guarantor_gender->setValue($data['guarantor_gender']);
 			$_guarantor_with->setValue($data['guarantor_with']);
 			$_guarantor_tel->setValue($data['guarantor_tel']);
             $client_d_type->setValue($data['client_d_type']);
@@ -261,7 +273,7 @@ Class Installment_Form_FrmClient extends Zend_Dojo_Form {
 // 			$_id_no->setValue($data['id_number']);
 			$_dob->setValue($data['dob']);
 		}
-		$this->addElements(array($client_d_type,$guarantor_address,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id
+		$this->addElements(array($_guarantor_gender,$client_d_type,$guarantor_address,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id
 				,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$_branch_id,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_house,$_street,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$dob_join_acc,$_dob_Guarantor,$clienttype_namekh,$clienttype_nameen));
