@@ -27,7 +27,7 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			$link=array(
 					'module'=>'group','controller'=>'returncollteral','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rowss,array('branch_id'=>$link,'client_name'=>$link,'giver_name'=>$link,'receiver_name'=>$link,'date'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rowss,array('branch_id'=>$link,'loan_number'=>$link,'client_name'=>$link,'giver_name'=>$link,'receiver_name'=>$link,'date'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -84,6 +84,10 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			exit();
 		}
 		$row  = $db->getReturnCollteralbyid($id);
+		if(empty($row)){
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), self::REDIRECT_URL);
+			exit();
+		}
 		$this->view->row = $row;
 		$this->view->rows = $db->getAllReturnCollateralDetail($id);
 		

@@ -103,6 +103,9 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 	function getecallteralbyid($id){
 		$db = $this->getAdapter();
 		$sql=" SELECT * FROM $this->_name WHERE id=$id ";
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->getAccessPermission("branch_id");
 		return $db->fetchRow($sql);
 	}
 	function getCallecteralDetailById($id){
@@ -123,6 +126,8 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$sql.=$dbp->caseStatusShowImage("status");
 		$sql.=" FROM `v_getallcallateral` ";
+		
+		$where.=$dbp->getAccessPermission("branch_id");
 		
 		if($search['status_search']>-1){
 			$where.=" AND status=".$search['status_search'];
@@ -149,6 +154,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 		}
 		$where.=" GROUP BY v_getallcallateral.loan_id ";
 		$order = " ORDER BY id DESC ";
+		
 		return $db->fetchAll($sql.$where.$order);
 	}
 	public static function getCallteralCode(){

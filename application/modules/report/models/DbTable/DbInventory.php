@@ -187,6 +187,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	    	b.gm_occupation,
 	    	b.gm_address,
 	    	b.images_branch,
+	    	b.images_branch AS logo_branch,
 	    
 	    	p.item_name,
 	    	(SELECT cate.name FROM `ln_ins_category` AS cate WHERE cate.id=p.cate_id LIMIT 1) as cate_name,

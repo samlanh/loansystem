@@ -269,6 +269,10 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 		$db->beginTransaction();
 		$sql=" SELECT cl.* , rc.giver_name , rc.receiver_name ,rc.note AS return_note
 		FROM $this->_name AS cl, ln_return_collteral AS rc  WHERE rc.change_id  = cl.id AND cl.id = ".$db->quote($id);
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->getAccessPermission("cl.branch_id");
+		
 		$sql.="limit 1";
 		return $db->fetchRow($sql);
 		

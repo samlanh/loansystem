@@ -18,7 +18,8 @@ echo $this->headTitle();
         	<div class="col-sm-12 border-botom" style="text-align: left;">
 		    	<div class="col-sm-8 pd-0">
 		    		<h4 class="m-b-0"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('ADD_USER');?></h4>
-    			</div>
+					<span id="message" style="color: red; display: block;"></span>
+				</div>
     			<div class="col-sm-4 text-right">
     			</div>
     		</div>
@@ -26,6 +27,11 @@ echo $this->headTitle();
 		<form action="<?php echo $this->url(array('module'=>'rsvacl','controller'=>'user','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			<script type="dojo/method" event="onSubmit">				
 			if(this.validate()) {
+				is_duplicate = dijit.byId('is_duplicate').get('value');
+				if(is_duplicate==1){
+					dijit.byId('user_name').focus();
+					return false;
+				}
 				if(dojo.byId('password').value != dojo.byId('con_password').value ){
 					alert('សូម​ពិនិត្រ ពាក្យ​​សំងាត់​ទាំង​ 2 របស់​អ្នក មិន​ដូច​គ្នា​ទេ, សូម​បញ្ចូល ​ម្តង​ទៀត..');
 					dojo.byId('password').value = '';
@@ -61,8 +67,9 @@ echo $this->headTitle();
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("USER_NAME");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<input type="text" required="true" name="user_name" id="user_name" placeholder="ឈ្នោះ​អ្នក​ប្រើ​ប្រាស់" 
+	                   		<input type="text" onKeyup="checkTitle();" required="true" name="user_name" id="user_name" placeholder="ឈ្នោះ​អ្នក​ប្រើ​ប្រាស់" 
 											dojoType="dijit.form.ValidationTextBox" missingMessage="អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ​អ្នក​ប្រើ​ប្រាស់!" class='fullside'/>
+											<input type="hidden" name="is_duplicate" id="is_duplicate" dojoType="dijit.form.TextBox" />
 	                   </div>
 	                </div>
 	                <div class="form-group">
@@ -108,6 +115,21 @@ echo $this->headTitle();
 						<input type="submit" value="រក្សាទុក" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		    		</div>
 	             </div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+	            	<div class="form-group">
+	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" ><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Assign Branch Access");?> 
+	                   </label>
+	                </div>
+					<div class="form-group">
+	                	<span><input type="checkbox" class="" checked="checked"  name="check_all" id="check_all" value="all" OnChange="CheckAllTotal(0);" style=" height: initial;"  />&nbsp;<span class="bold" style="vertical-align: top;"><?php echo $tr->translate('ALL');?></span></span>
+	                	<ul class="opt-school">
+	                		<?php $identityCheck = ""; if (!empty($this->rs_branch)) foreach ($this->rs_branch as $rs){?>
+	                		<li class="opt-items"> <input checked="checked"  type="checkbox"  class="checkbox"  value="<?php echo $rs['br_id'];?>" name="selector[]" onClick="CheckAllTotal(1);" /> <span style="vertical-align: top;"><?php echo $rs['branch_namekh'];?></span></li>
+	                			<?php if (empty($identityCheck)){ $identityCheck = $rs['br_id'];}else{$identityCheck = $identityCheck.",".$rs['br_id'];}?>
+	                		<?php }?>
+	                	</ul>
+	                </div>
+	            </div>
 	         </div>
 		</form>
 	</div>
@@ -143,7 +165,16 @@ echo $this->headTitle();
 			</table>
 		</form>
 	</div>
-</div>	
+</div>
+<style>
+ul.opt-school {
+    list-style-type: none;
+}
+ input[type=checkbox],  input[type=radio]{
+	height: 15px;
+    display: initial;
+}
+</style>
 <script>
 dojo.require("dojo.data.ObjectStore");
 dojo.require("dojo.data.ItemFileWriteStore");  
@@ -196,5 +227,52 @@ function addUsrType(){
 			}
 		});
    }
+}
+
+
+function CheckAllTotal(index){
+	if(index==0){
+			if($('#check_all').is(":checked")){
+				$('.checkbox').each(function() { //loop through each checkbox
+		            this.checked = true;  
+				});
+			}else{
+				$('.checkbox').each(function() { //loop through each checkbox
+		            this.checked = false;  
+				});
+			}
+	}else{
+		var a = $("input:checked").val();
+		 var identity = [];
+	     $('.checkbox:checked').each(function(i){
+	    	 identity[i] = $(this).val();
+	     });
+	}
+}
+
+url_CheckTitle = '<?php echo $this->url(array('module'=>'rsvacl','controller'=>'user','action'=>'check-title'));?>';
+function checkTitle(){
+	user_name = dijit.byId('user_name').get('value');
+	if(user_name==''){ return false;}
+	dojo.xhrPost({
+		url:url_CheckTitle,	
+		content:{ 
+			'user_name': user_name ,
+		},
+		handleAs:"json",
+		load: function(data) {	
+			if(data !== false ){
+				document.getElementById('message').innerHTML ='<?php echo '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> '.$tr->translate("USER_EXISTING_READY");?>';
+				dijit.byId('user_name').focus();
+				dijit.byId('is_duplicate').attr('value',1);
+			}else{
+				document.getElementById('message').innerHTML ='';
+				dijit.byId('is_duplicate').attr('value',0);
+			}
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
 }
 </script>

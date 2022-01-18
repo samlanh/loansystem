@@ -135,8 +135,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 		array_unshift($rs, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
 		$this->view->call_all= $rs;
     }
-    
-    
+
     function getclientcollateralbyloanAction(){//At callecteral when click client
     	if($this->getRequest()->isPost()){
     		$db = new Group_Model_DbTable_DbCallteral();

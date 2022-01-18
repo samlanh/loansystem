@@ -4,6 +4,12 @@ $dayin_khmer = $this->day_inkhmer;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $sale = $this->sale;
 $data = $this->data;
+
+$brachLogo = $this->baseUrl()."/images/logo.jpg";
+if (file_exists(PUBLIC_PATH."/images/branch/".$sale['logo_branch'])){
+	$brachLogo = $this->baseUrl().'/images/branch/'.$sale['logo_branch'];
+}
+$scheduleSetting=INS_SCHEDULE_OPTION;
 ?>
 <title><?php echo $tr->translate('Schedule Payment');?></title>
 <style>
@@ -66,7 +72,10 @@ $data = $this->data;
 	                	  <td width="30%" align="left" ></td>
 	                </tr>
 	                <tr>
-	                	<td colspan="3" align="center">
+						<td align="left" >
+							<img src="<?php echo $brachLogo;?>"  style="height:80px; max-width:100%;">
+						</td>
+	                	<td align="center">
 	                			<h2 style=" font-weight:normal; text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol';white-space: nowrap;">
 		                	  	<?php 
 									echo $this->sale['branch_nameen'];
@@ -74,6 +83,7 @@ $data = $this->data;
 		                	  </h2>
 	                		<h2 style="font-weight:normal; text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol'"><?php echo $tr->translate('Schedule Payment');?></h2>
 	               		</td>
+						<td align="left" ></td>
 	                </tr> 
 	                <tr>
 	                	<td colspan="3">
@@ -91,8 +101,10 @@ $data = $this->data;
 				                     </td>
 				                    <td valign="top">
 				                   	  <p><?php echo $tr->translate("INSTALLMENT_NO");?> : <b><?php echo $sale['sale_no'];?></b></p>
-				                      <p><?php echo $tr->translate("INTEREST")." : ".$sale['interest_rate']." %"?> </p>
-				                      <p><?php echo $tr->translate("TOTAL_INSTALL_AMOUNT");?>  : <strong><?php echo number_format($sale['balance'],(!strrpos($sale['balance'],". "))? 0 : 2);echo '&nbsp;'." $";?></strong></p>
+				                      <?php if($scheduleSetting!=1){?>
+									  <p><?php echo $tr->translate("INTEREST")." : ".$sale['interest_rate']." %"?> </p>
+				                      <?php }?>
+									  <p><?php echo $tr->translate("TOTAL_INSTALL_AMOUNT");?>  : <strong><?php echo number_format($sale['balance'],(!strrpos($sale['balance'],". "))? 0 : 2);echo '&nbsp;'." $";?></strong></p>
 				                    </td>
 				                </tr>
 				                <tr style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'" >
@@ -133,7 +145,9 @@ $data = $this->data;
 	                    <td><?php echo $tr->translate("AMOUNT_DATE");?></td>
 	                    <td><?php echo $tr->translate("PRINCIPLE");?></td>
 	                    <td><?php echo $tr->translate("OS_AMOUNT");?></td>
+						<?php if($scheduleSetting!=1){?>
 	                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
+						<?php }?>
 	                    <td><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT");?></td>
 	                    <td><?php echo $tr->translate("OTHER");?></td>
 	                </tr>
@@ -156,8 +170,10 @@ $data = $this->data;
 		                    <td>&nbsp;<?php echo $row['amount_day'];?>&nbsp;</td>
 		                    <td>&nbsp;<?php echo str_replace('.00', '', number_format($row['outstanding'],2));?>&nbsp;</td>
 		                    <td>&nbsp;<?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?>&nbsp;</td>
-		                    <td>&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest'],2));?>&nbsp;</td>
-		                    <td>&nbsp;<strong><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></strong>&nbsp;</td>
+		                    <?php if($scheduleSetting!=1){?>
+							<td>&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest'],2));?>&nbsp;</td>
+		                    <?php }?>
+							<td>&nbsp;<strong><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></strong>&nbsp;</td>
 		                    <td>&nbsp;<?php echo ($row['is_completed']==1)?"បង់ដាច់":""?>&nbsp;</td>
 		                </tr>
 	               <?php }}

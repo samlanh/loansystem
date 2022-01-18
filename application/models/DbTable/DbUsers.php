@@ -196,7 +196,8 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 					u.`user_type`, 
 					branch_id,
 					u.`active`, 
-					u.`id` 
+					u.`id`,
+					u.`branch_list`  
 					
 				FROM `rms_users` AS u
 				WHERE u.id = ".$id;	
@@ -236,6 +237,11 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 	
 	function insertUser($data){
 		
+		$branchList="";
+		if (!empty($data['selector'])){
+			$branchList = implode(',', $data['selector']);
+		}
+			
 		$_user_data=array(
 			'branch_id'=>empty($data['branch_id'])?0:$data['branch_id'],
 	    	'last_name'=>$data['last_name'],
@@ -243,28 +249,45 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 			'user_name'=>$data['user_name'],
 			'password'=> MD5($data['password']),
 			'user_type'=> $data['user_type'],
-			'active'=> 1			
+			'active'=> 1,
+			'branch_list'=>$branchList,			
 	    ); 
 	    	           	    	   
 		return  $this->insert($_user_data);
 	}
 	
-	function updateUser($data){		
-		$_user_data=array(
-	    	'last_name'=>$data['last_name'],
-			'first_name'=>$data['first_name'],
-			'user_name'=>$data['user_name'],
-			'branch_id'=>empty($data['branch_id'])?0:$data['branch_id'],
-// 			'password'=> MD5($data['password']),
-			'user_type'=> $data['user_type'],
-			'active'=> $data['active']			
-	    );    	   
-		if (!empty($data['check_change'])){
-			$_user_data['password']= md5($data['password']);
+	function updateUser($data){	
+		$db = $this->getAdapter();
+		try{
+			$sql="SELECT id FROM rms_users WHERE user_name ='".$data['user_name']."' AND id != ".$data['id'];
+			$rs = $db->fetchOne($sql);
+			if(!empty($rs)){
+				return -1;
+			}	
+			$branchList="";
+			if (!empty($data['selector'])){
+				$branchList = implode(',', $data['selector']);
+			}
+				
+			$_user_data=array(
+				'last_name'=>$data['last_name'],
+				'first_name'=>$data['first_name'],
+				'user_name'=>$data['user_name'],
+				'branch_id'=>empty($data['branch_id'])?0:$data['branch_id'],
+	// 			'password'=> MD5($data['password']),
+				'user_type'=> $data['user_type'],
+				'active'=> $data['active'],
+				'branch_list'=>$branchList,			
+			);    	   
+			if (!empty($data['check_change'])){
+				$_user_data['password']= md5($data['password']);
+			}
+			$where=$this->getAdapter()->quoteInto('id=?', $data['id']); 
+			   
+			return  $this->update($_user_data,$where);
+		}catch (Exception $e){
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		$where=$this->getAdapter()->quoteInto('id=?', $data['id']); 
-    	   
-		return  $this->update($_user_data,$where);
 	}
 	
 	function changePassword($newpwd, $id){
@@ -309,6 +332,12 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 					ON (ua.acl_id=aa.acl_id) WHERE ua.user_type_id='".$user_typeid."' AND aa.module='".$module."' AND aa.controller='".$controller."' AND aa.action='".$action."' limit 1";
 					$rows = $db->fetchAll($sql);
 	    return $rows;
+	}
+	
+	public function CheckTitle($data){
+		$db =$this->getAdapter();
+		$sql = "SELECT id FROM `rms_users` WHERE user_name = '".$data['user_name']."' limit 1 ";
+		return $db->fetchRow($sql);
 	}
 }
 

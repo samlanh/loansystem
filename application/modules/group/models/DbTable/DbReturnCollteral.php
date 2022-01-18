@@ -143,6 +143,9 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
 			$sql=" SELECT 
 				    *,note AS return_note
 			    FROM $this->_name WHERE id = ".$db->quote($id);
+			
+			$dbp = new Application_Model_DbTable_DbGlobal();
+			$sql.=$dbp->getAccessPermission("branch_id");
 			$sql.=" LIMIT 1";
 			return $db->fetchRow($sql);
 		}catch (Exception $e){
@@ -196,7 +199,6 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
 			$db->commit();
 		}catch (Exception $e){
 			$db->rollBack();
-			echo $e->getMessage();
 		}
 	}
 	function getAllReturnCollateralDetail($id){//ajax
