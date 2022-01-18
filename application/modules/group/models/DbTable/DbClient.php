@@ -99,6 +99,10 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 	public function getClientById($id){
 		$db = $this->getAdapter();
 		$sql = "SELECT * FROM $this->_name WHERE client_id = ".$db->quote($id);
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->getAccessPermission("branch_id");
+		
 		$sql.=" LIMIT 1 ";
 		$row=$db->fetchRow($sql);
 		return $row;
@@ -120,9 +124,15 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND id =c.`join_d_type`) AS join_d_type ,  
 		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND key_code =c.`guarantor_d_type`) AS guarantor_d_type ,`guarantor_address`,      
 		 photo_name FROM `ln_client` AS c WHERE client_id =  ".$db->quote($id);
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->getAccessPermission("branch_id");
+		
 		$sql.=" LIMIT 1 ";
 // 		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND key_code =c.`client_d_type`) AS client_d_type ,
 // 		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND key_code =c.`join_d_type`) AS join_d_type ,
+
+		
 		$row=$db->fetchRow($sql);
 		return $row;
 	}
@@ -175,6 +185,9 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		}
 		if($search['status']>-1){
 			$where.= " AND status = ".$search['status'];
+		}
+		if(!empty($search['branch_id']) AND $search['branch_id']>0){
+			$where.= " AND branch_id = ".$search['branch_id'];
 		}
 		if($search['province_id']>0){
 			$where.=" AND pro_id= ".$search['province_id'];

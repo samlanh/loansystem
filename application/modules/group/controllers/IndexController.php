@@ -15,6 +15,7 @@ class Group_indexController extends Zend_Controller_Action {
 				$formdata=$this->getRequest()->getPost();
 				$search = array(
 						'adv_search' => $formdata['adv_search'],
+						'branch_id'=>$formdata['branch_id'],
 						'province_id'=>$formdata['province'],
 						'comm_id'=>$formdata['commune'],
 						'district_id'=>$formdata['district'],
@@ -27,6 +28,7 @@ class Group_indexController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
+						'branch_id'=>'',
 						'status' => -1,
 						'province_id'=>0,
 						'district_id'=>'',
@@ -137,7 +139,7 @@ class Group_indexController extends Zend_Controller_Action {
 	        $this->view->row=$row;
 		$this->view->photo = $row['photo_name'];
 		if(empty($row)){
-			$this->_redirect("/group/client");
+			$this->_redirect("/group/index");
 		}
 		$fm = new Group_Form_FrmClient();
 		$frm = $fm->FrmAddClient($row);
@@ -163,7 +165,11 @@ class Group_indexController extends Zend_Controller_Action {
 	function viewAction(){
 		$id = $this->getRequest()->getParam("id");
 		$db = new Group_Model_DbTable_DbClient();
-		$this->view->client_list = $db->getClientDetailInfo($id);
+		$result = $db->getClientDetailInfo($id);
+		if(empty($result)){
+			$this->_redirect("/group/index");
+		}
+		$this->view->client_list = $result;
 	}
 	public function addNewclientAction(){//ajax
 		if($this->getRequest()->isPost()){

@@ -61,7 +61,7 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 			$link=array(
 					'module'=>'group','controller'=>'changecollteral','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$arr,array('branch_id'=>$link,'owner_code_id'=>$link,'owner_id'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$arr,array('branch_id'=>$link,'loan_number'=>$link,'owner_id'=>$link));
 			$this->view->search = $search;
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");

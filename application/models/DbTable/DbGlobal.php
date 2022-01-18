@@ -44,22 +44,26 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
 		return $session_user->user_id;
 	}
-	public function getAccessPermission($branch='branch_id'){
+	public function getAccessPermission($branch_str='branch_id'){
 		
 		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
-		$currentBranch = $session_user->branch_id;
+// 		$currentBranch = $session_user->branch_id;
+		$session_user=new Zend_Session_Namespace(SYSTEM_SES);
+		$branch_list = $session_user->branch_list;
+		
 		$currentlevel = $session_user->level;
-		$currentBranch = empty($currentBranch)?0:$currentBranch;
+		$result="";
+		$currentBranch = empty($branch_list)?0:$branch_list;
 		if($currentlevel==1){
-			$result = "";
 			return $result;
 		}
 		else{
-			$where = " AND ".$branch." = $currentBranch";
+			//$where = " AND ".$branch." = $currentBranch";
+			$result.= " AND $branch_str IN ($currentBranch)";
 // 			$sql_string = $this->getAllLocationByUser($result['user_id'],$branch);
 // 			$result = " AND (".$sql_string.")";
-			return $where;
 		}
+		return $result;
 	}
 	function getAllLocation($opt=null){
 		$db=$this->getAdapter();
@@ -586,10 +590,14 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$sql= "SELECT br_id,br_id AS id,branch_namekh as name,branch_namekh,
   	branch_nameen,br_address,branch_code,branch_tel,displayby
   	FROM `ln_branch` WHERE branch_namekh !='' AND status=1 ";
+  	
+  	$sql.= $this->getAccessPermission('br_id');
+  	
   	if($branch_id!=null){
   		$sql.=" AND br_id=$branch_id LIMIT 1";
   	}
   	$row = $db->fetchAll($sql);
+  	
   	if($opt==null){
   		return $row;
   	}else{
