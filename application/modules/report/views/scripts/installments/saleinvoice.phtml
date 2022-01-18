@@ -11,6 +11,9 @@ $gender=array(
 <script>
 	dojo.require("dijit.form.DateTextBox");
 </script>
+<style>
+#printfooter{display: none !important;}
+</style>
 <div style="width:100%; margin:0 auto;">
 	<div style=" width:26cm; height:25cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 			<div id="divPrint" class="print" style="text-align:center; widht:100% ">
@@ -18,6 +21,13 @@ $gender=array(
 				.style {
 					line-height: 20px;
 					font-size: 14px !important;
+				}
+				#printfooter {
+				    position: absolute;
+				    bottom: 0;
+				    position: fixed;
+				    display: block ;
+					width: 100%;
 				}
 				th {
 					padding: 3px;
@@ -47,42 +57,33 @@ $gender=array(
 				    line-height: inherit;
 				}
 				.labelValue{font-weight: bolder;}
+				@page  
+							{ 
+							    size: auto;  
+							    margin: 5mm 5mm 2mm 5mm;  
+							} 
 				</style>
-				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; ">
+				<table style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; ">
 					<tbody>
 						<tr style="text-align:center; line-height:25px; font-size:16px; font-family:'Khmer OS Muol Light'; ">
-							  <td align="center" valign="top" width="20%"><span><img src="<?php echo $this->baseUrl()?>/images/Filed other.zip.png" style="width: 80%;"></span>
+							  <td align="center" valign="top" width="25%"><span><img src="<?php echo $this->baseUrl()?>/images/branch/<?php echo $rs['images_branch']; ?>" style="height:100px;"></span>
 							  </td>
-							  <td align="center" valign="top" width="60%" ><span style="color: blue;">ព្រះរាជាណាចក្រកម្ពុជា<br>
+							  <td align="center" valign="top" width="50%" ><span style="color: blue;">ព្រះរាជាណាចក្រកម្ពុជា<br>
 							  ជាតិ សាសនា ព្រះមហាក្សត្រ</span><br>
 							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 16px;"><?php echo $rs['branch_nameen'];?></span>
 							  </td>
-							  <td align="center" valign="top" width="20%" ><span><img src="<?php echo $this->baseUrl()?>/images/honda_dream_2017.png" style="width: 80%;"></span>
-							  </td>
+							  <td align="center" valign="top" width="25%" > </td>
 						</tr>
 						<tr>
 							<td colspan="3">
-								<table  style=" text-align: center; width:100%;">
+								<table style=" text-align: center; width:100%;">
 									<tbody>
 										<tr style="text-align:center; line-height:20px; font-size:12px; font-family:'Khmer OS Muol Light';" >
-											 <td align="left" valign="top" width="20%" >
-												<span><img src="<?php echo $this->baseUrl()?>/images/honda_motorycles_st_blazey_mx.png" style="width: 70%; margin-top: 0px;"></span>
-												<?php $phonsse = explode(",", $rs['branch_tel']);
-												$coutnPhon = count($phonsse);
-												?>
-												<div>
-													<label style="line-height: 12px; font-size:12px; color: red;">
-													<?php if (!empty($phonsse)) foreach ($phonsse as $key => $s){?>
-													<span style="white-space:nowrap;"><?php if ($key==0){?>Tel:&nbsp;<?php }else{?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php }?><?php echo $s;?></span><?php if ($coutnPhon == ($key+1)){?><br><?php }?>
-													<?php }?>
-													</label>
-												</div>
-											 </td>
+											 <td align="left" valign="top" width="20%" ></td>
 											  <td width="60%" valign="top">
 												<span><pre><?php echo $rs['description'];?></pre></span>
 											</td>
 											  <td align="center" valign="middle" width="20%">
-												<span style="color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;<?php echo $rs['sale_no'];?></span>
 											</td>
 										</tr>
 										<tr style="text-align:center; line-height:25px; color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';">
@@ -90,22 +91,22 @@ $gender=array(
 												<table  style=" text-align: left; width:100%;">
 													<tr>
 														<td width="35%" valign="top" style="line-height: 16px; font-size:12px; color: red;" >
-															<span>អាសយដ្ឋាន: <?php echo $rs['br_address'];?></span>
 														</td>
-														<td align="center" valign="top"><span style="color: blue; font-size: 14px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក័យប័ត្រ<br />INVOICE</span></td>
-														<td width="35%" valign="top">
+														<td align="center" valign="top"><span style="color: blue; font-size: 14px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក្កយប័ត្រ<br />INVOICE</span></td>
+														<td width="40%" valign="top">
 															<table width="100%" border="1" cellspacing="0" align="right" style=" border-collapse:collapse; border:solid 1px #000; font-size: 12px; color: #000; ">
-																<tr >
-																	<td style="width: 30%; font-size: 14px;">សៀវភៅលេខ</td>
-																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																<tr>
+																	<td style="width: 30%; font-size: 14px;">លេខវិក្កយប័ត្រ</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;<span style="color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;<?php echo $rs['sale_no'];?></span>
+																	</td>
 																</tr>
-																<tr >
-																	<td style="width: 30%; font-size: 14px;">បង្កាន់ដៃពន្ឋលេខ</td>
-																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																<tr>
+																	<td style="width:30%; font-size: 14px;white-space:nowrap;">ថ្ងៃចេញវិក្កយប័ត្រ</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;<?php echo date("d-m-Y",strtotime($rs['date_sold']));?></td>
 																</tr>
-																<tr >
-																	<td style="width: 30%; font-size: 14px;">ស្លាកលេខ</td>
-																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;<?php echo $rs['frame_no'];?></td>
+																<tr>
+																	<td style="width: 30%; font-size: 14px;">អ្នកចេញ</td>
+																	<td style="background-color:#D2B4DE;width:70%;">&nbsp;<?php echo $rs['user_name'];?></td>
 																</tr>
 															</table>
 														</td>
@@ -118,7 +119,7 @@ $gender=array(
 							</td>
 						</tr>
 						<tr>
-							<td colspan="3" align="left"  style="line-height: 25px; font-size:14px; color: blue;">
+							<td colspan="3" align="left"  style="line-height: 20px; font-size:14px; color: blue;">
 								<table style="width:100%;  color:inherit; white-space: nowrap;">
 									<tr>
 										<td>បានលក់ជូន អតិថិជនឈ្មោះ</td>
@@ -127,7 +128,7 @@ $gender=array(
 										<td width="10%">​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientGender"><strong><?php echo $gender[$rs['sex']];?></strong>&nbsp;</span></span></td>
 										<td>&nbsp;អាយុ&nbsp;</td>
 										<td width="10%">
-										​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientAge">&nbsp;<strong><?php echo date('Y')-date("Y",strtotime($rs['dob']));?></strong>&nbsp;</span></span>
+											​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientAge">&nbsp;<strong><?php echo date('Y')-date("Y",strtotime($rs['dob']));?></strong>&nbsp;</span></span>
 										</td>
 										<td>ឆ្នាំ</td>
 									</tr>
@@ -178,10 +179,7 @@ $gender=array(
 											<td style="">&nbsp;បរិយាយ<br>DESCRIPTION&nbsp;</td>
 											<td>&nbsp;ប្រភេទ<br>MODEL&nbsp;</td>
 											<td>&nbsp;ឆ្នាំ<br>Year&nbsp;</td>
-											<td>&nbsp;<span style="white-space: nowrap;">កម្លាំងម៉ាស៊ីន</span><br>POWER&nbsp;</td>
 											<td>&nbsp;ពណ៌<br>COLOR&nbsp;</td>
-											<td>&nbsp;<span style="white-space: nowrap;">លេខម៉ាស៊ីន</span><br>ENGNE N<sup>0</sup>&nbsp;</td>
-											<td>&nbsp;លេខតួ<br><span style="white-space: nowrap;">FRAME N<sup>0</sup></span>&nbsp;</td>
 											<td style="min-width: 100px;">&nbsp;តម្លៃ<br>PRICE&nbsp;</td>
 										</tr>		
 									</thead>
@@ -190,26 +188,20 @@ $gender=array(
 											<td align="center">&nbsp;<?php echo $rs['item_name'];?>&nbsp;</td>
 											<td align="center">&nbsp;<?php echo $rs['cate_name'];?>&nbsp;</td>
 											<td align="center">&nbsp;<?php echo $rs['year'];?>&nbsp;</td>
-											<td>&nbsp;<?php echo $rs['power'];?>&nbsp;</td>
 											<td>&nbsp;<?php echo $rs['color'];?>&nbsp;</td>
-											<td align="center">&nbsp;<?php echo $rs['engine'];?>&nbsp;</td>
-											<td align="right" >&nbsp;<?php echo $rs['frame'];?>&nbsp;</td>
 											<td align="right">&nbsp;<strong><?php echo number_format($rs['selling_price'],2);?></strong>&nbsp;</td>
 										</tr>
 										 <?php for ($i=1;$i<=4;$i++){?>
 										 <tr style="line-height:30px; font-size:14px; " >
 											<td align="center">&nbsp;&nbsp;</td>
 											<td align="center">&nbsp;&nbsp;</td>
-											<td>&nbsp;&nbsp;</td>
-											<td>&nbsp;&nbsp;</td>
-											<td>&nbsp;&nbsp;</td>
 											<td align="center">&nbsp;&nbsp;</td>
 											<td align="right">&nbsp;&nbsp;</td>
 											<td align="right">&nbsp;&nbsp;</td>
 										</tr>
 										<?php }?>
 										<tr style="line-height:20px; font-size:14px; " >
-											<td valign="top" colspan="5" rowspan="3" style="border-left: 1px solid #ffffff; border-bottom:#fff solid 1px; padding: 5px 3px;">
+											<td valign="top" colspan="3" rowspan="3" style="border-left: 1px solid #ffffff; border-bottom:#fff solid 1px; padding: 5px 3px;">
 												<p style="font-size: 11px; text-align: left; line-height: 22px;  color: red;  font-family:'Times New Roman','Khmer OS Muol Light';">
 												<span style="text-decoration: underline;">ចំណាំៈ</span>
 												-អតិថិជនបានពិនិត្យ ត្រឹមត្រូវរួចហើយ
@@ -217,15 +209,15 @@ $gender=array(
 												<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-NO REFUND
 												</p>
 											</td>	
-											<td colspan="2" align="right" style="font-size:12px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">សរុប/TOTAL:$&nbsp;&nbsp;</td>
+											<td colspan="1" align="right" style="font-size:12px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">សរុប/TOTAL:$&nbsp;&nbsp;</td>
 											<td align="right"  style="font-size:14px; line-height:28px; background-color: #D2B4DE; " >&nbsp;<?php echo number_format($rs['selling_price'],2);?>&nbsp;</td>
 										</tr>
 										<tr style="line-height:28px; font-size:14px;">
-											<td colspan="2" align="right" style=" font-size:12px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">&nbsp;ប្រាក់កក់/DEPOSIT:$&nbsp;</td>
+											<td align="right" style=" font-size:12px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">&nbsp;ប្រាក់កក់/DEPOSIT:$&nbsp;</td>
 											<td align="right" style="background-color: #D2B4DE;" >&nbsp;<?php echo number_format($rs['paid'],2);?>&nbsp;</td>
 										</tr>	
 										<tr style="line-height:28px; font-size:14px; ">
-											<td colspan="2" align="right" style=" font-size:12px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';" >&nbsp;នៅខ្វះ/BALANCE DUE:$&nbsp;</td>
+											<td align="right" style=" font-size:12px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';" >&nbsp;នៅខ្វះ/BALANCE DUE:$&nbsp;</td>
 											<td align="right" style="background-color: #D2B4DE;font-size: 14px;font-weight: bold;" >&nbsp;<?php echo number_format($rs['balance'],2);?>&nbsp;</td>
 										</tr>
 									</tbody>
@@ -242,7 +234,7 @@ $gender=array(
 								<table  style=" text-align: center; width:100%;">
 									<tr style="font-size: 12px;">
 										<td style="width:50%; color: blue; text-align:center; font-size: 14px; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;"><td>&nbsp;</td>
-										<td style=" width:50%; color: blue; text-align:center; font-size: 14px; font-weight:200;">ថ្ងៃ ទី<span class="labelBorderBottom" style="min-width: 25%;"><?php echo date("d",strtotime($rs['date_sold']));?></span>ខែ<span class="labelBorderBottom" style="min-width: 25%;"><?php echo date("m",strtotime($rs['date_sold']));?></span>ឆ្នាំ <span class="labelBorderBottom" style="min-width: 15%;"><?php echo date("Y",strtotime($rs['date_sold']));?></span><br /><br /><br /></td>
+										<td style=" width:50%; color: blue; text-align:center; font-size: 14px; font-weight:200;">ថ្ងៃ ទី<span class="labelBorderBottom" style="min-width: 20%;"><?php echo date("d",strtotime($rs['date_sold']));?></span>ខែ<span class="labelBorderBottom" style="min-width: 20%;"><?php echo date("m",strtotime($rs['date_sold']));?></span>ឆ្នាំ <span class="labelBorderBottom" style="min-width: 10%;"><?php echo date("Y",strtotime($rs['date_sold']));?></span><br /><br /><br /></td>
 								   </tr>
 									<tr style="font-size: 12px;">
 										<td style="width:50%; color: blue; text-align:center; font-size: 12px; font-family:'Times New Roman','Khmer OS Muol Light';font-weight:200;white-space: nowrap; ">ស្នាមមេដៃអ្នកទិញ  / <strong>CUSTOMER'S THUMB PRINT</strong><td>&nbsp;</td>
@@ -253,6 +245,32 @@ $gender=array(
 						</tr>
 					</tbody>
 				</table>
+				<div id="printfooter">
+	        		<table width="100%" style="background: #fff;border-top: 2px solid #000;font-family: 'Times New Roman','Khmer OS Battambang'; font-size:10px;line-height: 15px;white-space:nowrap;"> 
+					<tbody>
+						<tr style="white-space:nowrap;line-height: 15px;">
+							<td width="50%" align="left">
+							<?php 
+								$phonsse = explode(",", $rs['branch_tel']);
+								$coutnPhon = count($phonsse);
+								?>
+								<div>
+									<label style="line-height: 12px; font-size:12px; color: red;">
+									<?php if (!empty($phonsse)) foreach ($phonsse as $key => $s){?>
+									<span style="white-space:nowrap;"><?php if ($key==0){?>Tel:&nbsp;<?php }else{?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php }?><?php echo $s;?></span><?php if ($coutnPhon == ($key+1)){?><br><?php }?>
+									<?php }?>
+									</label>
+								</div>
+							</td>
+							<td width="40%"><?php //echo $this->data['website'];?></td>
+						</tr>
+						<tr style="white-space:nowrap;line-height: 15px;">
+							<td><span>អាសយដ្ឋាន: <?php echo $rs['br_address'];?></span></td>
+							<td align="right"><?php //echo $this->data['tel-client'];?></td>
+							</tr>
+						</tbody>
+					</table>
+        	</div>
 			</div>
 		</div>
 </div>
