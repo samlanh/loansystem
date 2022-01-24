@@ -17,6 +17,24 @@ Class Other_Form_FrmZone extends Zend_Dojo_Form {
 	
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		
+		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
+		$_branch_id->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'required' =>'true',
+				'class'=>'fullside',
+				'onchange'=>'filterClient();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+		));
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$rows = $db->getAllBranchName();
+		$options=array(''=>$this->tr->translate("Choose Branch"));
+		if(!empty($rows))foreach($rows AS $row){
+			$options[$row['br_id']]=$row['branch_namekh'];
+		}
+		$_branch_id->setMultiOptions($options);
+		
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
@@ -44,8 +62,6 @@ Class Other_Form_FrmZone extends Zend_Dojo_Form {
 		
 		$_zone= new Zend_Dojo_Form_Element_TextBox('zone_name');
 		$_zone->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
-// 		$_stu= new Zend_Dojo_Form_Element_TextBox('zone_student');
-// 		$_stu->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
 		
 		$_zone_number= new Zend_Dojo_Form_Element_TextBox('zone_number');
 		$_zone_number->setAttribs(array('dojoType'=>$this->tvalidate,'class'=>'fullside',));
@@ -59,12 +75,13 @@ Class Other_Form_FrmZone extends Zend_Dojo_Form {
 		$_id = new Zend_Form_Element_Hidden('id');
 		
 		if(!empty($_data)){
+			$_branch_id->setValue($_data['branch_id']);
 			$_id->setValue($_data['zone_id']);
 			$_zone->setValue($_data['zone_name']);
 			$_zone_number->setValue($_data['zone_num']);
 			$_status->setValue($_data['status']);
 		}
-		$this->addElements(array($_btn_search,$_status_search,$_title,$_id,$_zone,$_status,$_id,$_zone_number));
+		$this->addElements(array($_branch_id,$_btn_search,$_status_search,$_title,$_id,$_zone,$_status,$_id,$_zone_number));
 		return $this;
 		
 	}

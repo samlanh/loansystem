@@ -297,9 +297,20 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $rows;
    }
-   public function getAllCOName($option=null){
+   public function getAllCOName($option=null,$branch_id=0){
    	$this->_name='ln_co';
-   	$sql = " call stGetAllCOName();";
+   	$sql = " SELECT 
+   		branch_id,co_id AS id, CONCAT(co_firstname,' - ',co_khname,' - ',co_code) AS name ,
+   		co_id ,co_firstname,co_khname,co_code 
+   		FROM ln_co 
+   		WHERE STATUS=1 AND co_khname!='' AND `position_id`=1 ";
+   	
+   	$dbp = new Application_Model_DbTable_DbGlobal();
+   	$sql.=$dbp->getAccessPermission("branch_id");
+   	if($branch_id>0){
+   		$sql.=" AND branch_id=".$branch_id;
+   	}
+   	
    	$db = $this->getAdapter();
    	$rows =  $db->fetchAll($sql);
    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -313,10 +324,16 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $rows;
    }
-   public function getAllCoNameOnly(){
+   public function getAllCoNameOnly($branch_id=0){
    	$db= $this->getAdapter();
    	$sql = " SELECT co_id AS id, CONCAT(co_khname,' - ',co_code) AS name
    	  FROM ln_co WHERE STATUS=1 AND co_khname!='' AND `position_id`=1 ";
+   	
+   	$dbp = new Application_Model_DbTable_DbGlobal();
+   	$sql.=$dbp->getAccessPermission("branch_id");
+   	if($branch_id>0){
+   		$sql.=" AND branch_id=".$branch_id;
+   	}
    	return $db->fetchAll($sql);
    }
    public function getAllCurrency($id,$opt = null){

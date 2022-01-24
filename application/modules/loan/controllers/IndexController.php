@@ -254,9 +254,10 @@ class Loan_IndexController extends Zend_Controller_Action {
 	function getConameAction(){
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
+			$branch_id = !empty($_data['branch_id'])?$_data['branch_id']:0;
 			$db = new Application_Model_DbTable_DbGlobal();
-			$co_name = $db->getAllCoNameOnly();
-			$optionss = $db ->getAllCOName(1);
+			$co_name = $db->getAllCoNameOnly($branch_id);
+			$optionss = $db ->getAllCOName(1,$branch_id);
 			array_unshift($co_name,array(
 					'id' => -1,
 					'name' => $this->tr->translate("ADD_NEW"),

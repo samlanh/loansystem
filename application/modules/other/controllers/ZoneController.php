@@ -22,11 +22,11 @@ class Other_ZoneController extends Zend_Controller_Action {
 			}
 			$rs_rows= $db->getAllZoneArea($search);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("ZONE_NAME","ZONE_NUMBER","DATE","STATUS","BY");
+			$collumns = array("BRANCH_NAME","ZONE_NAME","ZONE_NUMBER","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'zone','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('zone_name'=>$link,'zone_num'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch'=>$link,'zone_name'=>$link,'zone_num'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

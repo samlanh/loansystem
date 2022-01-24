@@ -150,8 +150,11 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     		$s_where[]=" REPLACE(b.displayby,' ','')  		LIKE '%{$s_search}%'";
     		$where.=' AND ('.implode(' OR ',$s_where).')';
     	}
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.=$dbp->getAccessPermission("br_id");
+    	
     	$order=' ORDER BY b.br_id DESC';
- 	  return $db->fetchAll($sql.$where.$order);
+ 	    return $db->fetchAll($sql.$where.$order);
     }
     
  function getBranchById($id){

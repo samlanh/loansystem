@@ -393,7 +393,7 @@ require(["dojo/ready"], function(ready){
 	}, "customer_code");
 
 	new dijit.form.FilteringSelect({
-		store: co_store,//dojo.data.ObjectStore({objectStore: client_number}),
+		//store: co_store,//dojo.data.ObjectStore({objectStore: client_number}),
 		required: false,		           
 		name: "co_id",
 		id: "co_id",
@@ -576,6 +576,7 @@ function filterClient(){
 		getLoanByBranch();
 		//getAllClientByBranch(branch_id);
 		getAllClientNumberByBranch(branch_id);
+		getAllCo(branch_id);
 }
 /*
 var url_getclient = '<?php //echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
@@ -597,10 +598,11 @@ function getAllClientByBranch(branch_id){
  * 
  */
 var url_co = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-coname')); ?>';
-function getAllCo(){
+function getAllCo(branch_id){
 	dojo.xhrPost({
 		url:url_co,	
 		content:{ 
+			'branch_id':branch_id
 		},		    
 		handleAs:"json",
 		load: function(data) {

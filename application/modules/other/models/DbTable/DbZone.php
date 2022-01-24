@@ -11,6 +11,7 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
 	public function addZone($_data){
 		try {
 			$_arr=array(
+					'branch_id'	  => $_data['branch_id'],
 					'zone_name'	  => $_data['zone_name'],
 					'zone_num'	  => $_data['zone_number'],
 					'modify_date' => date('Y-m-d'),
@@ -24,13 +25,16 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
 				return  $this->insert($_arr);
 			}
 		}catch (Exception $e){
-			echo $e->getMessage();
 		}
 	}
 	public function getZoneById($id){
 		$db = $this->getAdapter();
 		$sql=" SELECT * FROM $this->_name WHERE
 			  zone_id = ".$db->quote($id);
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->getAccessPermission("branch_id");
+		
 		$sql.=" LIMIT 1 ";
 		$row=$db->fetchRow($sql);
 		return $row;
@@ -38,15 +42,16 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
 	function getAllZoneArea($search=null){
 		$db = $this->getAdapter();
 		$sql = "SELECT
-				zone_id,zone_name,zone_num,modify_date
+				zone_id,
+				(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id=branch_id LIMIT 1) AS branch,
+				zone_name,zone_num,modify_date
 				 ";
 		
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$sql.=$dbp->caseStatusShowImage("ln_zone.status");
 		$sql.=",
 			(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
-		FROM $this->_name
-		";
+		FROM $this->_name ";
 		
 		$where = ' WHERE zone_name!="" ';
 		if($search['search_status']>-1){
@@ -59,6 +64,9 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
 			$s_where[] ="REPLACE(zone_name,' ','')  LIKE '%{$s_search}%'";
 			$where.=' AND ('.implode(' OR ',$s_where).')';
 		}
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.=$dbp->getAccessPermission("branch_id");
+		
 		$order = " ORDER BY zone_id DESC";
 		return $db->fetchAll($sql.$where.$order);	
 	}	
