@@ -136,6 +136,8 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		u.`last_name` ,
 		u.`first_name` AS name,
 		u.`user_name` ,
+		u.`user_type` AS typeid ,
+		u.`branch_list` ,
 		(SELECT user_type FROM `rms_acl_user_type` WHERE user_type_id=u.user_type LIMIT 1) AS users_type,
 		(SELECT branch_namekh FROM `ln_branch` WHERE status=1 AND branch_namekh!='' AND br_id=u.branch_id) AS branch_name,
 		u.`active` as status
@@ -146,7 +148,7 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 			return $sql.$orderby;
 		}
 		$where = '';
-		
+		$where.= ' AND u.`user_name` != "system" ';
 		if ($search['active'] >= 0){
 			$where = 'AND u.`active` = '.$search['active'];
 		}
