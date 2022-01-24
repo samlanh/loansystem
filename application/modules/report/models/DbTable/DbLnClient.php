@@ -329,79 +329,82 @@ function geteAllcallteral($search=null){
 		$db = $this->getAdapter();
 		$sql="
 		SELECT
-  `c`.`id`                 AS `id`,
-  `c`.`loan_id`            AS `loan_id`,
-  (SELECT loan_amount from `ln_loan` where ln_loan.id=c.loan_id LIMIT  1) AS loan_amount,
-  (SELECT curr_namekh FROM `ln_currency` WHERE id =  (SELECT ln_loan.currency_type from `ln_loan` where ln_loan.id=c.loan_id) LIMIT 1) AS currency_type,
-  `d`.`number_collecteral` AS `number_collecteral`,
-  `d`.`is_return`          AS `is_return`,
-  `d`.`issue_date`         AS `issue_date`,
-  `d`.`note`               AS `note`,
-  (SELECT
-     `ln_branch`.`branch_namekh`
-   FROM `ln_branch`
-   WHERE (`ln_branch`.`br_id` = `c`.`branch_id`)
-   LIMIT 1) AS `branch_name`,
-  (SELECT
-     `ln_co`.`co_khname`
-   FROM `ln_co`
-   WHERE (`ln_co`.`co_id` = `c`.`co_id`)
-   LIMIT 1) AS `co_id`,
-  `d`.`collecteral_code`   AS `collecteral_code`,
-  `d`.`owner_name`         AS `owner_name`,
-  (SELECT
-     `ln_client`.`client_number`
-   FROM `ln_client`
-   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
-   LIMIT 1) AS `client_code`,
-  `d`.`owner_name`         AS `collecteral_type`,
-  (SELECT
-     `ln_view`.`name_kh`
-   FROM `ln_view`
-   WHERE ((`ln_view`.`type` = 21)
-          AND (`ln_view`.`key_code` = `d`.`owner_type`))) AS `collecteral_owner`,
-  (SELECT
-     `ct`.`title_en`
-   FROM `ln_callecteral_type` `ct`
-   WHERE (`ct`.`id` = `d`.`collecteral_type`)) AS `collecteral_title_en`,
-  (SELECT
-     `ct`.`title_kh`
-   FROM `ln_callecteral_type` `ct`
-   WHERE (`ct`.`id` = `d`.`collecteral_type`)) AS `collecteral_title_kh`,
-  (SELECT
-     `ln_client`.`name_kh`
-   FROM `ln_client`
-   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
-   LIMIT 1) AS `name_kh`,
-  (SELECT
-     `ln_client`.`name_en`
-   FROM `ln_client`
-   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
-   LIMIT 1) AS `client_name`,
-  `c`.`client_id`          AS `client_id`,
-  `c`.`branch_id`          AS `branch_id`,
-  (SELECT
-     `ln_client`.`join_with`
-   FROM `ln_client`
-   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
-   LIMIT 1) AS `join_with`,
-  (SELECT
-     `ln_client`.`relate_with`
-   FROM `ln_client`
-   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
-   LIMIT 1) AS `relative`,
-  (SELECT
-     `ln_client`.`spouse_name`
-   FROM `ln_client`
-   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
-   LIMIT 1) AS `spouse_name`,
-  `c`.`date`               AS `date`,
-  `c`.`status`             AS `status`
-FROM (`ln_client_callecteral` `c`
-   JOIN `ln_client_callecteral_detail` `d`)
-WHERE ((`c`.`id` = `d`.`client_coll_id`)
-       AND (`c`.`status` = 1)
-       AND (`d`.`status` = 1)) AND c.loan_id = $loan_id AND c.status=1 AND d.is_return=0";
+			  `c`.`id`                 AS `id`,
+			  `c`.`loan_id`            AS `loan_id`,
+			  (SELECT loan_amount from `ln_loan` where ln_loan.id=c.loan_id LIMIT  1) AS loan_amount,
+			  (SELECT curr_namekh FROM `ln_currency` WHERE id =  (SELECT ln_loan.currency_type from `ln_loan` where ln_loan.id=c.loan_id) LIMIT 1) AS currency_type,
+			  `d`.`number_collecteral` AS `number_collecteral`,
+			  `d`.`is_return`          AS `is_return`,
+			  `d`.`issue_date`         AS `issue_date`,
+			  `d`.`note`               AS `note`,
+			  (SELECT
+			     `ln_branch`.`branch_namekh`
+			   FROM `ln_branch`
+			   WHERE (`ln_branch`.`br_id` = `c`.`branch_id`)
+			   LIMIT 1) AS `branch_name`,
+			  (SELECT
+			     `ln_co`.`co_khname`
+			   FROM `ln_co`
+			   WHERE (`ln_co`.`co_id` = `c`.`co_id`)
+			   LIMIT 1) AS `co_id`,
+			  `d`.`collecteral_code`   AS `collecteral_code`,
+			  `d`.`owner_name`         AS `owner_name`,
+			  (SELECT
+			     `ln_client`.`client_number`
+			   FROM `ln_client`
+			   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
+			   LIMIT 1) AS `client_code`,
+			  `d`.`owner_name`         AS `collecteral_type`,
+			  (SELECT
+			     `ln_view`.`name_kh`
+			   FROM `ln_view`
+			   WHERE ((`ln_view`.`type` = 21)
+			          AND (`ln_view`.`key_code` = `d`.`owner_type`))) AS `collecteral_owner`,
+			  (SELECT
+			     `ct`.`title_en`
+			   FROM `ln_callecteral_type` `ct`
+			   WHERE (`ct`.`id` = `d`.`collecteral_type`)) AS `collecteral_title_en`,
+			  (SELECT
+			     `ct`.`title_kh`
+			   FROM `ln_callecteral_type` `ct`
+			   WHERE (`ct`.`id` = `d`.`collecteral_type`)) AS `collecteral_title_kh`,
+			  (SELECT
+			     `ln_client`.`name_kh`
+			   FROM `ln_client`
+			   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
+			   LIMIT 1) AS `name_kh`,
+			  (SELECT
+			     `ln_client`.`name_en`
+			   FROM `ln_client`
+			   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
+			   LIMIT 1) AS `client_name`,
+			  `c`.`client_id`          AS `client_id`,
+			  `c`.`branch_id`          AS `branch_id`,
+			  (SELECT
+			     `ln_client`.`join_with`
+			   FROM `ln_client`
+			   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
+			   LIMIT 1) AS `join_with`,
+			  (SELECT
+			     `ln_client`.`relate_with`
+			   FROM `ln_client`
+			   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
+			   LIMIT 1) AS `relative`,
+			  (SELECT
+			     `ln_client`.`spouse_name`
+			   FROM `ln_client`
+			   WHERE (`ln_client`.`client_id` = `c`.`client_id`)
+			   LIMIT 1) AS `spouse_name`,
+			  `c`.`date`               AS `date`,
+			  `c`.`status`             AS `status`
+			FROM (`ln_client_callecteral` `c`
+			   JOIN `ln_client_callecteral_detail` `d`)
+			WHERE ((`c`.`id` = `d`.`client_coll_id`)
+			       AND (`c`.`status` = 1)
+			       AND (`d`.`status` = 1)) AND c.loan_id = $loan_id AND c.status=1 AND d.is_return=0";
+
+			$dbp = new Application_Model_DbTable_DbGlobal();
+			$sql.=$dbp->getAccessPermission("c.branch_id");
 // 		$sql =" SELECT
 // 		*
 // 		FROM

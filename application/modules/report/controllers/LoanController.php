@@ -533,11 +533,9 @@ function rptPaymentschedulesAction(){
 	}
 	$db = new Application_Model_DbTable_DbGlobal();
 	$rs = $db->getClientByMemberId($id);
-// 	if($rs['loan_type']==2){//if loan group
-// 		$this->_redirect('report/loan/rpt-groupmember/id/'.$row[0]['member_id']);
-// 	}else{
-		
-// 	}
+	if(empty($rs)){
+		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
+	}
 	$this->view->client =$rs;
 	$frm = new Application_Form_FrmSearchGlobal();
 	$form = $frm->FrmSearchLoadSchedule();
@@ -853,7 +851,6 @@ function rptPaymentschedulesAction(){
  	
  	$frmpopup = new Application_Form_FrmPopupGlobal();
  	$this->view->footerReport = $frmpopup->getFooterReport();
-//  	print_r($db->getALLLoanPayment($search));
  }
  function rptLoanTrasferAction(){//release all loan
  	$db  = new Report_Model_DbTable_DbLoan();
@@ -1446,6 +1443,7 @@ function rptLoanTrasferzoneAction(){//release all loan
 	$this->view->loanInfo=$row;
 	if(empty($row)){
 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
+		exit();
 	}
 	
 	$rs = $db->getClientLoanInfo($row['customer_id']);

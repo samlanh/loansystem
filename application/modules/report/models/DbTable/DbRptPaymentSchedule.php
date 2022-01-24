@@ -9,7 +9,9 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
     }
     public function getPaymentSchedule($id){
     	$db=$this->getAdapter();
-    	$sql = "SELECT * FROM `ln_loan_detail` WHERE loan_id = $id ORDER BY installment_amount ASC,`status` ASC";
+    	$sql = "SELECT * FROM `ln_loan_detail` WHERE loan_id = $id ";
+    	
+    	$sql.=" ORDER BY installment_amount ASC,`status` ASC ";
     	return $db->fetchAll($sql);
     }
     public function getPaymentScheduleGroupById($id){//for group member total pay per month

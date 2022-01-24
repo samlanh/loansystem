@@ -107,6 +107,9 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 	public function getCOById($id){
 		$db = $this->getAdapter();
 		$sql = "SELECT * FROM $this->_name WHERE co_id = ".$db->quote($id);
+		$dbp = new Application_Model_DbTable_DbGlobal();
+// 		$sql.=$dbp->getAccessPermission("branch_id");
+		
 		$sql.=" LIMIT 1 ";
 		$row=$db->fetchRow($sql);
 		return $row;
@@ -150,6 +153,9 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 			$s_where[]="REPLACE(annual_lives,' ','')  		LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.=$dbp->getAccessPermission("branch_id");
 		return $db->fetchAll($sql.$where.$order);	
 	}	
 }

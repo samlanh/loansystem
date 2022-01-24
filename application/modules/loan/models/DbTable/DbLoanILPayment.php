@@ -65,6 +65,10 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     	if($search['paymnet_type']>0){
     		$where.=" AND lcrm.`payment_option`= ".$search['paymnet_type'];
     	}
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.=$dbp->getAccessPermission("lcrm.branch_id");
+    	
     	$group_by = " GROUP BY lcrm.id";
     	$order = " ORDER BY lcrm.`id` DESC,receipt_no DESC";
     	return $db->fetchAll($sql.$where.$group_by.$order);
@@ -2284,8 +2288,10 @@ public function cancelIlPayment($data){
 			(SELECT crm.is_closed FROM `ln_client_receipt_money` AS crm WHERE crm.id = v.id LIMIT 1 ) AS is_closed 
 			FROM v_getcollectmoney AS v WHERE v.status=1
 		AND v.`id` = $id ";
+		
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$sql.= $dbp->getAccessPermission("branch_id");
+		
 		$sql.=" LIMIT 1";
 		return $db->fetchRow($sql);
 	}

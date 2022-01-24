@@ -41,9 +41,14 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
     	`ln_loan` AS l,
 		ln_branch AS br
     	WHERE br.br_id =l.branch_id ";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->getAccessPermission("l.branch_id");
+    	
     	if(!empty($loan_id)){
     		$sql.=" AND l.id = $loan_id LIMIT 1";
     	}
+    	
     	$db=$this->getAdapter();
     	return $db->fetchRow($sql);
     }

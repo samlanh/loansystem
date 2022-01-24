@@ -137,6 +137,10 @@ class Loan_IndexController extends Zend_Controller_Action {
 		if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");}
 		$db = new Loan_Model_DbTable_DbLoandisburse();
 		$row = $db->getTranLoanByIdWithBranch($id,1);
+		if(empty($row)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index");
+		}
+		
 		$frm = new Loan_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan($row);
 		Application_Model_Decorator::removeAllDecorator($frm_loan);

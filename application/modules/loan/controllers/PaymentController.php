@@ -1,12 +1,10 @@
 <?php
 class Loan_PaymentController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
-	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
 			$db = new Loan_Model_DbTable_DbLoanILPayment();
@@ -57,7 +55,6 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array());
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
-			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}	
 		$frm = new Loan_Form_FrmSearchGroupPayment();
@@ -203,10 +200,10 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		var txt;
 		var r = confirm('$delete_sms');
 		if (r == true) {";
-		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/loan/payment/deletereceipt/id/".$id."'";
+			echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/loan/payment/deletereceipt/id/".$id."'";
 		echo"}";
 		echo"else {";
-		echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/loan/payment'";
+			echo "window.location ='".Zend_Controller_Front::getInstance()->getBaseUrl()."/loan/payment'";
 		echo"}
 		</script>";
 	}
@@ -231,7 +228,6 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			
 		}catch (Exception $e) {
 			Application_Form_FrmMessage::message("INSERT_FAIL");
-			echo $e->getMessage();
 		}
 	}
 	

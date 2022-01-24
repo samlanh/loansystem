@@ -278,8 +278,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 		   	zone_num
    	
    		FROM ln_zone
-   		WHERE status=1 AND  zone_name!=''
-   	";
+   		WHERE status=1 AND  zone_name!='' ";
    	$rows= $db->fetchAll($sql);
    	
    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -649,35 +648,42 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 	  }
   }
   public function getClientByMemberId($loan_id){//for loan
+  	
   	$sql="SELECT l.level,
-		l.date_release,
-		l.total_duration,
-		l.first_payment,
-		l.pay_term,
-		l.payment_method,
-		l.loan_type,
-  		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
-  		(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_khname,
-  		(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
-  		(SELECT displayby FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS displayby,
-  		(SELECT tel FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS tel,
-  		(SELECT client_number FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
-  		(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
-  		(SELECT name_en FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
-  		(SELECT phone FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_phone,
-  		(SELECT displayby FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS displayclient,
-  		l.customer_id AS client_id,
-  		(SELECT curr_namekh FROM `ln_currency` WHERE id = l.currency_type LIMIT 1) AS currency_type
-  		,l.loan_amount AS total_capital,l.loan_number,
-  		l.interest_rate,l.branch_id,
-        (SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = l.user_id LIMIT 1) AS user_name
+			l.date_release,
+			l.total_duration,
+			l.first_payment,
+			l.pay_term,
+			l.payment_method,
+			l.loan_type,
+	  		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
+	  		(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_khname,
+	  		(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
+	  		(SELECT displayby FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS displayby,
+	  		(SELECT tel FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS tel,
+	  		(SELECT client_number FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
+	  		(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
+	  		(SELECT name_en FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
+	  		(SELECT phone FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_phone,
+	  		(SELECT displayby FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS displayclient,
+	  		l.customer_id AS client_id,
+	  		(SELECT curr_namekh FROM `ln_currency` WHERE id = l.currency_type LIMIT 1) AS currency_type
+	  		,l.loan_amount AS total_capital,l.loan_number,
+	  		l.interest_rate,l.branch_id,
+	        (SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = l.user_id LIMIT 1) AS user_name
   		FROM 
   	   `ln_loan` AS l WHERE 1 ";
-  	if(!empty($loan_id)){
-  		$sql.=" AND l.id = $loan_id";
-  	}
-  	$db=$this->getAdapter();
-  	return $db->fetchRow($sql);
+  	
+	  	if(!empty($loan_id)){
+	  		$sql.=" AND l.id = $loan_id";
+	  	}
+	  	
+	  	$dbp = new Application_Model_DbTable_DbGlobal();
+	  	$sql.=$dbp->getAccessPermission("branch_id");
+	  	
+	  	$db=$this->getAdapter();
+  	    return $db->fetchRow($sql);
+  	
   }
   public function getClientPawnshop($loan_id){//for pawn
   	$sql="
@@ -2244,6 +2250,23 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 		       AND (`d`.`status` = 1))
   	";
   	return $sql;
+  }
+  function getAllZonebyBranch($branch_id){
+  	$sql="SELECT
+		  	zone_id AS id ,
+		  	CONCAT(COALESCE(zone_name,''),'-',COALESCE(zone_num,'')) AS name,
+		  	zone_id,
+		  	zone_name,
+		  	zone_num
+		  	 
+		  	FROM ln_zone
+		  	WHERE status=1 AND  zone_name!='' ";
+  	if($branch_id>0){
+  		$sql.=" AND branch_id=".$branch_id;
+  	}
+  	$db = $this->getAdapter();
+  	return $db->fetchAll($sql);
+  
   }
 }
 ?>

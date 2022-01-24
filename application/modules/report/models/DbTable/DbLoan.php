@@ -511,11 +511,6 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " v.client_number LIKE '%{$s_search}%'";
       		$s_where[] = " v.client_name LIKE '%{$s_search}%'";
       		$s_where[] = " v.co_name LIKE '%{$s_search}%'";
-      		//$s_where[] = " total_principal_permonth LIKE '%{$s_search}%'";
-      		//$s_where[] = " total_interest LIKE '%{$s_search}%'";
-      		//$s_where[] = " amount_payment LIKE '%{$s_search}%'";
-      		//$s_where[] = " penalize_amount LIKE '%{$s_search}%'";
-      		//$s_where[] = " service_charge LIKE '%{$s_search}%'";      		
       		$s_where[] = " v.receipt_no LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
 			
@@ -523,7 +518,11 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       			$where.=" AND v.payment_option = 2 ";
       		}
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.=$dbp->getAccessPermission("branch_id");
+      	
       	$order=" ORDER BY v.date_input DESC,v.receipt_no DESC ";
+      	
       	return $db->fetchAll($sql.$where.$order);
       }
       public function getALLCommission($search=null){
@@ -2122,7 +2121,12 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
    		(SELECT `ln_branch`.`branch_nameen` FROM `ln_branch` WHERE `ln_branch`.`br_id` = `v`.`branch_id` LIMIT 1) AS `branch_nameen`,
    		(SELECT CONCAT(COALESCE(last_name,''),' ',COALESCE(first_name,'')) FROM `rms_users` WHERE rms_users.id=v.`user_id` LIMIT 1) AS by_user
       	 FROM v_getcollectmoney AS v WHERE v.status=1
-		AND v.`id` = $id LIMIT 1";
+		AND v.`id` = $id ";
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$sql.=$dbp->getAccessPermission("branch_id");
+      	
+      	$sql.=" LIMIT 1";
       	return $db->fetchRow($sql);
       }
       public function getAllxchangeBYID($id){
@@ -2313,6 +2317,9 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	$dbgb = new Application_Model_DbTable_DbGlobal();
       	$sql = $dbgb->getCollectPaymentSqlSt();
       	$sql.=" AND  `crm`.`loan_id` = $id ";
+      	
+      	$sql.=$dbgb->getAccessPermission("branch_id");
+      	
       	$sql.=" ORDER BY `crm`.`date_input` DESC,crm.receipt_no DESC ";
       	return $db->fetchAll($sql);
       }

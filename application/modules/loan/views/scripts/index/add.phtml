@@ -474,8 +474,14 @@ function addNewZone(){
 		loadingBlock();
 		dojo.xhrPost({
 		    url: url_submitzone,	
-			form: dojo.byId("form_zone"),		    
-			handleAs:"json",
+		    handleAs:"json",
+			//form: dojo.byId("form_zone"),	
+		    content:{ 
+			    'branch_id':dijit.byId('branch_id').get('value'),
+			    'zone_name':dijit.byId('zone_name').get('value'),
+			    'zone_number':dijit.byId('zone_number').get('value')
+			    
+			},	    
 			load: function(data) {	
 
 				zoneStore  = getDataStorefromJSON('id','name', data.datastore);	
@@ -577,6 +583,7 @@ function filterClient(){
 		//getAllClientByBranch(branch_id);
 		getAllClientNumberByBranch(branch_id);
 		getAllCo(branch_id);
+		getAllZonebyBranch(branch_id);
 }
 /*
 var url_getclient = '<?php //echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
@@ -608,6 +615,23 @@ function getAllCo(branch_id){
 		load: function(data) {
 			co_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('co_id').set('store', co_store);
+		},
+		error: function(err) {
+		}
+	});
+}
+
+var url_zone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'get-allzone')); ?>';
+function getAllZonebyBranch(branch_id){
+	dojo.xhrPost({
+		url:url_zone,	
+		content:{ 
+			'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			zone_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('zone').set('store', zone_store);
 		},
 		error: function(err) {
 		}

@@ -101,5 +101,20 @@ class Other_ZoneController extends Zend_Controller_Action {
    		exit();
    	}
    }
+   function getAllzoneAction(){
+   	if($this->getRequest()->isPost()){
+   		$_data = $this->getRequest()->getPost();
+   		$branch_id = !empty($_data['branch_id'])?$_data['branch_id']:0;
+   		$db = new Application_Model_DbTable_DbGlobal();
+   		$zone_name = $db->getAllZonebyBranch($branch_id);
+   		
+   		array_unshift($zone_name,array(
+   				'id' => -1,
+   				'name' => $this->tr->translate("ADD_NEW"),
+   		) );
+   		print_r(Zend_Json::encode($zone_name));
+   		exit();
+   	}
+   }
 }
 

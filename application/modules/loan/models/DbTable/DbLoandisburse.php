@@ -104,10 +104,15 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
 	    	l.status AS str ,l.status 
 	    	FROM `ln_loan` AS l
 			WHERE l.loan_type = $loan_type AND l.status=1 AND is_badloan=0 ";
+    	$where='';
     	if($is_newschedule!=null){
     		$where=" AND l.is_reschedule = 2 ";
     	}
-    	$where = " AND l.id = $id ";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.=$dbp->getAccessPermission("branch_id");
+    	
+    	$where.= " AND l.id = $id ";
     	$where.=" LIMIT 1 ";
     	return $this->getAdapter()->fetchRow($sql.$where);
     }
