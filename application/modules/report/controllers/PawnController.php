@@ -606,7 +606,6 @@ function rptPaymentHistoryAction(){
  				);
  	}
  	$this->view->LoanCollectionco_list = $db->getALLParBYCO($search);
-//  	print_r($db->getALLParBYCO($search));
  	$this->view->search=$search;
  	$frm = new Loan_Form_FrmSearchLoan();
  	$frms = $frm->AdvanceSearch();

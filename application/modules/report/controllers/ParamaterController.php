@@ -57,9 +57,6 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	Application_Model_Decorator::removeAllDecorator($frms);
   	$this->view->frm_village= $frms;
   	
-//   	$db= new Application_Model_DbTable_DbGlobal();
-//   	$this->view->district = $db->getAllDistricts();
-//   	$this->view->commune_name = $db->getCommune();
   	$this->view->result = $search;
   	
   	$frmpopup = new Application_Form_FrmPopupGlobal();

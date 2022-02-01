@@ -35,6 +35,9 @@ class Report_Model_DbTable_DbRpt extends Zend_Db_Table_Abstract
 				
 				$where .=' AND ('.implode(' OR ',$s_where).')';
 			}
+			
+			$dbp = new Application_Model_DbTable_DbGlobal();
+			$where.= $dbp->getAccessPermission("branch_id");
 	
 			$order = " ORDER BY return_id DESC";
 			

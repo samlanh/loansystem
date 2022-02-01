@@ -475,14 +475,21 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
 		));
 		$date->setValue(date('Y-m-d'));
+		
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$search = new Zend_Dojo_Form_Element_TextBox("search");
-		$search->setAttribs(array('dojoType' => 'dijit.form.TextBox','placeHolder'=> '','class'	=>	'fullside',));
+		$search->setAttribs(array('dojoType' => 'dijit.form.TextBox',
+				'placeHolder'=> $tr->translate('SEARCH'),
+				'class'	=>	'fullside',));
 		$search->setValue($request->getParam("search"));
+		
+		
 		
 		$_start_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$_start_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'onchange'=>'CalculateDate();',
+				'placeHolder'=>$tr->translate('START_DATE'),
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}"));
 		$_date = $request->getParam("start_date");
 		
@@ -493,6 +500,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$end_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$end_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'placeHolder'=>$tr->translate('END_DATE'),
 				'class'=>'fullside',
 		));
 		$_date = $request->getParam("end_date");

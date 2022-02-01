@@ -6,37 +6,6 @@ class Report_Model_DbTable_DbLnClient extends Zend_Db_Table_Abstract
 
     public function getAllLnClient($search = null){
     	 $db = $this->getAdapter();
-    	 
-//     	 $db=$this->getAdapter();
-    	  
-//     	 $from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
-//     	 $to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
-//     	 $where = " AND ".$from_date." AND ".$to_date;
-    	  
-//     	 $sql = " SELECT * FROM v_getclientblacklist WHERE 1";
-//     	 if(!empty($search['adv_search'])){
-//     	 	$s_where = array();
-//     	 	$s_search = trim($search['adv_search']);
-//     	 	$s_where[] = "branch_name LIKE '%{$s_search}%'";
-//     	 	$s_where[] = "client_number LIKE '%{$s_search}%'";
-//     	 	$s_where[] = "client_name LIKE '%{$s_search}%'";
-//     	 	$s_where[] = "sex LIKE '%{$s_search}%'";
-//     	 	$s_where[] = " situation LIKE '%{$s_search}%'";
-//     	 	$s_where[] = " doc_name LIKE '%{$s_search}%'";
-//     	 	$s_where[] = " id_number LIKE '%{$s_search}%'";
-//     	 	$s_where[] = " street LIKE '%{$s_search}%'";
-//     	 	$s_where[] = " house LIKE '%{$s_search}%'";
-//     	 	$s_where[] = " village_name LIKE '%{$s_search}%'";
-//     	 	$s_where[] = " commune_name LIKE '%{$s_search}%'";
-//     	 	$s_where[] = " district_name LIKE '%{$s_search}%'";
-//     	 	$s_where[] = " province_name LIKE '%{$s_search}%'";
-//     	 	$where .=' AND ('.implode(' OR ',$s_where).')';
-//     	 }
-//     	 if(!empty($search['branch_id'])){
-//     	 	$where.= " AND branch_id = ".$search['branch_id'];
-//     	 }
-//     	 $order = " ORDER BY id DESC ";
-//     	 return $db->fetchAll($sql.$where.$order);
 
     	 $from_date =(empty($search['start_date']))? '1': "create_date >= '".$search['start_date']." 00:00:00'";
     	 $to_date = (empty($search['end_date']))? '1': "create_date <= '".$search['end_date']." 23:59:59'";
@@ -83,9 +52,12 @@ class Report_Model_DbTable_DbLnClient extends Zend_Db_Table_Abstract
 			if($search['branch_id']>0){
 				$where.=" AND branch_id= ".$search['branch_id'];
 			}
-			$order=" ORDER BY client_id DESC";
-// 			echo $sql.$where.$order;
-	          return $db->fetchAll($sql.$where.$order);
+			
+			$dbp = new Application_Model_DbTable_DbGlobal();
+			$where.= $dbp->getAccessPermission("branch_id");
+			
+		   $order=" ORDER BY client_id DESC";
+	       return $db->fetchAll($sql.$where.$order);
     } 
     public function getAllGroup(){
     	$db = $this->getAdapter();
@@ -128,6 +100,8 @@ class Report_Model_DbTable_DbLnClient extends Zend_Db_Table_Abstract
 			$s_where[]=" d.note LIKE'%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
+		$where.= $dbGb->getAccessPermission("c.branch_id");
+		
 		$order = " ORDER BY c.client_id ";
     	return $db->fetchAll($sql.$where.$order);
     }
@@ -294,6 +268,9 @@ function geteAllcallteral($search=null){
 			WHERE ((`c`.`id` = `cd`.`change_id`)
 			       AND (`cd`.`status` = 1)
 			       AND `c`.`client_id`=$client_id ) ";
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.= $dbp->getAccessPermission("branch_id");
+		
 		return $db->fetchAll($sql);
 	}
 	function getClientById($client_id){

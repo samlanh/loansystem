@@ -241,9 +241,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			WHERE 
 				(`l`.`status` = 1)
 			      AND `c`.`client_id` = `l`.`customer_id` 
-				  AND l.is_dach=0
-			      
-      	";
+				  AND l.is_dach=0 ";
       	if($search['branch_id']>0){
       		$where.=" AND `l`.`branch_id` = ".$search['branch_id'];
       	}

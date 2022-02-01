@@ -43,6 +43,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	 	$s_where[] = " REPLACE(loan_type,' ','')  	LIKE '%{$s_search}%'";
       	 	$where .=' AND ( '.implode(' OR ',$s_where).')';
       	 }
+      	 $dbp = new Application_Model_DbTable_DbGlobal();
+      	 $where.= $dbp->getAccessPermission("branch_id");
+      	 
       	 return $db->fetchAll($sql.$where);
       }
       
@@ -87,6 +90,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " v.interest_rate LIKE '%{$s_search}%'";
       		$where .=' AND ( '.implode(' OR ',$s_where).')';
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("v.branch_id");
+      	
       	$order = " ORDER BY (CASE DAYOFWEEK(v.first_payment) WHEN 1 THEN 8 ELSE DAYOFWEEK(v.first_payment) END),v.first_payment DESC ";
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -131,6 +137,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " loan_type LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	$order = " ORDER BY co_id DESC";
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -177,7 +186,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " loan_type LIKE '%{$s_search}%'";
       	   $where .=' AND ('.implode(' OR ',$s_where).')';
       	}
-//       	echo $sql.$where;exit();
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("br_id");
+      	
       	return $db->fetchAll($sql.$where);
       }
       public function getALLLoancollect($search = null){
@@ -336,6 +347,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if(!empty($search['village'])){
       		$where.=" AND `c`.`village_id`= ".$search['village'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("l.branch_id");
+      	
         $group_by = " GROUP BY l.`id` ORDER BY co.`co_id` ASC ,d.`date_payment` ASC";
        
         return $db->fetchAll($sql.$where.$group_by);
@@ -617,8 +632,11 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
     	}
     	if($search['co_id']>0){
     		$where.=" AND `co_id`= ".$search['co_id'];
-    	}    	
-    	//$where='';
+    	}    
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("branch_id");
+    	
     	$order="";
     	$order = " ORDER BY id DESC";
     	return $db->fetchAll($sql.$where.$order);
@@ -710,6 +728,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['paymnet_type']>0){
       		$where.=" AND crm.`payment_option`= ".$search['paymnet_type'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("crm.`branch_id`");
       	 
       	$groupby="  GROUP BY crmd.`receipt_id` ORDER BY crm.`co_id` ASC , crm.`date_input` DESC ";
       	
@@ -748,8 +769,8 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$end_date = $search['end_date'];
       
       	$db = $this->getAdapter();
-      	$sql = "SELECT  SUM(admin_fee) AS admin_fee,SUM(other_fee) AS other_fee,curr_type  FROM
-      	v_loanreleased WHERE (admin_fee> 0 OR other_fee>0 )";
+      	$sql = "SELECT SUM(admin_fee) AS admin_fee,SUM(other_fee) AS other_fee,curr_type  
+      				FROM v_loanreleased WHERE (admin_fee> 0 OR other_fee>0 )";
       	$where ='';
       	if(!empty($search['advance_search'])){
       		$s_where = array();
@@ -767,6 +788,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if(!empty($search['start_date']) or !empty($search['end_date'])){
       		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	$order = " GROUP BY curr_type ORDER BY currency_type";
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -801,6 +826,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if(!empty($search['start_date']) or !empty($search['end_date'])){
       		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	$order = " GROUP BY curr_type ORDER BY currency_type";
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -892,9 +921,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['co_id']>0){
       		$where.=" AND `co_id`= ".$search['co_id'];
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
 
       	$order = " ORDER BY id DESC ";
-//      echo $sql.$where.$order;
       	return $db->fetchAll($sql.$where.$order);
       }
       public function getALLLoanExpectIncome($search=null){
@@ -926,6 +956,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['co_id']>0){
       		$where.=" AND collect_by = ".$search['co_id'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	$group_by = "  ORDER BY currency_type ASC, date_payment DESC ";
       	return $db->fetchAll($sql.$where.$group_by);
       }
@@ -1021,6 +1055,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		
       		$where .=' AND ('.implode(' OR ',$s_where).' )';
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("v.branch_id");
+      	
        	$order = ' ORDER BY v.co_name ';
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -1053,7 +1090,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		if(!empty($search['cash_type'])){
       			$where.=" AND `curr_type` = ".$search['cash_type'];
       		}
-      		//echo $sql.$where;
+      		$dbp = new Application_Model_DbTable_DbGlobal();
+      		$where.= $dbp->getAccessPermission("branch_id");
+      		
       		return $db->fetchAll($sql.$where);
       }
       public function getAllxchange($search = null){
@@ -1131,8 +1170,11 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " loan_type LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
+      	
       	$order=" ORDER BY id DESC";
-      	//echo $sql.$where;
       	return $db->fetchAll($sql.$where.$order);
       }
       public function getAllLoanByCo($search=null){
@@ -1241,12 +1283,12 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " client_name LIKE '%{$s_search}%'";
       		$s_where[] = " from_coname LIKE '%{$s_search}%'";
       		$s_where[] = " to_coname LIKE '%{$s_search}%'";
-//       		$s_where[] = " other_fee LIKE '%{$s_search}%'";
-//       		$s_where[] = " admin_fee LIKE '%{$s_search}%'";
-//       		$s_where[] = " interest_rate LIKE '%{$s_search}%'";
-//       		$s_where[] = " loan_type LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	return $db->fetchAll($sql.$where);
       }
       
@@ -1281,8 +1323,8 @@ public function getAllinfoZone($search = null){
     	//$order=" ORDER BY  DESC ";
 		if($search["branch_name"]>-1){
 		  	$where.=' AND branch_id='.$search["branch_name"];
-		  }
-	if(!empty($search['co_code'])){
+		}
+		if(!empty($search['co_code'])){
     		$where.=" AND to_co =".$search['co_code'];
     	}
   
@@ -1292,7 +1334,11 @@ public function getAllinfoZone($search = null){
     		$s_where[]=" note LIKE '%{$s_search}%'";
     		$where .=' AND '.implode(' OR ',$s_where).' ';
     	}
-    	//echo $sql.$where;
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("branch_id");
+    	
+    	
     	return $db->fetchAll($sql.$where);
     }
       
@@ -1321,18 +1367,18 @@ public function getAllinfoZone($search = null){
       		$s_where = array();
       		$s_search = addslashes(trim($search['adv_search']));
       		$s_where[] = " branch_name LIKE '%{$s_search}%'";
-      		
       		$s_where[] = " client_number LIKE '%{$s_search}%'";
       		$s_where[] = " client_name LIKE '%{$s_search}%'";
-//       		$s_where[] = " total_capital LIKE '%{$s_search}%'";
-//       		$s_where[] = " other_fee LIKE '%{$s_search}%'";
-//       		$s_where[] = " admin_fee LIKE '%{$s_search}%'";
       		$s_where[] = " name_en LIKE '%{$s_search}%'";
       		$s_where[] = " client_khname LIKE '%{$s_search}%'";
       		
       		$s_where[] = " loan_type LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	$order = " GROUP BY client_id ORDER BY co_id DESC,totallevel DESC ";
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -1370,6 +1416,10 @@ public function getLoanCollectIcome($search=null){
       	if($search['currency_type']>0){
       		$where.=" AND currency_type= ".$search['currency_type'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	$order = " Group by currency_type ORDER BY id DESC";
       	return $db->fetchAll($sql.$where.$order);
 }
@@ -1390,6 +1440,10 @@ public function getLoanadminFeeIcome($search=null){
       	if($search['currency_type']>0){
       		$where.=" AND curr_type= ".$search['currency_type'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	$order = " GROUP BY curr_type ORDER BY curr_type ";
       	return $db->fetchAll($sql.$where.$order);
 }
@@ -1404,8 +1458,8 @@ public function getLoanadminFeeIcome($search=null){
       	$where = " WHERE ".$from_date." AND ".$to_date;
       
       	$sql=" SELECT id,
-      	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id = branch_id LIMIT 1) AS branch_name,
-      	curr_type,SUM(total_amount) AS total_amount,disc,date,status 
+			      	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id = branch_id LIMIT 1) AS branch_name,
+			      	curr_type,SUM(total_amount) AS total_amount,disc,date,status 
       	FROM $this->_name ";
       	$where.=" AND status = 1 ";
       	if($search['currency_type']>0){
@@ -1414,6 +1468,10 @@ public function getLoanadminFeeIcome($search=null){
       	if($search['branch_id']>0){
       		$where.=" AND `branch_id`= ".$search['branch_id'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	$order=" GROUP BY curr_type order by id desc ";
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -1467,18 +1525,17 @@ public function getLoanadminFeeIcome($search=null){
       	if(!empty($search['co_id']) AND $search['co_id']>-1){
       		$where.=" AND l.co_id = ".$search['co_id'];
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("l.branch_id");
+      	
       	$where."GROUP BY `l`.`id` ORDER BY c.pro_id,c.dis_id,c.com_id,c.village_id";
-//       	if(!empty($search['currency_type'])){
-//       		$where.=" AND v.`curr_type` = ".$search['currency_type'];
-//       	}
-// echo $sql.$where;exit();
       		return $db->fetchAll($sql.$where);
       }
       public function getALLTotalWritoff($search=null){
       	$db = $this->getAdapter();
       	$sql = " SELECT
-      	curr_type,
-      	(v.total_amount) AS total_amount
+		      	curr_type,
+		      	(v.total_amount) AS total_amount
       		FROM  v_badloan AS v 
       	WHERE v.status=1 AND v.tem =5 ";
       	$where='';
@@ -1494,6 +1551,10 @@ public function getLoanadminFeeIcome($search=null){
       	if($search['currency_type']>0){
       		$where.=" AND v.`curr_type` = ".$search['currency_type'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("v.branch_id");
+      	
       	$order = ' GROUP BY v.`curr_type` ORDER BY v.co_name ';
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -1734,6 +1795,9 @@ AND cl.client_id = $client_id )";
       	if($search['status']>-1){
       		$where.= " AND status = ".$search['status'];
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
 //       	if($search['currency_type']>-1){
 //       		$where.= " AND curr_type = ".$search['currency_type'];
 //       	}
@@ -1766,6 +1830,10 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
 	      	}
       	}
 		$where.=' AND status=1 ';
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.= $dbp->getAccessPermission("branch_id");
+		
 		if($group_by!=null){
 			$where.=' GROUP BY curr_type ';
 		}
@@ -1825,6 +1893,10 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	if($search['co_id']>0){
       		$where.=" AND co_id = ".$search['co_id'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
 //       	if($search['currency_type']>-1){
 //       		$where.= " AND currency_type = ".$search['currency_type'];
 //         }
@@ -2157,6 +2229,10 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	if($search['branch_id']>0){
       		$where.=" AND r.`branch_id`= ".$search['branch_id'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.= $dbp->getAccessPermission("r.branch_id");
+		
       	$where.=" GROUP BY r.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
@@ -2175,6 +2251,10 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	if($search['branch_id']>0){
       		$where.=" AND p.`branch_id` = ".$search['branch_id'];
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("p.branch_id");
+      	
       	$where.=" GROUP BY p.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
@@ -2229,6 +2309,10 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       	$from_date =(empty($search['start_date']))? '1': " date_release >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
       	$where.= " AND ".$from_date." AND ".$to_date;
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("branch_id");
+      	
       	$where.=" GROUP BY co_id,currency_type";
       	return $db->fetchAll($sql.$where);
       }
@@ -2271,6 +2355,8 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       		$to_date = (empty($search['end_date']))? '1': " rs.`reschedule_date` <= '".$search['end_date']." 23:59:59'";
       		$where.= " AND ".$from_date." AND ".$to_date;
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("l.branch_id");
       	 
       	$where.=" GROUP BY l.`currency_type`";
       	return $db->fetchAll($sql.$where);
@@ -2290,6 +2376,9 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       		$where.= " AND ".$from_date." AND ".$to_date;
       	}
       	 
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("l.branch_id");
+      	
       	$where.=" GROUP BY l.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
@@ -2348,6 +2437,10 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       		$to_date = (empty($search['end_date']))? '1': " rs.`selling_date` <= '".$search['end_date']." 23:59:59'";
       		$where.= " AND ".$from_date." AND ".$to_date;
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("rs.branch_id");
+      	
 		$where.=" LIMIT 1";
       	return $db->fetchRow($sql.$where);
     } 
@@ -2373,6 +2466,9 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       		$to_date = (empty($search['end_date']))? '1': " rs.`date_pay` <= '".$search['end_date']." 23:59:59'";
       		$where.= " AND ".$from_date." AND ".$to_date;
       	}
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("rs.branch_id");
+      	
 		$where.=" LIMIT 1";
       	return $db->fetchRow($sql.$where);
     }
@@ -2393,6 +2489,10 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
       		$to_date = (empty($search['end_date']))? '1': " rs.`date` <= '".$search['end_date']." 23:59:59'";
       		$where.= " AND ".$from_date." AND ".$to_date;
       	}
+      	
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.= $dbp->getAccessPermission("rs.branch_id");
+
 		$where.=" LIMIT 1";
       	return $db->fetchRow($sql.$where);
     }

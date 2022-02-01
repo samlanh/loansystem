@@ -148,7 +148,6 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
    		}catch (Exception $e){
    			$db->rollBack();
    			$err =$e->getMessage();
-   			echo $err;exit();
 			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
     }
@@ -158,9 +157,10 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
     	(SELECT name_en FROM `ln_view` WHERE type=28 AND key_code=account_id) as account_type,
     	brc.note,
     	brc.`status`
-    	FROM ln_branch_capital AS brc,`ln_branch` AS br WHERE brc.`branch_id`=br.`br_id`";
+    	FROM 
+    		ln_branch_capital AS brc,
+    		`ln_branch` AS br WHERE brc.`branch_id`=br.`br_id`";
     	$order=" order by id DESC";
-    	//brc.`date`,
     	$where = '';
     	
     	if(!empty($search['search'])){
@@ -173,6 +173,8 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
     	if($search['status']>-1){
     		$where.= " AND brc.`status` = ".$search['status'];
     	}
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("brc.branch_id");
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getpartnerById($id){

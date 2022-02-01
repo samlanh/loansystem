@@ -97,6 +97,10 @@ class Report_Model_DbTable_DbpawnCollect extends Zend_Db_Table_Abstract
     		$s_where[] = " loan_number LIKE '%{$s_search}%'";
     		$where .=' AND ( '.implode(' OR ',$s_where).')';
     	}
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("l.branch_id");
+    	
     	$order=" ORDER BY currency_type ASC, date_payment ASC";
     	return $db->fetchAll($sql.$where.$order);
     }

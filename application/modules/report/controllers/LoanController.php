@@ -1,6 +1,5 @@
 <?php
 class Report_LoanController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
      /* Initialize action controller here */
@@ -653,6 +652,7 @@ function rptPaymentschedulesAction(){
  
  }
  function rptLoanIncomeAction(){
+ 	
  	$db  = new Report_Model_DbTable_DbLoan();
  	 
  	$key = new Application_Model_DbTable_DbKeycode();
@@ -684,9 +684,8 @@ function rptPaymentschedulesAction(){
  	$this->view->footerReport = $frmpopup->getFooterReport();
  }
  function rptLoanPayoffAction(){
+ 	
  	$db  = new Report_Model_DbTable_DbLoan();
- 	//
- 	 
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
@@ -702,7 +701,7 @@ function rptPaymentschedulesAction(){
 		'paymnet_type'=> -1,
 	 	'status'      => "",);
  	}
- 	$this->view->LoanCollectionco_list =$db->getALLLoanPayoff($search);
+ 	$this->view->LoanCollectionco_list = $db->getALLLoanPayoff($search);
  	$this->view->list_end_date=$search;
  	$frm = new Loan_Form_FrmSearchGroupPayment();
  	$fm = $frm->AdvanceSearch();
@@ -792,8 +791,6 @@ function rptPaymentschedulesAction(){
  	
  	$frmpopup = new Application_Form_FrmPopupGlobal();
  	$this->view->footerReport = $frmpopup->getFooterReport();
- 	//$key = new Application_Model_DbTable_DbKeycode();
- 	//$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  }
  function rptLoanXchangeAction(){
  	$db  = new Report_Model_DbTable_DbLoan();
@@ -914,10 +911,6 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$frmpopup = new Application_Form_FrmPopupGlobal();
  	$this->view->footerReport = $frmpopup->getFooterReport();
  }
- 
- 
- 
- 
  
  function rptLoanClientcoAction()
  {
@@ -1198,11 +1191,11 @@ function rptLoanTrasferzoneAction(){//release all loan
  	
 	$saleInstall=$db->getTotalSaleInstallmentIncome($search);
 	if(!empty($saleInstall)){
- 		$income['saleTotalPrincipalPaid']	=$saleInstall['totalPrincipalPaid'];
-		$income['saleTotalInterestPaid']	=$saleInstall['totalInterestPaid'];
-		$income['saleTotalPaymentPaid']		=$saleInstall['totalPaymentPaid'];
-		$income['saleTotalRecieveAmount']	=$saleInstall['totalRecieveAmount'];
-		$income['saleTotalPenalizePaid']	=$saleInstall['totalPenalizePaid'];
+ 		$income['saleTotalPrincipalPaid']	= $saleInstall['totalPrincipalPaid'];
+		$income['saleTotalInterestPaid']	= $saleInstall['totalInterestPaid'];
+		$income['saleTotalPaymentPaid']		= $saleInstall['totalPaymentPaid'];
+		$income['saleTotalRecieveAmount']	= $saleInstall['totalRecieveAmount'];
+		$income['saleTotalPenalizePaid']	= $saleInstall['totalPenalizePaid'];
  	}
 	
 	$purchaseExpense = $db->getTotalPurchase($search);

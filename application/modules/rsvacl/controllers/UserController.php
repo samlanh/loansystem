@@ -67,48 +67,13 @@ class Rsvacl_UserController extends Zend_Controller_Action
         $link=array(
         		'module'=>'rsvacl','controller'=>'user','action'=>'edit',
         );
-        $this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('user_type'=>$link,'branch_name'=>$link,'user_name'=>$link,'name'=>$link));
+        $this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch_access'=>$link,'user_type'=>$link,'branch_name'=>$link,'user_name'=>$link,'name'=>$link));
     	$this->view->user_type = $_data['user_type'];
     	$this->view->active = $_data['active'];
     	$this->view->txtsearch = $_data['txtsearch'];
     }
-    public function viewUserAction()
-    {   
-    	/* Initialize action controller here */
-    	if($this->getRequest()->getParam('id')){
-    		$db = new Rsvacl_Model_DbTable_DbUser();
-    		$user_id = $this->getRequest()->getParam('id');
-    		$rs=$db->getUser($user_id);
-    		//print_r($rs); exit;
-    		$this->view->rs=$rs;
-    	}  	 
-    	
-    }
-	public function addUserAction()
-		{
-			$form=new RsvAcl_Form_FrmUser();	
-			$this->view->form=$form;
-			
-			if($this->getRequest()->isPost())
-			{
-				$db=new Rsvacl_Model_DbTable_DbUser();	
-				$post=$this->getRequest()->getPost();			
-				if(!$db->isUserExist($post['username'])){
-					
-						$id=$db->insertUser($post);
-						  //write log file 
-				             $userLog= new Application_Model_Log();
-				    		 $userLog->writeUserLog($id);
-				     	  //End write log file
-				
-						//Application_Form_FrmMessage::message('One row affected!');
-						Application_Form_FrmMessage::redirector('/rsvacl/user/index');																			
-				}else {
-					Application_Form_FrmMessage::message('User had existed already');
-				}
-			}
-			Application_Model_Decorator::removeAllDecorator($form);
-		}
+    
+	
 	public function addAction()
 	{
 			// action body
@@ -156,7 +121,13 @@ class Rsvacl_UserController extends Zend_Controller_Action
 			$us_id = $this->getRequest()->getParam('id');
 			$us_id = (empty($us_id))? 0 : $us_id;
 			
-			$this->view->user_edit = $db_user->getUserEdit($us_id);
+			$rsUser = $db_user->getUserEdit($us_id);
+			
+			if(empty($rsUser)){
+				Application_Form_FrmMessage::Sucessfull("NO_RECORD",self::REDIRECT_URL);
+			}
+			
+			$this->view->user_edit = $rsUser;
 
 			$user_type = $this->user_typelist;
 			$this->view->user_typelist =$user_type;

@@ -13,7 +13,11 @@ class Capital_Model_DbTable_DbCapitalResource extends Zend_Db_Table_Abstract
     public function getCapitalDetailById($id){
     	$db = $this->getAdapter();
 //     	$sql="CALL getCapitalDetailById($id);";
-		$sql=" SELECT * FROM `ln_capital_detail` WHERE `id` =$id  LIMIT 1";
+		$sql=" SELECT * FROM `ln_capital_detail` WHERE `id` =$id ";
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.= $dbp->getAccessPermission("branch_id");
+		$sql.="  LIMIT 1";
     	return $db->fetchRow($sql);
     }
     public function getAllCapitalDetail($search){
@@ -28,7 +32,6 @@ class Capital_Model_DbTable_DbCapitalResource extends Zend_Db_Table_Abstract
     		ln_capital_detail AS brc,
     		`ln_branch` AS br 
     		WHERE brc.`branch_id`=br.`br_id`";
-    	$order=" order by id DESC";
     	 
     	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
@@ -43,6 +46,12 @@ class Capital_Model_DbTable_DbCapitalResource extends Zend_Db_Table_Abstract
     	if($search['status']>-1){
     		$where.= " AND brc.`status` = ".$search['status'];
     	}
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("brc.branch_id");
+    	
+    	$order=" order by id DESC";
+    	
     	return $db->fetchAll($sql.$where.$order);
     }
     

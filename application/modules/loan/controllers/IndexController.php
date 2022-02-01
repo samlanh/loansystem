@@ -7,7 +7,6 @@ class Loan_IndexController extends Zend_Controller_Action {
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
     	$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
-	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
 		    if($this->getRequest()->isPost()){

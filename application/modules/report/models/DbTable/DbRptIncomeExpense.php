@@ -71,10 +71,10 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 		$where = " WHERE ".$from_date." AND ".$to_date;
 		$this->_name="ln_income_expense";
 		$sql=" SELECT *,
-		(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id =branch_id LIMIT 1) AS branch_name,
-		(SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1) AS category,
-		(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type
-		FROM $this->_name ";
+					(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id =branch_id LIMIT 1) AS branch_name,
+					(SELECT c.title FROM `ln_income_expense_category` AS c WHERE c.id = category_id LIMIT 1) AS category,
+					(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type
+			FROM $this->_name ";
 		$where.= " AND status = 1 ";
 		if (!empty($search['adv_search'])){
 			$s_where = array();
@@ -88,11 +88,7 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 	
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		/*
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
-		}
-		*/
+		
 		if($search['currency_type']>-1){
 			$where.= " AND curr_type = ".$search['currency_type'];
 		}
@@ -104,8 +100,10 @@ class Report_Model_DbTable_DbRptIncomeExpense extends Zend_Db_Table_Abstract
 				$where.=" AND branch_id= ".$search['branch_id'];
 			}
     	}
+    	
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$where.=$dbp->getAccessPermission('branch_id');
+		
 		$order=" order by id desc ";
 		return $db->fetchAll($sql.$where.$order);
 	}

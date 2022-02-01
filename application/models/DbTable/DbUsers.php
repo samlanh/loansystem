@@ -166,6 +166,8 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		if ($search['user_type'] >= 0 ){
 			$where .= ' AND u.`user_type` = '. $search['user_type'];
 		}
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.= $dbp->getAccessPermission("u.branch_list");
 		
 		return $db->fetchAll($sql.$where);		
 	}
@@ -203,6 +205,9 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 					
 				FROM `rms_users` AS u
 				WHERE u.id = ".$id;	
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.= $dbp->getAccessPermission("u.branch_list");
 		
 		return $db->fetchRow($sql);
 	}

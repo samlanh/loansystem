@@ -31,7 +31,6 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 			$this->view->list=$list->getCheckList(0,$collumns,$rs_rows,array('branch_namekh'=>$link,'amount_dollar'=>$link,'amount_reil'=>$link,'amount_bath'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
-			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		$fm = new Capital_Form_FrmCapitale();
@@ -104,10 +103,14 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam("id");
 		$row = $db_deposite->getCapitalDetailById($id);
+		
+		if(empty($row)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/capital/capitalresource");
+		}
+		
 		$deposite=new Capital_Form_FrmCapitale();
 		$frm = $deposite->frmCapital($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm=$frm;
 	}
-	
 }

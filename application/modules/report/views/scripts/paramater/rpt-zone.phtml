@@ -59,6 +59,7 @@ $frm = $this->frm_zone;
 		      <thead> 
 		    	<tr bgcolor="#ccc" class="style" align="center" style="height:25px; font-weight:bold; line-height: 20px; background: #ccd9ff; font-size:12px; padding:5px 0px; ">
 		        	<td><?php echo  $tr->translate("NUM");?></td>
+		        	<td><?php echo  $tr->translate("BRANCH_NAME");?></td>
 		            <td><?php echo  $tr->translate("ZONE_NAME");?></td>
 		            <td><?php echo  $tr->translate("ZONE_NUMBER");?></td>
 		            <td><?php echo  $tr->translate("DATE");?></td>
@@ -67,6 +68,7 @@ $frm = $this->frm_zone;
 		        <?php if(!empty($this->zone_list))foreach($this->zone_list as $key =>$row){?>
 				   <tr align="center" style="font-size: 11px;line-height: 18px;" >
 				     <td>&nbsp;&nbsp;<?php echo $key+1; ?></td>
+				     <td align="left">&nbsp;&nbsp;<?php echo $row['branch']?></td>
 				     <td align="left">&nbsp;&nbsp;<?php echo $row['zone_name']?></td>
 					 <td>&nbsp;&nbsp;<?php echo $row['zone_num']?></td>
 					 <td>&nbsp;&nbsp;<?php echo $row['modify_date']?></td>

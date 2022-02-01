@@ -25,7 +25,9 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     }
     public function getALLzone($search = null){
     	$db = $this->getAdapter();
-    	$sql="SELECT zone_id,zone_name,zone_num,modify_date,status FROM ln_zone WHERE 1";
+    	$sql="SELECT zone_id,
+    	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id=ln_zone.branch_id LIMIT 1) AS branch,
+    	zone_name,zone_num,modify_date,status FROM ln_zone WHERE 1";
     	$Other =" ORDER BY zone_id DESC ";
     	$where = '';
     	if($search['search_status']>-1){
@@ -40,7 +42,10 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     		$s_where[]="REPLACE(modify_date,' ','')  LIKE '%{$s_search}%'";
     		$where .=' AND '.implode(' OR ',$s_where).'';
     	}
-    	//echo $sql.$where.$Other;
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("branch_id");
+    	
     	return $db->fetchAll($sql.$where.$Other);
     }
     public function getALLstaff($search = null){
@@ -53,8 +58,6 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     	tel,basic_salary,national_id,address,degree,
     	(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id limit 1) AS branch_name,note FROM ln_co WHERE 1";
     	$Other =" ORDER BY co_id DESC ";
-    	//$where = '';
-    	//echo $search['txtsearch'];
     	if(!empty($search['co_khname'])){
     		$where.= " AND co_id = ".$search['co_khname'];
     	}
@@ -71,7 +74,9 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     		$s_where[]="REPLACE(national_id,' ','') LIKE '%{$s_search}%'";
     		$where .=' AND '.implode(' OR ',$s_where). '';
     	}
-    	//echo  $sql.$where.$Other;
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("branch_id");
+    	
     	return $db->fetchAll($sql.$where.$Other);
     }
     public function getAllVillage($search= null){
@@ -134,8 +139,10 @@ function getAllBranch($search=null){
     		$where.=' AND ('.implode(' OR ',$s_where).')';
     	}
     	$order=' ORDER BY b.br_id DESC';
-   //echo $sql.$where;
-   return $db->fetchAll($sql.$where.$order);
-    	}
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("b.br_id");
+   		return $db->fetchAll($sql.$where.$order);
+   }
 }
 

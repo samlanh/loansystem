@@ -145,7 +145,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     		$sql.= " AND s.is_completed=".$search['completed_status'];
     	}
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('branch_id');
+    	$sql.=$dbp->getAccessPermission('s.branch_id');
     	
     	$sql.=" ORDER BY s.`branch_id` DESC, s.selling_type ASC , s.`id` DESC";
     	return $db->fetchAll($sql);
@@ -226,8 +226,8 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     		SELECT (SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = sp.`branch_id` LIMIT 1) AS branch_namekh,
 			 sp.*, s.`supplier_no`,s.`sup_name`,s.`tel`,s.`email`
 			FROM 
-			ln_ins_supplier AS s,
-			ln_ins_purchase AS sp
+				ln_ins_supplier AS s,
+				ln_ins_purchase AS sp
 			WHERE s.id=sp.supplier_id
 			AND s.`status`=1
 			";
@@ -437,7 +437,7 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
 	   	}
 	   	$order=" GROUP BY `crm`.`id` ORDER BY $orderby DESC,`crm`.`loan_id` ASC,`crm`.`date_pay` ASC ";
 	   	
-   	return $db->fetchAll($sql.$where.$order);
+   		return $db->fetchAll($sql.$where.$order);
    }
    public function getAllOutstadingLoan($search=null){
    	$db = $this->getAdapter();
