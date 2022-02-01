@@ -1,12 +1,10 @@
 <?php
 class Installment_PaymentController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
-	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
 			$db = new Installment_Model_DbTable_DbInstallmentPayment();
@@ -41,10 +39,6 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			$link=array(
 					'module'=>'loan','controller'=>'payment','action'=>'edit',
 			);
-// 			$link1=array(
-// 					'module'=>'installment','controller'=>'payment','action'=>'delete',
-// 			);
-// 			'delete'=>$link1
 			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array());
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
@@ -171,6 +165,10 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$db = new Installment_Model_DbTable_DbInstallmentPayment();
 		$payment_il = $db->getInstallPaymentBYId($id);
+		if (empty($payment_il)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/installment/payment');
+			exit();
+		}
 		if (!empty($payment_il)){
 			if ($payment_il['is_closed']==1){
 				Application_Form_FrmMessage::Sucessfull("Can not delete this record","/installment/payment");exit();

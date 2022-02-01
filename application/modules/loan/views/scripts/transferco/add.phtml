@@ -120,7 +120,7 @@
 	                   </label>
 	                </div>
 					<div class="form-group noteblog">
-			        	<span>&nbsp;រាល់ទិ&#8203;ន្នន័យទាំងអស់នឹងត្រូវបានផ្ទេរពី COចាស់មក CO ថ្មីដូចជា ៖</span>
+			        	<span>&nbsp;រាល់ទិន្នន័យទាំងអស់នឹងត្រូវបានផ្ទេរពី COចាស់មក CO ថ្មីដូចជា ៖</span>
 		        		<ul >
 				        	<li>១. ប្រាក់បានបង់ពីមុន ទាំងអស់</li>
 				        	<li>២. កម្ចីដែលបានទំលាក់ទាំងអស់</li>
@@ -138,8 +138,36 @@
 		</form>
     </div>
  </div>
-
+ 
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
-
+dojo.require("dojo.data.ItemFileWriteStore");  
+require(["dojo/ready"], function(ready){
+	ready(function(){
+		 var branch_id = dijit.byId('branch_name');
+		 branch_id.on('change', function(evt) {
+			 getAllCo(branch_id);
+		});
+	});
+});
+var url_co = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-coname')); ?>';
+function getAllCo(branch_id){
+	 var branch_id = dijit.byId('branch_name').get('value');
+	dojo.xhrPost({
+		url:url_co,	
+		content:{ 
+			'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			co_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('formc_co').set('store', co_store);
+		    dijit.byId('to_co').set('store', co_store);
+		},
+		error: function(err) {
+		}
+	});
+}
+function getClientInfo(){}
 </script>

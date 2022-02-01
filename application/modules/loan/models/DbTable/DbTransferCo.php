@@ -42,7 +42,11 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     }
     public function getAllinfoTransfer($id){
     	$db = $this->getAdapter();
-    	$sql ="SELECT * FROM `ln_tranfser_co` WHERE id = $id";
+    	$sql ="SELECT * FROM `ln_tranfser_co` WHERE id = $id ";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.= $dbp->getAccessPermission("branch_id");
+    	
     	return $db->fetchRow($sql);
     }
     public function insertTransfer($data){

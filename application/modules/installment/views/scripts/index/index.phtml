@@ -84,11 +84,17 @@
 		dijit.byId('member').attr('value',customer_code);
 	}
 	function checkMember(){
-		customer_code= dijit.byId('member').get('value');
-		dijit.byId('customer_code').attr('value',customer_code);
+		
 	}	
+	function filterClient(){
+		branch_id= dijit.byId('branch_id').get('value');
+		if(branch_id>0){
+			getAllClientByBranch(branch_id);
+		}
+	}
 	var cate_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rs_cate));?> );
 	dojo.ready(function(){		
+		
 		 new dijit.form.FilteringSelect({
 				store: cate_store,
 				required: false,		           
@@ -102,7 +108,27 @@
 				onChange: function() {
 				}
 		}, "category_id");
+
+		 filterClient();
 	});
+
+	var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclieninstallment')); ?>';
+	function getAllClientByBranch(branch_id){
+		dojo.xhrPost({
+			url:url_getclient,	
+			content:{ 
+			    'branch_id':branch_id
+			},		    
+			handleAs:"json",
+			load: function(data) {
+				client_store  = getDataStorefromJSON('id','name', data);		
+			    dijit.byId('member').set('store', client_store);
+			},
+			error: function(err) {
+			}
+		});
+	}
+	
 
 	var row=0;
 	var url="";

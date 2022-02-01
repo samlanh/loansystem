@@ -1,7 +1,5 @@
 <?php
 class Installment_PurchaseController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
-	private $type = array(1=>'service',2=>'program');
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -35,7 +33,6 @@ class Installment_PurchaseController extends Zend_Controller_Action {
 			);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('invoice_no'=>$link,'branch_namekh'=>$link,'sup_name'=>$link,'supplier_no'=>$link,));
 			}catch (Exception $e){
-				echo $e->getMessage();exit();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 			$form=new Installment_Form_FrmPurchase();
@@ -81,17 +78,11 @@ class Installment_PurchaseController extends Zend_Controller_Action {
 		array_unshift($branch, array ( 'id' => -1,'name' =>$this->tr->translate("ADD_NEW")));
 		$this->view->bran_name = $branch;
 		
-// 		$fm = new Global_Form_Frmbranch();
-// 		$frm = $fm->Frmbranch();
-// 		Application_Model_Decorator::removeAllDecorator($frm);
-// 		$this->view->frm_branch = $frm;
-// 		echo 333;exit();
 	}
 	public function editAction(){
 		$id=$this->getRequest()->getParam('id');
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-// 			$_data['id']=$id;
 			try{
 				$db = new Installment_Model_DbTable_DbPurchase();
 				$row = $db->updatePurchase($_data);

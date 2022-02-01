@@ -204,7 +204,12 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 		    	s.product_id = p.id
 		    	AND s.branch_id = b.br_id 
 		    	AND c.client_id = s.customer_id
-		    	AND s.`status` =1 AND s.id = $id limit 1";
+		    	AND s.`status` =1 AND s.id = $id ";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.= $dbp->getAccessPermission("s.branch_id");
+		
+    	$sql.=" LIMIT 1 ";
     	return $db->fetchRow($sql);
     }
     function getSaleInventorySchedule($saleID){
@@ -727,16 +732,19 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
    	ps.`product_id`         AS `product_id`
    	
    	FROM `ln_ins_receipt_money` `crm`,
-   	`ln_ins_receipt_money_detail` `d`,
-   	`ln_ins_sales_install` `ps`
+	   	`ln_ins_receipt_money_detail` `d`,
+	   	`ln_ins_sales_install` `ps`
    	WHERE (`crm`.`status` = 1)
    	AND (`crm`.`id` = `d`.`receipt_id`)
    	AND (`crm`.`loan_id` = ps.id)
    	AND (`crm`.`status` = 1)
    	AND crm.id = $id
-   	GROUP BY `crm`.`id` ";
+    ";
+   	
+   	$dbp = new Application_Model_DbTable_DbGlobal();
+   	$sql.= $dbp->getAccessPermission("crm.branch_id");
    
-   	$sql.=" ORDER BY `crm`.`id` DESC LIMIT 1";
+   	$sql.=" GROUP BY `crm`.`id` ORDER BY `crm`.`id` DESC LIMIT 1";
    	return $db->fetchRow($sql);
    }
    
@@ -796,6 +804,10 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
 	(SELECT u.last_name FROM `rms_users` AS u WHERE u.id=g.`userId` LIMIT 1) AS last_name
    	FROM `ln_ins_generalsale` AS g
    	WHERE g.id=$id";
+   	
+   	$dbp = new Application_Model_DbTable_DbGlobal();
+   	$where.= $dbp->getAccessPermission("g.branch_id");
+   	
    	return $db->fetchRow($sql);
    }
    function getGeneraldetailSaleById($saleId){

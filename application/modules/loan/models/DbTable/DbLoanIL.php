@@ -133,16 +133,16 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	 
     	$db = $this->getAdapter();
     	$sql=" SELECT l.id,
-    	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
-    	l.loan_number,
-    	c.name_kh AS client_name_kh,
-    	CONCAT((SELECT symbol FROM `ln_currency` WHERE id =l.currency_type)
-    	,l.loan_amount) AS total_capital , interest_rate,
-    	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = l.payment_method LIMIT 1) AS payment_method,
-    	CONCAT( l.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =l.pay_term )),
-    	(SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
-    	(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
-    	l.date_release ";
+			    	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
+			    	l.loan_number,
+			    	c.name_kh AS client_name_kh,
+			    	CONCAT((SELECT symbol FROM `ln_currency` WHERE id =l.currency_type)
+			    	,l.loan_amount) AS total_capital , interest_rate,
+			    	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = l.payment_method LIMIT 1) AS payment_method,
+			    	CONCAT( l.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =l.pay_term )),
+			    	(SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
+			    	(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
+			    	l.date_release ";
     	
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->caseStatusShowImage("l.status");
@@ -191,8 +191,11 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	}else{
     		$where.= ' AND l.is_reschedule !=2 ';
     	}
-    	$order = " ORDER BY l.id DESC";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
     	$where.= $dbp->getAccessPermission("l.branch_id");
+    	
+    	$order = " ORDER BY l.id DESC";
     	
     	return $db->fetchAll($sql.$where.$order);
     }

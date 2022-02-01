@@ -74,14 +74,16 @@ class Loan_TransfercoloandController extends Zend_Controller_Action {
 		$db = new Loan_Model_DbTable_DbTransferCoClient();
 		if($this->getRequest()->isPost()){
 			$post = $this->getRequest()->getPost();
-			//print_r($post);exit(); 			
 			if(isset($post['btn_save_close'])){
 				$db->updatTransferloan($post, $id);
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transfercoloand/");
 			}
 		}
-		//print_r($id);exit();		
 		$data = $db->getAllinfoTransfer($id);
+		
+		if(empty($data)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/transfercoloand/");
+		}
 		$fm = new Loan_Form_FrmTransferCoClient();
 		$frm = $fm->FrmTransfer($data);
 		Application_Model_Decorator::removeAllDecorator($frm);

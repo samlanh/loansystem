@@ -3,7 +3,6 @@ class Installment_ProductController extends Zend_Controller_Action
 {
 public function init()
     {
-        /* Initialize action controller here */
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
     }
     protected function GetuserInfoAction(){
@@ -48,7 +47,7 @@ public function init()
 	}
 	public function addAction()
 	{
-		$db = new Installment_Model_DbTable_DbProduct();
+		    $db = new Installment_Model_DbTable_DbProduct();
 			if($this->getRequest()->isPost()){ 
 				try{
 					$post = $this->getRequest()->getPost();
@@ -86,9 +85,6 @@ public function init()
 	        		'name' => 'Add New',
 	        ) );
 	        $this->view->rs_protype=$row_protype;
-	        
-	        $db = new Application_Model_GlobalClass();
-	        $this->view->rsbranch = $db->getAllBranchOption();
 	}
 	public function editAction()
 	{
@@ -99,13 +95,17 @@ public function init()
 					$post = $this->getRequest()->getPost();
 					$post["id"] = $id;
 					$db->edit($post);
-						Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS", '/installment/product');
+					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS", '/installment/product');
 				  }catch (Exception $e){
 				  	Application_Form_FrmMessage::messageError("INSERT_ERROR", $e->getMessage());
 				  }
 		}
-// 		print_r($db->getProductById($id));exit();
-		$this->view->rs_location = $db->getProductLocation($id);
+		$proLocation = $db->getProductLocation($id);
+		if (empty($proLocation)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/product");exit();
+		}
+		$this->view->rs_location = $proLocation;
+		
 		$this->view->rspro =  $db->getProductById($id);
 		
 		$dbc = new Application_Model_GlobalClass();
@@ -131,8 +131,6 @@ public function init()
 				'name' => 'Add New',
 		) );
 		$this->view->rs_protype=$row_protype;
-		$db = new Application_Model_GlobalClass();
-		$this->view->rsbranch = $db->getAllBranchOption();
 	}
 	public function copyAction()
 	{
@@ -152,8 +150,13 @@ public function init()
 				Application_Form_FrmMessage::messageError("INSERT_ERROR", $e->getMessage());
 			}
 		}
-		// 		print_r($db->getProductById($id));exit();
-		$this->view->rs_location = $db->getProductLocation($id);
+		
+		$proLocation = $db->getProductLocation($id);
+		if (empty($proLocation)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/product");exit();
+		}
+		
+		$this->view->rs_location = $proLocation;
 		$this->view->rspro =  $db->getProductById($id);
 	
 		$dbc = new Application_Model_GlobalClass();

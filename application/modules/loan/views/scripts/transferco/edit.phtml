@@ -140,6 +140,36 @@
     </div>
  </div>
 
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
+dojo.require("dojo.data.ItemFileWriteStore");  
+require(["dojo/ready"], function(ready){
+	ready(function(){
+		 var branch_id = dijit.byId('branch_name');
+		 branch_id.on('change', function(evt) {
+			 getAllCo(branch_id);
+		});
+		 getAllCo();
+	});
+});
+var url_co = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-coname')); ?>';
+function getAllCo(){
+	 var branch_id = dijit.byId('branch_name').get('value');
+	dojo.xhrPost({
+		url:url_co,	
+		content:{ 
+			'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			co_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('formc_co').set('store', co_store);
+		    dijit.byId('to_co').set('store', co_store);
+		},
+		error: function(err) {
+		}
+	});
+}
+function getClientInfo(){}
 </script>

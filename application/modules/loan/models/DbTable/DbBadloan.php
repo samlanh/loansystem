@@ -182,13 +182,13 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	
     	$db = $this->getAdapter();
     	$sql = "SELECT l.id,b.branch_namekh,
-    	(SELECT ld.loan_number FROM `ln_loan` AS ld WHERE ld.id=l.loan_id LIMIT 1) AS loan_number,
-    	CONCAT((SELECT client_number FROM `ln_client` WHERE client_id = l.client_code LIMIT 1),' - ',		
-    	(SELECT name_kh FROM `ln_client` WHERE client_id = l.client_code LIMIT 1)) AS client_name_en,
-  		DATE_FORMAT(l.loss_date, '%d-%m-%Y'), 
-		CONCAT (total_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS total_amount ,
-		CONCAT (intrest_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS intrest_amount ,
-		CONCAT (l.tem,' Days')as tem,l.note,l.date   ";  
+			    	(SELECT ld.loan_number FROM `ln_loan` AS ld WHERE ld.id=l.loan_id LIMIT 1) AS loan_number,
+			    	CONCAT((SELECT client_number FROM `ln_client` WHERE client_id = l.client_code LIMIT 1),' - ',		
+			    	(SELECT name_kh FROM `ln_client` WHERE client_id = l.client_code LIMIT 1)) AS client_name_en,
+			  		DATE_FORMAT(l.loss_date, '%d-%m-%Y'), 
+					CONCAT (total_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS total_amount ,
+					CONCAT (intrest_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS intrest_amount ,
+					CONCAT (l.tem,' Days')as tem,l.note,l.date   ";  
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->caseStatusShowImage("l.status");
     	$sql.=" FROM `ln_badloan` AS l,ln_branch AS b WHERE b.br_id = l.branch";
@@ -227,6 +227,9 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     		$s_where[]=" l.tem = '{$s_search}' ";
     		$where .=' AND ('.implode(' OR ',$s_where).' )';
     	}
+    	
+    	$where.= $dbp->getAccessPermission("l.branch");
+    	
     	$order = ' ORDER BY l.id DESC ';
     	return $db->fetchAll($sql.$where.$order);
     }

@@ -115,7 +115,8 @@ public function getAllSale($search,$reschedule =null){
 		if(($search['completed_status'])>-1){
     		$where.= " AND l.is_completed=".$search['completed_status'];
     	}
-		$where.=$dbp->getAccessPermission('l.branch_id');
+    	
+		 $where.=$dbp->getAccessPermission('l.branch_id');
 		$order = " ORDER BY l.id DESC";
 		$db = $this->getAdapter();
 		return $db->fetchAll($sql.$where.$order);

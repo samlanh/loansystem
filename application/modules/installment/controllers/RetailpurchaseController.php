@@ -1,7 +1,5 @@
 <?php
 class Installment_RetailpurchaseController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
-	private $type = array(1=>'service',2=>'program');
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -69,24 +67,13 @@ class Installment_RetailpurchaseController extends Zend_Controller_Action {
 		$this->view->pu_code=$_pur->getPurchaseCode();
 		$this->view->sup_ids=$_pur->getSuplierName();
 		$this->view->buyer_ids=$_pur->getBuyerName();
-// 		$this->view->bran_name=$_pur->getAllBranchName();
 		
-// 		$_pro = new Installment_Model_DbTable_DbProduct();
-// 		$this->view->pro_code=$_pro->getProCode();
-// 		$pro_cate = $_pro->getProductCategory();
-// 		array_unshift($pro_cate, array('id'=>'-1' , 'name'=>$this->tr->translate("ADD_NEW")));
-// 		$this->view->cat_rows = $pro_cate;
 		
 		$model = new Application_Model_DbTable_DbGlobal();
 		$branch = $model->getAllBranchName();
 		array_unshift($branch, array ( 'id' => -1,'name' =>$this->tr->translate("ADD_NEW")));
 		$this->view->bran_name = $branch;
 		
-// 		$fm = new Global_Form_Frmbranch();
-// 		$frm = $fm->Frmbranch();
-// 		Application_Model_Decorator::removeAllDecorator($frm);
-// 		$this->view->frm_branch = $frm;
-// 		echo 333;exit();
 		$dbgb = new Application_Model_DbTable_DbGlobal();
 		$opt_status = $dbgb->getVewOptoinTypeByType(11);
 		$this->view->sex = $opt_status;

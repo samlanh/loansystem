@@ -1,13 +1,10 @@
 <?php
 class Loan_RepaymentScheduleController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
-     /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
-	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
 		    if($this->getRequest()->isPost()){
@@ -95,7 +92,11 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 			}
 			$this->view->rsid=$id;
 			$db = new Loan_Model_DbTable_DbLoandisburse();
-			$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
+			$rs = $db->getTranLoanByIdWithBranch($id,1);
+			if(empty($rs)){
+				Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index");
+			}
+			$this->view->rsloan = $rs;
 		}
 	}	
 // 	public function addloanAction(){

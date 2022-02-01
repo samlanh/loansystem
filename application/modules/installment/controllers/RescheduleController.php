@@ -1,6 +1,5 @@
 <?php
 class Installment_RescheduleController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
     	header('content-type: text/html; charset=utf8');
@@ -77,6 +76,11 @@ class Installment_RescheduleController extends Zend_Controller_Action {
   	
   	$db = new Installment_Model_DbTable_DbInstallmentPayment();
   	$row = $db->getSaleinstallbyid($id);
+  	
+  	if (empty($row)){
+  		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment");exit();
+  	}
+  	
   	$frm = new Installment_Form_FrmLoan();
   	$frm_loan=$frm->FrmAddLoan();
   	Application_Model_Decorator::removeAllDecorator($frm_loan);

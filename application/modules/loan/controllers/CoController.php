@@ -1,6 +1,5 @@
 <?php
 class Loan_CoController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
 	const REDIRECT_URL = '/loan';
     public function init()
     {    	

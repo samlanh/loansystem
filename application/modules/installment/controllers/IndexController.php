@@ -1,12 +1,10 @@
 <?php
 class Installment_IndexController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
-	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
 		    if($this->getRequest()->isPost()){
@@ -36,10 +34,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 					'module'=>'installment','controller'=>'index','action'=>'view',
 			);
 			$link_info=array('module'=>'installment','controller'=>'index','action'=>'edit',);
-// 			$link_schedule=array('module'=>'report','controller'=>'loan','action'=>'rpt-paymentschedules',);
-				
-// 			$link_payment=array('module'=>'installment','controller'=>'payment','action'=>'add',);
-// 			'បោះពុម្ភ'=>$link_schedule,'Click Here'=>$link_payment,
+			
 			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array('branch'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'sale_no'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
@@ -173,33 +168,6 @@ class Installment_IndexController extends Zend_Controller_Action {
 		    exit();
 		}
 	}
-// 	public function getLoaninfoAction(){//from repayment schedule
-// 		if($this->getRequest()->isPost()){
-// 			$data=$this->getRequest()->getPost();
-// 			$db=new Loan_Model_DbTable_DbRepaymentSchedule();
-// 			$row=$db->getLoanInfo($data['loan_id']);
-// 			print_r(Zend_Json::encode($row));
-// 			exit();
-// 		}
-// 	}
-// 	function getloanBymemberidAction(){
-// 		if($this->getRequest()->isPost()){
-// 			$data=$this->getRequest()->getPost();
-// 			$db=new Loan_Model_DbTable_DbRepaymentSchedule();
-// 			$row=$db->getLoanInfoBymemberId($data['loan_id']);
-// 			print_r(Zend_Json::encode($row));
-// 			exit();
-// 		}
-// 	}
-//     function getloannumberAction(){
-//     			if($this->getRequest()->isPost()){
-//     				$data = $this->getRequest()->getPost();
-//     				$db = new Application_Model_DbTable_DbGlobal();
-// 		            $loan_number = $db->getLoanNumber($data);
-//     				print_r(Zend_Json::encode($loan_number));
-//     				exit();
-//     			}
-//     }
 	public function testAction($result=null,$table='ln_branch'){
 	}
 	function addloantestAction(){
@@ -211,17 +179,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 				exit();
 		}
 	}
-// 	function addNewloantypeAction(){
-// 	if($this->getRequest()->isPost()){
-// 			$data = $this->getRequest()->getPost();
-// 			$data['status']=1;
-// 			$data['display_by']=1;
-// 			$db = new Other_Model_DbTable_DbLoanType();
-// 			$id = $db->addViewType($data);
-// 			print_r(Zend_Json::encode($id));
-// 			exit();
-// 		}
-// 	}
+
 	/* vandy get Client Installment Information for show on Invoice  */
 	function getclientinsinfoAction(){
 		if($this->getRequest()->isPost()){

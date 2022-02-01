@@ -55,8 +55,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 			  (SELECT c.name FROM `ln_ins_producttype` AS  c WHERE c.id=p.`product_type` LIMIT 1) AS product_type,
 			  (SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat,
 			  SUM(pl.`qty`) AS qty,cost_price,selling_price,
-			  (SELECT `first_name` FROM `rms_users` WHERE rms_users.`id`=p.`user_id` LIMIT 1) AS user_name
-			";
+			  (SELECT `first_name` FROM `rms_users` WHERE rms_users.`id`=p.`user_id` LIMIT 1) AS user_name ";
   	
   	$dbp = new Application_Model_DbTable_DbGlobal();
   	$sql.=$dbp->caseStatusShowImage("p.`status`");
@@ -89,6 +88,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
   		$where.=' AND p.status='.$data["status"];
   	}
   	$location = $dbp->getAccessPermission('pl.`location_id`');
+  	
   	$group_by = " GROUP BY p.id,pl.`location_id` DESC ";
   	return $db->fetchAll($sql.$where.$location.$group_by);
   }  
@@ -314,6 +314,9 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 		if (!empty($branchList)){
 			$sql.=" AND br_id NOT IN ($branchList) ";
 		}
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.= $dbp->getAccessPermission("br_id");
 		$row = $db->fetchAll($sql);
 		return $row;
 		

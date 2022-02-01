@@ -642,9 +642,10 @@ public function getInstallPaymentBYId($id){
 		   	AND (`crm`.`id` = `d`.`receipt_id`)
 		   	AND (`crm`.`loan_id` = ps.id)
 		   	AND (`crm`.`status` = 1)
-		   	AND crm.id = $id
-   		GROUP BY `crm`.`id` ";
-   		$sql.=" ORDER BY `crm`.`id` DESC LIMIT 1";
+		   	AND crm.id = $id  ";
+	   	$dbp = new Application_Model_DbTable_DbGlobal();
+	   	$sql.= $dbp->getAccessPermission("crm.branch_id");
+   		$sql.=" GROUP BY `crm`.`id` ORDER BY `crm`.`id` DESC LIMIT 1";
    	return $db->fetchRow($sql);
    }
    

@@ -43,7 +43,9 @@ class Loan_Model_DbTable_DbTransferZone extends Zend_Db_Table_Abstract
     		$s_where[]="REPLACE(t.note,' ','')  LIKE '%{$s_search}%'";
     		$where .=' AND '.implode(' OR ',$s_where).' ';
     	}
-    	//echo $sql.$where;
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("t.branch_id");
+    	
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllinfoTransfer($id){

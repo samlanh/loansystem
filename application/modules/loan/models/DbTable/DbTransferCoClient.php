@@ -49,6 +49,8 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     	if(($search['name_co'])>0){
     		$where.= " AND tf.to = ".$search['name_co'] ;
     	}
+    	
+    	$where.= $dbp->getAccessPermission("tf.branch_id");
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllinfoCo($search){//type =2
@@ -84,6 +86,10 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     	if($search['status']>-1){
     		$where.= " AND tf.status = ".$search['status'];
     	}
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("tf.branch_id");
+    	
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllinfoCoLoan($search){//type=3
@@ -128,12 +134,18 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     	if(($search['status'])>-1){
     		$where.= " AND tf.status= ".$search['status'] ;
     	}
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.= $dbp->getAccessPermission("tf.branch_id");
     	
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllinfoTransfer($id){
     	$db = $this->getAdapter();
     	$sql ="SELECT * FROM `ln_tranfser_co` WHERE id = $id";
+    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.= $dbp->getAccessPermission("branch_id");
+    	
     	return $db->fetchRow($sql);
     }
    

@@ -8,7 +8,6 @@ class Loan_BadloanController extends Zend_Controller_Action {
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
-	
 	public function indexAction()
 	{
 		try{
@@ -35,7 +34,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			$link=array(
 					'module'=>'loan','controller'=>'badloan','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_row,array('branch_namekh'=>$link,'client_name_en'=>$link,
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_row,array('branch_namekh'=>$link,'loan_number'=>$link,'client_name_en'=>$link,
 					'total_amount'=>$link,'intrest_amount'=>$link,'loss_date'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
@@ -80,7 +79,12 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			}
 			$this->view->rsid=$id;
 			$db = new Loan_Model_DbTable_DbLoandisburse();
-			$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
+			$rs = $db->getTranLoanByIdWithBranch($id,1);
+			if(empty($rs)){
+				Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index");
+			}
+			
+			$this->view->rsloan =  $rs;
 		}
 	}
 	

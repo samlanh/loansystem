@@ -33,7 +33,6 @@ class Loan_TransfercoClientController extends Zend_Controller_Action {
  			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_name'=>$link,'client_name'=>$link,'to_coname'=>$link));
  		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
- 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
  		}
  		$fm = new Loan_Form_FrmTransferCoClient();
@@ -78,7 +77,7 @@ class Loan_TransfercoClientController extends Zend_Controller_Action {
 		$data = $db->getAllinfoTransfer($id);
 		$fm = new Loan_Form_FrmTransferCoClient();
 		if(empty($data)){
-			Application_Form_FrmMessage::Sucessfull("Can not get data","/loan/transfercoclient/");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/transfercoclient/");
 		}
 		$frm = $fm->FrmTransfer($data);
 		Application_Model_Decorator::removeAllDecorator($frm);
