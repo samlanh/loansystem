@@ -1,12 +1,10 @@
 <?php
 class Pawnshop_RescheduleController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
-	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
 		    if($this->getRequest()->isPost()){
@@ -100,6 +98,11 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
 		
 		$db = new Pawnshop_Model_DbTable_DbPawnshop();
 		$row = $db->getPawnshopById($id);
+		
+		if ($id>0 AND empty($row)){
+			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/pawnshop");
+		}
+		
 		$this->view->datarow = $row;
 	
 	}

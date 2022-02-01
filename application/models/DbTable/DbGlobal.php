@@ -686,29 +686,32 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	
   }
   public function getClientPawnshop($loan_id){//for pawn
-  	$sql="
-  	SELECT l.level,
-  	l.date_release,
-  	l.total_duration,
-  	l.first_payment,
-  	l.payment_method,
-  	l.release_amount AS total_capital,l.loan_number,
-  	l.interest_rate,
-  	l.branch_id,
-  	l.customer_id AS client_id,
-  	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
-  	(SELECT client_number FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
-  	(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
-  	(SELECT name_en FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
-  	(SELECT phone FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_phone,
-  	(SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code = l.term_type ) term_type,
-  	(SELECT curr_namekh FROM `ln_currency` WHERE id = l.currency_type LIMIT 1) AS currency_type,
-  	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = l.user_id LIMIT 1) AS user_name
+  	$sql="SELECT l.level,
+	  	l.date_release,
+	  	l.total_duration,
+	  	l.first_payment,
+	  	l.payment_method,
+	  	l.release_amount AS total_capital,l.loan_number,
+	  	l.interest_rate,
+	  	l.branch_id,
+	  	l.customer_id AS client_id,
+	  	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
+	  	(SELECT client_number FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
+	  	(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
+	  	(SELECT name_en FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
+	  	(SELECT phone FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_phone,
+	  	(SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code = l.term_type ) term_type,
+	  	(SELECT curr_namekh FROM `ln_currency` WHERE id = l.currency_type LIMIT 1) AS currency_type,
+	  	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = l.user_id LIMIT 1) AS user_name
   	FROM
-  	`ln_pawnshop` AS l WHERE 1 ";
+  		`ln_pawnshop` AS l WHERE 1 ";
   	if(!empty($loan_id)){
   		$sql.=" AND l.id = $loan_id";
   	}
+  	
+  	$dbp = new Application_Model_DbTable_DbGlobal();
+  	$sql.= $dbp->getAccessPermission("l.branch_id");
+  	
   	$db=$this->getAdapter();
   	return $db->fetchRow($sql);
   }

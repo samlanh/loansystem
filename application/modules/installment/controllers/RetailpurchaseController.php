@@ -33,7 +33,6 @@ class Installment_RetailpurchaseController extends Zend_Controller_Action {
 			);
 			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array('invoice_no'=>$link,'branch_namekh'=>$link,'sup_name'=>$link,'supplier_no'=>$link,));
 			}catch (Exception $e){
-				echo $e->getMessage();exit();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 			$form=new Installment_Form_FrmPurchase();
@@ -95,7 +94,6 @@ class Installment_RetailpurchaseController extends Zend_Controller_Action {
 			}catch(Exception $e){
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-				echo $e->getMessage();
 			}
 		}
 		$_pur = new Installment_Model_DbTable_DbRetailPurchase();

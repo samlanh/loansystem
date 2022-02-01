@@ -92,6 +92,10 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 	public function getClientById($id){
 		$db = $this->getAdapter();
 		$sql = "SELECT * FROM $this->_name WHERE client_id = ".$db->quote($id);
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.= $dbp->getAccessPermission("branch_id");
+		
 		$sql.=" LIMIT 1 ";
 		$row=$db->fetchRow($sql);
 		return $row;

@@ -38,8 +38,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 				CASE    
 					WHEN  is_dach = 0 THEN ''
 					WHEN  is_dach = 1 THEN '$pawnDead'
-				END AS dach_status
-    		 ";
+				END AS dach_status  ";
     	
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->caseStatusShowImage("status");
@@ -78,12 +77,15 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	}
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$where.=$dbp->getAccessPermission('branch_id');
- 	   $order=" ORDER BY id DESC";
+ 	    $order=" ORDER BY id DESC";
     	$db = $this->getAdapter();    
     	return $db->fetchAll($sql.$where.$order);
     }
     function getPawnshopById($id){//group id
     	$sql = " SELECT * FROM ln_pawnshop WHERE id =  $id ";
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.= $dbp->getAccessPermission("branch_id");
+    	
     	$where=" LIMIT 1 ";
     	return $this->getAdapter()->fetchRow($sql.$where);
     }

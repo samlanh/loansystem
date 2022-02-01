@@ -133,7 +133,12 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 			(SELECT first_name FROM `rms_users` WHERE id=user_id) AS user_name,
 			(SELECT SUM(rep.extra_loan) FROM `ln_pawnshop_reschedule` AS rep WHERE rep.pawnshop_id = s.`id` LIMIT 1) AS extra_loan
 		 FROM $this->_name AS s
-		WHERE s.`id` = $pawnID LIMIT 1";
+		WHERE s.`id` = $pawnID ";
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.= $dbp->getAccessPermission("s.branch_id");
+		
+		$sql.=" LIMIT 1";
 		return $db->fetchRow($sql);
 	}
 	function getPawnShopRescheduleInfo($pawnRescheduleID){

@@ -1,6 +1,5 @@
 <?php
 class Report_PawnController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
     	header('content-type: text/html; charset=utf8');
@@ -242,7 +241,12 @@ function rptPaymentschedulesAction(){
 	}
 	$db = new Application_Model_DbTable_DbGlobal();
 
-	$this->view->client =$db->getClientPawnshop($id);;
+	$row = $db->getClientPawnshop($id);
+	
+	if (empty($row)){
+		Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/report/pawn/rpt-loan-disburse");
+	}
+	$this->view->client =$row;
 	
 	$day_inkhmer = $db->getDayInkhmerBystr(null);
 	$this->view->day_inkhmer = $day_inkhmer;

@@ -94,7 +94,9 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       }
       public function getPaymentSchedule($id){
       	$db=$this->getAdapter();
-      	$sql = "SELECT * FROM `ln_pawnshop_detail` WHERE pawn_id = $id ORDER BY installment_amount ASC,date_payment ASC ";
+      	$sql = "SELECT * FROM `ln_pawnshop_detail` WHERE pawn_id = $id ";
+      	
+      	$sql.=" ORDER BY installment_amount ASC,date_payment ASC ";
       	return $db->fetchAll($sql);
       }
       public function getAllDailyLoan($search = null){//rpt-loan-released/
@@ -716,7 +718,6 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       	$where.=$dbp->getAccessPermission('branch_id');
       	
       	$order=" GROUP BY `crm`.`client_id`,`crm`.`id` ORDER BY `crm`.`client_id` ASC,`crm`.`loan_id` ASC,`crm`.`date_pay` ASC,`crm`.`receipt_no` ASC ";
-//       	echo $sql.$where.$order;exit();
       	return $db->fetchAll($sql.$where.$order);
       }
       public function getALLCommission($search=null){
@@ -2465,6 +2466,8 @@ AND cl.client_id = $client_id )";
       	WHERE (`l`.`status` = 1)
       	AND `c`.`client_id` = `l`.`customer_id` AND `l`.`id` = $id";
       	$where ='';
+      	$dbp = new Application_Model_DbTable_DbGlobal();
+      	$where.= $dbp->getAccessPermission("l.branch_id");
       	$where.=" ORDER BY `l`.`branch_id`,`l`.`currency_type` LIMIT 1";
       	return $db->fetchRow($sql.$where);
       }
