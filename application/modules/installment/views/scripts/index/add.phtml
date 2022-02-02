@@ -103,6 +103,13 @@
 	                   </div>
 	                </div>
 	                <div class="form-group">
+	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SHOP_NAME");?>
+	                   </label>
+	                   <div class="col-md-7 col-sm-7 col-xs-12">
+	                   		<input id="shop_id" />
+	                   </div>
+	                </div>
+	                <div class="form-group">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -812,6 +819,19 @@ require(["dojo/ready"], function(ready){
 			getProductInfo();
 		}
 	}, "product_name");
+
+	new dijit.form.FilteringSelect({
+		required: true,		           
+		name: "shop_id",
+		id: "shop_id",
+		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
+		class: 'fullside',
+		onChange: function() {
+		}
+	}, "shop_id");
+
 });
 
 var url_getproduct = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'getproductbycate')); ?>';
@@ -841,6 +861,9 @@ function getAllProduct(){
 }
 function filterClient(){
 		branch_id = dijit.byId('branch_id').get('value');
+		if(branch_id=='' ){
+			return false;
+		}
 		dijit.byId('member').query.branch_id = branch_id;
 		dijit.byId('customer_code').query.branch_id = branch_id;
 		dijit.byId('customer_code').reset();
@@ -849,6 +872,23 @@ function filterClient(){
 		getAllClientNumberByBranch(branch_id);
 		getReceiptbybranch();
 		getbranchinfo();
+		getShopBybranch(branch_id);
+}
+var url_getshop = '<?php echo $this->url(array('module'=>'installment','controller'=>'shop','action'=>'getshopbyid')); ?>';
+function getShopBybranch(branch_id){
+	dojo.xhrPost({
+		url:url_getshop,	
+		content:{ 
+		    'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			shop_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('shop_id').set('store', shop_store);
+		},
+		error: function(err) {
+		}
+	});
 }
 var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclieninstallment')); ?>';
 function getAllClientByBranch(branch_id){

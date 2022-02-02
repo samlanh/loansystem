@@ -105,6 +105,7 @@ $scheduleSetting=INS_SCHEDULE_OPTION;
 									  <p><?php echo $tr->translate("INTEREST")." : ".$sale['interest_rate']." %"?> </p>
 				                      <?php }?>
 									  <p><?php echo $tr->translate("TOTAL_INSTALL_AMOUNT");?>  : <strong><?php echo number_format($sale['balance'],(!strrpos($sale['balance'],". "))? 0 : 2);echo '&nbsp;'." $";?></strong></p>
+									  <p><?php echo $tr->translate("SHOP_NAME");?>  : <strong><?php echo $sale['shop_name'];?></strong></p>
 				                    </td>
 				                </tr>
 				                <tr style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'" >

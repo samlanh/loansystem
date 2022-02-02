@@ -9,7 +9,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	$sql="SELECT COUNT(br_id) AS branch FROM ln_branch";
     	return $db->fetchOne($sql);
     }
-    function addbranch($_data){
+    function addBranch($_data){
     	try{
 	    	$part= PUBLIC_PATH.'/images/branch/';
 	    	if (!file_exists($part)) {

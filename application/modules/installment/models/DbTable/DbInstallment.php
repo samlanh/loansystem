@@ -55,6 +55,7 @@ public function getAllSale($search,$reschedule =null){
 		$db = $this->getAdapter();
 		$sql=" SELECT l.id,
 			(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
+			(SELECT shop_namekh FROM `ln_lns_shop` WHERE ln_lns_shop.shop_id=l.shop_id) AS shop_name,
 			l.sale_no,
 			(SELECT name_kh FROM `ln_ins_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
 			(SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat_name,
@@ -109,6 +110,9 @@ public function getAllSale($search,$reschedule =null){
 		if(($search['category_id'])>0){
 			$where.= " AND l.cate_id=".$search['category_id'];
 		}
+		if(($search['shop_id'])>0){
+			$where.= " AND l.shop_id=".$search['shop_id'];
+		}
 		if(($search['selling_type'])>0){
 			$where.= " AND l.selling_type=".$search['selling_type'];
 		}
@@ -132,6 +136,7 @@ public function addSaleInstallment($data){
 
 		$datagroup = array(
 				'branch_id'=>$data['branch_id'],
+				'shop_id'=>$data['shop_id'],
 				'sale_no'=>$loan_number,
 				'customer_id'=>$data['member'],
 				'invoice_no'=>$data['invoice_no'],

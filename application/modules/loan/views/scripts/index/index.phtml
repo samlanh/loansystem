@@ -1,4 +1,9 @@
 <?php 
+
+$date = new DateTime('2022-03-14');
+$date->modify('+2 week');
+echo $date->format('Y-m-d');
+
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("IL_DISBURSE"));
 $frm = $this->frm_search;

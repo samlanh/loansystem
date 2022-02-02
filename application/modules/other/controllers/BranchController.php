@@ -49,7 +49,7 @@ class Other_BranchController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			$_dbmodel = new Other_Model_DbTable_DbBranch();
 			try {
-				$_dbmodel->addbranch($_data);
+				$_dbmodel->addBranch($_data);
 				if(!empty($_data['save_new'])){
 					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . "/branch/index/add");
 				}

@@ -16,6 +16,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 					'member'=> -1,
 					'repayment_method' => -1,
 					'branch_id' => -1,
+					'shop_id' => -1,
 					'category_id' => -1,
 					'status' => -1,
 					'selling_type'=>-1,
@@ -28,7 +29,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllSale($search);
 			
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","INSTALLMENT_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
+			$collumns = array("BRANCH_NAME","SHOP_NAME","INSTALLMENT_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
 					"SOLD_DATE","INVOICE_NO","SALE_TYPE","REPAYMENT_TYPE","INSTALLMENT_DURATION","COMPLETED","BY","STATUS");
 			$link=array(
 					'module'=>'installment','controller'=>'index','action'=>'view',
@@ -57,8 +58,8 @@ class Installment_IndexController extends Zend_Controller_Action {
   }
   function addAction()
   {
-  	$dbs = new Application_Model_DbTable_DbKeycode();
-  	$rsd = $dbs->getKeyCodeMiniInv();
+	  	$dbs = new Application_Model_DbTable_DbKeycode();
+	  	$rsd = $dbs->getKeyCodeMiniInv();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {

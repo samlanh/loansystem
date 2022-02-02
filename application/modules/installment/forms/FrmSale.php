@@ -141,6 +141,22 @@ class Installment_Form_FrmSale extends Zend_Form
 		$_completed_status->setMultiOptions($options);
 		$_completed_status->setValue($request->getParam("completed_status"));
 		
+		$opt = array(-1=>$tr->translate("PRODUCT_SHOP"));
+		$shop_id = new Zend_Form_Element_Select("shop_id");
+		$shop_id->setAttribs(array(
+				'class'=>'form-control',
+				'onChange'=>'',
+				'class'=>'fullside',
+				'dojoType'=>'dijit.form.FilteringSelect',
+		));
+		$row = $dbg->getAllShopBranch();
+		if(!empty($row)){
+			foreach ($row as $rs){
+				$opt[$rs["id"]] = $rs["name"];
+			}
+		}
+		$shop_id->setMultiOptions($opt);
+		$shop_id->setValue($request->getParam("shop_id"));
 		
 // 		if($data!=null){
 // 			$name->setValue($data["item_name"]);
@@ -154,7 +170,7 @@ class Installment_Form_FrmSale extends Zend_Form
 // 			$price->setValue($data["price"]);
 // 		}
 		
-		$this->addElements(array($category,$to_date,$from_date,$branch_id,$_title,$_status,$customer,
+		$this->addElements(array($shop_id,$category,$to_date,$from_date,$branch_id,$_title,$_status,$customer,
 		
 		$_completed_status
 		));

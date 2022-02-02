@@ -232,6 +232,23 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 		$_completed_status->setMultiOptions($options);
 		$_completed_status->setValue($request->getParam("completed_status"));
 		
+		$opt = array(-1=>$this->tr->translate("PRODUCT_SHOP"));
+		$shop_id = new Zend_Form_Element_Select("shop_id");
+		$shop_id->setAttribs(array(
+				'class'=>'form-control',
+				'onChange'=>'',
+				'class'=>'fullside',
+				'dojoType'=>'dijit.form.FilteringSelect',
+		));
+		$row = $db->getAllShopBranch();
+		if(!empty($row)){
+			foreach ($row as $rs){
+				$opt[$rs["id"]] = $rs["name"];
+			}
+		}
+		$shop_id->setMultiOptions($opt);
+		$shop_id->setValue($request->getParam("shop_id"));
+		
 		if($data!=null){
 			//print_r($data);
 // 			$_branch_id->setValue($data['member_id']);
@@ -240,7 +257,7 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 // 			$client_name->setValue($data['client_name']);
 		}
 		$this->addElements(array(
-				$client_name,$payment_type,
+				$client_name,$payment_type,$shop_id,
 // 		$_groupid,$_group_code,$_customer_code,$_zone
 				$_member,
 				$_pay_every,$_title,$_branch_id,$_releasedate

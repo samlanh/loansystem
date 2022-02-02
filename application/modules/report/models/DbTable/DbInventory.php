@@ -103,6 +103,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 				s.selling_type,
 				(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =s.selling_type LIMIT 1) AS sellingTypeTitle,
 				(SELECT payment_nameen FROM `ln_payment_method` WHERE id = s.payment_method LIMIT 1) AS paymentMethodTitle,
+				(SELECT shop_namekh from `ln_lns_shop` WHERE ln_lns_shop.shop_id=s.shop_id) AS shop_name,
 				s.* 
 			FROM 
 				`ln_ins_sales_install` AS s,
@@ -134,6 +135,9 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	}
     	if(!empty($search['customer'])){
     		$sql.=" AND s.customer_id=".$search['customer'];
+    	}
+    	if($search["shop_id"]>0){
+    		$sql.=' AND s.shop_id='.$search["shop_id"];
     	}
     	if(($search['selling_type'])>0){
     		$sql.= " AND s.selling_type=".$search['selling_type'];
@@ -188,13 +192,13 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	    	b.gm_address,
 	    	b.images_branch,
 	    	b.images_branch AS logo_branch,
-	    
 	    	p.item_name,
 	    	(SELECT cate.name FROM `ln_ins_category` AS cate WHERE cate.id=p.cate_id LIMIT 1) as cate_name,
 	    	p.`item_code`,
 	    	(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =s.selling_type LIMIT 1) AS sellingTypeTitle,
 	    	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = s.payment_method LIMIT 1) AS paymentMethodTitle,
 	    	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = s.user_id LIMIT 1) AS user_name,
+	    	(SELECT shop_namekh from `ln_lns_shop` WHERE ln_lns_shop.shop_id=s.shop_id) AS shop_name,
 	    	s.*
 	    	FROM `ln_ins_sales_install` AS s,
 		    	`ln_ins_product` AS p,
@@ -398,6 +402,7 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
 	   	`crm`.`is_closed`           AS `is_closed`,
 	   	(SELECT p.item_name FROM `ln_ins_product` AS p,`ln_ins_sales_install` AS s
 			WHERE s.product_id=p.id AND s.id=crm.loan_id LIMIT 1) AS item_name
+			
 	   	FROM (`ln_ins_receipt_money` `crm`
 	   	JOIN `ln_ins_receipt_money_detail` `d`)
 	   	WHERE ((`crm`.`status` = 1)
@@ -472,7 +477,8 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
 			   	SUM(`ln_ins_receipt_money`.`total_paymentpaid`)
 			   	FROM `ln_ins_receipt_money`
 			   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
-			   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_paymentpaid`
+			   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_paymentpaid`,
+			   	(SELECT shop_namekh from `ln_lns_shop` WHERE ln_lns_shop.shop_id=s.shop_id) AS shop_name
 	   	FROM
 	   	`ln_ins_sales_install` AS s,
 	   	`ln_ins_client` AS c
@@ -489,6 +495,9 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
    	
    	if ($search['category']>0){
    		$where.=" AND s.`cate_id` = ".$search['category'];
+   	}
+   	if($search["shop_id"]>0){
+   		$sql.=' AND s.shop_id='.$search["shop_id"];
    	}
    	if(!empty($search['adv_search'])){
    		$s_where = array();

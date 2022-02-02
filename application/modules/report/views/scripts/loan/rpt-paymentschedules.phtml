@@ -120,9 +120,11 @@ table.content-data{
 	                    <td><?php echo $tr->translate("NUM");?></td>
 	                    <td><?php echo $tr->translate("ថ្ងៃ-ខែ-ឆ្នាំ");?></td>
 	                    <td><?php echo $tr->translate("AMOUNT_DATE");?></td>
+						<?php if($client['pay_term']!=1){?>
 	                    <td><?php echo $tr->translate("PRINCIPLE");?></td>
 	                    <td><?php echo $tr->translate("OS_AMOUNT");?></td>
 	                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
+						<?php } ?>
 	                    <td><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT");?></td>
 	                    <td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
 	                    <td><?php echo $tr->translate("OTHER");?></td>
@@ -155,9 +157,11 @@ table.content-data{
 		                    
 		                    ?></td>
 		                    <td><?php echo $row['amount_day'];?></td>
+							<?php if($client['pay_term']!=1){?>
 		                    <td><?php echo number_format($row['outstanding'],2);?></td>
 		                    <td><?php echo number_format($row['principal_permonth'],2);?></td>
 		                    <td><?php echo number_format($row['total_interest'],2);?></td>
+							<?php } ?>
 		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php echo number_format($row['total_payment'],2); ?></td>
 		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php if($row['is_penalty']==1){ echo number_format($row['total_interest'],2);}?></td>
 		                    <td><?php echo ($row['is_completed']==1)?"បង់ដាច់":""?></td>
@@ -170,9 +174,11 @@ table.content-data{
 	               			<td></td>
 	               			<td></td>
 	               			<td></td>
+							<?php if($client['pay_term']!=1){?>
 	               			<td></td>
 	               			<td></td>
 	               			<td></td>
+							<?php }?>
 	               			<td></td>
 	               			<td></td>
 	               			<td></td>

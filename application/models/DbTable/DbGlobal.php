@@ -2271,5 +2271,13 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	return $db->fetchAll($sql);
   
   }
+  function getAllShopBranch($branch_id=null){
+	  	$sql="SELECT shop_id AS id,shop_namekh AS `name` FROM `ln_lns_shop` WHERE shop_namekh!='' ";
+	  	if($branch_id!=null){
+	  		$sql.="AND branch_id=".$branch_id;
+	  	}
+	  	$db = $this->getAdapter();
+	  	return $db->fetchAll($sql);
+  }
 }
 ?>

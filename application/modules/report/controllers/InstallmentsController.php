@@ -18,6 +18,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
     				'adv_search' => '',
     				'supllier'=>'',
     				'branch_id'=>'',
+    				'shop_id'=>-1,
     				'start_date'=> date('Y-m-d'),
     				'end_date'=>date('Y-m-d'),
     				'status'=>-1,
@@ -280,14 +281,16 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 			$search = $this->getRequest()->getPost();
 		}else {
 			$search = array(
-					'adv_search'=>'',
-					'branch_id'=>'',
-					'members'=>'',
-					'category'=>-1,
-					'currency_type'=>-1,
-					'status_use'=>-1,
-					'product_type'=>-1,
-					'end_date'=>date('Y-m-d'));
+				'adv_search'=>'',
+				'branch_id'=>'',
+				'members'=>'',
+				'category'=>-1,
+				'shop_id'=>-1,
+				'currency_type'=>-1,
+				'status_use'=>-1,
+				'product_type'=>-1,
+				'end_date'=>date('Y-m-d')
+			);
 		}
 		$this->view->fordate = $search['end_date'];
 		$this->view->search = $search;

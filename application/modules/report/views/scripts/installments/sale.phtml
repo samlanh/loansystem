@@ -28,10 +28,10 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
                		<?php echo $frm->getElement("branch_id");?>
                </div>
                <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("customer");?>
+               		<?php echo $frm->getElement("shop_id");?>
                </div>
                <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("category");?>
+               		<?php echo $frm->getElement("customer");?>
                </div>
                <div class="col-md-2 col-sm-2 col-xs-12">
                		<?php echo $frm->getElement("start_date");?>
@@ -41,6 +41,9 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
                </div>
            	</div>
            	<div class="form-group">
+           	   <div class="col-md-2 col-sm-2 col-xs-12">
+               		<?php echo $frm->getElement("category");?>
+               </div>
                <div class="col-md-2 col-sm-2 col-xs-12">
                		<select dojoType="dijit.form.FilteringSelect" class="fullside"  name="selling_type" id="selling_type" >
 	 					<option value="-1"><?php echo $tr->translate('ជ្រើសរើសប្រភេទលក់');?></option>
@@ -148,6 +151,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			                <thead>
 			                	<tr class="style-head" >
 				                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
+				                    <td>&nbsp;<?php echo $tr->translate("SHOP_NAME");?>&nbsp;</td>
 				                    <td>&nbsp;<?php echo $tr->translate("INSTALLMENT_NO");?>&nbsp;</td>
 				                    <td>&nbsp;<?php echo $tr->translate("CUSTOMER_CODE");?>&nbsp;</td>
 				                    <td>&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
@@ -181,7 +185,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			                    if ($location != $rs['branch_id']){
 			                    ?>
 			                     <tr class="style hover" style=" line-height:20px; font-family:'Times New Roman','Khmer OS Muol Light';">
-			                     	<td colspan="15" align="center" ><?php echo $rs["branch_namekh"];?></td>
+			                     	<td colspan="16" align="center" ><?php echo $rs["branch_namekh"];?></td>
 			                     </tr>
 			                    <?php }$location = $rs['branch_id'];?>
 								<?php 
@@ -193,6 +197,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			                    <?php }$sellingType = $rs['selling_type'];?>
 				                <tr  class="context-menu-one style-rowdata hover"  oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;">
 				               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+				               		<td>&nbsp;<?php echo $rs["shop_name"];?>&nbsp;</td>
 				               		<td>&nbsp;<?php echo $rs["sale_no"];?>&nbsp;</td>
 				               		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>
 				               		<td>&nbsp;<?php echo $rs["client_name_kh"];?>&nbsp;</td>
@@ -209,7 +214,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 				                </tr>
 			                <?php }?>
 			                	<tr style="border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
-			                		<td colspan="10"></td>
+			                		<td colspan="11"></td>
 			                		<td align="right">&nbsp;<strong><?php echo "$ ".number_format($gTotalSell,2)?></strong>&nbsp;</td>
 			                		<td colspan="" align="right">&nbsp;<strong><?php echo "$ ".number_format($paid,2)?></strong>&nbsp;</td>
 			                		<td colspan="" align="right">&nbsp;<strong><?php echo "$ ".number_format($balance,2)?></strong>&nbsp;</td>

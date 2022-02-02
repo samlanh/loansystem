@@ -346,7 +346,14 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     							$pri_permonth = $data['total_amount']-$pri_permonth*($i-(($data['graice_pariod']/$amount_collect)+1));//code error here
     						}
     						$start_date = $next_payment;
-    						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
+//     						if($i==2){
+//     							echo "Start:".$next_payment;
+//     							$date = new DateTime($next_payment);
+//     							$date->modify('+2 week');
+//     							echo "End:".$date->format('Y-m-d');
+//     							exit();
+//     						}
+    						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment'],$i);
     						
 							$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
     						$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;//here 
@@ -354,6 +361,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     						if($i>11){
     							$penelize_service=0;
     						}
+    						
     					}else{
     						$next_payment = $data['first_payment'];
     						$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
@@ -1137,7 +1145,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
 	    				
     					$from_date=$next_payment;
 	     				if($i!=1){
-	     					if($data['collect_termtype']!=1){//for loan day
+	     					if($data['collect_termtype']==3){//for loan month
 	     						$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
 	     					}	
 	     				}

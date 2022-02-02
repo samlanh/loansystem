@@ -284,6 +284,24 @@ public function init()
 		}
 		$end_date->setValue($_date);
 		
+		$opt = array(-1=>$this->tr->translate("PRODUCT_SHOP"));
+		$shop_id = new Zend_Form_Element_Select("shop_id");
+		$shop_id->setAttribs(array(
+				'class'=>'form-control',
+				'onChange'=>'',
+				'class'=>'fullside',
+				'dojoType'=>'dijit.form.FilteringSelect',
+		));
+		$row = $db->getAllShopBranch();
+		if(!empty($row)){
+			foreach ($row as $rs){
+				$opt[$rs["id"]] = $rs["name"];
+			}
+		}
+		$shop_id->setMultiOptions($opt);
+		$shop_id->setValue($request->getParam("shop_id"));
+		
+		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
@@ -306,7 +324,7 @@ public function init()
 			$_id->setValue($data['id']);
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($_start_date,$end_date,$_title,$description,$_estimate,$_first_payment,$receipt_num,$withdrawal,$pro_type,$_level,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,
+		$this->addElements(array($shop_id,$_start_date,$end_date,$_title,$description,$_estimate,$_first_payment,$receipt_num,$withdrawal,$pro_type,$_level,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,
 				$_interest,
 				$_client_codes,$_loan_codes,$_members,
 				$_client_code,$_branch_id,$_currency_type,$_amount,$_rate,$_releasedate
