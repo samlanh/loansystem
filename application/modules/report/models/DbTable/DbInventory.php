@@ -528,16 +528,16 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
 		c.`client_number` AS client_number,
 		`c`.`phone` AS phone_number,
 			(SELECT   `lb`.`branch_namekh` FROM `ln_branch` `lb`  WHERE (`lb`.`br_id` = l.`branch_id`)  LIMIT 1) AS `branch_namekh`,
-   	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
-	(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
-	(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
-	(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
+		   	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
+			(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
+			(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
+			(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
 		l.*,
 		d.`date_payment` AS date_payment,
-		d.`principle_after` AS principle_after,
-		d.`total_interest` AS total_interest,
-		`d`.`total_interest_after` AS `total_interest_after`,
-		`d`.`total_payment`        AS `total_payment`,
+		SUM(d.`principle_after`) AS principle_after,
+		SUM(d.`total_interest`) AS total_interest,
+		SUM(`d`.`total_interest_after`) AS `total_interest_after`,
+		SUM(`d`.`total_payment`)        AS `total_payment`,
 		`d`.`installment_amount`   AS `times`,
 		(SELECT
 		     `crm`.`date_input`
@@ -586,7 +586,7 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
    	$dbp = new Application_Model_DbTable_DbGlobal();
    	$where.=$dbp->getAccessPermission('l.`branch_id`');
    	
-   	$order=" ORDER BY  d.`date_payment` DESC";
+   	$order=" GROUP BY l.`id` ORDER BY  d.`date_payment` DESC";
    	return $db->fetchAll($sql.$where.$order);
    }
    public function getALLLoanlate($search = null){

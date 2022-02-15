@@ -1016,7 +1016,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  				$default_day='d';
  				if($str_next=='+1 day'){//if day
  				}else{
- 					$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));//code here have problem
+ 					//$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));//code here have problem
  				}
  			}else{//months
  				if($default_day==31){

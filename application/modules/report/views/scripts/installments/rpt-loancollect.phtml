@@ -4,7 +4,6 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $db = new Report_Model_DbTable_DbLoan();
 
 $tran = $this->tran_schedule;
-$client = $this->client;											
 ?>
 <?php  
 	$end_dat=$this->date_show;
@@ -126,7 +125,7 @@ table.tb-footer tr.style-head {
 		                	<ul>
 	                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
 	                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_INSTALLMENT_COLLECT");?></li>
-	                			<li style="text-align:center; font-size:14px;"><?php if(!empty($this->list_end_date['end_date'])){?><?php echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
+	                			<li style="text-align:center; font-size:14px;"><?php if(!empty($this->list_end_date['end_date'])){?><?php echo date("D-d-m-Y",strtotime($this->list_end_date['end_date']));}?></li>
 	                		</ul>
 	                    </td>
 		                    <td width="20%"><strong style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><label id="lbl_customer"></label></strong></td>
@@ -221,7 +220,7 @@ table.tb-footer tr.style-head {
 		                    	echo str_replace('.00', '', number_format($total_payment,2));//." ".$row['currencyname'];?>
 		                    	</strong>
 		                    </td>
-		                    <td align="center">&nbsp<?php echo date_format(date_create($row["date_payment"]),'d-m-Y');?>&nbsp;;&nbsp;</td>
+		                    <td align="center">&nbsp<?php echo date_format(date_create($row["date_payment"]),'d-m-Y');?>&nbsp;&nbsp;</td>
 		                </tr>
 			                <?php 
 			                	$penelize =0;
@@ -233,80 +232,6 @@ table.tb-footer tr.style-head {
 			               ?>
 		                <?php }?>
 		            </table>
-		            <!-- 
-		            <div style="font-family:'khmer os battambang';display: block;height: 30px;"><?php echo$tr->translate("REPORT_LOAN_LATE");?></div>
-		            <table  border="1"​ style="margin-top:-30px;border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-	    			<thead><tr bgcolor="#ccc" class="style" align="center" style="line-height: 24px;font-size:11px; background: #ccd9ff; font-family: 'Times New Roman','Khmer OS Battambang';white-space: nowrap;">
-	                    <td><?php echo $tr->translate("NUM");?></td>
-	                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-	                    <td><?php echo $tr->translate("SALE_NO");?></td>
-	                    <td><?php echo $tr->translate("CLIENT_NUM");?></td>
-	                    <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-	                    <td><?php echo $tr->translate("PHONE")." / ".$tr->translate("ADDRESS");?></td>
-	                    <td><?php echo $tr->translate("ITEM_NAME");?></td>
-	                    <td><?php echo $tr->translate("PAID_TIME");?></td>
-	                    <td><?php echo $tr->translate("LATE_DAY");?></td>
-	                 ​​​	<td><?php echo $tr->translate("LATE");?></td>
-	                    <td><?php echo $tr->translate("OS_AMOUNT");?></td>
-	                    <td><?php echo $tr->translate("INTEREST");?></td>
-	                    <td><strong><?php echo $tr->translate("PAYMENT");?></strong></td>
-	                    <td><?php echo $tr->translate("PAY_DATE");?></td>
-	                </tr></thead>
-	                <?php $i=1; $currentlate = 0;?>
-	               <?php /*if(!empty($this->loanlate_list))foreach ($this->loanlate_list as $index => $rs){ ?>
-	               		<?php 	$end_dat = $this->list_end_dates;
-		               			$total_pay=($rs['principle_after']+$rs['total_interest_after']);
-	               				$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
-	               				$amount_lateday=$total_day/(60*60*24)-$free_day;
-	               				$total_late_day=$total_day/(60*60*24);
-		               			$currentlate =$total_day/(60*60*24);
-		               			$pay_term="";
-		               			if($amount_lateday<0){
-		               				$amount_lateday=0;
-		               				$result=0;
-		               			}
-               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
-               				if ($pay_term==1){
-               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/1)*($amount_lateday);
-               				}
-               				if ($pay_term==2){
-               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/7)*($amount_lateday);
-               				}
-               				if ($pay_term==3){
-               					$result=$total_pay*($interest_penalty*(($rs['interest_rate']/100)/30))*($amount_lateday);
-               				}
-		               		$total_payment =$rs['principle_after']+$rs['total_interest_after'];
-	               	?>
-	               <?php if($currentlate>0){?>
-	                <tr class="style hover" style=" line-height: 24px; font-size:11px; font-family: 'Times New Roman','Khmer OS Battambang'; white-space: nowrap;">
-	               		<td style="text-align: center;"><?php echo $i++;?></td>
-	               		<td>&nbsp;<?php echo $rs["branch_namekh"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["sale_no"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>
-	               		<td style="white-space: nowrap;">&nbsp;<?php echo $rs["name_kh"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["phone_number"].",".$rs['village_name'].",".str_replace("Commune","",$rs['commune_name']).",".$rs['district_name'].",".$rs['province_en_name'];?>&nbsp;</td>
-	               		<td align="center">&nbsp;&nbsp;<?php echo $rs["item_name"];?> &nbsp;</td>
-	               		<td align="center">&nbsp;&nbsp;<?php echo $rs["amount_late"]." ដង";?> &nbsp;</td>
-	               		<td align="center">&nbsp;&nbsp;<?php echo number_format($total_late_day,0)." Days";?> &nbsp;</td>
-	               		<td align="center">&nbsp;&nbsp;<?php echo $rs['times']."/".$rs['duration'];?> &nbsp;</td>
-	               		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["principle_after"],2);?>&nbsp;</td>
-	               		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_interest_after"],2);?>&nbsp;</td>
-	               		<td align="right" style="white-space: nowrap;"><strong style="font-family:'arial';">&nbsp;<?php echo number_format($total_payment,2);?></strong>&nbsp;</td>
-	               		<td align="center">&nbsp;&nbsp;<?php echo date_format(date_create($rs["date_payment"]),'d-m-Y');?>&nbsp;</td>
-	                </tr>
-	                <?php }?>
-	                <?php 
-	               		 $penelize =0;
-			             $amt_d1 = $amt_d1+$rs['principle_after'];
-						 $amt_d2 = $amt_d2+$rs['total_interest_after'];
-						 $pene_amd=$pene_amd+$penelize;
-						 $amt_d4 = $amt_d4+$total_payment;
-			             $amount_days = strtotime($this->list_end_dates)-strtotime($rs["date_payment"]);
-			             $amount_days =  floor($amount_days/(60*60*24));
-	               ?>
-	                <?php } */?>
-	            </table>
-	             -->
 		    	</td>
 		    </tr>
 		</table>

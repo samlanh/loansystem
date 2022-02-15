@@ -334,7 +334,6 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		
 		$row = $dbs->getAllLnClient($search);
 		$this->view->tran_schedule=$row;
-		$this->view->loanlate_list =$dbs->getALLLoanlate($search);
 	
 		$this->view->list_end_dates = $search["end_date"];
 		
