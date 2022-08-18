@@ -44,6 +44,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 					'nation_id'=>$_data['national_id'],
 					'phone'	      => $_data['phone'],
 					'spouse_name' => $_data['spouse'],
+					'spouse_gender' => $_data['spouse_gender'],
 					'spouse_nationid'=>$_data['spouse_nationid'],
 					'guarantor_with'=>$_data['guarantor_with'],
 					'guarantor_tel'=>$_data['guarantor_tel'],

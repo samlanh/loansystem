@@ -258,45 +258,45 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
    		$end_date = $search['end_date'];
       	$db = $this->getAdapter();
 		$sql=" SELECT 
-				  `co_khname` AS co_name ,
-				  co_code,
-				  b.branch_namekh,
-				  co.`co_id`,
-				  c.`client_number`,
-				  c.`name_kh`,
-				    c.`spouse_name`,
-				(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
-				(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
-				(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
-				(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
-				  c.`phone`,
-				  l.`loan_amount` as total_capital,
-				  l.`loan_number`,
-				  l.interest_rate  AS interest_rate,
-				  l.`date_release`,
-				  l.`date_line`,
-				  l.`total_duration`,
-				  l.`time_collect`,
-				  l.`currency_type` AS curr_type,
-				  l.`collect_typeterm`,
-				  (SELECT pm.payment_nameen FROM ln_payment_method as pm WHERE pm.id = l.`payment_method`) as payment_method_title,
-				  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
-				  (SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`pay_term`)) LIMIT 1) AS `Term Borrow`,
-				  (SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
-				  SUM(d.`principle_after`) AS principle_after,
-				  SUM(d.`total_interest_after`) AS total_interest_after,
-				  SUM(d.`total_payment_after`) AS total_payment_after,
-				  SUM(d.`penelize`) AS penelize,
-				  d.`date_payment` ,
-				 `d`.`installment_amount`   AS `times`,
-				  COUNT(l.`id`) AS amount_late,
-				 l.`branch_id`
+					  `co_khname` AS co_name ,
+					  co_code,
+					  (SELECT b.branch_namekh FROM  `ln_branch` AS b WHERE b.`br_id`=l.branch_id LIMIT 1 ) AS branch_namekh,
+					  co.`co_id`,
+					  c.`client_number`,
+					  c.`name_kh`,
+					    c.`spouse_name`,
+					(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
+					(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
+					(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
+					(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
+					  c.`phone`,
+					  l.`loan_amount` as total_capital,
+					  l.`loan_number`,
+					  l.interest_rate  AS interest_rate,
+					  l.`date_release`,
+					  l.`date_line`,
+					  l.`total_duration`,
+					  l.`time_collect`,
+					  l.`currency_type` AS curr_type,
+					  l.`collect_typeterm`,
+					  (SELECT pm.payment_nameen FROM ln_payment_method as pm WHERE pm.id = l.`payment_method`) as payment_method_title,
+					  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
+					  (SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`pay_term`)) LIMIT 1) AS `Term Borrow`,
+					  (SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
+					  SUM(d.`principle_after`) AS principle_after,
+					  SUM(d.`total_interest_after`) AS total_interest_after,
+					  SUM(d.`total_payment_after`) AS total_payment_after,
+					  SUM(d.`penelize`) AS penelize,
+					  d.`date_payment` ,
+					 `d`.`installment_amount`   AS `times`,
+					  COUNT(l.`id`) AS amount_late,
+					 l.`branch_id`
 				FROM
-				  `ln_loan_detail` AS d,
-				  `ln_loan` AS l,
-				  `ln_co` AS co,
-				  `ln_client` AS c ,
-				  `ln_branch` AS b 
+					  `ln_loan_detail` AS d,
+					  `ln_loan` AS l,
+					  `ln_co` AS co,
+					  `ln_client` AS c 
+					
 				WHERE 
 				  d.`is_completed` = 0 
 				  AND `l`.`is_badloan`=0
@@ -305,11 +305,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  AND d.`status`=1
 				  AND co.`co_id` = l.`co_id` 
 				  AND c.`client_id` = l.`customer_id` 
-				  AND b.`br_id`=l.branch_id ";
+				   ";
       	$where='';
       	if(!empty($search['adv_search'])){
       		$s_search = addslashes(trim($search['adv_search']));
-      		$s_where[] = " b.branch_namekh LIKE '%{$s_search}%'";
       		$s_where[] = " l.`currency_type` LIKE '%{$s_search}%'";
       		$s_where[] = " l.loan_number LIKE '%{$s_search}%'";
       		$s_where[] = " c.client_number LIKE '%{$s_search}%'";

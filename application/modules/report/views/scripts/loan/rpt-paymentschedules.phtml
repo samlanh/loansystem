@@ -1,9 +1,10 @@
-<?php $tran = $this->tran_schedule;
-$client = $this->client;
-$filter = $this->form_filter;
-$dayin_khmer = $this->day_inkhmer;
-$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-$url_barcode = $this->url(array("module"=>"loan","controller"=>"ilpayment","action"=>"generatebarcode","loan_code"=>$client['loan_number']),null,true);																							
+<?php 
+	$tran = $this->tran_schedule;
+	$client = $this->client;
+	$filter = $this->form_filter;
+	$dayin_khmer = $this->day_inkhmer;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$url_barcode = $this->url(array("module"=>"loan","controller"=>"ilpayment","action"=>"generatebarcode","loan_code"=>$client['loan_number']),null,true);																							
 
 ?>
 <title><?php echo $tr->translate('REPORT WEEK');?></title>
@@ -64,20 +65,21 @@ table.content-data{
 		<tr>
 	    	<td align="center">
 	        	<table width="100%" style="font-family:'Times New Roman','Khmer OS Muol Light';margin:0 auto;padding:0px; border:none;">
-					<tr>
+					<tr style="display: none;">
 	                	  <td style=" " valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" /> </td>
 	                	  <td colspan="2" align="left" >
-	                	  <h2 style="font-weight:normal; text-align:left; font-size:12px; font-family:'Khmer os battambang';"><?php echo $tr->translate("ADDRESS_COMPANY");?>
-	                	  	<br /><?php echo $tr->translate("TEL_COMPANY");?>
+	                	  <h2 style="font-weight:normal; text-align:left; font-size:12px; font-family:'Khmer os battambang';"><?php //echo $tr->translate("ADDRESS_COMPANY");?>
+	                	  	<br /><?php //echo $tr->translate("TEL_COMPANY");?>
 	                	  </h2>
 	                	  </td>
-	                </tr>
-	                <tr>
+	                </tr >
+	                <tr >
 	                	<td colspan="3" align="center">
 	                		<h2 style="font-weight:normal; text-align:center; font-size:16px; font-family:'Khmer OS Muol Light'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
 	               		</td>
 	                </tr> 
-	                <?php $db = new Application_Model_DbTable_DbGlobal();
+	                <?php 
+	                	  $db = new Application_Model_DbTable_DbGlobal();
 	                	  $row = $db->getClientByType(null,$client['client_id'],1);
 	                ?> 
 	                <tr>
@@ -93,7 +95,7 @@ table.content-data{
 				                        <p><?php echo $tr->translate("សងរំលស់");?> : <?php echo $client['total_duration']." ".Application_Model_DbTable_DbGlobal::getPaymentTermById($client['pay_term']); ?></p>
 				                        <p><?php echo $tr->translate("ថ្ងៃចាប់ផ្តើម ");?> : <?php echo date('d-m-Y',strtotime($client['date_release']));?> </p>
 				                    	<p><?php echo $tr->translate("FIRST_PAYMENT");?> : <?php echo date('d-m-Y',strtotime($client['first_payment'])); ?></p>
-				                     </td>
+				                    </td>
 				                    <td valign="top">
 				                   	  <p><?php echo $tr->translate("LOAN_NO");?> : <b><?php echo $client['loan_number'];?></b></p>
 				                      <p><?php //echo $tr->translate("INTEREST")." : ".$client['interest_rate']." %"?> </p>
@@ -126,7 +128,7 @@ table.content-data{
 	                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
 						<?php } ?>
 	                    <td><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT");?></td>
-	                    <td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
+	                    <!--<td><?php //echo $tr->translate("PENALIZE AMOUNT");?></td> -->
 	                    <td><?php echo $tr->translate("OTHER");?></td>
 	                </tr>
 	               <?php 
@@ -162,8 +164,8 @@ table.content-data{
 		                    <td><?php echo number_format($row['principal_permonth'],2);?></td>
 		                    <td><?php echo number_format($row['total_interest'],2);?></td>
 							<?php } ?>
-		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php echo number_format($row['total_payment'],2); ?></td>
-		                    <td style="font-family:'arial';font-size:14px;font-weight: bold;"><?php if($row['is_penalty']==1){ echo number_format($row['total_interest'],2);}?></td>
+		                    <td style="font-family:'arial';font-size:12px;font-weight: bold;"><?php echo number_format($row['total_payment'],2); ?></td>
+		                    <td style="font-family:'arial';font-size:12px;font-weight: bold;"><?php if($row['is_penalty']==1){ echo number_format($row['total_interest'],2);}?></td>
 		                    <td><?php echo ($row['is_completed']==1)?"បង់ដាច់":""?></td>
 		                </tr>
 	               <?php }}

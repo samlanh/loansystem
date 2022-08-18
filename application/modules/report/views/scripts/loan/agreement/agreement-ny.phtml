@@ -1,0 +1,233 @@
+<?php 
+	$client = $this->client;
+	$loan = $this->loanInfo;
+	$collateral = $this->collateral;
+	$data = $this->data;
+	$month = array("01"=>"មករា","02"=>"កុម្ភៈ","03"=>"មីនា","04"=>"មេសា","05"=>"ឧសភា","06"=>"មិថុនា","07"=>"កក្កដា","08"=>"សីហា","09"=>"កញ្ញា","10"=>"តុលា","11"=>"វិច្ឆិកា","12"=>"ធ្នូ",);
+	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+	$dbgb = new Application_Model_DbTable_DbGlobal();
+?>
+<script src="<?php echo $this->baseUrl();?>/js/pdbs_js.js"  type="text/javascript"></script>
+<meta charset="utf-8">
+<title><?php echo $tr->translate('AGREEMENT');?></title>
+
+<div class="reportblog">
+	<div class="card-box">
+    	<div class="col-sm-12 border-botom">
+	    	<div class="col-sm-8 pd-0">
+	   			<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('AGREEMENT');?></h4>
+    		</div>
+    		<div class="col-sm-4 text-right">
+    		</div>
+    	</div>
+    </div>	
+	<style>
+		.noneprint{
+			display: table-cell !important; 
+		}
+		.reff{ font-size: 20px !important; line-height:34px !important;}
+		#divPrint tr td h2, #divPrint p,#divPrint pre,#divPrint span,#divPrint td span,#divPrint td{ font-size: 20px !important; line-height:34px !important;}
+		#padding-left-p-2{
+		 padding-left: 105px !important;	
+		}
+		.padding-buttom{
+			margin-top: -5px !important;
+		}
+		#divPrint #printfooter{display: none !important;}
+	</style>
+	<div  id="exportword">
+	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+		<tr>
+	    	<td align="center">
+	    		<div id="divPrint">
+		    	 	<style>		
+						td span {
+						    line-height: 22px;
+						}
+					    #padding-left-p-2{
+						 padding-left: 105px !important;	
+						}
+						.padding-buttom{
+							margin-top: -5px !important;
+						}
+    	 				.reff{ font-size: 14px !important; line-height:32px !important;}
+						tr td h2,p,pre,span{ font-size: 14px ; line-height:22px;}
+						#padding-left{
+						padding-left: 18px;
+						}
+						.padding-buttom{
+							margin-top: -5px;
+						}
+						#padding-left-p-2{
+						 margin-top:-1px; 
+						 padding-left: 85px;	
+						}
+						#padding-left-p{
+					    	padding-left: 105px;
+						}
+						th{padding: 5px;}
+						span.value{ line-height:12px;display: inline-block; text-align: center; padding: 0 2px;}
+						span.child {display:block; margin-left:25px; line-height: 20px;}
+						div.pages-break{
+							page-break-inside:auto; page-break-after:auto; 
+						}
+						body {
+						    position: relative;
+						}
+						#printfooter {
+						    position: absolute;
+						    bottom: 0;
+						    position: fixed;
+						    display: block ;
+						width: 100%;
+						}
+						ul.collateral-list {
+						    width: 100%;
+						    padding: 0;
+						    margin: 0;
+						    padding-left: 75px;
+						}
+						.boxsign{text-align: left;
+								    border-bottom: 1px dotted;
+								    padding: 3px;
+								    margin: 85px 10px 10px 10px;}
+							.totop{margin-top:-15px;}
+						@page  
+							{ 
+							    size: auto;  
+							    margin: 5mm 12mm 0mm 12mm;  
+							} 
+					    </style>
+	    			<div class="pages-break">
+	    				<table style="font-family:'Times New Roman','Khmer OS Battambang'; text-align: center; width: 100%; margin-left: 0px">
+							<tbody>
+								<tr style="text-align:center; line-height:24px; font-size:15px; font-family:'Times New Roman','Khmer OS Battambang';">
+									 <td width="33%" align="left" valign="top"><br />
+									 <span>គណនីអតិថិជនៈ <?php echo $client['client_number'];?></span><br />
+									 <span>គណនីកម្ចីៈ <?php echo $loan['loan_number'];?></span>
+									 </td>
+									 <td width="33%" align="center" valign="top" style="padding-left: 25px;">
+									 	<span style="line-height: 30px; font-family:'Khmer OS Muol Light';">
+										 	ព្រះរាជាណាចក្រកម្ពុជា
+										 	<br>
+											  ជាតិ សាសនា ព្រះមហាក្សត្រ
+										  </span>
+										  <br>
+										 <img src="<?php echo $this->baseUrl()."/";?>images/agreementsign.JPG" style="width: 80px;height: 17px;"><br>
+										 <span style=" line-height:24px; font-size: 15px; font-family:'Khmer OS Muol Light'; text-decoration: underline;">កិច្ចសន្យាខ្ចីប្រាក់</span><br />
+									 </td>
+									 <td width="33%"></td>
+								</tr>
+								<tr>
+						 			<td colspan="3" style="text-align: center; font-size: 14px;">
+						 				ធ្វើនៅថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($loan['date_release'])));?> ខែ<?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($loan['date_release']))); ?>
+						 			</td>
+						 		</tr>
+								<tr>
+						 			<td colspan="3">
+						 				<span style="text-align: justify; display:inline-block; width:100%;">
+						 				ភាគីអោយខ្ចីប្រាក់ៈ អិនវ៉ាយហ្វាយនែន តំណាងដោយលោក <span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 100px;"><?php echo $loan['gm_name'];?></span>  តំណាងអោយភាគី“ក”  
+						 				</span>
+						 				<span style=" text-align:center; display:inline-block; width:100%;  font-family:'khmer os battambang'; ">និង</span>
+						 				<span style="text-align: justify; display:inline-block; width:100%;">
+						 					ឈ្មោះ <span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 50px;"><?php echo $client['name_kh'];?></span> ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['sexKH'];?></span> 
+						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
+						 					 កាន់<?php echo $client['docTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['nation_id']);?> 
+						 					
+						 					<?php if (!empty($client['join_with'])){?>
+						 					និងឈ្មោះ<span class="value border_bt" style="font-family:'Times New Roman','Khmer OS Muol Light'; min-width: 50px;"><?php echo $client['join_with'];?></span>ភេទ <span class="value border_bt" style="min-width: 20px;"><?php echo $client['join_sexKH'];?></span> 
+						 					កើតថ្ងៃទី<?php echo $dbgb->getNumberInkhmer(date("d",strtotime($client['dob'])));?> ខែ<?php echo $month[date("m",strtotime($client['dob']))];?> ឆ្នាំ<?php echo $dbgb->getNumberInkhmer(date("Y",strtotime($client['dob']))); ?> 
+						 					កាន់<?php echo $client['joinDocTypKH'];?>លេខ<?php echo $dbgb->getNumberInkhmer($client['join_nation_id']);?> 
+						 					<?php if(!empty($client['relate_with'])){?>ត្រូវជា <?php echo $client['relate_with'];?><?php }?>
+						 					<?php }?>
+						 					
+						 					មានទីលំនៅភូមិ <?php echo $client['villageName'];?> 
+						 					ឃុំ/សង្កាត់ <?php echo $client['communeName'];?> 
+						 					ស្រុក/ខណ្ឌ <?php echo $client['district_name'];?> 
+						 					ខេត្ត/រាជធានី <?php echo $client['province_kh_name'];?>។ 
+						 					តំណាងអោយភាគី “ខ”
+						 				</span>
+						 			</td>
+						 		</tr>
+						 		<tr>
+						 			<td colspan="3">
+						 				<span style=" text-align:center; display:inline-block; width:100%;">ភាគី“ក”និងភាគី “ខ” ព្រមព្រៀងចុះកិច្ចសន្យាខ្ចីប្រាក់ ដោយអនុវត្តតាមរាល់ប្រការខាងក្រោមៈ</span>
+						 			</td>
+						 		</tr>
+						 		<tr>
+						 			<td colspan="3">
+							 			<table width="100%" border="0"> 
+					             			<tr>
+					             				<td><span style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">ប្រការ១</span>	</td>
+					             				<td></td>
+					             			</tr>
+											  <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;width:9%;"><b>-</b></td>
+												    <td align="justify" style="padding-left:5px">ការស្នើសុំខ្ចីប្រាក់សេចក្តីណែនាំពីគោលការណ៍នៃការអោយខ្ចីប្រាក់“ក”យល់ព្រមអោយភាគី“ខ”ខ្ចីប្រាក់ហើយ
+													ភាគី“ខ”ក៏យល់ព្រមសងមកភាគី“ក”វិញជាដាច់ខាតនូវប្រាក់ខ្ចីតាមចំនួននិងរាល់លក្ខខណ្ឌដែលបានព្រមព្រៀង។</td>  
+											  </tr>
+											   <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;width:9%;"><b>-</b></td>
+												    <td align="justify" style="padding-left:5px">ភាគី“ខ”អះអាងថា ទ្រព្យសម្បត្តិដែលបានដាក់ធានា ពិតជាកម្មសិទ្ធិស្របច្បាប់ផ្ទាល់របស់ខ្លួនឬ អ្នកធានាជំនួស ដោយពុំជាប់ពាក់ព័ន្ធនឹងអ្វីមួយឬជនណាមួយឡើយ ដែលធ្វើអោយបាត់បង់កាតព្វកិច្ចជាកម្មសិទ្ធករ ហើយបើផ្ទុយពីនេះនឹងទទួលខុសត្រូវចំពោះមុខច្បាប់
+												    ។</td>  
+											  </tr>
+											  <tr>
+					             				<td><span style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">ប្រការ២</span>	</td>
+					             				<td></td>
+					             			</tr>
+					             			<tr>
+											    <td align="justify" style="vertical-align:top; text-align:right;width:9%;"><b>-</b></td>
+											    <td align="justify" style="padding-left:5px">ភាគី“ក”និងភាគី“ខ” សន្យាគោរពយ៉ាងម៉ឺងម៉ាត់តាមរាល់ប្រការនៃកិច្ចសន្យាខាងលើ។ ករណីមានការអនុវត្តផ្ទុយលើកិច្ចសន្យានេះ ភាគីដែលល្មើស ត្រូវទទួលខុលត្រូវចំពោះមុខច្បាប់ជាធរមាន។រាល់សោហ៊ុយចំណាយទាក់ទងក្នុងការដោះស្រាយលើវិវាទ ជាបន្ទុករបស់ភាគីរំលោភបំពានលើកិច្ចសន្យា។</td>  
+										  </tr>
+										</table>
+						 			</td>
+						 		</tr>
+						 		<tr>	  	
+				             		<td colspan="3">
+				             			<table cellpadding="3" border="1" align="center" width="100%" style="border:1px solid #000;border-collapse:collapse;font-family:'Times New Roman','Khmer OS Battambang';line-height: 10px;">
+										    <tr>
+										    	<td valign="top" rowspan="2" class="reff" style="vertical-align:top;width:23%;text-align:center;font-weight:200;">
+													បានឃើញ និងបញ្ជាក់ថា៖ស្នាមមេដៃស្តាំ និងឈ្មោះមានទ្រព្យសម្បតិ្តស្របច្បាប់ហើយព្រមដាក់ធានាបំណុលដែលបានខ្ចីភាគី “ក”ពិតប្រាកដមែន ហើយទ្រព្យធានានេះពុំមានពាក់ព័ន្ធទំនាស់អ្វីឡើយ។<p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;lin">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div style="text-align: left;width: 90%;border-bottom:1px dotted #000;margin: 0 auto;">មេភូមិ</div>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										        <td valign="top" class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;">
+										        	<p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div class="totop">ស្នាមមេដៃអ្នកធានា</div>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										        <td valign="top"  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div class="totop">ស្នាមមេដៃកូនបំណុលភាគី “ខ”</div>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										    </tr> 
+										   <tr>
+										   		
+										         <td valign="top"  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div class="totop">ស្នាមមេដៃអ្នកធានា</div><span style="font-family:'Khmer OS Muol Light'">&nbsp;</span>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										        <td valign="top"  class="reff" style="width:23%;text-align:center;font-weight:200;white-space: nowrap;"><p style="text-align: center; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ថ្ងៃទី <?php echo date("d",strtotime($loan['date_release']));?> ខែ <?php echo $month[date("m",strtotime($loan['date_release']))];?> ឆ្នាំ <?php echo date("Y",strtotime($loan['date_release']));?></p>
+													<div class="totop">ស្នាមមេដៃកូនបំណុលភាគី “ខ”</div><span style="font-family:'Khmer OS Muol Light'">&nbsp;</span>
+													<div class="boxsign">ឈ្មោះ</div>
+										        </td>
+										       
+										   </tr>
+									</table>
+			             		</td>
+			             	</tr>
+						</table>
+				 			</td>
+				 		</tr>				
+					  </tbody>
+				  </table>
+			        </div>
+			         <div id="printfooter">
+			        	</div>
+		        </div>
+        	 </td>	
+		</tr>
+	</table>
+	</div>
+</div>
+

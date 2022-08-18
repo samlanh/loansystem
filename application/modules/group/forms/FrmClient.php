@@ -6,11 +6,24 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function FrmAddClient($data=null){
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		
 		$_spouse = new Zend_Dojo_Form_Element_TextBox('spouse');
 		$_spouse->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
+		
+		$_spousesex = new Zend_Dojo_Form_Element_FilteringSelect('spouse_gender');
+		$_spousesex->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt_status = $db->getVewOptoinTypeByType(11,1);
+		unset($opt_status[-1]);
+		unset($opt_status['']);
+		$_spousesex->setMultiOptions($opt_status);
 		
 		$_releted = new Zend_Dojo_Form_Element_TextBox('relate_with');
 		$_releted->setAttribs(array(
@@ -86,7 +99,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$db = new Application_Model_DbTable_DbGlobal();
+		
 		$rows = $db->getAllBranchName();
 		$options=array(''=>$this->tr->translate("SELECT_LOCATION"));
 		if(!empty($rows))foreach($rows AS $row) $options[$row['br_id']]=$row['displayby']==1?$row['branch_namekh']:$row['branch_nameen'];
@@ -440,8 +453,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			}
 			$spouse_issue_date->setValue($data['spouse_issue_date']);
 			$with_job->setValue($data['with_job']);
+			$_spousesex->setValue($data['spouse_gender']);
 		}
-		$this->addElements(array($client_d_type,$guarantor_address,$_relate_tel,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($_spousesex,$client_d_type,$guarantor_address,$_relate_tel,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_no,$_join_sex,
 				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$dob_join_acc,$_dob_Guarantor,$clienttype_namekh,$clienttype_nameen,
 				$_group_no,
