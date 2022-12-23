@@ -25,56 +25,56 @@ table.tb-footer tr.style-head {
     		</div>
     	</div>
     </div>
- <form method="post">
- 	<div class="card-box">
-		<div class="form-group">
-             <div class="col-md-2 col-sm-2 col-xs-12">
-             	<?php echo $frm->getElement('adv_search');?>
-             </div>
-             <div class="col-md-2 col-sm-2 col-xs-12">
-             	<?php echo $frm->getElement('branch_id');?>
-             </div>
-             <div class="col-md-2 col-sm-2 col-xs-12">
-             	<?php echo $frm->getElement('shop_id');?>
-             </div>
-             <div class="col-md-2 col-sm-2 col-xs-12">
-             	<?php echo $frm->getElement('members');?>
-             </div>
-             <div class="col-md-2 col-sm-2 col-xs-12">
-             	<?php echo $frms->getElement('category');?>
-             </div>
-        </div>
-        <div class="form-group">
-             <div class="col-md-2 col-sm-2 col-xs-12">
-             	<select dojoType="dijit.form.FilteringSelect" class="fullside"  name="product_type" id="product_type" >
- 					<option value="-1"><?php echo $tr->translate('PRODUCT_TYPE');?></option>
- 					<?php if (!empty($this->producttype)) foreach ($this->producttype as $pt){?>
- 					<option value="<?php echo $pt['id'];?>" <?php if ($this->search['product_type']==$pt['id']){ echo 'selected="selected"';}?>><?php echo $pt['name'];?></option>
- 					<?php }?>
- 				</select>
-             </div>
-             <div class="col-md-2 col-sm-2 col-xs-12">
-             	<?php echo $frm->getElement('start_date');?>
-             </div>
-             <div class="col-md-2 col-sm-2 col-xs-12">
-             	<?php echo $frm->getElement('end_date');?>
-             </div>
-             <div class="col-md-2 col-sm-2 col-xs-12">
-             	<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-             </div>
-        </div>
-    </div>
-</form>
-<div id="divPrint" style="width: 100%;">
-	<style>
+	 <form method="post">
+		<div class="card-box">
+			<div class="form-group">
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+					<?php echo $frm->getElement('adv_search');?>
+				 </div>
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+					<?php echo $frm->getElement('branch_id');?>
+				 </div>
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+					<?php echo $frm->getElement('shop_id');?>
+				 </div>
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+					<?php echo $frm->getElement('members');?>
+				 </div>
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+					<?php echo $frms->getElement('category');?>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+					<select dojoType="dijit.form.FilteringSelect" class="fullside"  name="product_type" id="product_type" >
+						<option value="-1"><?php echo $tr->translate('PRODUCT_TYPE');?></option>
+						<?php if (!empty($this->producttype)) foreach ($this->producttype as $pt){?>
+						<option value="<?php echo $pt['id'];?>" <?php if ($this->search['product_type']==$pt['id']){ echo 'selected="selected"';}?>><?php echo $pt['name'];?></option>
+						<?php }?>
+					</select>
+				 </div>
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+					<?php echo $frm->getElement('start_date');?>
+				 </div>
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+					<?php echo $frm->getElement('end_date');?>
+				 </div>
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+					<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+				 </div>
+			</div>
+		</div>
+	</form>
+	<div id="divPrint" style="width: 100%;">
+		<style>
 			.style{
 				line-height: 20px;font-size: 12px !important;
 				font-family: 'Times New Roman','Khmer OS Battambang';
 			}
 			table tr td ul li{list-style: none;line-height: 25px;}
 			th{padding: 5px;}
-			table { page-break-inside:auto }
-			tr{ page-break-inside:avoid; page-break-after:auto; }
+			table.content-data { page-break-inside:auto }
+			table.content-data tr{ page-break-inside:avoid; page-break-after:auto; }
 			#header {
 			  display: table-header-group;
 			  page-break-inside:avoid; page-break-after:auto;
@@ -110,10 +110,10 @@ table.tb-footer tr.style-head {
 				text-align: center; 
 				background: #ccd9ff;
 			}
-		.border_bottom {
-		    border-bottom: 1px solid #000;
-		}
-	</style>
+			.border_bottom {
+				border-bottom: 1px solid #000;
+			}
+		</style>
 			<table style="font-family: 'Khmer OS Content'; width:100%;">
 				<tr>
 			    	<td align="center">

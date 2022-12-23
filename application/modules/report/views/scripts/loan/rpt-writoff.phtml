@@ -60,20 +60,20 @@ table.tb-footer tr.style-head {
 	</form>
 <div id="divPrint">
 	<style>
-	.style{
-		line-height: 20px;font-size: 12px !important;
-		font-family: 'Times New Roman','Khmer OS Battambang';
-	}
-	table tr td ul li{list-style: none;line-height: 25px; }
-	th{padding: 5px;}
-	.hover:hover{ background:#ccc;}
-	
-	table { page-break-inside:auto }
-	  tr{ page-break-inside:avoid; page-break-after:auto; }
-	#header {
-	  display: table-header-group;
-	  page-break-inside:avoid; page-break-after:auto;
-	}
+		.style{
+			line-height: 20px;font-size: 12px !important;
+			font-family: 'Times New Roman','Khmer OS Battambang';
+		}
+		table tr td ul li{list-style: none;line-height: 25px; }
+		th{padding: 5px;}
+		.hover:hover{ background:#ccc;}
+		
+		table.content-data { page-break-inside:auto }
+		table.content-data  tr{ page-break-inside:avoid; page-break-after:auto; }
+		#header {
+		  display: table-header-group;
+		  page-break-inside:avoid; page-break-after:auto;
+		}
 		table.content-data{
 			border-collapse:collapse;
 			width:100%;

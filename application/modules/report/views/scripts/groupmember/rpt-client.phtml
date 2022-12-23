@@ -67,8 +67,8 @@ $frms=$this->frm_client;
 			}
 			th{padding: 3px 5px;}
 			
-			table { page-break-inside:auto }
-			  tr{ page-break-inside:avoid; page-break-after:auto; }
+			table.content-data { page-break-inside:auto }
+			table.content-data  tr{ page-break-inside:avoid; page-break-after:auto; }
 			#header {
 			  display: table-header-group;
 			  page-break-inside:avoid; page-break-after:auto;
@@ -91,7 +91,7 @@ $frms=$this->frm_client;
 				</td>
 			</tr>
 		</table>
-		<table id="exportExcel"  width="100%" border="1" style="border-collapse:collapse;font-size: 10px;" bordercolor="black">   
+		<table id="exportExcel" class="content-data"  width="100%" border="1" style="border-collapse:collapse;font-size: 10px;" bordercolor="black">   
 	    	<thead>
 				<tr style="background: #ccd9ff;">
 		    		<th colspan="12"><?php echo $tr->translate("CLIENT_INFO");?></th>

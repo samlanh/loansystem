@@ -75,11 +75,11 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
            	</div>
        	</div>
 	</form>
-<style>
-.noneprint{
-	display: table-cell !important; 
-}
-</style>
+	<style>
+		.noneprint{
+			display: table-cell !important; 
+		}
+	</style>
 	<div id="divPrint">
 			<style>
 				.style{
@@ -93,8 +93,8 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 					color: #000;
 					text-decoration: none;
 				}
-				table { page-break-inside:auto }
-				  tr{ page-break-inside:avoid; page-break-after:auto; }
+				table.content-data { page-break-inside:auto }
+				table.content-data  tr{ page-break-inside:avoid; page-break-after:auto; }
 				#header {
 				  display: table-header-group;
 				  page-break-inside:avoid; page-break-after:auto;

@@ -7,11 +7,11 @@ $filter = $this->frm_search;
 dojo.require("dijit.form.DateTextBox");
 </script>
 <style>
-.hover:hover{ background:#ccc;}
-table.content-data thead tr.style-head,
-table.tb-footer tr.style-head {
-   font-weight: bold !important;
-}
+	.hover:hover{ background:#ccc;}
+	table.content-data thead tr.style-head,
+	table.tb-footer tr.style-head {
+	   font-weight: bold !important;
+	}
 </style>
 <div class="reportblog">
 	<div class="card-box">
@@ -63,8 +63,8 @@ table.tb-footer tr.style-head {
 		}
 		table tr td ul li{list-style: none;line-height: 25px; }
 		th{padding: 2px;}
-		table { page-break-inside:auto }
-	  	tr{ page-break-inside:avoid; page-break-after:auto; }
+		table.content-data { page-break-inside:auto }
+	  	table.content-data tr{ page-break-inside:avoid; page-break-after:auto; }
 		#header {
 		  display: table-header-group;
 		  page-break-inside:avoid; page-break-after:auto;

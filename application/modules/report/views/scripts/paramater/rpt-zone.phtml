@@ -31,18 +31,19 @@ $frm = $this->frm_zone;
      </form>
      <div id="divPrint">
     	  <style>
-			.style{
+				.style{
 					line-height: 20px;font-size: 11px !important;
 					font-family: 'Times New Roman','Khmer OS Battambang';
-					}
-					th{padding: 5px;}
-					
-					table { page-break-inside:auto ; font-family: 'Times New Roman','Khmer OS Battambang';}
-					  tr{ page-break-inside:avoid; page-break-after:auto; }
-					#header {
-					  display: table-header-group;
-					  page-break-inside:avoid; page-break-after:auto;
-					}
+				}
+				th{padding: 5px;}
+				table { font-family: 'Times New Roman','Khmer OS Battambang'; }
+				table.content-data { page-break-inside:auto; }
+				table.content-data tr{ page-break-inside:avoid; page-break-after:auto; }
+			
+				#header {
+				  display: table-header-group;
+				  page-break-inside:avoid; page-break-after:auto;
+				}
 					
 			</style>
         	<table width="100%" style="font-family:'Times New Roman','Khmer OS Battambang'; margin:0; padding:0;border:none;" >
@@ -55,7 +56,7 @@ $frm = $this->frm_zone;
                 </tr> 
                 
             </table>
-			<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
+			<table id="exportExcel" class="content-data" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
 		      <thead> 
 		    	<tr bgcolor="#ccc" class="style" align="center" style="height:25px; font-weight:bold; line-height: 20px; background: #ccd9ff; font-size:12px; padding:5px 0px; ">
 		        	<td><?php echo  $tr->translate("NUM");?></td>

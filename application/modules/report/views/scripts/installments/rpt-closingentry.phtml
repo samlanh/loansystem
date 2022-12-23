@@ -11,11 +11,14 @@
      dojo.require("dijit.form.DateTextBox");
 </script>
 <style>
-.hover:hover{ background:#ccc;}
-table.content-data thead tr.style-head,
-table.tb-footer tr.style-head {
-   font-weight: bold !important;
-}
+	.hover:hover{ background:#ccc;}
+	table.content-data thead tr.style-head,
+	table.tb-footer tr.style-head {
+	   font-weight: bold !important;
+	}
+	.noneprint{
+		display: table-cell !important; 
+	}
 </style>
 <div class="reportblog">
 	<div class="card-box">
@@ -59,215 +62,210 @@ table.tb-footer tr.style-head {
            	</div>
        	</div>
 	</form>
-	<style>
-		.noneprint{
-			display: table-cell !important; 
-		}
-	</style>
-<div id="divPrint">
-	<style type="text/css">
-		.style{
-			line-height: 20px;font-size: 12px !important;
-			font-family: 'Times New Roman','Khmer OS Battambang';
-		}
-		.style1:hover{ background: #ccc; }
-		table tr td ul li{list-style: none;line-height: 25px;}
-		table { page-break-inside:auto }
-		tr{ page-break-inside:avoid; page-break-after:auto; }
-		#header {
-		  display: table-header-group;
-		  page-break-inside:avoid; page-break-after:auto;
-		}
-		a.repLink.btn {
-		    color: #008;
-		    font-weight: 600;
-			font-size: 12px;
-		}
-		table.content-data{
-			border-collapse:collapse;
-			width:100%;
-			border:1px solid #000; 
-			font-family:'Times New Roman','Khmer OS Battambang';
-			font-size:11px;
-			white-space: nowrap;
-			margin:0 auto;
-		}
-		table.content-data thead tr.style-head {
-		   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
-			background: #ccd9ff;
-			text-align: center;
-		}
-		table.content-data tr.style-rowdata {
-			font-size:10px; 
-			height: 23px;
-		}
-		
-		table.tb-footer{
-			font-family: 'Times New Roman','Khmer OS Battambang'; 
-			border-collapse:collapse;
-			border:1px solid #000; 
-			font-size:12px;
-			width:100%;
-		}
-		table.tb-footer tr.style-head{
-			line-height: 24px; 
-			text-align: center; 
-			background: #ccd9ff;
-		}
-		.border_bottom {
-		    border-bottom: 1px solid #000;
-		}
-	</style>
-	<table width="100%">
-		<tr>
-	    	<td align="center" valign="top">
-	        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang'; margin:0;padding:0;">
-	            	<tr>
-	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="80px"></td>
-	                	<td width="60%" valign="top">
-	                		<ul>
-	                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $data['client_company_name'];?><?php //echo $tr->translate("BRAND_TITLE");?></li>
-	                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("Closing Entry Payment Sale Installment");?></li>
-	                			<?php if (!empty($this->list_end_date['start_date'])){?>
-	                			<li style="text-align:center; font-size:14px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
-	                			<?php }?>
-	                		</ul>
-	                   </td>
-	                    <td width="20%"></td>
-	                </tr> 
-	                	<tr>
-		                	<td colspan="3">
-		                		<table width="100%" cellpadding="0" cellspacing="0">
-		                			<tr class='style'>
-		                				<td class="style" style="font-size: 7px;">
-		                					 <?php echo $data['branch-add-client']."<br />".$data['tel-client'];?>
-		                				</td>
-		                				<td width="65%"></td>
-		                			</tr>
-				                </table>
-				              </td>
-			           </tr>   
-	            </table>
-	        </td>
-	    </tr>
-	    <tr>
-	    	<td id="exportExcel">
-	    		<form id="list" name="list" action="<?php echo $this->url(array('module'=>'report','controller'=>'installments','action'=>'submitentry')); ?>" dojoType="dijit.form.Form" method="post">
-					<script type="dojo/method" event="onSubmit" >			
-						id_selected = dijit.byId('id_selected').get('value');
-						if(id_selected==''){
-							alert('No record to close !!! ');
-							return false;
-						}
-						loadingBlock();
-						return true;
-					</script>
-	            <table class="content-data" border="1" cellspacing="0">
-		        	<thead>
-		                <tr class="style-head" >
-		                    <td rowspan="2">
-		                    	<input type="checkBox" onclick="checkAll('<?php echo count($this->loantotalcollect_list);?>');" name="checkall" id="checkall" /> 
-			                    <input type="hidden" name="id_selected" id="id_selected" dojoType="dijit.form.TextBox" />
-		                    	&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;
-		                    </td>
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("INSTALLMENT_NO");?>&nbsp;</td>	  
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</td>                  
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</td>
-		                    <?php 
-								$colspan=4;
-							?>
-		                    <td colspan="<?php echo $colspan;?>">&nbsp;<?php echo $tr->translate("TOTAL_PAYMENTED");?>&nbsp;</td>    
-		                    <td rowspan="2" style="white-space:nowrap; border-right:3px double black; ">&nbsp;<?php echo $tr->translate("PAY_DATE");?>&nbsp;</td>
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("INPUT_DATE");?>&nbsp;</td>
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAID_TIME");?>&nbsp;</td>
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("RECIEPT_NO");?>&nbsp;</td>
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAYMENT_OPTION");?>&nbsp;</td>
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("BY_USER");?>&nbsp;</td>
-		                    <td rowspan="2">&nbsp;<?php echo $tr->translate("STATUS");?>&nbsp;</td>
-		                </tr>
-		                <tr class="style-head" >
-		                	<td align="center">&nbsp;<?php echo $tr->translate("PAID_PRINCIPAL");?>&nbsp;</td> 
-		                    <td align="center">&nbsp;<?php echo $tr->translate("INTEREST");?>&nbsp;</td>
-		                    <td align="center">&nbsp;<?php echo $tr->translate("PENALIZE AMOUNT");?>&nbsp;</td>
-		                    <td align="center">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
-		                </tr>
-		          </thead>
-	                <?php 
-	                	$amt_r1 = 0; $amn_r2 = 0; $amn_r3 = 0;$amt_r4 = 0;$amn_r5 = 0;
-	                	$amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;
-	                	$amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;
-	                	$i=1;$oldloan_number='';
-	                	$saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
-	                	$total_d=0;$total_b=0;$total_r=0;
-	                	$gTotalSell=0;
-	                	$gTotalSell=0;
-	                ?>
-	                <?php $is_set =0; if(!empty($this->loantotalcollect_list))foreach ($this->loantotalcollect_list as $index => $rs){ ?>
-	               <?php 
-	              	 	$interest=0;
-				   		$interest_amount=0;
-	              		$amt_d1 = $amt_d1+$rs['principal_paid'];
-	               		$amt_d2 = $amt_d2+$rs['interest_paid'];
-	               		$amt_d3 = $amt_d3+$rs['penalize_paid'];
-	               		$total_d=$amt_d1+$amt_d2+$amt_d3+$amt_d5;
-	               ?>
-	                <tr class="style-rowdata hover context-menu-one" align="center" oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;">
-	               		<td style="text-align: center;">
-	               			<input style="height: 15px;margin-top: 5px;" type="checkBox" onClick="checked_id(<?php echo $index+1;?>)" name="check_box<?php echo $index+1;?>" id="check_box<?php echo $index+1;?>" />
-							<input type="hidden" id="id_<?php echo $index+1;?>" name="id_<?php echo $index+1;?>" value="<?php echo $rs['id'];?>" dojoType="dijit.form.TextBox" />
-	               			&nbsp;<?php echo $i++; ?>&nbsp;
-	               		</td>
-	               		<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>                 		
-	               		<td>&nbsp;<?php echo $rs["client_name"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["item_name"];?>&nbsp;</td>
-	               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['principal_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>               		
-	               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['interest_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
-	               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['penalize_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
-	               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs["total_paymentpaid"],2);//.' '.$rs['currency_typeshow'];;?>&nbsp;</td> 
-	               		<td style="white-space:nowrap; border-right:3px double black; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_payment"]));?>&nbsp;</td>
-	               		<td style="white-space:nowrap; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_input"]));?>&nbsp;</td>
-	               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo $rs["paid_times"];?>&nbsp;</td> 
-	               		<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
-	               		<td style="font-site:9px; <?php if($rs["payment_option"]==4){echo " background:#ccc";} ?>" align="center" >&nbsp;<?php echo @$opt[$rs["payment_option"]];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["user_name"]; ?>&nbsp;</td>
-	               		<td class="">&nbsp;<?php echo($rs['is_closed']==0)?"Unclose":"Closed";?>&nbsp;</td>
-	                </tr>
-	                <?php }?>
-	            </table>
-	            <br />
-	            <table width="100%">
-					<tr>
-				    	<td align="center">
-				    		<br><button iconclass="dijitIconSave" dojoType="dijit.form.Button" showLabel="true" type="submit">Closing Entry</button>
-				    	</td>
-					</tr>	
-				</table>
-	            <br />
-	            <table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
-	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
-	                    <td align="right">&nbsp;</td>
-	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("PRINCIPAL");?></span></td>
-	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INTEREST");?></span></td>
-	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PENILIZE_AMOUNT");?></span></td>
-	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("សរុបលក់រាយ");?></span></td>
-	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("Grand Total");?></span></td>
-	                    <td align="right">&nbsp;</td>
-	                 </tr>
-	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
-	                    <td align="right"></td>
-	                    <td align="center" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
-	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
-	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
-	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($gTotalSell,2);?>&nbsp;</td>
-	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1+$amt_d2+$amt_d3+$gTotalSell,2);?>&nbsp;</td>
-			            <td align="right">&nbsp;</td>
-			        </tr>
-	           </table>
-	                 
+	<div id="divPrint">
+		<style type="text/css">
+			.style{
+				line-height: 20px;font-size: 12px !important;
+				font-family: 'Times New Roman','Khmer OS Battambang';
+			}
+			.style1:hover{ background: #ccc; }
+			table tr td ul li{list-style: none;line-height: 25px;}
+			
+			table.content-data { page-break-inside:auto }
+			table.content-data tr{ page-break-inside:avoid; page-break-after:auto; }
+			#header {
+			  display: table-header-group;
+			  page-break-inside:avoid; page-break-after:auto;
+			}
+			a.repLink.btn {
+				color: #008;
+				font-weight: 600;
+				font-size: 12px;
+			}
+			table.content-data{
+				border-collapse:collapse;
+				width:100%;
+				border:1px solid #000; 
+				font-family:'Times New Roman','Khmer OS Battambang';
+				font-size:11px;
+				white-space: nowrap;
+				margin:0 auto;
+			}
+			table.content-data thead tr.style-head {
+			   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+				background: #ccd9ff;
+				text-align: center;
+			}
+			table.content-data tr.style-rowdata {
+				font-size:10px; 
+				height: 23px;
+			}
+			
+			table.tb-footer{
+				font-family: 'Times New Roman','Khmer OS Battambang'; 
+				border-collapse:collapse;
+				border:1px solid #000; 
+				font-size:12px;
+				width:100%;
+			}
+			table.tb-footer tr.style-head{
+				line-height: 24px; 
+				text-align: center; 
+				background: #ccd9ff;
+			}
+			.border_bottom {
+				border-bottom: 1px solid #000;
+			}
+		</style>
+		<table width="100%">
+			<tr>
+				<td align="center" valign="top">
+					<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang'; margin:0;padding:0;">
+						<tr>
+							<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="80px"></td>
+							<td width="60%" valign="top">
+								<ul>
+									<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $data['client_company_name'];?><?php //echo $tr->translate("BRAND_TITLE");?></li>
+									<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("Closing Entry Payment Sale Installment");?></li>
+									<?php if (!empty($this->list_end_date['start_date'])){?>
+									<li style="text-align:center; font-size:14px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+									<?php }?>
+								</ul>
+						   </td>
+							<td width="20%"></td>
+						</tr> 
+							<tr>
+								<td colspan="3">
+									<table width="100%" cellpadding="0" cellspacing="0">
+										<tr class='style'>
+											<td class="style" style="font-size: 7px;">
+												 <?php echo $data['branch-add-client']."<br />".$data['tel-client'];?>
+											</td>
+											<td width="65%"></td>
+										</tr>
+									</table>
+								  </td>
+						   </tr>   
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td id="exportExcel">
+					<form id="list" name="list" action="<?php echo $this->url(array('module'=>'report','controller'=>'installments','action'=>'submitentry')); ?>" dojoType="dijit.form.Form" method="post">
+						<script type="dojo/method" event="onSubmit" >			
+							id_selected = dijit.byId('id_selected').get('value');
+							if(id_selected==''){
+								alert('No record to close !!! ');
+								return false;
+							}
+							loadingBlock();
+							return true;
+						</script>
+					<table class="content-data" border="1" cellspacing="0">
+						<thead>
+							<tr class="style-head" >
+								<td rowspan="2">
+									<input type="checkBox" onclick="checkAll('<?php echo count($this->loantotalcollect_list);?>');" name="checkall" id="checkall" /> 
+									<input type="hidden" name="id_selected" id="id_selected" dojoType="dijit.form.TextBox" />
+									&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;
+								</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("INSTALLMENT_NO");?>&nbsp;</td>	  
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</td>                  
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</td>
+								<?php 
+									$colspan=4;
+								?>
+								<td colspan="<?php echo $colspan;?>">&nbsp;<?php echo $tr->translate("TOTAL_PAYMENTED");?>&nbsp;</td>    
+								<td rowspan="2" style="white-space:nowrap; border-right:3px double black; ">&nbsp;<?php echo $tr->translate("PAY_DATE");?>&nbsp;</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("INPUT_DATE");?>&nbsp;</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("PAID_TIME");?>&nbsp;</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("RECIEPT_NO");?>&nbsp;</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("PAYMENT_OPTION");?>&nbsp;</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("BY_USER");?>&nbsp;</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("STATUS");?>&nbsp;</td>
+							</tr>
+							<tr class="style-head" >
+								<td align="center">&nbsp;<?php echo $tr->translate("PAID_PRINCIPAL");?>&nbsp;</td> 
+								<td align="center">&nbsp;<?php echo $tr->translate("INTEREST");?>&nbsp;</td>
+								<td align="center">&nbsp;<?php echo $tr->translate("PENALIZE AMOUNT");?>&nbsp;</td>
+								<td align="center">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+							</tr>
+					  </thead>
+						<?php 
+							$amt_r1 = 0; $amn_r2 = 0; $amn_r3 = 0;$amt_r4 = 0;$amn_r5 = 0;
+							$amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;
+							$amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;
+							$i=1;$oldloan_number='';
+							$saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
+							$total_d=0;$total_b=0;$total_r=0;
+							$gTotalSell=0;
+							$gTotalSell=0;
+						?>
+						<?php $is_set =0; if(!empty($this->loantotalcollect_list))foreach ($this->loantotalcollect_list as $index => $rs){ ?>
+					   <?php 
+							$interest=0;
+							$interest_amount=0;
+							$amt_d1 = $amt_d1+$rs['principal_paid'];
+							$amt_d2 = $amt_d2+$rs['interest_paid'];
+							$amt_d3 = $amt_d3+$rs['penalize_paid'];
+							$total_d=$amt_d1+$amt_d2+$amt_d3+$amt_d5;
+					   ?>
+						<tr class="style-rowdata hover context-menu-one" align="center" oncontextmenu="setrowdata(<?php echo $rs['id'];?>);return false;">
+							<td style="text-align: center;">
+								<input style="height: 15px;margin-top: 5px;" type="checkBox" onClick="checked_id(<?php echo $index+1;?>)" name="check_box<?php echo $index+1;?>" id="check_box<?php echo $index+1;?>" />
+								<input type="hidden" id="id_<?php echo $index+1;?>" name="id_<?php echo $index+1;?>" value="<?php echo $rs['id'];?>" dojoType="dijit.form.TextBox" />
+								&nbsp;<?php echo $i++; ?>&nbsp;
+							</td>
+							<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
+							<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
+							<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>                 		
+							<td>&nbsp;<?php echo $rs["client_name"];?>&nbsp;</td>
+							<td>&nbsp;<?php echo $rs["item_name"];?>&nbsp;</td>
+							<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['principal_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>               		
+							<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['interest_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
+							<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['penalize_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
+							<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs["total_paymentpaid"],2);//.' '.$rs['currency_typeshow'];;?>&nbsp;</td> 
+							<td style="white-space:nowrap; border-right:3px double black; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_payment"]));?>&nbsp;</td>
+							<td style="white-space:nowrap; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_input"]));?>&nbsp;</td>
+							<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo $rs["paid_times"];?>&nbsp;</td> 
+							<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
+							<td style="font-site:9px; <?php if($rs["payment_option"]==4){echo " background:#ccc";} ?>" align="center" >&nbsp;<?php echo @$opt[$rs["payment_option"]];?>&nbsp;</td>
+							<td>&nbsp;<?php echo $rs["user_name"]; ?>&nbsp;</td>
+							<td class="">&nbsp;<?php echo($rs['is_closed']==0)?"Unclose":"Closed";?>&nbsp;</td>
+						</tr>
+						<?php }?>
+					</table>
+					<br />
+					<table width="100%">
+						<tr>
+							<td align="center">
+								<br><button iconclass="dijitIconSave" dojoType="dijit.form.Button" showLabel="true" type="submit">Closing Entry</button>
+							</td>
+						</tr>	
+					</table>
+					<br />
+					<table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+						 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+							<td align="right">&nbsp;</td>
+							<td align="right"><span class="border_bottom"><?php echo $tr->translate("PRINCIPAL");?></span></td>
+							<td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INTEREST");?></span></td>
+							<td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PENILIZE_AMOUNT");?></span></td>
+							<td align="right"><span class="border_bottom"><?php echo $tr->translate("សរុបលក់រាយ");?></span></td>
+							<td align="right"><span class="border_bottom"><?php echo $tr->translate("Grand Total");?></span></td>
+							<td align="right">&nbsp;</td>
+						 </tr>
+						 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+							<td align="right"></td>
+							<td align="center" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
+							<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
+							<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
+							<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($gTotalSell,2);?>&nbsp;</td>
+							<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1+$amt_d2+$amt_d3+$gTotalSell,2);?>&nbsp;</td>
+							<td align="right">&nbsp;</td>
+						</tr>
+				   </table>
 		            <br />
 		            <?php echo $this->footerReport;?>
 		            

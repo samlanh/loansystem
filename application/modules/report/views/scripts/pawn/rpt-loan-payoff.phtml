@@ -23,90 +23,90 @@ table.tb-footer tr.style-head {
     		</div>
     	</div>
     </div>	
-<form method="post">
-	<div class="card-box">
-		<div class="form-group">
-            <div class="col-md-3 col-sm-3 col-xs-12">
-            	<?php echo $frm->getElement('adv_search');?>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-            	<?php echo $frm->getElement('branch_id');?>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-            	<?php echo $frm->getElement('members');?>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-            	<?php echo $frm->getElement('product_id');?>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-3 col-sm-3 col-xs-12">
-            	<?php echo $frm->getElement('currency_type');?>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-            	<?php echo $frm->getElement('start_date');?>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-            	<?php echo $frm->getElement('end_date');?>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-            	<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-            </div>
-        </div>
-   	</div>
-</form>
+	<form method="post">
+		<div class="card-box">
+			<div class="form-group">
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					<?php echo $frm->getElement('adv_search');?>
+				</div>
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					<?php echo $frm->getElement('branch_id');?>
+				</div>
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					<?php echo $frm->getElement('members');?>
+				</div>
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					<?php echo $frm->getElement('product_id');?>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					<?php echo $frm->getElement('currency_type');?>
+				</div>
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					<?php echo $frm->getElement('start_date');?>
+				</div>
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					<?php echo $frm->getElement('end_date');?>
+				</div>
+				<div class="col-md-3 col-sm-3 col-xs-12">
+					<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+				</div>
+			</div>
+		</div>
+	</form>
 	<div id="divPrint">
-	<style>
-	.style{
-		line-height: 20px;font-size: 12px !important;
-		font-family: 'Times New Roman','Khmer OS Battambang';
-	}
-	.style1:hover{ background: #ccc;}
-	table tr td ul li{list-style: none;line-height: 25px; }
-	table { page-break-inside:auto }
-	  tr{ page-break-inside:avoid; page-break-after:auto; }
-	#header {
-	  display: table-header-group;
-	  page-break-inside:avoid; page-break-after:auto;
-	}
-	thead tr td{
-		text-align: center;
-	}
-	table.content-data{
-		border-collapse:collapse;
-		width:100%;
-		border:1px solid #000; 
-		font-family:'Times New Roman','Khmer OS Battambang';
-		font-size:13px;
-		white-space: nowrap;
-		margin:0 auto;
-	}
-	table.content-data thead tr.style-head {
-	   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
-		background: #ccd9ff;
-		text-align: center;
-	}
-	table.content-data tr.style-rowdata {
-		font-size:12px; 
-		height: 23px;
-	}
-	
-	table.tb-footer{
-		font-family: 'Times New Roman','Khmer OS Battambang'; 
-		border-collapse:collapse;
-		border:1px solid #000; 
-		font-size:12px;
-		width:100%;
-	}
-	table.tb-footer tr.style-head{
-		line-height: 24px; 
-		text-align: center; 
-		background: #ccd9ff;
-	}
-	.border_bottom {
-	    border-bottom: 1px solid #000;
-	}
-	</style>
+		<style>
+			.style{
+				line-height: 20px;font-size: 12px !important;
+				font-family: 'Times New Roman','Khmer OS Battambang';
+			}
+			.style1:hover{ background: #ccc;}
+			table tr td ul li{list-style: none;line-height: 25px; }
+			table.content-data { page-break-inside:auto }
+			table.content-data  tr{ page-break-inside:avoid; page-break-after:auto; }
+			#header {
+			  display: table-header-group;
+			  page-break-inside:avoid; page-break-after:auto;
+			}
+			thead tr td{
+				text-align: center;
+			}
+			table.content-data{
+				border-collapse:collapse;
+				width:100%;
+				border:1px solid #000; 
+				font-family:'Times New Roman','Khmer OS Battambang';
+				font-size:13px;
+				white-space: nowrap;
+				margin:0 auto;
+			}
+			table.content-data thead tr.style-head {
+			   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+				background: #ccd9ff;
+				text-align: center;
+			}
+			table.content-data tr.style-rowdata {
+				font-size:12px; 
+				height: 23px;
+			}
+			
+			table.tb-footer{
+				font-family: 'Times New Roman','Khmer OS Battambang'; 
+				border-collapse:collapse;
+				border:1px solid #000; 
+				font-size:12px;
+				width:100%;
+			}
+			table.tb-footer tr.style-head{
+				line-height: 24px; 
+				text-align: center; 
+				background: #ccd9ff;
+			}
+			.border_bottom {
+				border-bottom: 1px solid #000;
+			}
+		</style>
 	<table width="100%">
 		<tr>
 	    	<td align="center">
