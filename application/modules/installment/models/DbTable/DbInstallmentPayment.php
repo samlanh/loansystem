@@ -400,7 +400,7 @@ public function getIlPaymentNumber(){
     		crmd.*
     		FROM
     		`ln_ins_receipt_money_detail` AS crmd,
-    		ln_client_receipt_money as crm
+    		ln_ins_receipt_money as crm
     		WHERE
     		crm.id = crmd.`receipt_id`
     		and crmd.`receipt_id` = $id ";
