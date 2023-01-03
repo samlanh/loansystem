@@ -325,12 +325,17 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 			$search = array(
 					'branch_id'=>0,
 					'members'=>-1,
+					'province'=>0,
+					'district_id'=>'',
+					'comm_id'=>'',
+					'village'=>'',
+					'shop_id'=>'-1',
 					'start_date'=> date('Y-m-d'),
 					'end_date'=>date('Y-m-d'),
 					'status' => -1,);
 		}
 		$this->view->date_show=$search['end_date'];
-		$this->view->list_end_date=$search;
+		$this->view->rsearch=$search;
 		
 		$row = $dbs->getAllLnClient($search);
 		$this->view->tran_schedule=$row;
