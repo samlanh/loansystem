@@ -125,12 +125,9 @@ function rptLoanDisburseAction(){//release all loan
   				'status' => -1,);
   	}
   	$db  = new Report_Model_DbTable_DbLoan();
-//   	$this->view->date_show=$search['end_date'];
   	$this->view->rsearch=$search;
 
   	$this->view->loanlate_list =$db->getALLLoanlate($search);
-  	//$row = $dbs->getAllLnClient($search);
-  	// $this->view->tran_schedule=$row;
   	
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
