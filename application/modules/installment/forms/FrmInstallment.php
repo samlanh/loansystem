@@ -301,6 +301,27 @@ public function init()
 		$shop_id->setMultiOptions($opt);
 		$shop_id->setValue($request->getParam("shop_id"));
 		
+		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province');
+		$_province->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'filterDistrict();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+		
+		));
+		
+		$rows =  $db->getAllProvince();
+		$options=array($this->tr->translate("SELECT_PROVINCE")); //array(''=>"------Select Province------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row){
+			if($row['province_en_name']=="ភ្នំពេញ"){
+				//exit();
+				$_province->setValue($row['province_id']);
+			}
+			$options[$row['province_id']]=$row['province_en_name'];
+		}
+		$_province->setMultiOptions($options);
+		$_province->setValue($request->getParam("province"));
 		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
@@ -324,7 +345,7 @@ public function init()
 			$_id->setValue($data['id']);
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($shop_id,$_start_date,$end_date,$_title,$description,$_estimate,$_first_payment,$receipt_num,$withdrawal,$pro_type,$_level,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,
+		$this->addElements(array($_province,$shop_id,$_start_date,$end_date,$_title,$description,$_estimate,$_first_payment,$receipt_num,$withdrawal,$pro_type,$_level,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,
 				$_interest,
 				$_client_codes,$_loan_codes,$_members,
 				$_client_code,$_branch_id,$_currency_type,$_amount,$_rate,$_releasedate

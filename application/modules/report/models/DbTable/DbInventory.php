@@ -524,6 +524,7 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
    	$end_date = $search['end_date'];
    	$sql = "SELECT 
 		(SELECT   `lb`.`branch_namekh` FROM `ln_branch` `lb`  WHERE (`lb`.`br_id` = l.`branch_id`)  LIMIT 1) AS `branch_namekh`,
+		(SELECT shop_namekh FROM `ln_lns_shop` WHERE ln_lns_shop.shop_id=l.shop_id) AS shop_name,
 		`c`.`name_kh` AS `name_kh`,
 		c.`client_number` AS client_number,
 		`c`.`phone` AS phone_number,
@@ -569,6 +570,23 @@ WHERE pu.`id`=pd.`po_id` AND pl.`location_id`=pu.branch_id AND pd.pro_id = p.`id
    	}
    	if($search['members']>0){
    		$where.=" AND l.`customer_id` = ".$search['members'];
+   	}
+   	if($search['shop_id']>0){
+   		$where.= " AND l.shop_id=".$search['shop_id'];
+   	}
+   	if (!empty($search['province'])){
+   		if($search['province']>0){
+   			$where.=" AND c.pro_id= ".$search['province'];
+   		}
+   	}
+   	if(!empty($search['district'])){
+   		$where.=" AND `c`.`dis_id`= ".$search['district'];
+   	}
+   	if(!empty($search['commune'])){
+   		$where.=" AND `c`.`com_id`= ".$search['commune'];
+   	}
+   	if(!empty($search['village'])){
+   		$where.=" AND `c`.`village_id`= ".$search['village'];
    	}
    	if(!empty($search['adv_search'])){
    		$s_where = array();
