@@ -81,8 +81,8 @@ table.tb-footer tr.style-head {
 					<tr id="header">
 	                	  <td style=" " valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" /> </td>
 	                	  <td colspan="2" align="left" >
-	                	  <h2 style="font-weight:normal; text-align:left; font-size:12px; font-family:'Khmer os battambang';"><?php echo $tr->translate("ADDRESS_COMPANY");?>
-	                	  	<br /><?php echo $tr->translate("TEL_COMPANY");?>
+	                	  <h2 style="font-weight:normal; text-align:left; font-size:12px; font-family:'Khmer os battambang';"><?php echo $client['branchAddress'];//$tr->translate("ADDRESS_COMPANY");?>
+	                	  	<br /><?php echo $tr->translate("PHONE")." : ".$client['branchTel'];//$tr->translate("TEL_COMPANY");?>
 	                	  </h2>
 	                	  </td>
 	                </tr >
