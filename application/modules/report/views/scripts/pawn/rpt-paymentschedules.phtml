@@ -10,15 +10,24 @@ $url_barcode = $this->url(array("module"=>"loan","controller"=>"ilpayment","acti
 <style>
 td p{ margin-top:0px !important;}
 </style>
-<div style="width:100%; margin:0 auto;padding: 0 40px;">
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('REPORT WEEK');?></h5>
+		
+	</div>
 	<div id="divPrint">
 	<style type="text/css">
+		table tr,
+		table tr h2,
+		table tr p,
 		.style{
-			line-height: 20px;font-size: 13px;
-			font-family: 'Khmer OS Battambang';
+			line-height: 20px;
+			font-size: 13px;
+			font-family: 'Times New Roman','Khmer OS Battambang';
+			color: #000;
 		}
 		.font_bold{
-			font-family:'Khmer MEF2';
+			font-family:'Times New Roman','Khmer MEF2';
 			font-size: 12px;
 		}
 		td p{ margin-top:-12px;}
@@ -78,7 +87,7 @@ td p{ margin-top:0px !important;}
 	    </tr>
 	    <tr>
 	    	<td>
-	            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
+	            <table id="exportExcel" border="1" style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
 	                 <tr class="style" align="center" style="font-weight:bold; line-height: 40px;">
 	                    <td><?php echo $tr->translate("NUM");?></td>
 	                    <td><?php echo $tr->translate("ថ្ងៃ-ខែ ឆ្នាំ");?></td>

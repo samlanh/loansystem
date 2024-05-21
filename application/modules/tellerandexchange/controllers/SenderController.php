@@ -31,7 +31,7 @@ class Tellerandexchange_SenderController extends Zend_Controller_Action
     		$glClass = new Application_Model_GlobalClass();
     		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("BRANCH_NAME","CUSTOMER_NAME","CURRENCY","RECEIPT","​AMT_PAY","BRANCH_NOTE","DATE","STATUS");
+    		$collumns = array("BRANCH_NAME","CUSTOMER_NAME","CURRENCY","RECEIPT","AMT_PAY","BRANCH_NOTE","DATE","STATUS");
     		$link=array(
     				'module'=>'tellerandexchange','controller'=>'sender','action'=>'edit',
     		);
@@ -78,7 +78,7 @@ class Tellerandexchange_SenderController extends Zend_Controller_Action
 				$db = $db->updatExpense($data);		
 				Application_Form_FrmMessage::Sucessfull('UPDATE_SUCCESS', self::REDIRECT_URL);		
 			} catch (Exception $e) {
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				$this->view->msg = 'ការបញ្ចូលមិនជោគជ័យ';
 			}
 		}
 		$id = $this->getRequest()->getParam('id');

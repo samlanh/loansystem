@@ -74,9 +74,11 @@ class Other_ZoneController extends Zend_Controller_Action {
 	   		}
 	   	}
 	   	$id=$this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
 	   	$row = $db->getZoneById($id);
 	   	if(empty($row)){
-	   		$this->_redirect('/other/zone');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/other/zone',2);
+			exit();
 	   	}
 	   	$frm = new Other_Form_FrmZone();
 	   	$frm_co=$frm->FrmAddZone($row);

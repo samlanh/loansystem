@@ -51,7 +51,7 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 				}
 				Application_Form_FrmMessage::message("INSERT_SUCCESS");
 			} catch (Exception $e) {
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				Application_Form_FrmMessage::message("ការបញ្ចូលមិនជោគជ័យ");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
@@ -96,7 +96,7 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 				$db_deposite->updateCapitalResource($_data);
 				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS",'/capital/capitalresource');
 			}catch(Exception $e){
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				Application_Form_FrmMessage::message("EDIT_FAIL");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
@@ -105,7 +105,8 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 		$row = $db_deposite->getCapitalDetailById($id);
 		
 		if(empty($row)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/capital/capitalresource");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/capital/capitalresource",2);
+			exit();
 		}
 		
 		$deposite=new Capital_Form_FrmCapitale();

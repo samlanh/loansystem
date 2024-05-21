@@ -3,32 +3,26 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_changeCollteral;
 echo $this->headTitle($tr->translate("RETURN_COLLTERAL_INFO"));
 ?>
-<style>	
-.fullside {
-	width: 100%;
-	height: 30px;
-}
-.collteral{
-	color:blue;
-}
-</style>
 <div class="card">
-	<div class="card-content collapse show">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="fa fa-cubes"></i>&nbsp;<?php echo $tr->translate('RETURN_COLLTERAL_INFO');?></h5>
+	</div>
+	<div class="card-body">
 		<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'group','controller'=>'returncollteral','action'=>'add')); ?>"  dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if(dijit.byId('branch_id').get('value')==''){
-                    alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> ');
+                    infoMessageAlert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> ');
                     dijit.byId('branch_id').focus();
                     return false;
                 }
                 if(dijit.byId('client_name').get('value')==''){
-                   	alert('<?php echo $tr->translate("PLEASE_SELECT_CLIENT");?> !');
+                   	infoMessageAlert('<?php echo $tr->translate("PLEASE_SELECT_CLIENT");?> !');
                     dijit.byId('client_name').focus();
                     return false;
                 }
                if(dijit.byId('record_row').get('value')==''){
-					 alert('<?php echo $tr->translate("Can not submit without record");?> !');
+					 infoMessageAlert('<?php echo $tr->translate("Can not submit without record");?> !');
                     return false;
                 }
              	loadingBlock();
@@ -37,105 +31,105 @@ echo $this->headTitle($tr->translate("RETURN_COLLTERAL_INFO"));
 				return false;
 			}
 			</script>
-			<div class="card-box">
-               		<div class="col-sm-12 border-botom">
-		    			<div class="col-sm-8 pd-0">
-		    				<h4 class="m-b-0"><i class="fa fa-cubes" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('RETURN_COLLTERAL_INFO');?></h4>
-	    			</div>
-	    			<div class="col-sm-4 text-right">
-	    			</div>
-	    		</div>
-	    	</div>
-	    	<div class="card-box">
+	    	<div class="row">
 				<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("BRANCH_INFO");?> 
-	                   </label>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NAME");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<?php echo $frm->getElement('branch_id');?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("LOAN_NO");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<input id="loan_number" />
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<?php echo $frm->getElement('date');?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("GIVER_NAME");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<?php echo $frm->getElement('receiver_name');?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<?php echo $frm->getElement('_note');?>
-	                   </div>
-	                </div>
+					<div class="card card-form mb-4">
+						<div class="card-header d-flex justify-content-between">
+							<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("BRANCH_INFO");?></h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NAME");?> :
+							   </label>
+								<div class="col-md-7 col-sm-7 col-xs-12">
+									<?php echo $frm->getElement('branch_id');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("LOAN_NO");?> :
+							   </label>
+								<div class="col-md-7 col-sm-7 col-xs-12">
+									<input id="loan_number" />
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?> :
+							   </label>
+								<div class="col-md-7 col-sm-7 col-xs-12">
+									<?php echo $frm->getElement('date');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("GIVER_NAME");?> :
+							   </label>
+								<div class="col-md-7 col-sm-7 col-xs-12">
+									<?php echo $frm->getElement('receiver_name');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?> :
+							   </label>
+								<div class="col-md-7 col-sm-7 col-xs-12">
+									<?php echo $frm->getElement('_note');?>
+							   </div>
+							</div>
+						</div>
+					</div>
 	            </div>
 	            <div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CUSTOMER_INFO");?> 
-	                   </label>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("OWNER_NAME")?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<input id="client_name" /><?php //echo $frm->getElement('client_name');?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("RECEIVER_NAME");?> :
-	                   </label>
-	                    <div class="col-md-7 col-sm-7 col-xs-12">
-	                    	<?php echo $frm->getElement('giver_name');?>
-	                   </div>
-	                </div>
+					<div class="card card-form mb-4">
+						<div class="card-header d-flex justify-content-between">
+							<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("CUSTOMER_INFO");?></h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("OWNER_NAME")?> :
+							   </label>
+								<div class="col-md-7 col-sm-7 col-xs-12">
+									<input id="client_name" /><?php //echo $frm->getElement('client_name');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("RECEIVER_NAME");?> :
+							   </label>
+								<div class="col-md-7 col-sm-7 col-xs-12">
+									<?php echo $frm->getElement('giver_name');?>
+							   </div>
+							</div>
+						</div>
+					</div>
 	            </div>
 	        </div>
 	        <div class="card-box">
-                <div class="form-group">
-                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("RETURN_COLLTERAL_INFO");?> 
-                   </label>
-                </div>
-	        	<div class="form-group">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                    	<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
-						<!--<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
-									<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
-						</table>-->
-						<div  id="lbl_table"></div>	
-						<div  id="showrecord"></div>
-                    </div>
-                </div>
+				<div class="card card-form mb-4">
+					<div class="card-header d-flex justify-content-between">
+						<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("RETURN_COLLTERAL_INFO");?></h5>
+					</div>
+					<div class="card-body">
+						<div class="row g-3">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+								<!--<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
+											<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
+								</table>-->
+								<div  id="lbl_table"></div>	
+								<div  id="showrecord"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 	        </div>
+			
+			<!-- Button Save  -->
 	        <div class="clearfix"></div>
-			    <div class="card-box">
-               		<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
-		    			<input type="reset" value="សំអាត" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"/>
-			            <input type="submit" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate("SAVECLOSE")?>" dojoType="dijit.form.Button" 
-							iconClass="dijitEditorIcon dijitEditorIconSave" />
-						<input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate("SAVENEW")?>" dojoType="dijit.form.Button" 
-							iconClass="dijitEditorIcon dijitEditorIconSave" />
-	    		</div>
-	    	</div>
-	    	
+			<div class="card-box">
+				<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
+					<input type="reset" class="button-class button-danger " iconClass="glyphicon glyphicon-repeat" value="សំអាត" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"/>
+					<input type="submit" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-remove" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate("SAVECLOSE")?>" dojoType="dijit.form.Button" />
+					<input type="submit" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate("SAVENEW")?>" dojoType="dijit.form.Button"  />
+				</div>
+			</div>
+	    	<!--/. Button Save  -->
 		</form>
 	</div>
 </div>
@@ -221,8 +215,8 @@ function AddNewCo(){
 			dijit.byId('frm_co').hide();
 		},
 		error: function(err) {
-			alert(err);
-		alert("Your message could not be sent, please try again!.");
+			infoMessageAlert(err);
+			infoMessageAlert("Your message could not be sent, please try again!.");
 				        
 		}
 	});
@@ -254,7 +248,7 @@ function getClientCollateral(){
 		load: function(data) {	
 			
 			if(data==''){
-				alert('No collateral to return !');
+				infoMessageAlert('No collateral to return !');
 			}
 			if(fund_title!=1){
 				thead='<td><?php echo $tr->translate("DEL");?></td>';
@@ -269,7 +263,7 @@ function getClientCollateral(){
 				
 			}
 			for(i=0;i<data.length;i++){
-				//alert(2);
+				//infoMessageAlert(2);
 			r++;
 				temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
 				temp+='<td><select class="fullside" style=" background:#fff; padding-left:5px;" readonly="true" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect"  >'+collect_option+'</select></td>';
@@ -301,7 +295,7 @@ function getClientCollateral(){
 			}
 		},
 		error: function(err) {
-			alert(err);
+			infoMessageAlert(err);
 		}
 	});
 }
@@ -327,7 +321,7 @@ function getClientCollateral(){
 		load: function(data) {	
 			
 			if(data==''){
-				alert('No collateral to return !');
+				infoMessageAlert('No collateral to return !');
 			}
 			if(fund_title!=1){
 				thead='<td><?php echo $tr->translate("DEL");?></td>';
@@ -342,7 +336,7 @@ function getClientCollateral(){
 				
 			}
 			for(i=0;i<data.length;i++){
-				//alert(2);
+				//infoMessageAlert(2);
 			r++;
 				temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
 				temp+='<td><select style=" width:200px;background:#fff; padding-left:5px;" readonly="true" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect"  >'+collect_option+'</select></td>';
@@ -374,7 +368,7 @@ function getClientCollateral(){
 			}
 		},
 		error: function(err) {
-			alert(err);
+			infoMessageAlert(err);
 		}
 	});
 }

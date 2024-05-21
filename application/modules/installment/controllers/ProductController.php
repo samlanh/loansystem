@@ -102,7 +102,7 @@ public function init()
 		}
 		$proLocation = $db->getProductLocation($id);
 		if (empty($proLocation)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/product");exit();
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/product",2);exit();
 		}
 		$this->view->rs_location = $proLocation;
 		
@@ -153,7 +153,7 @@ public function init()
 		
 		$proLocation = $db->getProductLocation($id);
 		if (empty($proLocation)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/product");exit();
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/product",2);exit();
 		}
 		
 		$this->view->rs_location = $proLocation;

@@ -5,324 +5,496 @@
 	
 	$db = new Home_Model_DbTable_DbDashboard();
 	?>
- 
- <link rel="stylesheet" href="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.css">
+ <div class="row">
+  
 
-<!-- Icons CSS -->
-<link href="<?php echo $this->baseUrl()."/"?>dashboard/css/icons.css" rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="<?php echo $this->baseUrl()."/"?>dashboard/css/style.css" rel="stylesheet">
-
-
-<div id="page-wrapper">
-	<!-- Page content start -->
-	<div class="page-contentbar">
-		<!-- START PAGE CONTENT -->
-		<div id="page-right-content">
-			<div class="container">
-				 <div class="row">
-					<div class="col-lg-6">
-						<div class="card-box">
-							<div class="col-lg-12">
-								<div class="accounting-management text-center">
-									<div class="col-lg-12 capital-box" style="width: 100%; background: #203864; color: #fff">
-										<span data-bind="text: txnRecorded"><?php if ($this->netIncome<0){ echo "R ".number_format(abs($this->netIncomeRiels),2);}else{ echo "R ".number_format($this->netIncomeRiels,2);}?></span><br />
-										<span data-bind="text: txnRecorded"><?php if ($this->netIncome<0){ echo "$ ".number_format(abs($this->netIncomeDollar),2);}else{ echo "$ ".number_format($this->netIncomeDollar,2);}?></span><br />
-										<span data-bind="text: txnRecorded"><?php if ($this->netIncomeBath<0){ echo "B ".number_format(abs($this->netIncomeBath),2);}else{ echo "B ".number_format($this->netIncomeBath,2);}?></span>
-										<p class="month" style="width: 70%; text-align: center; margin: 0 auto;" data-bind="text: lang.lang.transactions_recorded"><?php echo $tr->translate("Net Income")?></p>
-									</div>
-									<div class="col-lg-12" style="padding: 0;">
-										<div class="col-lg-6 capital-box" style="background: #0077c5;">
-											<span data-bind="text: currentRatio"><?php echo "R ".number_format($this->totalIncomeRiels,2);?></span> <br />
-											<span data-bind="text: currentRatio"><?php echo "$ ".number_format($this->totalIncomeDollar,2);?></span> <br />
-											<span data-bind="text: currentRatio"><?php echo "B ".number_format($this->totalIncomeBath,2);?></span>
-											<p class="month" data-bind="text: lang.lang.current_ratio"><?php echo $tr->translate("Total Income")?></p>
-										</div>
-										<div class="col-lg-6 capital-box" style="background: #21abf6; color: #fff;">
-											<span data-bind="text: quickRatio"><?php echo "R ".number_format($this->ExpenseRiels,2);?></span> <br />
-											<span data-bind="text: quickRatio"><?php echo "$ ".number_format($this->ExpenseDollar,2);?></span> <br />
-											<span data-bind="text: quickRatio"><?php echo "B ".number_format($this->ExpenseBath,2);?></span>
-											<p class="month" style="color: #fff;" data-bind="text: lang.lang.quick_ratio"><?php echo $tr->translate("Total Expense")?></p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="card-box">
-                             <div class="col-lg-12">
-	                             <div class="p-20 m-b-20">
-	                                 <h5 class="m-t-0"><?php echo $tr->translate("Monthly Loan Disburse")?></h5>
-                                   <ul class="list-inline chart-detail-list">
-										<li>
-											<h5 class="font-normal"><i class="fa fa-circle m-r-10 text-muted reils"></i><?php echo $tr->translate("Riels")?></h5>
-										</li>
-										<li>
-											<h5 class="font-normal"><i class="fa fa-circle m-r-10 text-muted dollar"></i><?php echo $tr->translate("Dollar")?></h5>
-										</li>
-										<li>
-											<h5 class="font-normal"><i class="fa fa-circle m-r-10 text-muted baht"></i><?php echo $tr->translate("Baht")?></h5>
-										</li>
-									</ul>
-                                    <div id="morris-bar-example" style="height: 200px;"></div>
-                                </div>
-							</div>
-						</div> 
-					</div> <!-- end col -->	  
-					 <div class="col-lg-6">
-						<div class="card-box">
-							<div  style="padding-left: 0; margin-left: 0; margin-top: 0;">
-								<ul id="module-image">
-									<li style="text-align:center;">
-										<a href="<?php echo $this->baseUrl()."/report/loan/rpt-loan-disburse"?>">
-											<img title="<?php echo $tr->translate("LOAN_DISBURSE");?>" src="<?php echo $this->baseUrl()."/images/icon/reportIncomeIcon.png"?>" alt="Customer">							
-											<span style="margin-top: 5px; font-size: 14px; font-weight: bold; color: #000000"><h5 data-bind="text: lang.lang.accounting" style="margin-top: 5px; display: inline-block;"><?php echo $tr->translate("LOAN_DISBURSE");?></h5></span>
-										</a>
-									</li>					
-									<li style="text-align:center;">
-										<a href="<?php echo $this->baseUrl()."/report/loan/rpt-dailypayment"?>">
-											<img title="<?php echo $tr->translate("RPT-DAILYPAYMENT");?>" src="<?php echo $this->baseUrl()."/images/icon/reportIcon.png"?>" alt="Customer">							
-											<span style="margin-top: 5px; font-size: 14px; font-weight: bold; color: #000000"><h5 data-bind="text: lang.lang.accounting" style="margin-top: 5px; display: inline-block;"><?php echo $tr->translate("RPT-DAILYPAYMENT");?></h5></span>
-										</a>
-									</li>
-									<li style="text-align:center;">
-										<a href="<?php echo $this->baseUrl()."/report/loan/rpt-payment"?>">
-											<img title="<?php echo $tr->translate("RPT_CLIENT_PAYMENT");?>" src="<?php echo $this->baseUrl()."/images/icon/reportCancelIcon.png"?>" alt="Customer">							
-											<span style="margin-top: 5px; font-size: 14px; font-weight: bold; color: #000000"><h5 data-bind="text: lang.lang.accounting" style="margin-top: 5px; display: inline-block;"><?php echo $tr->translate("RPT_CLIENT_PAYMENT");?></h5></span>
-										</a>
-									</li>
-									<li style="text-align:center;">
-										<a href="<?php echo $this->baseUrl()."/report/loan/rpt-loan-outstanding"?>">
-											<img title="<?php echo $tr->translate("LOAN_OUTSTADING");?>" src="<?php echo $this->baseUrl()."/images/icon/balanceIcon.png"?>" alt="Customer">							
-											<span style="margin-top: 5px; font-size: 14px; font-weight: bold; color: #000000"><h5 data-bind="text: lang.lang.accounting" style="margin-top: 5px; display: inline-block;"><?php echo $tr->translate("LOAN_OUTSTADING");?></h5></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div class="card-box">
-							<div class="col-lg-12">
-								<div class="col-lg-6">
-									<p><span data-bind="text: lang.lang.performance"><?php echo $tr->translate("Pawnshop Infomation")?></span></p>
-									<table class="performance">
-										<tbody>
-											<tr>
-												<td><a href="<?php echo $this->baseUrl()."/report/paramater/rpt-properties";?>"><span data-bind="text: lang.lang.income"><?php echo $tr->translate("Number of Pawnshop")?></span></a></td>
-												<td></td>
-												<td align="right"><span data-bind="text: obj.income"><?php echo $this->allPawnShop;?></span></td>
-											</tr>
-											<tr>
-												<td><span data-bind="text: lang.lang.expense"><?php echo $tr->translate("Pawnshop Breaks")?></span></td>
-												<td></td>
-												<td align="right"><span data-bind="text: obj.expense"><?php echo $this->PawnShopCompleted;?></span></td>
-											</tr>
-											<tr>
-												<td><b><span data-bind="text: lang.lang.net_income"><?php echo $tr->translate("Pawnshop Completed")?></span></b></td>
-												<td></td>
-												<td align="right"><b data-bind="text: obj.net_income"><?php echo $this->PawnShopDach;?></b></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="col-lg-6">
-									<p><span data-bind="text: lang.lang.performance"><?php echo $tr->translate("Customer / CO Infomation")?></span></p>
-									<table class="performance">
-										<tbody>
-											<tr>
-												<td><a href="<?php echo $this->baseUrl()."/report/groupmember/rpt-client";?>"><span data-bind="text: lang.lang.income"><?php echo $tr->translate("Customers")?></span></a></td>
-												<td></td>
-												<td align="right"><span data-bind="text: obj.income"><?php echo $this->AllClient;?></span></td>
-											</tr>
-											<tr>
-												<td><a href="<?php echo $this->baseUrl()."/report/paramater/rpt-staff";?>"><span data-bind="text: lang.lang.expense"><?php echo $tr->translate("CO")?></span></a></td>
-												<td></td>
-												<td align="right"><span data-bind="text: obj.expense"><?php echo $this->CountAllAgency;?></span></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="col-lg-12">
-								<div class="col-lg-12">
-									<p><span data-bind="text: lang.lang.performance"><?php echo $tr->translate("Loan Information")?></span></p>
-									<div class="widget-body alert-info welcome-nopadding">
-											<table width="100%" class="saleInfo">
-												<thead>
-													<tr align="center">
-														<td rowspan="2" width="20%">										
-															&nbsp;
-														</td>
-														<td rowspan="2"  width="15%">
-															<span data-bind="text: obj.ar_customer"><?php echo $tr->translate("Loan Disburse")?></span>
-														</td>
-														<td colspan="3" style="border: solid 1px #eee;">
-															<span data-bind="text: obj.ar_overdue"><?php echo $tr->translate("Loan Amount")?></span>
-														</td>
-													</tr>
-													<tr align="center"  >
-														<td><?php echo $tr->translate("Riels")?> (R)</td>
-														<td><?php echo $tr->translate("Dollar")?> ($)</td>
-														<td><?php echo $tr->translate("Baht")?> (B)</td>
-													</tr>
-												</thead>
-												<tbody>
-													<?php 
-													$AllLoans=0;
-													$totalRiels=0;
-													$totalDollar=0;
-													$totalBath=0;
-													if (!empty($this->countAllLoan)) foreach ($this->countAllLoan as $allLoan){
-														$AllLoans = $AllLoans +$allLoan['countLoan'];
-														if ($allLoan['currency_type']==1){
-															$totalRiels = $totalRiels + $allLoan['total'];
-														}else if($allLoan['currency_type']==2){
-															$totalDollar = $totalDollar + $allLoan['total'];
-														}else if($allLoan['currency_type']==2){
-															$totalBath = $totalBath + $allLoan['total'];
-														}
-													}?>
-													<tr align="left">
-														<td class="border-rig">										
-															<span data-bind="text: obj.ar_open"><?php echo $tr->translate("Total Loan")?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_customer"><?php echo $AllLoans;?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_overdue"><?php echo "R ".number_format($totalRiels,2);?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_overdue"><?php echo "$ ".number_format($totalDollar,2);?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_overdue"><?php echo "B ".number_format($totalBath,2);?></span>
-														</td>
-													</tr>
-													<?php 
-													$AllLoansCommplete=0;
-													$totalRielsCommplete=0;
-													$totalDollarCommplete=0;
-													$totalBathCommplete=0;
-													if (!empty($this->allLoanComplete)) foreach ($this->allLoanComplete as $allLoan){
-														$AllLoansCommplete = $AllLoansCommplete +$allLoan['countLoan'];
-														if ($allLoan['currency_type']==1){
-															$totalRielsCommplete = $totalRielsCommplete + $allLoan['total'];
-														}else if($allLoan['currency_type']==2){
-															$totalDollarCommplete = $totalDollarCommplete + $allLoan['total'];
-														}else if($allLoan['currency_type']==2){
-															$totalBathCommplete = $totalBathCommplete + $allLoan['total'];
-														}
-													}?>
-													<tr align="left">
-														<td class="border-rig">										
-															<span data-bind="text: obj.ar_open"><?php echo $tr->translate("Completed Loan")?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_customer"><?php echo $AllLoansCommplete;?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_overdue"><?php echo "R ".number_format($totalRielsCommplete,2);?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_overdue"><?php echo "$ ".number_format($totalDollarCommplete,2);?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_overdue"><?php echo "B ".number_format($totalBathCommplete,2);?></span>
-														</td>
-													</tr>
-													<tr align="left">
-														<td class="border-rig">										
-															<span data-bind="text: obj.ar_open"><?php echo $tr->translate("Bad Loan")?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_customer"><?php echo $this->countBadLoan;?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_overdue"><?php echo "R ".number_format($this->CancelPropertyAmount,2);?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_overdue"><?php echo "$ ".number_format($this->CountAllSale['totalAmount'],2);?></span>
-														</td>
-														<td align="center">
-															<span data-bind="text: obj.ar_overdue"><?php echo "B ".number_format($this->CountAllSale['totalAmount'],2);?></span>
-														</td>
-													</tr>
-												</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> <!-- end col -->	  
-				</div> <!-- end row -->
+  <!-- Earning Reports -->
+  <div class="col-lg-6 mb-4 px-1">
+    <div class="card h-100">
+      <div class="card-header pb-0 d-flex justify-content-between mb-lg-n4">
+        <div class="card-title mb-0">
+          <h5 class="mb-0"><i class="ti ti-coins"></i> <?php echo $tr->translate("Monthly Loan Disburse")?></h5>
+          <small class="text-muted"><?php echo $tr->translate("monthylLoanDisburseDesc")?></small>
+        </div>
+        <!-- </div> -->
+      </div>
+      <div class="card-body">
+	  
+	  <?php 
+		$different = $this->compareLoan["different"];
+		$percentage = "+".$this->compareLoan["percentage"];
+		$different =sprintf('%02d', $different);
+		$classBgLabel="bg-label-success";
+		if($different<0){
+			$different = "(".sprintf('%02d', abs($different)).")";
+			
+			$percentage = "-".$this->compareLoan["percentage"];
+			$classBgLabel="bg-label-danger";
+		}else if($different == 0){
+			$classBgLabel="bg-label-secondary";
+			$percentage = $this->compareLoan["percentage"];
+		}
+	  ?>
+        <div class="row">
+          <div class="col-12 col-md-3 d-flex flex-column align-self-end">
+            <div class="d-flex gap-2 align-items-center mb-2 pb-1 flex-wrap">
+              <h1 class="mb-0"><?php echo $different;?></h1>
+              <div class="badge rounded <?php echo $classBgLabel;?>"><?php echo $percentage;?>%</div>
+            </div>
+            <small><?php echo $tr->translate("DASBOARD_COMPARE_LOAN_DESC")?></small>
+          </div>
+          <div class="col-12 col-md-9">
+            <div id="weeklyEarningReports"></div>
+          </div>
+        </div>
+        <div class="border rounded p-3 mt-4">
+			<div class="row">
+			  <div class="col-12 col-md-12">
+				<div class="d-flex gap-2 align-items-center mb-2 pb-1 flex-wrap">
+				  <h6 class="mb-0"><i class="ti ti-coins"></i> <?php echo $tr->translate("CURRENT_MONTH_SUMMARY_DATA")?></h6>
+				</div>
+			  </div>
+			</div>
+			  <div class="row gap-4 gap-sm-0">
+				<div class="col-12 col-sm-4">
+					  <div class="d-flex gap-2 align-items-center">
+						<div class="badge rounded bg-label-primary p-1"><i class="ti ti-currency-dollar ti-sm"></i></div>
+						<h6 class="mb-0"><?php echo $tr->translate("Earnings")?></h6>
+					  </div>
+					  <h6 class="my-1 pt-1"><?php echo "៛ ".number_format($this->totalIncomeRiels,2);?></h6>
+					  <h6 class="my-1 pt-1"><?php echo "$ ".number_format($this->totalIncomeDollar,2);?></h6>
+					  <h6 class="my-1 pt-1"><?php echo "฿ ".number_format($this->totalIncomeBath,2);?></h6>
+					  <div class="progress w-75" style="height:4px">
+						<div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+					  </div>
+				</div>
 				
+				<div class="col-12 col-sm-4">
+				  <div class="d-flex gap-2 align-items-center">
+					<div class="badge rounded bg-label-danger p-1"><i class="ti ti-brand-paypal ti-sm"></i></div>
+					<h6 class="mb-0"><?php echo $tr->translate("Expense")?></h6>
+				  </div>
+				  <h6 class="my-1 pt-1"><?php echo "៛ ".number_format($this->ExpenseRiels,2);?></h6>
+				  <h6 class="my-1 pt-1"><?php echo "$ ".number_format($this->ExpenseDollar,2);?></h6>
+				  <h6 class="my-1 pt-1"><?php echo "฿ ".number_format($this->ExpenseBath,2);?></h6>
+				  <div class="progress w-75" style="height:4px">
+					<div class="progress-bar bg-danger" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+				  </div>
+				</div>
+				<div class="col-12 col-sm-4">
+				  <div class="d-flex gap-2 align-items-center">
+					<div class="badge rounded bg-label-info p-1"><i class="ti ti-chart-pie-2 ti-sm"></i></div>
+					<h6 class="mb-0"><?php echo $tr->translate("Profit")?></h6>
+				  </div>
+				  
+				  <?php 	
+					  $netIncomeRiels = number_format($this->netIncomeRiels,2);
+					  $netIncomeDollar = number_format($this->netIncomeDollar,2);
+					  $netIncomeBath = number_format($this->netIncomeBath,2);
+					  
+					  if($this->netIncomeRiels<0){
+						   $netIncomeRiels = "(".number_format(abs($this->netIncomeRiels),2).")";
+					  }
+					  if($this->netIncomeDollar<0){
+						   $netIncomeDollar = "(".number_format(abs($this->netIncomeDollar),2).")";
+					  }
+					  if($this->netIncomeBath<0){
+						   $netIncomeBath = "(".number_format(abs($this->netIncomeBath),2).")";
+					  }
+				  ?>
+				  <h6 class="my-1 pt-1"><?php echo "៛ ".$netIncomeRiels; ?></h6>
+				  <h6 class="my-1 pt-1"><?php echo "$ ".$netIncomeDollar;?></h6>
+				  <h6 class="my-1 pt-1"><?php echo "฿ ".$netIncomeBath;?></h6>
+				  <div class="progress w-75" style="height:4px">
+					<div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+				  </div>
+				</div>
+			  </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Support Tracker -->
+  <div class="col-md-6 mb-4 px-1">
+	<div class="row">
+		<div class="col-sm-6 col-lg-6 mb-2">
+			<div class="card card-border-shadow-primary">
+			  <div class="card-body">
+				<div class="d-flex align-items-center mb-2 pb-1">
+				  <div class="avatar me-2">
+					<span class="avatar-initial rounded bg-label-primary"><i class="ti ti-users-group" ti-md"></i></span>
+				  </div>
+				  <h4 class="ms-1 mb-0"><?php echo sprintf('%02d',$this->AllClient);?></h4>
+				</div>
+				<p class="mb-1"><?php echo $tr->translate("Customers")?></p>
+			  </div>
 			</div>
 		</div>
-		<!-- END PAGE CONTENT -->
-	</div>
+		<div class="col-sm-6 col-lg-6 mb-2">
+			<div class="card card-border-shadow-success">
+			  <div class="card-body">
+				<div class="d-flex align-items-center mb-2 pb-1">
+				  <div class="avatar me-2">
+					<span class="avatar-initial rounded bg-label-success"><i class="ti ti-users ti-md"></i></span>
+				  </div>
+				  <h4 class="ms-1 mb-0"><?php echo sprintf('%02d',$this->CountAllAgency); ?></h4>
+				</div>
+				<p class="mb-1"><?php echo $tr->translate("CO"); ?></p>
+			  </div>
+			</div>
+		</div>
+	</div>	
+     <div class="card h-100">
+      <div class="card-header d-flex justify-content-between pb-2">
+        <div class="card-title mb-1">
+          <h5 class="m-0 me-2"><i class="ti ti-chart-dots-2"></i> <?php echo $tr->translate("SUMMARY")?></h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="nav-align-top">
+          <ul class="nav nav-tabs nav-fill" role="tablist">
+            <li class="nav-item">
+              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-new" aria-controls="navs-justified-new" aria-selected="true"><?php echo $tr->translate("Loan Information")?></button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-link-preparing" aria-controls="navs-justified-link-preparing" aria-selected="false"><?php echo $tr->translate("Pawnshop Infomation")?></button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-link-shipping" aria-controls="navs-justified-link-shipping" aria-selected="false"><?php echo $tr->translate("saleInstallInfo")?></button>
+            </li>
+          </ul>
+          <div class="tab-content px-2 mx-1 pb-0">
+            <div class="tab-pane fade show active" id="navs-justified-new" role="tabpanel">
+				
+				<?php 
+					$loanPercent = 0;
+					$completeLoanPercent = 0;
+					$countBadLoanPercent = 0;
+					if($this->countAllLoan>0){
+						$loanPercent = 100;
+						if($this->allLoanComplete>0){
+							$completeLoanPercent = ($this->allLoanComplete / $this->countAllLoan) * 100;
+							$completeLoanPercent = number_format($completeLoanPercent,2);
+						}
+						if($this->countBadLoan>0){
+							$countBadLoanPercent = ($this->countBadLoan / $this->countAllLoan) * 100;
+							$countBadLoanPercent = number_format($countBadLoanPercent,2);
+						}
+					}
+					
+				?>
+						
+				<ul class="p-0 m-0">
+				  <li class="mb-3 pb-1 d-flex">
+					<div class="d-flex w-50 align-items-center me-3">
+					  <div>
+						<h6 class="mb-0"><i class="ti ti-coins"></i> <?php echo $tr->translate("Total Loan")?></h6>
+						<small class="text-muted"><?php echo $tr->translate("amt")?> <?php echo sprintf('%02d',$this->countAllLoan);?></small>
+					  </div>
+					</div>
+					<div class="d-flex flex-grow-1 align-items-center">
+					  <div class="progress w-100 me-3" style="height:8px;">
+						<div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $loanPercent;?>%" aria-valuenow="<?php echo $loanPercent;?>" aria-valuemin="0" aria-valuemax="100">
+						</div>
+					  </div>
+					  <span class="text-muted"><?php echo $loanPercent;?>%</span>
+					</div>
+				  </li>
+				  <li class="mb-3 pb-1 d-flex">
+					<div class="d-flex w-50 align-items-center me-3">
+					  <div>
+						<h6 class="mb-0 text-success"><i class="ti ti-coins"></i> <?php echo $tr->translate("Completed Loan")?></h6>
+						<small class="text-muted"><?php echo $tr->translate("amt")?> <?php echo sprintf('%02d',$this->allLoanComplete);?></small>
+					  </div>
+					</div>
+					<div class="d-flex flex-grow-1 align-items-center">
+					  <div class="progress w-100 me-3" style="height:8px;">
+						
+						<div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $completeLoanPercent;?>%" aria-valuenow="<?php echo $completeLoanPercent;?>" aria-valuemin="0" aria-valuemax="100">
+						</div>
+					  </div>
+					  <span class="text-muted"><?php echo $completeLoanPercent;?>%</span>
+					</div>
+				  </li>
+				  <li class="mb-3 pb-1 d-flex">
+					<div class="d-flex w-50 align-items-center me-3">
+					  <div>
+						<h6 class="mb-0 text-danger"><i class="ti ti-coins "></i> <?php echo $tr->translate("Bad Loan")?></h6>
+						<small class="text-muted"><?php echo $tr->translate("amt")?> <?php echo sprintf('%02d',$this->countBadLoan);?></small>
+					  </div>
+					</div>
+					<div class="d-flex flex-grow-1 align-items-center">
+					  <div class="progress w-100 me-3" style="height:8px;">
+						<div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $countBadLoanPercent;?>%" aria-valuenow="<?php echo $countBadLoanPercent;?>" aria-valuemin="0" aria-valuemax="100">
+						</div>
+					  </div>
+					  <span class="text-muted"><?php echo $countBadLoanPercent;?>%</span>
+					</div>
+				  </li>
+				</ul>
+            </div>
 
+            <div class="tab-pane fade" id="navs-justified-link-preparing" role="tabpanel">
+				<?php 
+					$allPawnPercent = 0;
+					$completePawnPercent = 0;
+					$countDachPawnPercent = 0;
+					if($this->allPawnShop>0){
+						$allPawnPercent = 100;
+						if($this->pawnShopCompleted>0){
+							$completePawnPercent = ($this->pawnShopCompleted / $this->allPawnShop) * 100;
+							$completePawnPercent = number_format($completePawnPercent,2);
+						}
+						if($this->pawnShopDach>0){
+							$countDachPawnPercent = ($this->pawnShopDach / $this->allPawnShop) * 100;
+							$countDachPawnPercent = number_format($countDachPawnPercent,2);
+						}
+					}
+					
+				
+				?>
+				<ul class="p-0 m-0">
+				  <li class="mb-3 pb-1 d-flex">
+					<div class="d-flex w-50 align-items-center me-3">
+					  <div>
+						<h6 class="mb-0"><i class="ti ti-cash"></i> <?php echo $tr->translate("Number of Pawnshop")?></h6>
+						<small class="text-muted"><?php echo $tr->translate("amt")?> <?php echo sprintf('%02d',$this->allPawnShop);?></small>
+					  </div>
+					</div>
+					<div class="d-flex flex-grow-1 align-items-center">
+					  <div class="progress w-100 me-3" style="height:8px;">
+						<div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $allPawnPercent;?>%" aria-valuenow="<?php echo $allPawnPercent;?>" aria-valuemin="0" aria-valuemax="100">
+						</div>
+					  </div>
+					  <span class="text-muted"><?php echo $allPawnPercent;?>%</span>
+					</div>
+				  </li>
+				  <li class="mb-3 pb-1 d-flex">
+					<div class="d-flex w-50 align-items-center me-3">
+					  <div>
+						<h6 class="mb-0 text-success"><i class="ti ti-cash"></i> <?php echo $tr->translate("Pawnshop Completed")?></h6>
+						<small class="text-muted"><?php echo $tr->translate("amt")?> <?php echo sprintf('%02d',$this->pawnShopCompleted);?></small>
+					  </div>
+					</div>
+					<div class="d-flex flex-grow-1 align-items-center">
+					  <div class="progress w-100 me-3" style="height:8px;">
+						
+						<div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $completePawnPercent;?>%" aria-valuenow="<?php echo $completePawnPercent;?>" aria-valuemin="0" aria-valuemax="100">
+						</div>
+					  </div>
+					  <span class="text-muted"><?php echo $completePawnPercent;?>%</span>
+					</div>
+				  </li>
+				  <li class="mb-3 pb-1 d-flex">
+					<div class="d-flex w-50 align-items-center me-3">
+					  <div>
+						<h6 class="mb-0 text-danger"><i class="ti ti-cash "></i> <?php echo $tr->translate("Pawnshop Breaks")?></h6>
+						<small class="text-muted"><?php echo $tr->translate("amt")?> <?php echo sprintf('%02d',$this->pawnShopDach);?></small>
+					  </div>
+					</div>
+					<div class="d-flex flex-grow-1 align-items-center">
+					  <div class="progress w-100 me-3" style="height:8px;">
+						<div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $countDachPawnPercent;?>%" aria-valuenow="<?php echo $countDachPawnPercent;?>" aria-valuemin="0" aria-valuemax="100">
+						</div>
+					  </div>
+					  <span class="text-muted"><?php echo $countDachPawnPercent;?>%</span>
+					</div>
+				  </li>
+				</ul>
+              
+            </div>
+            <div class="tab-pane fade" id="navs-justified-link-shipping" role="tabpanel">
+				<?php 
+					$salePercent = 0;
+					$completeSalePercent = 0;
+					$installSalePercent = 0;
+					if($this->allSale>0){
+						$salePercent = 100;
+						if($this->allSaleComplete>0){
+							$completeSalePercent = ($this->allSaleComplete / $this->allSale) * 100;
+							$completeSalePercent = number_format($completeSalePercent,2);
+						}
+						if($this->installSale>0){
+							$installSalePercent = ($this->installSale / $this->allSale) * 100;
+							$installSalePercent = number_format($installSalePercent,2);
+						}
+					}
+					
+				?>
+						
+				<ul class="p-0 m-0">
+					<li class="mb-3 pb-1 d-flex">
+						<div class="d-flex w-50 align-items-center me-3">
+						  <div>
+							<h6 class="mb-0"><i class="ti ti-chart-treemap"></i> <?php echo $tr->translate("totalSale")?></h6>
+							<small class="text-muted"><?php echo $tr->translate("amt")?> <?php echo sprintf('%02d',$this->allSale);?></small>
+						  </div>
+						</div>
+						<div class="d-flex flex-grow-1 align-items-center">
+						  <div class="progress w-100 me-3" style="height:8px;">
+							<div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $salePercent;?>%" aria-valuenow="<?php echo $salePercent;?>" aria-valuemin="0" aria-valuemax="100">
+							</div>
+						  </div>
+						  <span class="text-muted"><?php echo $salePercent;?>%</span>
+						</div>
+					</li>
+					<li class="mb-3 pb-1 d-flex">
+						<div class="d-flex w-50 align-items-center me-3">
+						  <div>
+							<h6 class="mb-0 text-warning"><i class="ti ti-chart-treemap "></i> <?php echo $tr->translate("totalInstallSale")?></h6>
+							<small class="text-muted"><?php echo $tr->translate("amt")?> <?php echo sprintf('%02d',$this->installSale);?></small>
+						  </div>
+						</div>
+						<div class="d-flex flex-grow-1 align-items-center">
+						  <div class="progress w-100 me-3" style="height:8px;">
+							<div class="progress-bar bg-warning" role="progressbar" style="width: <?php echo $installSalePercent;?>%" aria-valuenow="<?php echo $installSalePercent;?>" aria-valuemin="0" aria-valuemax="100">
+							</div>
+						  </div>
+						  <span class="text-muted"><?php echo $installSalePercent;?>%</span>
+						</div>
+					</li>
+					<li class="mb-3 pb-1 d-flex">
+						<div class="d-flex w-50 align-items-center me-3">
+						  <div>
+							<h6 class="mb-0 text-success"><i class="ti ti-chart-treemap"></i> <?php echo $tr->translate("completedSale")?></h6>
+							<small class="text-muted"><?php echo $tr->translate("amt")?> <?php echo sprintf('%02d',$this->allSaleComplete);?></small>
+						  </div>
+						</div>
+						<div class="d-flex flex-grow-1 align-items-center">
+						  <div class="progress w-100 me-3" style="height:8px;">
+							
+							<div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $completeSalePercent;?>%" aria-valuenow="<?php echo $completeSalePercent;?>" aria-valuemin="0" aria-valuemax="100">
+							</div>
+						  </div>
+						  <span class="text-muted"><?php echo $completeSalePercent;?>%</span>
+						</div>
+					</li>
+				</ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Support Tracker -->
 </div>
-<script src="<?php echo $this->baseUrl()."/"?>dashboard/js/jquery-2.1.4.min.js"></script>
-
-<!--Morris Chart-->
-<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.min.js"></script>
-<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/raphael/raphael-min.js"></script>
+<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/apex-charts/apex-charts.css" />
+<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 <?php 
 $start_year = date("Y-m-d",strtotime(" -4 month"));
 ?>
 <script>
-var $barData  = [];
-var $barData  = [
-    <?php  for ($i=0; $i<=4; $i++ ){
+	
+"use strict";
+!function() {
+    let e, t, a, r, o;
+    o = isDarkStyle ? (e = config.colors_dark.cardColor,
+    a = config.colors_dark.textMuted,
+    t = config.colors_dark.headingColor,
+    r = "dark",
+    "#5E6692") : (e = config.colors.cardColor,
+    a = config.colors.textMuted,
+    t = config.colors.headingColor,
+    r = "",
+    "#817D8D");
+	
+	<?php 
+	$categoryData="";
+	$dollaBar = "";
+	$rielsBar = "";
+	$bathBar = "";
+	for ($i=0; $i<=4; $i++ ){
     	$year = date("Y-m",strtotime("$start_year+$i month"));
+    	$yearLabel = date("m-Y",strtotime("$start_year+$i month"));
     	$month = date("m",strtotime("$start_year+$i month"));
     	$loan = $db->getLoanDisbursPerMonth($year);
-    ?>
-    { y: '<?php echo $year;?>', a: <?php echo $loan['riels'];?>, b: <?php echo $loan['dollar'];?> , c: <?php echo $loan['bath'];?> },
-    <?php }?>
-];
-
-/**
-* Theme: SimpleAdmin Admin Template
-* Author: Coderthemes
-* Morris Chart
-*/
-!function($) {
-    "use strict";
-
-	var MorrisCharts = function() {};
-    //creates Bar chart
-    MorrisCharts.prototype.createBarChart  = function(element, data, xkey, ykeys, labels, lineColors) {
-        Morris.Bar({
-            element: element,
-            data: data,
-            xkey: xkey,
-            ykeys: ykeys,
-            labels: labels,
-            hideHover: 'auto',
-            resize: true, //defaulted to true
-            gridLineColor: '#eeeeee',
-            barSizeRatio: 0.4,
-            xLabelAngle: 35,
-            barColors: lineColors
-        });
-    },
-    MorrisCharts.prototype.init = function() {
-
-        
-        this.createBarChart('morris-bar-example', $barData, 'y', ['a', 'b', 'c'], ['<?php echo $tr->translate("Riels")?> (R)', '<?php echo $tr->translate("Dollar")?> ($)', '<?php echo $tr->translate("Baht")?> (B)'], ['#21abf6', '#0077c5', "#0f575b"]);
-    },
-    //init
-    $.MorrisCharts = new MorrisCharts, $.MorrisCharts.Constructor = MorrisCharts
-}(window.jQuery),
-
-//initializing
-function($) {
-    "use strict";
-    $.MorrisCharts.init();
-    
-}(window.jQuery);
-
+		$loan['dollar'] = empty($loan['dollar'] ) ? "0" : $loan['dollar'] ;
+		$loan['riels'] = empty($loan['riels'] ) ? "0" : $loan['riels'] ;
+		$loan['bath'] = empty($loan['bath'] ) ? "0" : $loan['bath'] ;
+		$categoryData = empty($categoryData) ? '"'.$yearLabel.'"' : $categoryData.",".'"'.$yearLabel.'"';
+		$dollaBar = empty($dollaBar) ? '"'.$loan['dollar'].'"' : $dollaBar.",".'"'.$loan['dollar'].'"';
+		$rielsBar = empty($rielsBar) ? '"'.$loan['riels'].'"' : $rielsBar.",".'"'.$loan['riels'].'"';
+		$bathBar = empty($bathBar) ? '"'.$loan['bath'].'"' : $bathBar.",".'"'.$loan['bath'].'"';
+    }?>
+	var dollarBarData = [<?php echo $dollaBar;?>];
+	var rielsBarData = [<?php echo $rielsBar;?>];
+	var bathBarData = [<?php echo $bathBar;?>];
+	var categoryData = [<?php echo $categoryData;?>];
+    var s = document.querySelector("#swiper-with-pagination-cards")
+      
+      , s = (null !== s && new ApexCharts(s,i).render(),
+    document.querySelector("#weeklyEarningReports"))
+      , i = {
+        chart: {
+            height: 202,
+            parentHeightOffset: 0,
+            type: "bar",
+            toolbar: {
+                show: 1
+            }
+        },
+		colors: ['#0542ab', '#ffc107', '#f44336'],
+		plotOptions: {
+		  bar: {
+			columnWidth: '75%',
+			endingShape: 'flat',
+			dataLabels: {
+			  position: "top"
+			},
+		  },
+		},
+        series: [
+				{
+					name: '<?php echo $tr->translate("Dollar")?>',
+					data: dollarBarData
+				}, 
+				{
+					name: '<?php echo $tr->translate("Riels")?>',
+					data: rielsBarData
+				}, 
+				{
+					name: '<?php echo $tr->translate("BATHS")?>',
+					data: bathBarData
+				}
+		  ],
+		  dataLabels: {
+			offsetY: -25,
+			style: {
+				fontSize: '10px',
+				colors: ["#304758"]
+			}
+		  },
+        xaxis: {
+            categories: categoryData,
+            axisBorder: {
+                show: !1
+            },
+            axisTicks: {
+                show: !1
+            },
+            labels: {
+                style: {
+                    colors: a,
+                    fontSize: "12px",
+                    fontFamily: "Public Sans"
+                }
+            }
+        },
+        tooltip: {
+            enabled: 1
+        },
+        responsive: [{
+            breakpoint: 1025,
+            options: {
+                chart: {
+                    height: 199
+                }
+            }
+        }]
+    }
+      , s = (null !== s && new ApexCharts(s,i).render())
+      
+     
+      
+}();
 </script>
- <!-- App Js -->
-<script src="<?php echo $this->baseUrl()."/"?>dashboard/js/jquery.app.js"></script>

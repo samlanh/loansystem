@@ -162,7 +162,8 @@ class Tellerandexchange_Model_DbTable_DbSpread extends Zend_Db_Table_Abstract
     }
     function getSpreadById($id){
     	$db = $this->getAdapter();
-    	$sql="SELECT c.* FROM `ln_exchangerate` AS c WHERE  c.`active` =1 AND c.id = $id";
+    	$sql="SELECT c.* FROM `ln_exchangerate` AS c WHERE   c.id = $id"; 
+		//c.`active` =1 AND
     	return $db->fetchRow($sql);
     }
     function addNewCurrencyExchange($data){

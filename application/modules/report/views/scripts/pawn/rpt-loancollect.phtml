@@ -28,92 +28,89 @@
 <script>
      dojo.require("dijit.form.DateTextBox");
 </script>
-<div class="reportblog">
-	<div class="card-box">
-       	<div class="col-sm-12 border-botom">
-		   	<div class="col-sm-8 pd-0">
-	    		<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('RPTPAWNSHOPCOLLECT');?></h4>
-    		</div>
-    		<div class="col-sm-4 text-right">
-    		</div>
-    	</div>
-    </div>	
-	<form method="post">
-		<div class="card-box">
-			<div class="form-group">
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $filter->getElement('adv_search');?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $filter->getElement('branch_id');?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $filter->getElement('members');?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $filter->getElement('start_date');?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $filter->getElement('end_date');?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-               </div>
-            </div>
-        </div>
-	</form>
-	<div id="divPrint">
-		<style>
-			.style{
-				line-height: 20px;font-size: 13px !important;
-				font-family: 'Times New Roman','Khmer OS Battambang';
-			}
-			table tr td ul li{list-style: none;line-height: 25px;}
-			th{padding: 5px;}
-			table.content-data { page-break-inside:auto }
-			table.content-data tr{ page-break-inside:avoid; page-break-after:auto; }
-			#header {
-			  display: table-header-group;
-			  page-break-inside:avoid; page-break-after:auto;
-			}
-			thead tr td{
-				text-align: center;
-			}
-			table.content-data{
-				border-collapse:collapse;
-				width:100%;
-				border:1px solid #000; 
-				font-family:'Times New Roman','Khmer OS Battambang';
-				font-size:13px;
-				white-space: nowrap;
-				margin:0 auto;
-			}
-			table.content-data thead tr.style-head {
-			   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
-				background: #ccd9ff;
-				text-align: center;
-			}
-			table.content-data tr.style-rowdata {
-				font-size:12px; 
-				height: 23px;
-			}
-			
-			table.tb-footer{
-				font-family: 'Times New Roman','Khmer OS Battambang'; 
-				border-collapse:collapse;
-				border:1px solid #000; 
-				font-size:12px;
-				width:100%;
-			}
-			table.tb-footer tr.style-head{
-				line-height: 24px; 
-				text-align: center; 
-				background: #ccd9ff;
-			}
-			.border_bottom {
-				border-bottom: 1px solid #000;
-			}
-		</style>
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('RPTPAWNSHOPCOLLECT');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form method="post">
+				<div class="card-box">
+					<div class="row g-3">
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $filter->getElement('adv_search');?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $filter->getElement('branch_id');?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $filter->getElement('members');?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $filter->getElement('start_date');?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $filter->getElement('end_date');?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					   </div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="card-body">
+		<div id="divPrint">
+			<style>
+				.style{
+					line-height: 20px;font-size: 13px !important;
+					font-family: 'Times New Roman','Khmer OS Battambang';
+				}
+				table tr td ul li{list-style: none;line-height: 25px;}
+				th{padding: 5px;}
+				table.content-data { page-break-inside:auto }
+				table.content-data tr{ page-break-inside:avoid; page-break-after:auto; }
+				#header {
+				  display: table-header-group;
+				  page-break-inside:avoid; page-break-after:auto;
+				}
+				thead tr td{
+					text-align: center;
+				}
+				table.content-data{
+					border-collapse:collapse;
+					width:100%;
+					border:1px solid #000; 
+					font-family:'Times New Roman','Khmer OS Battambang';
+					font-size:13px;
+					white-space: nowrap;
+					margin:0 auto;
+				}
+				table.content-data thead tr.style-head {
+				   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+					background: #ccd9ff;
+					text-align: center;
+				}
+				table.content-data tr.style-rowdata {
+					font-size:12px; 
+					height: 23px;
+				}
+				
+				table.tb-footer{
+					font-family: 'Times New Roman','Khmer OS Battambang'; 
+					border-collapse:collapse;
+					border:1px solid #000; 
+					font-size:12px;
+					width:100%;
+				}
+				table.tb-footer tr.style-head{
+					line-height: 24px; 
+					text-align: center; 
+					background: #ccd9ff;
+				}
+				.border_bottom {
+					border-bottom: 1px solid #000;
+				}
+			</style>
 			<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;"  >
 				<tr>
 			    	<td align="center">
@@ -134,7 +131,7 @@
 			    </tr>
 			    <tr>
 			    	<td id="exportExcel">
-			             <table class="content-data" border="1"​  cellspacing="0">
+			             <table class="content-data" border="1" cellspacing="0">
 			             <thead>
 			                 <tr class="style-head" >
 			                    <td rowspan="2">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
@@ -149,7 +146,7 @@
 			                    <td rowspan="2"><?php echo $tr->translate("TOTAL_PAYMENT");?></td>
 				                
 				                <td rowspan="2">&nbsp;<?php echo $tr->translate("LATE_DAY");?>&nbsp;</td>
-			                 ​​​	<td rowspan="2">&nbsp;<?php echo $tr->translate("LATE");?>&nbsp;</td>
+								<td rowspan="2">&nbsp;<?php echo $tr->translate("LATE");?>&nbsp;</td>
 			                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAY_DATE");?>&nbsp;</td>
 			                </tr>
 			                <tr class="style-head" >
@@ -368,6 +365,7 @@
              </table>
              <br />
 			<?php echo $this->footerReport;?>
+		</div>
 	</div>
 </div>
 <script>

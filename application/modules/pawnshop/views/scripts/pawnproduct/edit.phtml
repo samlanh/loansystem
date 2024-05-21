@@ -2,34 +2,24 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->Form_Frmcallecterall;
 ?>
-<script>
-	dojo.require("dijit.form.DateTextBox");
-	dojo.require("dijit.form.Textarea");
-</script>
 <title> <?php echo $tr->translate("EDIT_PRODUCT_TYPE")?></title>
 <div class="card">
-	<div class="card-content collapse show">
-		<div class="card-box">
-        	<div class="col-sm-12 border-botom">
-		    	<div class="col-sm-8 pd-0">
-		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('EDIT_PRODUCT_TYPE');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
-		<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'pawnproduct','action'=>'edit')); ?>" 
-				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;<?php echo $tr->translate('EDIT_PRODUCT_TYPE');?></h5>
+	</div>
+	<div class="card-body">
+		<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'pawnproduct','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+				loadingBlock();
 				return true;
 			}else {
 				return false;
 			}
 			</script>
-			<div class="card-box">
+			<div class="row">
 	    		<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME_KH");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -37,21 +27,21 @@ $frm = $this->Form_Frmcallecterall;
 							<?php echo $frm->getElement('id')?>
 	                   </div>
 		           </div>
-		           <div class="form-group">
+		           <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME_ENG");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('title_en')?>
 	                   </div>
 		           </div>
-		           <div class="form-group">
+		           <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('date')?>
 	                   </div>
 		           </div>
-		           <div class="form-group">
+		           <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -60,11 +50,11 @@ $frm = $this->Form_Frmcallecterall;
 		           </div>
 		       	</div>
 		       	<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12" for="first-name"><?php echo $tr->translate("DESCRIPTION");?> 
 	                   </label>
 		           </div>
-		           <div class="form-group">
+		           <div class="row g-3">
 	                   <div class="col-md-12 col-sm-12 col-xs-12">
 	                   		<?php echo $frm->getElement('description')?>
 	                   </div>
@@ -73,11 +63,14 @@ $frm = $this->Form_Frmcallecterall;
 		    </div>
 		    <div class="clearfix"></div>
 			<div class="card-box">
-               	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
-		    			<input type="submit" value="កែប្រៃ & ចាកចេញ" name="btn_save_close" label="<?php echo $tr->translate('SAVEEDIT');?>" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+               <div class="col-sm-12 border-top mt-2 py-2 text-center">
+					<input type="submit" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" value="កែប្រៃ & ចាកចេញ" name="btn_save_close" label="<?php echo $tr->translate('SAVEEDIT');?>" id="submitButton_Save" dojoType="dijit.form.Button" />
 	    		</div>
 	    	</div>
 		</form>
 	</div>
 </div>
-
+<script>
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.Textarea");
+</script>

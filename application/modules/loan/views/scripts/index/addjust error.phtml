@@ -718,7 +718,7 @@ function addPreviewLoan(){
 			form: dojo.byId("frm_add_tran"),		    
 			handleAs:"json", 
 			load: function(data) {
-				document.getElementsByClassName("overlay")[0].style.display="none";
+				HideloadingBlock();
 				temp='';	fund_title=0;thead='';fund_title=0;
 				 		temp='<table class="collape tablesorter" style="font-size:13px; width:1000px !important; " id="table">'
 						temp+='<tr style="background:#ccc;"><th><?php echo $tr->translate("NUM");?></th>';
@@ -748,7 +748,7 @@ function addPreviewLoan(){
 			},
 			error: function(err) {
 				alert(err);
-			document.getElementsByClassName("overlay")[0].style.display="none";
+			HideloadingBlock();
 			alert("You can not preview this loan number!");
 			}
 	   });
@@ -849,7 +849,7 @@ function popupcreditofficer(){
     }
 }
 function loading(){
-    document.getElementsByClassName("overlay")[0].style.display="block";
+    loadingBlock()
 }
 function submitDataClose(type){
 	zone = dijit.byId('zone').get('value');
@@ -916,10 +916,10 @@ function getRefreshGroup(){
 	setTimeout(stopLoading, 1000);
 }
 function loading(){
-    document.getElementsByClassName("overlay")[0].style.display="block";
+    loadingBlock()
 }
 function stopLoading(){
-	 document.getElementsByClassName("overlay")[0].style.display="none";
+	 HideloadingBlock();
 }
 </script>
 <style>

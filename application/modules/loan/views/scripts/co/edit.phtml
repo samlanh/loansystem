@@ -3,319 +3,311 @@
 	echo $this->headTitle($tr->translate('EDIT_CO'));
 	 $techer= $this->frm_co;
 ?>
-
-
 <div class="card">
-	<div class="card-content collapse show">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="fa fa-edit"></i>&nbsp;<?php echo $tr->translate('EDIT_CO');?></h5>
+		<ul class="nav nav-tabs card-header-tabs" role="tablist">
+          <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#panel21" role="tab" aria-selected="true"><i class="ti-xs ti ti-user me-1"></i> <?php echo $tr->translate('CO_INFO');?></button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link " data-bs-toggle="tab" data-bs-target="#panel22" role="tab" aria-selected="false"><i class="ti-xs ti ti-coin me-1"></i> <?php echo $tr->translate('SALARY_INFO');?></button>
+          </li>
+        </ul>
+	</div>
+	<div class="card-body">
 		<form  id='add_techer' action="" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
 			<script type="dojo/method" event="onSubmit">			
-			if(this.validate()) {
-				if(dijit.byId('branch_id').get('value')==''){
-					alert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> ');
-					dijit.byId("branch_id").focus();
-					return false;
-	    		}
-				if(dijit.byId("position").get("value")==""){
-					alert('<?php echo $tr->translate("Please Select Position Name");?> ');
-					dijit.byId("position").focus();
+				if(this.validate()) {
+					if(dijit.byId('branch_id').get('value')==''){
+						infoMessageAlert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?> ');
+						dijit.byId("branch_id").focus();
+						return false;
+					}
+					if(dijit.byId("position").get("value")==""){
+						infoMessageAlert('<?php echo $tr->translate("Please Select Position Name");?> ');
+						dijit.byId("position").focus();
+						return false;
+					}
+					loadingBlock();
+					return true;
+				} else {
 					return false;
 				}
-				loadingBlock();
-				return true;
-			} else {
-				return false;
-			}
 			</script>
-			<div class="card-box">
-               	<div class="col-sm-12 border-botom">
-		    		<div class="col-sm-8 pd-0">
-		    				<h4 class="m-b-0"><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('EDIT_CO');?></h4>
-    				</div>
-    				<div class="col-sm-4 text-right">
-    				</div>
-    			</div>
-    		</div>
-    		<!-- Menu Tab  -->
-    		<div class="card-box">
-	    		 <ul class="nav  md-pills pills-primary nav-tab" role="tablist">
-		            <li class="nav-item active">
-		                <a class="nav-link " data-toggle="tab" href="#panel21" role="tab"><i class="fa fa-user ml-2"></i> <?php echo $tr->translate("CO_INFO");?></a>
-		            </li>
-		            <li class="nav-item">
-		                <a class="nav-link" data-toggle="tab" href="#panel22" role="tab">
-		                <i class="fa fa-users ml-2"></i> <?php echo $tr->translate("SALARY_INFO");?>
-		                </a>
-		            </li>
-		        </ul>
-		    </div>
-		    <!--/. Menu Tab  -->
-		     <div class="col-md-12">
-		        <!-- Tab panels -->
-		        <div class="tab-content vertical">
-			        <!--Panel 1-->
-			        <div class="tab-pane fade in active" id="panel21" role="tabpanel">
-			        	<div class="card-box">
-			    			<!-- CO_NAME  -->
-							<div class="col-md-4 col-sm-4 col-xs-12">
-								<div class="form-group">
-				                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CO_NAME");?> 
-				                   </label>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NAME");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('branch_id');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STAFF_CODE");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php  echo $techer->getElement('co_id'); echo $techer->getElement('id');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME_KH");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('name_kh');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME_EN");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('first_name');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SEX");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('co_sex');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("POB");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('pob');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NATIONAL_ID");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('national_id');?>
-				                   </div>
-				                </div>
-				             </div>
-				             <!--/. CO_NAME  -->
-				             
-				             <!-- NATIONAL_ID  -->
-							<div class="col-md-4 col-sm-4 col-xs-12">
-								<div class="form-group">
-				                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CONTACT_INFO");?> 
-				                   </label>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PHONE");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('tel');?>
-				                   </div>
-				                </div>
-				               <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EMAIL");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('email');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENT_ADDRESS");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('address');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("POSITION");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('position');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DEGREE");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('degree');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DEPARTMENT");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('department_id');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("FINGER_PRINT");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('figer_print_id');?>
-				                   </div>
-				                </div>
-				             </div>
-				             <!--/. NATIONAL_ID  -->
-				             
-				             <!-- OTHER_IFO  -->
-							<div class="col-md-4 col-sm-4 col-xs-12">
-								<div class="form-group">
-				                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("OTHER_INFO");?> 
-				                   </label>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PHOTO");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php //echo $techer->getElement('photo');?>
-				                    	<?php 
-				                    	$images =$this->baseUrl().'/images/no-profile.png';
-				                    	if (!empty($this->photo)){
-				                    		if (file_exists(PUBLIC_PATH.'/images/profile/co/'.$this->photo)){
-				                    			$images =$this->baseUrl().'/images/profile/co/'.$this->photo;
-				                    		}
-				                    	}?>
-										<div class="account-image">
-											<div class="image-box">
-												<img id="profile_wiew" src="<?php echo $images;?>" alt=""  />
-											</div>
-											<div class="button_browse">
-											<div id='preview'></div>	
-													<span>Upload <span ><i class="fa fa-camera" aria-hidden="true"></i></span></span>
-													<input class="btn_borwse_image" type="file" id="photo" name="photo" />
-											</div>
-										</div>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('status');?>
-				                   </div>
-				                </div>
-				               
-				             </div>
-				             <!--/. OTHER_IFO  -->
-				        </div>
-			        </div>
-			        <!--/.Panel 1-->
-			        <!--Panel 2-->
-			        <div class="tab-pane fade in " id="panel22" role="tabpanel">
-			        	<div class="card-box">
-			    			<!-- CONTRACT_INFO  -->
-							<div class="col-md-4 col-sm-4 col-xs-12">
-								<div class="form-group">
-				                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CO_NAME");?> 
-				                   </label>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CONTRACT_NO");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('contract_no');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE_START_WORK");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('start_date');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE_END_CONTRACT");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('end_date');?>
-				                   </div>
-				                </div>
-				            </div>
-				            <!--/. CONTRACT_INFO  -->
-				            
-				            <!-- WORK_INFO  -->
-							<div class="col-md-4 col-sm-4 col-xs-12">
-								<div class="form-group">
-				                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("WORK_INFO");?> 
-				                   </label>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SHIFT");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('shift');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("WORKING_TIME");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('workingtime');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ANNUAL_LIVES");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('annual_lives');?>
-				                   </div>
-				                </div>
-				            </div>
-				            <!--/. WORK_INFO  -->
-				            
-				            <!-- CONTRACT_INFO  -->
-							<div class="col-md-4 col-sm-4 col-xs-12">
-								<div class="form-group">
-				                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("SALARY_INFO");?> 
-				                   </label>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BASIC_SALARY");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('basic_salary');?>
-				                   </div>
-				                </div>
-				                <div class="form-group">
-				                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?> :
-				                   </label>
-				                    <div class="col-md-7 col-sm-7 col-xs-12">
-				                    	<?php echo $techer->getElement('note');?>
-				                   </div>
-				                </div>
-				            </div>
-				            <!--/. CONTRACT_INFO  -->
-				        </div>
-			        </div>
-			        <!--/.Panel 2-->
-			    </div>
-			    <!--/. Tab panels -->
-			 </div>
-    		
-	        
-	        
+			
+			<div class="tab-content tab-form">
+				<div class="tab-pane fade active show" id="panel21" role="tabpanel">
+					<div class="row">
+						<!-- CO_NAME  -->
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="card card-form mb-4">
+								<div class="card-header d-flex justify-content-between">
+									<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("CO_INFO");?></h5>
+								</div>
+								<div class="card-body">
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NAME");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('branch_id');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STAFF_CODE");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php  echo $techer->getElement('co_id'); echo $techer->getElement('id');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME_KH");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('name_kh');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NAME_EN");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('first_name');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SEX");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('co_sex');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("POB");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('pob');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NATIONAL_ID");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('national_id');?>
+									   </div>
+									</div>
+								</div>
+							</div>
+						 </div>
+						 <!--/. CO_NAME  -->
+						 
+						 <!-- NATIONAL_ID  -->
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="card card-form mb-4">
+								<div class="card-header d-flex justify-content-between">
+									<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("CONTACT_INFO");?></h5>
+								</div>
+								<div class="card-body">
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PHONE");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('tel');?>
+									   </div>
+									</div>
+								   <div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EMAIL");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('email');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENT_ADDRESS");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('address');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("POSITION");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('position');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DEGREE");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('degree');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DEPARTMENT");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('department_id');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("FINGER_PRINT");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('figer_print_id');?>
+									   </div>
+									</div>
+								</div>
+							</div>
+						 </div>
+						 <!--/. NATIONAL_ID  -->
+						 
+						 <!-- OTHER_IFO  -->
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="card card-form mb-4">
+								<div class="card-header d-flex justify-content-between">
+									<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("OTHER_INFO");?></h5>
+								</div>
+								<div class="card-body">
+									<div class="d-flex align-items-start align-items-sm-center gap-4">
+									  <?php 
+										$photo =$this->baseUrl().'/images/no-profile.png';
+										if (!empty($this->photo)){
+											if (file_exists(PUBLIC_PATH.'/images/profile/co/'.$this->photo)){
+												$photo =$this->baseUrl().'/images/profile/co/'.$this->photo;
+											}
+										}?>
+									  <img src="<?php echo $photo;?>" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
+									  <div class="button-wrapper">
+										<label for="photo" class="btn btn-primary me-2 mb-3" tabindex="0">
+										  <span class="d-none d-sm-block"><?php echo $tr->translate("Upload new photo");?></span>
+										  <i class="ti ti-upload d-block d-sm-none"></i>
+										  <input type="file" id="photo" name="photo" class="account-file-input" hidden accept="image/png, image/jpeg" />
+										</label>
+										<button type="button" class="btn btn-label-secondary account-image-reset mb-3">
+										  <i class="ti ti-refresh-dot d-block d-sm-none"></i>
+										  <span class="d-none d-sm-block"><?php echo $tr->translate("RESET");?></span>
+										</button>
+
+										<div class="text-muted">Allowed JPG, GIF or PNG. Max size of 800K</div>
+									  </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('status');?>
+									   </div>
+									</div>
+								</div>
+							</div>
+						   
+						 </div>
+						 <!--/. OTHER_IFO  -->
+					</div>
+				</div>
+				<div class="tab-pane fade" id="panel22" role="tabpanel">
+					<div class="row">
+						<!-- CONTRACT_INFO  -->
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="card card-form mb-4">
+								<div class="card-header d-flex justify-content-between">
+									<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("CONTRACT_INFO");?></h5>
+								</div>
+								<div class="card-body">
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CONTRACT_NO");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('contract_no');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE_START_WORK");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('start_date');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE_END_CONTRACT");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('end_date');?>
+									   </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/. CONTRACT_INFO  -->
+						
+						<!-- WORK_INFO  -->
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="card card-form mb-4">
+								<div class="card-header d-flex justify-content-between">
+									<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("WORK_INFO");?></h5>
+								</div>
+								<div class="card-body">
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SHIFT");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('shift');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("WORKING_TIME");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('workingtime');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ANNUAL_LIVES");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('annual_lives');?>
+									   </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/. WORK_INFO  -->
+						
+						<!-- CONTRACT_INFO  -->
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="card card-form mb-4">
+								<div class="card-header d-flex justify-content-between">
+									<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("SALARY_INFO");?></h5>
+								</div>
+								<div class="card-body">
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BASIC_SALARY");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('basic_salary');?>
+									   </div>
+									</div>
+									<div class="row g-3">
+									   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?> :
+									   </label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+											<?php echo $techer->getElement('note');?>
+									   </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/. CONTRACT_INFO  -->
+					</div>
+				</div>
+			</div>
 	        
 	         <!-- Button Save  -->
 	        <div class="clearfix"></div>
 		  	<div class="card-box">
             	<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
-					<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button"  iconClass="dijitIconClear"/>
-					<input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate("SAVE")?>" dojoType="dijit.form.Button" 
-						iconClass="dijitEditorIcon dijitEditorIconSave" />
+					<input type="reset" class="button-class button-danger " iconClass="glyphicon glyphicon-repeat" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button"  iconClass="dijitIconClear"/>
+					<input type="submit" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate("SAVE")?>" dojoType="dijit.form.Button"  />
     			</div>
     		</div>
 	    	<!--/. Button Save  -->
@@ -323,53 +315,28 @@
 	</div>
 </div>
 <?php  echo $this->frmpopupdepartment;?>
-<style>
-.image-box {
-    text-align: center;
-}
-.image-box img {
-        width: 120px;
-    /* border-radius: 60%; */
-    height: 150px;
-    margin-top: 10px;
-    border: solid 1px #eee;
-}
-.button_browse {
-    /*margin-top: 10px; */
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    width: 100%;
-    height: 30px;
-    cursor: pointer;
-    background: #fbf9f9;
-    border: 1px solid #e8e8e8;
-}
-.button_browse span {
-    line-height: 33px;
-    font-weight: 600;
-    cursor: pointer;
-}
-input.btn_borwse_image {
-    position: absolute;
-    width: 100%;
-    height: 35px;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    opacity: 0;
-    cursor: pointer;
-}
-.account-image {
-        border: solid 1px #eee;
-    width: 120px;
-}
-</style>
 <script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <script type="text/javascript">
 	dojo.require("dijit/form/DateTextBox");
 	dojo.require("dijit/form/NumberTextBox");
 	dojo.require("dojo.data.ItemFileWriteStore"); 
+	
+	$( document ).ready(function() {
+	   let e = document.getElementById("uploadedAvatar");
+			const l = document.querySelector(".account-file-input")
+			  , c = document.querySelector(".account-image-reset");
+			if (e) {
+				const r = e.src;
+				l.onchange = ()=>{
+					l.files[0] && (e.src = window.URL.createObjectURL(l.files[0]))
+				}
+				,
+				c.onclick = ()=>{
+					l.value = "",
+					e.src = r
+				}
+			}
+	});
 
 	var departmentStore  = getDataStorefromJSON('id','name',<?php print_r(Zend_Json::encode(array()));?> );
 	new dijit.form.FilteringSelect({
@@ -397,7 +364,7 @@ input.btn_borwse_image {
 					dijit.byId('department').hide();
 				},
 				error: function(e) {
-					alert("Your message could not be sent, please try again!.");
+					infoMessageAlert("Your message could not be sent, please try again!.");
 				}
 			});
 	}
@@ -409,19 +376,6 @@ input.btn_borwse_image {
 		}
 	}
 	
-	function readURL(input) {
-	    if (input.files && input.files[0]) {
-	        var reader = new FileReader();
-	        
-	        reader.onload = function (e) {
-	            $('#profile_wiew').attr('src', e.target.result);
-	        }
-	        reader.readAsDataURL(input.files[0]);
-	    }
-	}
-	$("#photo").change(function(){
-	    readURL(this);
-	});
 	function calculateDay(){
 		start_date = dijit.byId("start_date").get('value');
 		var a=new Date(start_date);
@@ -438,7 +392,7 @@ input.btn_borwse_image {
 		branch_id = dijit.byId('branch_id').get('value');
 		dijit.byId('co_id').attr('value','');
 		if(branch_id==''){
-			alert('Please Select Branch');
+			infoMessageAlert('Please Select Branch');
 			dijit.byId('branch_id').focus();
 			return false;
 		}

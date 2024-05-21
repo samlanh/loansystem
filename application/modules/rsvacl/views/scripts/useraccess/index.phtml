@@ -3,14 +3,11 @@
 	echo $this->headTitle('SRMS | '.$tr->translate("Module Assignment List"));
 	$url = Application_Form_FrmMessage::getUrl("/rsvacl/useraccess/view-user-access?id=");
 ?>
-<div class="card pb-10 pt-10 pl-10 pr-10">
-	<div class="card-content collapse show">
-		<div class="card-box">
-			<form name="frmlist" action="" dojoType="dijit.form.Form" method="post">
-			</form>
-		</div>
-		<div class="card-box">
-			<?php echo $this->list;?>
-		</div>
+<div class="card">
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-settings" aria-hidden="true"></i>&nbsp;<?php echo $tr->translate('USERACCESS');?></h5>
+	</div>
+	<div class="card-body">
+		<?php echo $this->list;?>
 	</div>
 </div>

@@ -106,15 +106,17 @@ class Installment_IndexController extends Zend_Controller_Action {
 			}
 		}
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
+		
 		$db_g = new Application_Model_DbTable_DbGlobal();
 	
 		$db = new Installment_Model_DbTable_DbInstallmentPayment();
 		$row = $db->getSaleinstallbyid($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/installment/index");exit();
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/index",2);exit();
 		}
 		if ($row['is_completed']==1){
-			Application_Form_FrmMessage::Sucessfull("RECORED_COMPLETED","/installment/index");exit();
+			Application_Form_FrmMessage::Sucessfull("RECORED_COMPLETED","/installment/index",2);exit();
 		}
 		$frm = new Installment_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan();
@@ -152,9 +154,11 @@ class Installment_IndexController extends Zend_Controller_Action {
 	}	
 	public function viewAction(){
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/installment/index/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/index/index",2);
+			exit();
 		}
 		$db = new Loan_Model_DbTable_DbLoandisburse();
 		$row = $db->getLoanviewById($id);

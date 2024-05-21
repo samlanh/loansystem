@@ -52,7 +52,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/installments/sale');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/installments/sale',2);
 			exit();
 		}
 		$this->view->sale = $row;
@@ -64,7 +64,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/installments/sale');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/installments/sale',2);
 			exit();
 		}
 		$this->view->sale = $row;
@@ -78,7 +78,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/installments/sale');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/installments/sale',2);
 			exit();
 		}
 		$this->view->sale = $row;
@@ -408,7 +408,8 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		
 		$row = $db->getRetailPurchaseByID($id);
 		if (empty($row)){
-			$this->_redirect("/report/installments");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/report/installments",2);
+			exit();
 		}
 		$this->view->purchase = $row;
 		$this->view->purchaseDetail = $db->getPurchaseDetailByID($id);
@@ -422,7 +423,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$id = empty($id)?0:$id;
 		$row = $db->getInstallPaymentBYId($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/installment/payment');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/installment/payment',2);
 			exit();
 		}
 		$this->view->loanPayment = $row;
@@ -524,7 +525,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 	
 		$row =$rs=$db->getPaymentListInstallmentById($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/installment/index");exit();
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/index",2);exit();
 		}
 		$this->view->loantotalcollect_list = $row;
 		

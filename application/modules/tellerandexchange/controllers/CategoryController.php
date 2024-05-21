@@ -85,7 +85,7 @@ class Tellerandexchange_CategoryController extends Zend_Controller_Action
     	$id = empty($id)?0:$id;
     	$row = $db->getCagetgoryBYID($id);
     	if (empty($row)){
-    		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/tellerandexchange/category");
+    		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/tellerandexchange/category",2);
     		exit();
     	}
     	$this->view->row = $row;

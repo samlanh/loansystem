@@ -85,9 +85,10 @@ class Loan_CoController extends Zend_Controller_Action {
 	   	$row = $db_co->getCOById($id);
 	   	$this->view->row=$row;
 	   	$this->view->photo = $row['photo'];
-	   	if(empty($row)){
-	   		$this->_redirect('loan/co');
-	   	}
+		if(empty($row)){
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), '/loan/co',2);
+			exit();
+		}
 	   	$frm = new Other_Form_FrmCO();
 	   	$frm_co=$frm->FrmAddCO($row);
 	   	Application_Model_Decorator::removeAllDecorator($frm_co);

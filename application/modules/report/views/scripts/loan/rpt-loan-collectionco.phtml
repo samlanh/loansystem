@@ -17,439 +17,428 @@ table.tb-footer tr.style-head {
 <script>
      dojo.require("dijit.form.DateTextBox");
 </script>
-<div class="reportblog">
-	<div class="card-box">
-		<div class="col-sm-12 border-botom">
-			<div class="col-sm-8 pd-0">
-				<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('REPORT_COLLECT_BY_CO');?></h4>
-			</div>
-			<div class="col-sm-4 text-right">
-			</div>
-		</div>
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('REPORT_COLLECT_BY_CO');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form method="post">
+				<div class="row g-3">
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement("advance_search");?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('branch_id');?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('client_name');?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('co_id');?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('paymnet_type');?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('status');?>
+				   </div>
+				</div>
+				<div class="row g-3">
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('start_date');?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('end_date');?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+				   </div>
+				</div>
+			</form>
+		</div>	
 	</div>
-	<div class="card-box">
-		<form method="post">
-			<div class="form-group">
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement("advance_search");?>
-			   </div>
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('branch_id');?>
-			   </div>
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('client_name');?>
-			   </div>
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('co_id');?>
-			   </div>
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('paymnet_type');?>
-			   </div>
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('status');?>
-			   </div>
-			</div>
-			<div class="form-group">
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('start_date');?>
-			   </div>
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('end_date');?>
-			   </div>
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-					<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-			   </div>
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-			   </div>
-			</div>
-		</form>
-	</div>
-	<div id="divPrint">
-		<style>
-			.style{
-				line-height: 20px;font-size: 12px !important;
-				font-family: 'Times New Roman','Khmer OS Battambang';
-			}
-			table tr td ul li{list-style: none;line-height: 25px;}
-			
-			table.content-data { page-break-inside:auto }
-			table.content-data  tr{ page-break-inside:avoid; page-break-after:auto; }
-			#header {
-			  display: table-header-group;
-			  page-break-inside:avoid; page-break-after:auto;
-			}
-			table.content-data{
-				border-collapse:collapse;
-				width:100%;
-				border:1px solid #000; 
-				font-family:'Times New Roman','Khmer OS Battambang';
-				font-size:13px;
-				white-space: nowrap;
-				margin:0 auto;
-			}
-			table.content-data thead tr.style-head {
-			   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
-				background: #ccd9ff;
-				text-align: center;
-			}
-			table.content-data tr.style-rowdata {
-				font-size:12px; 
-				height: 23px;
-			}
-			
-			table.tb-footer{
-				font-family: 'Times New Roman','Khmer OS Battambang'; 
-				border-collapse:collapse;
-				border:1px solid #000; 
-				font-size:12px;
-				width:100%;
-			}
-			table.tb-footer tr.style-head{
-				line-height: 24px; 
-				text-align: center; 
-				background: #ccd9ff;
-			}
-			.border_bottom {
-			    border-bottom: 1px solid #000;
-			}
+	<div class="card-body">
+		<div id="divPrint">
+			<style>
+				.style{
+					line-height: 20px;font-size: 12px !important;
+					font-family: 'Times New Roman','Khmer OS Battambang';
+				}
+				table tr td ul li{list-style: none;line-height: 25px;}
+				
+				table.content-data { page-break-inside:auto }
+				table.content-data  tr{ page-break-inside:avoid; page-break-after:auto; }
+				#header {
+				  display: table-header-group;
+				  page-break-inside:avoid; page-break-after:auto;
+				}
+				table.content-data{
+					border-collapse:collapse;
+					width:100%;
+					border:1px solid #000; 
+					font-family:'Times New Roman','Khmer OS Battambang';
+					font-size:13px;
+					white-space: nowrap;
+					margin:0 auto;
+				}
+				table.content-data thead tr.style-head {
+				   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+					background: #ccd9ff;
+					text-align: center;
+				}
+				table.content-data tr.style-rowdata {
+					font-size:12px; 
+					height: 23px;
+				}
+				
+				table.tb-footer{
+					font-family: 'Times New Roman','Khmer OS Battambang'; 
+					border-collapse:collapse;
+					border:1px solid #000; 
+					font-size:12px;
+					width:100%;
+				}
+				table.tb-footer tr.style-head{
+					line-height: 24px; 
+					text-align: center; 
+					background: #ccd9ff;
+				}
+				.border_bottom {
+					border-bottom: 1px solid #000;
+				}
 			</style>
-			<?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;$amt_r5 = 0;$total_r=0;
-			                	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;$total_b=0;
-			                	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;$total_d=0;
-			                	 $co_id = null;
-			                ?>
-			<?php 
-			$db_keycode = new Application_Model_DbTable_DbKeycode();
-			$key_code= $db_keycode->getSystemSetting(9);
-			$free_day=$key_code['value'];
-			?>
+				<?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;$amt_r5 = 0;$total_r=0;
+									  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;$total_b=0;
+									 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;$total_d=0;
+									 $co_id = null;
+								?>
+				<?php 
+				$db_keycode = new Application_Model_DbTable_DbKeycode();
+				$key_code= $db_keycode->getSystemSetting(9);
+				$free_day=$key_code['value'];
+				?>
 			<table width="100%">
 				<tr>
-			    	<td align="center">
-			        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
-			            	<tr>
-			                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
-			                	<td width="60%" valign="top">
-			                	    <ul>
-			                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-			                			<li style="text-align:center; font-size:13px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_COLLECT_BY_CO");?></li>
-			                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->start_date)){?><?php echo date("D-d-M-Y",strtotime($this->start_date)).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->date_show));}?></li>
-			                		</ul>
-			                	</td>
-			                    <td width="20%"></td>
-			                </tr> 
-			            </table>
-			        </td>
-			    </tr>
-			</table>
-			<div id="exportExcel">
-				<table class="content-data"  width="100%" border="1" cellspacing="0">
-				    <thead>
-				        <tr class="style-head" align="center" >
-					     	 <td rowspan="2"><?php echo $tr->translate("NUM");?></td>
-			                 <td rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></td>
-			                 <td rowspan="2"><?php echo $tr->translate("LOAN_NO");?></td>	  
-			                 <td rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></td>                  
-			                 <td rowspan="2"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-			                 <td rowspan="2"><?php echo $tr->translate("INTEREST_RATE");?></td>
-			                 <?php $colspan=5; ?>
-			                 <td colspan="<?php echo $colspan;?>"><?php echo $tr->translate("TOTAL_PAYMENT");?></td>    
-			                 <td rowspan="2" style="white-space:nowrap; border-right:3px double black; "><?php echo $tr->translate("PAY_DATE");?></td>
-			                 <td rowspan="2"><?php echo $tr->translate("INPUT_DATE");?></td>
-			                 <td rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></td>
-					   	</tr>
-					   	<tr class="style-head" align="center">
-			                <td><?php echo $tr->translate("PRINCIPLE");?></td>                   
-			                <td><?php echo $tr->translate("INTEREST");?></td>
-			                <td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
-			                <td><?php echo $tr->translate("SERVICE CHARGE");?></td>
-			                <td><?php echo $tr->translate("TOTAL");?></td>
-			             </tr>
-			        </thead>
-				        <?php 
-				        
-				        	$coamt_r1 = 0;
-				        	$coamt_r2 = 0;
-				        	$coamt_r3 = 0;
-				        	$coamt_r5 = 0;
-				        	
-				        	$coamt_d1 = 0;
-				        	$coamt_d2 = 0;
-				        	$coamt_d3 = 0;
-				        	$coamt_d5 = 0;
-				        	
-				        	$coamn_b1 = 0;
-				        	$coamn_b2 = 0;
-				        	$coamn_b3 = 0;
-				        	$coamn_b5 = 0;
-				        	
-				        	
-				        	$cototal_b=0;
-				        	$cototal_d=0;
-				        	$cototal_r=0;
-				        	
-				        	$coaTotalWithdminfeer = 0;
-				        	$coaTotalWithadminfeed = 0;
-				        	$coaTotalWithadminfeeb = 0;
-				        	
-				        	$dtotal_adminfeeall=0;
-				        	$rtotal_adminfeeall=0;
-				        	$btotal_adminfeeall=0;
-				        ?>
-			<?php 
-			$is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){?>
-				<?php 
-					               if($rs['curr_type']==1){
-					               		$amt_r1 = $amt_r1+$rs['principal_paid'];
-					               		$amt_r2 = $amt_r2+$rs['interest_paid'];
-					               		$amt_r3 = $amt_r3+$rs['penalize_paid'];
-					               		$amt_r5 = $amt_r5+$rs['service_paid'];
-					               		$total_r=$amt_r1+$amt_r2+$amt_r3+$amt_r5;
-					               }elseif($rs['curr_type']==2){
-										$amt_d1 = $amt_d1+$rs['principal_paid'];
-										$amt_d2 = $amt_d2+$rs['interest_paid'];
-										$amt_d3 = $amt_d3+$rs['penalize_paid'];
-										$amt_d5 = $amt_d5+$rs['service_paid'];
-										$total_d=$amt_d1+$amt_d2+$amt_d3+$amt_d5;
-					               }else{
-					               		$amn_b1 = $amn_b1+$rs['penalize_paid'];
-										$amn_b2 = $amn_b2+$rs['interest_paid'];
-										$amn_b3 = $amn_b3+$rs['penalize_paid'];
-										$amn_b5 = $amn_b5+$rs['service_paid'];
-										$total_b=$amn_b1+$amn_b2+$amn_b3+$amn_b5;
-					               }
-					               
-			               ?>
-			     <?php if($co_id!=$rs["co_id"]){
-			     	?>
-			     		 <?php if ($key>0){?>
-			     		 <?php $adminfeer = $dbloan->getAdminfeeloanByCO($co_id, 1, $this->search);
-			     		 		$adminfeed = $dbloan->getAdminfeeloanByCO($co_id, 2, $this->search);
-			     		 		$adminfeeb = $dbloan->getAdminfeeloanByCO($co_id, 3, $this->search);
-			     		 		
-			     		 		$dtotal_adminfeeall=$dtotal_adminfeeall+$adminfeed['admin_fee'];
-			     		 		$rtotal_adminfeeall=$rtotal_adminfeeall+$adminfeer['admin_fee'];
-			     		 		$btotal_adminfeeall=$btotal_adminfeeall+$adminfeeb['admin_fee'];
-			     		 		
-			     		 		$totalwithAdminr = $cototal_r +$adminfeer['admin_fee'];
-			     		 		$totalwithAdmind = $cototal_d +$adminfeed['admin_fee'];
-			     		 		$totalwithAdminb = $cototal_b +$adminfeeb['admin_fee'];
-			     		 ?>
-							<tr class="style-rowdata hover">
-								<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php //echo $tr->translate("TOTAL");?>&nbsp;</td>
-								<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("TOTAL_COLLECT");?>&nbsp;</td>
-								<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("ADMIN_FEE");?>&nbsp;</td>
-								<td colspan="9" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
-							</tr>
-							<tr class="style-rowdata hover">
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px; " colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeer['admin_fee'],2)." ៛";?>&nbsp;</td>
-			                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminr,2)." ៛";?>&nbsp;</td>
-			                </tr>
-			               <tr class="style-rowdata hover">
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeed['admin_fee'],2)." $";?>&nbsp;</td>
-			                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdmind,2)." $";?>&nbsp;</td>
-			                </tr>
-			                <tr class="style-rowdata hover">
-			                	<td colspan="2"  style="font-size: 12px;padding:0px 2px; " colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeeb['admin_fee'],2)." ฿";?>&nbsp;</td>
-			                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminb,2)." ฿";?>&nbsp;</td>
-			                </tr>
-			                <tr>
-								<td colspan="14" style=" border-left: solid 1px #fff; border-right: solid 1px #fff;">&nbsp;</td>
-							</tr>
-			                 <?php 
-					        	$coamt_r1 = 0;
-					        	$coamt_r2 = 0;
-					        	$coamt_r3 = 0;
-					        	$coamt_r5 = 0;
-					        	
-					        	$coamt_d1 = 0;
-					        	$coamt_d2 = 0;
-					        	$coamt_d3 = 0;
-					        	$coamt_d5 = 0;
-					        	
-					        	$coamn_b1 = 0;
-					        	$coamn_b2 = 0;
-					        	$coamn_b3 = 0;
-					        	$coamn_b5 = 0;
-					        ?>
-							<?php }?>
+					<td align="center">
+						<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
 							<tr>
-								<td colspan="16" style="font-size: 12px;padding-left:4px; font-weight:500; background:#CADEE3;"><?php echo $rs["co_name"];?></td>
-							</tr>
-								<?php 
-			               } $co_id = $rs["co_id"];?>
-						   	<tr class="style-rowdata hover">
-			               		<td style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-			               		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["branch"];?></td>
-			               		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["loan_number"];?></td>
-			               		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["client_code"];?></td>
-			               		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["client_name"];?></td>
-			               		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["interest_rate"];?></td>
-			               		<td style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($rs['principal_paid'],2).' '.$rs['currency_type'];?></td>  
-			               		<td style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($rs['interest_paid'],2).' '.$rs['currency_type'];?>&nbsp;</td>
-			               		<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['penalize_paid'],2).' '.$rs['currency_type'];?></td>
-			               		<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['service_paid'],2).' '.$rs['currency_type'];?></td>
-			               		<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['total_paymentpaid'],2);?></td>
-			               		<td style="font-size: 12px;text-align: center;"><?php echo date("d-M-Y",strtotime($rs["date_payment"]));?></td>
-			               		<td style="font-size: 12px;text-align: center;"><?php echo date("d-M-Y",strtotime($rs["date_input"]));?></td>
-			               		<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
-			                </tr>
-			                <?php if($rs['curr_type']==1){
-					               	$coamt_r1 = $coamt_r1+$rs['principal_paid'];
-					               	$coamt_r2 = $coamt_r2+$rs['interest_paid'];
-					               	$coamt_r3 = $coamt_r3+$rs['penalize_paid'];
-					               	$coamt_r5 = $coamt_r5+$rs['service_paid'];
-					               	$cototal_r=$coamt_r1+$coamt_r2+$coamt_r3+$coamt_r5;
-					               	
-					               }elseif($rs['curr_type']==2){
-					               	$coamt_d1 = $coamt_d1+$rs['principal_paid'];
-					               	$coamt_d2 = $coamt_d2+$rs['interest_paid'];
-					               	$coamt_d3 = $coamt_d3+$rs['penalize_paid'];
-					               	$coamt_d5 = $coamt_d5+$rs['service_paid'];
-					               	$cototal_d=$coamt_d1+$coamt_d2+$coamt_d3+$coamt_d5;
-					               	
-					               }else{
-					               	$coamn_b1 = $coamn_b1+$rs['penalize_paid'];
-					               	$coamn_b2 = $coamn_b2+$rs['interest_paid'];
-					               	$coamn_b3 = $coamn_b3+$rs['penalize_paid'];
-					               	$coamn_b5 = $coamn_b5+$rs['service_paid'];
-					               	$cototal_b=$coamn_b1+$coamn_b2+$coamn_b3+$coamn_b5;
-					               }?>
-			<?php  }?>
-					<?php if (!empty($co_id)){?>
-			 			<?php 	$adminfeer = $dbloan->getAdminfeeloanByCO($co_id, 1, $this->search);
-			     		 		$adminfeed = $dbloan->getAdminfeeloanByCO($co_id, 2, $this->search);
-			     		 		$adminfeeb = $dbloan->getAdminfeeloanByCO($co_id, 3, $this->search);
-			     		 		$totalwithAdminr = $cototal_r +$adminfeer['admin_fee'];
-			     		 		$totalwithAdmind = $cototal_d +$adminfeed['admin_fee'];
-			     		 		$totalwithAdminb = $cototal_b +$adminfeeb['admin_fee'];
-			     		 		
-			     		 		$dtotal_adminfeeall=$dtotal_adminfeeall+$adminfeed['admin_fee'];
-			     		 		$rtotal_adminfeeall=$rtotal_adminfeeall+$adminfeer['admin_fee'];
-			     		 		$btotal_adminfeeall=$btotal_adminfeeall+$adminfeeb['admin_fee'];
-			     		 ?>
-							<tr class="style-rowdata hover">
-								<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php //echo $tr->translate("TOTAL");?>&nbsp;</td>
-								<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("TOTAL_COLLECT");?>&nbsp;</td>
-								<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo $tr->translate("ADMIN_FEE");?>&nbsp;</td>
-								<td colspan="9" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
-							</tr>
-							<tr class="style-rowdata hover">
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeer['admin_fee'],2)." ៛";?>&nbsp;</td>
-			                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminr,2)." ៛";?>&nbsp;</td>
-			                </tr>
-			               <tr class="style-rowdata hover">
-			                	<td colspan="2"  style="font-size: 12px;padding:0px 2px; " colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeed['admin_fee'],2)." $";?>&nbsp;</td>
-			                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdmind['admin_fee'],2)." $";?>&nbsp;</td>
-			                </tr>
-			                <tr class="style-rowdata hover">
-			                	<td colspan="2"  style="font-size: 12px;padding:0px 2px; " colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
-			                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeeb['admin_fee'],2)." ฿";?>&nbsp;</td>
-			                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminb,2)." ฿";?>&nbsp;</td>
-			                </tr>
-			               <?php }?>
-					</table>
-					<?php if(!empty($this->rs_adminfee)){?>
-					<br />
-					<table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
-						<?php 
-						$co_id=0;
-						foreach($this->rs_adminfee as $key=> $rsadmin){
-							if($rsadmin['currency_type']==1){
-								$rtotal_adminfeeall=$rtotal_adminfeeall+$rsadmin['admin_fee'];
-							}elseif($rsadmin['currency_type']==2){
-								$dtotal_adminfeeall=$dtotal_adminfeeall+$rsadmin['admin_fee'];
-							}else{
-								$btotal_adminfeeall=$btotal_adminfeeall+$rsadmin['admin_fee'];
-							}
-							if($co_id!=$rsadmin["co_id"]){
-						?>
-						<tr style="background:#ccd9ff">
-							<td>&nbsp;&nbsp;<?php echo $rsadmin['co_name'];?></td>
-							<td>&nbsp;&nbsp;<?php echo $tr->translate("ADMIN_FEE");?></td>
-						</tr>
-						<?php }?>
-						<tr>
-							<td>&nbsp;<?php echo ($rsadmin['currency_name']);?></td>
-							<td>&nbsp;<?php echo number_format($rsadmin['admin_fee'],2);?></td>
-						</tr>
-						<?php 
-						$co_id = $rsadmin["co_id"];
-						}?>
-					</table>
+								<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+								<td width="60%" valign="top">
+									<ul>
+										<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+										<li style="text-align:center; font-size:13px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_COLLECT_BY_CO");?></li>
+										<li style="text-align:center; font-size:13px;"><?php if(!empty($this->start_date)){?><?php echo date("D-d-M-Y",strtotime($this->start_date)).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->date_show));}?></li>
+									</ul>
+								</td>
+								<td width="20%"></td>
+							</tr> 
+						</table>
+					</td>
+				</tr>
+			</table>
+			<table id="exportExcel" class="content-data"  width="100%" border="1" cellspacing="0">
+				<thead>
+					<tr class="style-head" align="center" >
+						 <td rowspan="2"><?php echo $tr->translate("NUM");?></td>
+						 <td rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></td>
+						 <td rowspan="2"><?php echo $tr->translate("LOAN_NO");?></td>	  
+						 <td rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></td>                  
+						 <td rowspan="2"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
+						 <td rowspan="2"><?php echo $tr->translate("INTEREST_RATE");?></td>
+						 <?php $colspan=5; ?>
+						 <td colspan="<?php echo $colspan;?>"><?php echo $tr->translate("TOTAL_PAYMENT");?></td>    
+						 <td rowspan="2" style="white-space:nowrap; border-right:3px double black; "><?php echo $tr->translate("PAY_DATE");?></td>
+						 <td rowspan="2"><?php echo $tr->translate("INPUT_DATE");?></td>
+						 <td rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></td>
+					</tr>
+					<tr class="style-head" align="center">
+						<td><?php echo $tr->translate("PRINCIPLE");?></td>                   
+						<td><?php echo $tr->translate("INTEREST");?></td>
+						<td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
+						<td><?php echo $tr->translate("SERVICE CHARGE");?></td>
+						<td><?php echo $tr->translate("TOTAL");?></td>
+					 </tr>
+				</thead>
+				<?php 
+				
+					$coamt_r1 = 0;
+					$coamt_r2 = 0;
+					$coamt_r3 = 0;
+					$coamt_r5 = 0;
+					
+					$coamt_d1 = 0;
+					$coamt_d2 = 0;
+					$coamt_d3 = 0;
+					$coamt_d5 = 0;
+					
+					$coamn_b1 = 0;
+					$coamn_b2 = 0;
+					$coamn_b3 = 0;
+					$coamn_b5 = 0;
+					
+					
+					$cototal_b=0;
+					$cototal_d=0;
+					$cototal_r=0;
+					
+					$coaTotalWithdminfeer = 0;
+					$coaTotalWithadminfeed = 0;
+					$coaTotalWithadminfeeb = 0;
+					
+					$dtotal_adminfeeall=0;
+					$rtotal_adminfeeall=0;
+					$btotal_adminfeeall=0;
+				?>
+			<?php 
+				$is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){?>
+			<?php 
+						   if($rs['curr_type']==1){
+								$amt_r1 = $amt_r1+$rs['principal_paid'];
+								$amt_r2 = $amt_r2+$rs['interest_paid'];
+								$amt_r3 = $amt_r3+$rs['penalize_paid'];
+								$amt_r5 = $amt_r5+$rs['service_paid'];
+								$total_r=$amt_r1+$amt_r2+$amt_r3+$amt_r5;
+						   }elseif($rs['curr_type']==2){
+								$amt_d1 = $amt_d1+$rs['principal_paid'];
+								$amt_d2 = $amt_d2+$rs['interest_paid'];
+								$amt_d3 = $amt_d3+$rs['penalize_paid'];
+								$amt_d5 = $amt_d5+$rs['service_paid'];
+								$total_d=$amt_d1+$amt_d2+$amt_d3+$amt_d5;
+						   }else{
+								$amn_b1 = $amn_b1+$rs['penalize_paid'];
+								$amn_b2 = $amn_b2+$rs['interest_paid'];
+								$amn_b3 = $amn_b3+$rs['penalize_paid'];
+								$amn_b5 = $amn_b5+$rs['service_paid'];
+								$total_b=$amn_b1+$amn_b2+$amn_b3+$amn_b5;
+						   }
+						   
+				   ?>
+		 <?php if($co_id!=$rs["co_id"]){
+			?>
+				 <?php if ($key>0){?>
+				 <?php $adminfeer = $dbloan->getAdminfeeloanByCO($co_id, 1, $this->search);
+						$adminfeed = $dbloan->getAdminfeeloanByCO($co_id, 2, $this->search);
+						$adminfeeb = $dbloan->getAdminfeeloanByCO($co_id, 3, $this->search);
+						
+						$dtotal_adminfeeall=$dtotal_adminfeeall+$adminfeed['admin_fee'];
+						$rtotal_adminfeeall=$rtotal_adminfeeall+$adminfeer['admin_fee'];
+						$btotal_adminfeeall=$btotal_adminfeeall+$adminfeeb['admin_fee'];
+						
+						$totalwithAdminr = $cototal_r +$adminfeer['admin_fee'];
+						$totalwithAdmind = $cototal_d +$adminfeed['admin_fee'];
+						$totalwithAdminb = $cototal_b +$adminfeeb['admin_fee'];
+				 ?>
+					<tr class="style-rowdata hover">
+						<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php //echo $tr->translate("TOTAL");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("TOTAL_COLLECT");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("ADMIN_FEE");?>&nbsp;</td>
+						<td colspan="9" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+					</tr>
+					<tr class="style-rowdata hover">
+						<td colspan="2" style="font-size: 12px;padding:0px 2px; " colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeer['admin_fee'],2)." ៛";?>&nbsp;</td>
+						<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminr,2)." ៛";?>&nbsp;</td>
+					</tr>
+				   <tr class="style-rowdata hover">
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeed['admin_fee'],2)." $";?>&nbsp;</td>
+						<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdmind,2)." $";?>&nbsp;</td>
+					</tr>
+					<tr class="style-rowdata hover">
+						<td colspan="2"  style="font-size: 12px;padding:0px 2px; " colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeeb['admin_fee'],2)." ฿";?>&nbsp;</td>
+						<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminb,2)." ฿";?>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="14" style=" border-left: solid 1px #fff; border-right: solid 1px #fff;">&nbsp;</td>
+					</tr>
+					 <?php 
+						$coamt_r1 = 0;
+						$coamt_r2 = 0;
+						$coamt_r3 = 0;
+						$coamt_r5 = 0;
+						
+						$coamt_d1 = 0;
+						$coamt_d2 = 0;
+						$coamt_d3 = 0;
+						$coamt_d5 = 0;
+						
+						$coamn_b1 = 0;
+						$coamn_b2 = 0;
+						$coamn_b3 = 0;
+						$coamn_b5 = 0;
+					?>
 					<?php }?>
-					<br />
-					<table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
-		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
-		                    <td align="right">&nbsp;</td>
-		                    <td></td>
-		                    <?php if($level==1){?>    
-		                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("PRINCIPAL");?></span>&nbsp;</td>
-		                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INTEREST");?></span></td>
-		                    <?php }?>
-		                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("PENALIZE AMOUNT");?></span></td>
-		                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("SERVICE_CHARGE");?></span></td>
-		                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("ADMIN_FEE");?></span></td>
-		                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL");?></span></td>
-		                     <td align="right">&nbsp;</td>
-		                 </tr>
-				                
-		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
-		                    <td align="right"></td>
-		                    <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
-		                     <?php if($level==1){?>  
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
-		                     <?php }?>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d5,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($dtotal_adminfeeall,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($total_d+$dtotal_adminfeeall,2);?>&nbsp;</td>
-		                    <td align="right">&nbsp;</td>
-		                 </tr>
-		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
-		                    <td align="right"></td>
-		                    <td align="right"><?php echo $tr->translate("REILS");?></td>
-		                    <?php if($level==1){?>  
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
-		                    <?php }?>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r3,2);?>&nbsp;</td>
-		                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r5,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($rtotal_adminfeeall,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($total_r+$rtotal_adminfeeall,2);?>&nbsp;</td>
-		                    <td align="right">&nbsp;</td>
-		                 </tr>
-		                 
-			                
-		                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
-		                    <td align="right"></td>
-		                    <td align="right"><?php echo $tr->translate("BATH");?></td>
-		                    <?php if($level==1){?>  
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
-		                    <?php }?>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
-		                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b5,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($btotal_adminfeeall,2);?>&nbsp;</td>
-		                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($total_b+$btotal_adminfeeall,2);?>&nbsp;</td>
-		                    <td align="right">&nbsp;</td>
-		                 </tr>
-		            </table>
-		            
-				            <br />
-					     <?php echo $this->footerReport;?>
-			</div>
+					<tr>
+						<td colspan="16" style="font-size: 12px;padding-left:4px; font-weight:500; background:#CADEE3;"><?php echo $rs["co_name"];?></td>
+					</tr>
+						<?php 
+				   } $co_id = $rs["co_id"];?>
+					<tr class="style-rowdata hover">
+						<td style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+						<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["branch"];?></td>
+						<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["loan_number"];?></td>
+						<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["client_code"];?></td>
+						<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["client_name"];?></td>
+						<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["interest_rate"];?></td>
+						<td style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($rs['principal_paid'],2).' '.$rs['currency_type'];?></td>  
+						<td style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($rs['interest_paid'],2).' '.$rs['currency_type'];?>&nbsp;</td>
+						<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['penalize_paid'],2).' '.$rs['currency_type'];?></td>
+						<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['service_paid'],2).' '.$rs['currency_type'];?></td>
+						<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['total_paymentpaid'],2);?></td>
+						<td style="font-size: 12px;text-align: center;"><?php echo date("d-M-Y",strtotime($rs["date_payment"]));?></td>
+						<td style="font-size: 12px;text-align: center;"><?php echo date("d-M-Y",strtotime($rs["date_input"]));?></td>
+						<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
+					</tr>
+					<?php if($rs['curr_type']==1){
+							$coamt_r1 = $coamt_r1+$rs['principal_paid'];
+							$coamt_r2 = $coamt_r2+$rs['interest_paid'];
+							$coamt_r3 = $coamt_r3+$rs['penalize_paid'];
+							$coamt_r5 = $coamt_r5+$rs['service_paid'];
+							$cototal_r=$coamt_r1+$coamt_r2+$coamt_r3+$coamt_r5;
+							
+						   }elseif($rs['curr_type']==2){
+							$coamt_d1 = $coamt_d1+$rs['principal_paid'];
+							$coamt_d2 = $coamt_d2+$rs['interest_paid'];
+							$coamt_d3 = $coamt_d3+$rs['penalize_paid'];
+							$coamt_d5 = $coamt_d5+$rs['service_paid'];
+							$cototal_d=$coamt_d1+$coamt_d2+$coamt_d3+$coamt_d5;
+							
+						   }else{
+							$coamn_b1 = $coamn_b1+$rs['penalize_paid'];
+							$coamn_b2 = $coamn_b2+$rs['interest_paid'];
+							$coamn_b3 = $coamn_b3+$rs['penalize_paid'];
+							$coamn_b5 = $coamn_b5+$rs['service_paid'];
+							$cototal_b=$coamn_b1+$coamn_b2+$coamn_b3+$coamn_b5;
+						   }?>
+				<?php  }?>
+			<?php if (!empty($co_id)){?>
+				<?php 	$adminfeer = $dbloan->getAdminfeeloanByCO($co_id, 1, $this->search);
+						$adminfeed = $dbloan->getAdminfeeloanByCO($co_id, 2, $this->search);
+						$adminfeeb = $dbloan->getAdminfeeloanByCO($co_id, 3, $this->search);
+						$totalwithAdminr = $cototal_r +$adminfeer['admin_fee'];
+						$totalwithAdmind = $cototal_d +$adminfeed['admin_fee'];
+						$totalwithAdminb = $cototal_b +$adminfeeb['admin_fee'];
+						
+						$dtotal_adminfeeall=$dtotal_adminfeeall+$adminfeed['admin_fee'];
+						$rtotal_adminfeeall=$rtotal_adminfeeall+$adminfeer['admin_fee'];
+						$btotal_adminfeeall=$btotal_adminfeeall+$adminfeeb['admin_fee'];
+				 ?>
+					<tr class="style-rowdata hover">
+						<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php //echo $tr->translate("TOTAL");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("TOTAL_COLLECT");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo $tr->translate("ADMIN_FEE");?>&nbsp;</td>
+						<td colspan="9" style="font-size: 12px;padding:0px 2px; ">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+					</tr>
+					<tr class="style-rowdata hover">
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeer['admin_fee'],2)." ៛";?>&nbsp;</td>
+						<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminr,2)." ៛";?>&nbsp;</td>
+					</tr>
+				   <tr class="style-rowdata hover">
+						<td colspan="2"  style="font-size: 12px;padding:0px 2px; " colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeed['admin_fee'],2)." $";?>&nbsp;</td>
+						<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdmind['admin_fee'],2)." $";?>&nbsp;</td>
+					</tr>
+					<tr class="style-rowdata hover">
+						<td colspan="2"  style="font-size: 12px;padding:0px 2px; " colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
+						<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeeb['admin_fee'],2)." ฿";?>&nbsp;</td>
+						<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminb,2)." ฿";?>&nbsp;</td>
+					</tr>
+				   <?php }?>
+				</table>
+				<?php if(!empty($this->rs_adminfee)){?>
+				<br />
+				<table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
+					<?php 
+					$co_id=0;
+					foreach($this->rs_adminfee as $key=> $rsadmin){
+						if($rsadmin['currency_type']==1){
+							$rtotal_adminfeeall=$rtotal_adminfeeall+$rsadmin['admin_fee'];
+						}elseif($rsadmin['currency_type']==2){
+							$dtotal_adminfeeall=$dtotal_adminfeeall+$rsadmin['admin_fee'];
+						}else{
+							$btotal_adminfeeall=$btotal_adminfeeall+$rsadmin['admin_fee'];
+						}
+						if($co_id!=$rsadmin["co_id"]){
+					?>
+					<tr style="background:#ccd9ff">
+						<td>&nbsp;&nbsp;<?php echo $rsadmin['co_name'];?></td>
+						<td>&nbsp;&nbsp;<?php echo $tr->translate("ADMIN_FEE");?></td>
+					</tr>
+					<?php }?>
+					<tr>
+						<td>&nbsp;<?php echo ($rsadmin['currency_name']);?></td>
+						<td>&nbsp;<?php echo number_format($rsadmin['admin_fee'],2);?></td>
+					</tr>
+					<?php 
+					$co_id = $rsadmin["co_id"];
+					}?>
+				</table>
+				<?php }?>
+				<br />
+				<table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+					 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+						<td align="right">&nbsp;</td>
+						<td></td>
+						<?php if($level==1){?>    
+						<td align="right"><span class="border_bottom"><?php echo $tr->translate("PRINCIPAL");?></span>&nbsp;</td>
+						<td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INTEREST");?></span></td>
+						<?php }?>
+						<td align="right"><span class="border_bottom"><?php echo $tr->translate("PENALIZE AMOUNT");?></span></td>
+						<td align="right"><span class="border_bottom"><?php echo $tr->translate("SERVICE_CHARGE");?></span></td>
+						<td align="right"><span class="border_bottom"><?php echo $tr->translate("ADMIN_FEE");?></span></td>
+						<td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL");?></span></td>
+						 <td align="right">&nbsp;</td>
+					 </tr>
+						
+					 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+						<td align="right"></td>
+						<td align="right"><?php echo $tr->translate("DOLLAR");?></td>
+						 <?php if($level==1){?>  
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
+						 <?php }?>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d5,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($dtotal_adminfeeall,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($total_d+$dtotal_adminfeeall,2);?>&nbsp;</td>
+						<td align="right">&nbsp;</td>
+					 </tr>
+					 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+						<td align="right"></td>
+						<td align="right"><?php echo $tr->translate("REILS");?></td>
+						<?php if($level==1){?>  
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
+						<?php }?>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r3,2);?>&nbsp;</td>
+						 <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r5,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($rtotal_adminfeeall,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($total_r+$rtotal_adminfeeall,2);?>&nbsp;</td>
+						<td align="right">&nbsp;</td>
+					 </tr>
+					 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+						<td align="right"></td>
+						<td align="right"><?php echo $tr->translate("BATH");?></td>
+						<?php if($level==1){?>  
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
+						<?php }?>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
+						 <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b5,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($btotal_adminfeeall,2);?>&nbsp;</td>
+						<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($total_b+$btotal_adminfeeall,2);?>&nbsp;</td>
+						<td align="right">&nbsp;</td>
+					 </tr>
+				</table>
+				<br />
+			<?php echo $this->footerReport;?>
+		</div>
 	</div>
 </div>

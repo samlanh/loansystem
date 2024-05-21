@@ -12,67 +12,55 @@
 	$urlPaymenthistory = $this->baseUrl()."/report/pawn/paymenthistory/id/";
 	$url_reschedule = $this->baseUrl()."/pawnshop/reschedule/add/id/";
 ?>
-<script src="<?php echo $baseurl;?>/js/help.js"></script>
-<div class="card pb-10 pt-10 pl-10 pr-10">
-	<div class="card-content collapse show">
-		<div class="card-box">
-        	<div class="col-sm-12 border-botom">
-		    	<div class="col-sm-8 pd-0">
-		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('PAWNSHOP');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
-		<div class="card-box">
-			<form id="list" name="list" action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
-			   <div class="form-group">
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement("adv_search");?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('branch_id');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('members');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement("product_id");?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
+
+<div class="card">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="fa fa-american-sign-language-interpreting"></i>&nbsp;<?php echo $tr->translate('PAWNSHOP');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+			   <div class="row g-3">
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement("adv_search");?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('branch_id');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('members');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement("product_id");?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
 						<?php echo $frm->getElement("completed_status");?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
 						<?php echo $frm->getElement("dach_status");?>
-			   		</div>
-			   </div>
-			   <div class="form-group">
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('currency_type');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('start_date');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('end_date');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   		</div>
-			   </div>
+					</div>
+				</div>
+				<div class="row g-3">
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('currency_type');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('start_date');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('end_date');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					</div>
+				</div>
 			</form>
 		</div>
-		<div class="card-box">
-			<?php echo $this->list;?>
-		</div>
+	</div>
+	<div class="card-body">
+		  <?php echo $this->list;?>
 	</div>
 </div>
 
-	
+<script src="<?php echo $baseurl;?>/js/help.js"></script>	
 <script>
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dojo.data.ItemFileWriteStore"); 
@@ -131,26 +119,38 @@ $(function(){
 	$.contextMenu({
 		selector: '.context-menu-one', 
 		callback: function(key, options) {
-		
+			
+			var newPageTitle="";
+			var actionType=1;
 			var m = "clicked: " + key;
 			 if(key=="payment"){
 				url='<?php echo $url_payment;?>';
+				actionType=2;
 			}else if(key=="dach"){
 				url='<?php echo $url_dach;?>';
-			}else if(key=="agreement"){
-				url='<?php echo $url_agreement;?>';
-			}else if(key=="receipt"){
-				url='<?php echo $url_receipt;?>';
-			}else if(key=="schedule"){
-				url='<?php echo $url_schedule;?>';
+				actionType=2;
 			}else if(key=="reschedule"){
 				url='<?php echo $url_reschedule;?>';
+				actionType=2;
+			}else if(key=="agreement"){
+				url='<?php echo $url_agreement;?>';
+				newPageTitle="<?php echo $tr->translate("AGREEMENT");?>";
+			}else if(key=="receipt"){
+				url='<?php echo $url_receipt;?>';
+				newPageTitle="<?php echo $tr->translate("PAWN_RECEIPT");?>";
+			}else if(key=="schedule"){
+				url='<?php echo $url_schedule;?>';
+				newPageTitle="<?php echo $tr->translate("SCHEDULE_PAYMENT");?>";
 			}else if(key=="paymenthistory"){
 				url='<?php echo $urlPaymenthistory;?>';
+				newPageTitle="<?php echo $tr->translate("RPT_PAYMENT_HISTORY");?>";
 			}
 			 
-			gotoAction();
-			//window.console && console.log(m) || alert(m); 
+			if(actionType==1){
+				addTab(newPageTitle,url+row+'?inFrame=true');
+			}else{
+				gotoAction();
+			}
 		},
 		items: {
 			"payment": {name: "<?php echo $tr->translate("ADD_PAYMENT");?>", icon: "fa-money", accesskey: "c o p y"},
@@ -169,6 +169,6 @@ function setrowdata(index){
 
 var recordid ='';
 function gotoAction(){
-	 window.open(url+row, '_blank');
+	 window.open(url+row, '_self');
 }
 </script>

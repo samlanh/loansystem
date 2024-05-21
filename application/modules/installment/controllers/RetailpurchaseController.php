@@ -79,6 +79,8 @@ class Installment_RetailpurchaseController extends Zend_Controller_Action {
 	}
 	public function editAction(){
 		$id=$this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
+		
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 // 			$_data['id']=$id;
@@ -99,7 +101,8 @@ class Installment_RetailpurchaseController extends Zend_Controller_Action {
 		$_pur = new Installment_Model_DbTable_DbRetailPurchase();
 		$row = $_pur->getPurchaseByID($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/installment/retailpurchase");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/retailpurchase",2);
+			exit();
 		}
 		$this->view->purchase = $row;
 		$this->view->purchaseDetail = $_pur->getPurchaseDetailByID($id);

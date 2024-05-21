@@ -1,6 +1,6 @@
 <?php
 class Payroll_CoController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	private $activelist = array('មិនប្រើប្រាស់', 'ប្រើប្រាស់');
 	const REDIRECT_URL = '/payroll';
     public function init()
     {    	
@@ -109,13 +109,13 @@ class Payroll_CoController extends Zend_Controller_Action {
    		try{
    			$db_co->addCreditOfficer($_data);
    				if(!empty($_data['save_close'])){
-   					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/co/index');
+   					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/co/index');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/co/add');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/co/add');
 				}
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/co/add');
+				Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/co/add');
    		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+   			Application_Form_FrmMessage::message("INSERT_FAIL");
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
@@ -135,9 +135,9 @@ class Payroll_CoController extends Zend_Controller_Action {
    		$_data = $this->getRequest()->getPost();
    		try{
    			$db_co->addCreditOfficer($_data);
-   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/co');
+   			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS !",'/payroll/co');
    		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+   			Application_Form_FrmMessage::message("INSERT_FAIL");
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
@@ -146,7 +146,8 @@ class Payroll_CoController extends Zend_Controller_Action {
    	$row = $db_co->getCOById($id);
    	$this->view->photo = $row['photo'];
    	if(empty($row)){
-   		$this->_redirect('payroll/co');
+		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/payroll/co',2);
+		exit();
    	}
    	$frm = new Other_Form_FrmCO();
    	$frm_co=$frm->FrmAddCO($row);

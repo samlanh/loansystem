@@ -39,15 +39,13 @@
 	<script>	
 		require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/form/ValidationTextBox","dijit/form/FilteringSelect"]);
 	</script>
-    <!-- Bootstrap -->
-    <link href="<?php echo $baseUrl;?>admin/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="<?php echo $baseUrl;?>admin/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="<?php echo $this->baseUrl();?>/admin/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
 
     <!-- Custom Theme Style -->
-    <link href="<?php echo $baseUrl;?>admin/build/css/custom.min.css" rel="stylesheet">
-    <link href="<?php echo $baseUrl;?>admin/build/css/external-template.css" rel="stylesheet">
+    <link href="<?php echo $this->baseUrl();?>/admin/assets/css/custom.css" rel="stylesheet">
+    <link href="<?php echo $this->baseUrl();?>/admin/assets/css/external-template.css" rel="stylesheet">
   </head>
 <style type="text/css">
 		.container {

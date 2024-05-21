@@ -9,149 +9,145 @@ $client = $this->client;
 <script>
 	dojo.require("dijit.form.DateTextBox");
 </script>
-<div class="reportblog">
-	<div class="card-box">
-       	<div class="col-sm-12 border-botom">
-		   	<div class="col-sm-8 pd-0">
-	    		<h4 class="m-b-0"><i class="fa fa-file-text " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('REPORT_LOAN_XCHANGE');?></h4>
-    		</div>
-    		<div class="col-sm-4 text-right">
-    		</div>
-    	</div>
-    </div>
-    <form dojoType="dijit.form.Form" method="post">
-		<div class="card-box">
-			<div class="form-group">
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("adv_search");?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("start_date");?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("end_date");?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               </div>
-            </div>
-        </div>
-    </form>
-    <div id="divPrint">
-	<style>
-		.style{
-			line-height: 20px; font-size: 12px !important;
-			font-family: 'Times New Roman','Khmer OS Battambang';
-		}
-		table tr td ul li{list-style: none;line-height: 25px; }
-		th{padding: 5px;}
-		#exportExcel tr td{ padding: 1px;}
-		.border_bottom {
-		    border-bottom: 1px solid #000;
-		}
-	</style>
-	<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;"  >
-		<tr>
-	    	<td align="center">
-	        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang'; margin:0; padding:0;border:none;" >
-	            	<tr>
-	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
-	                	<td width="60%" valign="top">
-	                	     <ul>
-	                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-	                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_LOAN_XCHANGE");?></li>
-	                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
-	                		</ul>
-	                	</td>
-	                    <td width="20%"></td>
-	                </tr> 
-	            </table>
-	        </td>
-	    </tr>
-	    <tr>
-	    	<td id="exportExcel">
-	            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; white-space: nowrap; " width="100%" cellspacing="0">
-	                 <thead>
-					 <tr class="style" align="center" style="font-weight:bold; background:#ccd9ff; line-height: 24px;font-size:12px; font-family: 'Khmer OS Content'">
-	                    <td><?php echo $tr->translate("NUM");?></td>
-	                    <!-- 
-	                    <td><?php //echo $tr->translate("BRANCH_NAME");?></td>
-	                    <td><?php //echo $tr->translate("CUSTOMER_NAME");?></td>
-	                     -->
-	                    <td><?php echo $tr->translate("RECIEPT_NO");?></td>
-	                    <td><?php echo $tr->translate("Exchage To");?></td>
-	                    <td><?php echo $tr->translate("Exchage Amount");?></td>
-	                    <td><?php echo $tr->translate("EXCHANGE_RATE");?></td>
-	                    <td><?php echo $tr->translate("Exchage Amount Received");?></td>
-	                    <td><?php echo $tr->translate("RECIEVED_AMOUNT");?></td>
-	                    <td><?php echo $tr->translate("RETURN_AMOUNT");?></td>
-	                    <td><?php echo $tr->translate("DATE");?></td>
-	                    <td><?php echo $tr->translate("IS_SPACIAL_CUSTOMER");?></td>   
-	                </tr>
-					</thead>
-	                <?php foreach ($xchange as $row){ $i=1;?>
-	               <tr  align="left" class=" context-menu-one" oncontextmenu="setrowdata(<?php echo $row['id'];?>);return false;">
-	               		<td style="text-align: center;"><?php echo $i++;?></td>
-	               		<!-- 
-	               		<td>&nbsp;<?php //echo $row['branch_name']?></td>
-	               		<td>&nbsp;<?php //echo $row['client_name']?>&nbsp;</td>
-	               		 -->
-	               		<td align="center">&nbsp;<?php echo $row['recieptNo']?>&nbsp;</td>
-	               		<td align="center">&nbsp;<?php echo $row['from_to']?>&nbsp;</td>
-	               		<td align="right">&nbsp;<?php echo $row['fromAmount'].$row['fromAmountType'];?>&nbsp;</td>
-	               		<td align="right">&nbsp;<?php echo $row['rate'].$row['toAmountType'];?>&nbsp;</td>
-	               		<td align="right">&nbsp;<?php echo $row['toAmount'].$row['toAmountType'];?>&nbsp;</td>
-	               		<td align="right">&nbsp;<?php echo $row['recievedAmount'].$row['fromAmountType'];?>&nbsp;</td>
-						<td align="right">&nbsp;<?php echo $row['changedAmount'].$row['fromAmountType'];?>&nbsp;</td>
-	               		<td align="center">&nbsp;<?php echo date('d-m-Y',strtotime($row['statusDate']))?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo ($row['specail_customer']==1)?"Yes":"No"?>&nbsp;</td>
-	               </tr>
-	               <?php }?>
-	            </table>
-	       		<br />
-	       		<?php if (!empty($this->buyin)) {?>
-	       		 <table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
-	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
-	                    <td align="right">&nbsp;</td>
-	                    <td align="left"><span class="border_bottom">&#8658; <strong><?php echo $tr->translate("ទិញចូល");?></strong></span>&nbsp;</td>
-	                    <td >&nbsp;</td>
-	                     <td align="right">&nbsp;</td>
-	                 </tr>
-	                 <?php foreach ($this->buyin as $rs){?>
-	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
-	                    <td align="right">&nbsp;</td>
-	                    <td><?php echo $rs['fromTxtType']."(".$row['fromAmountType'].")"?></td>
-	                    <td align="right"><strong><?php echo number_format($rs['totalFromAmount'],2)."(".$row['fromAmountType'].")"?></strong></td>
-	                    <td align="right">&nbsp;</td>
-	                  </tr>
-	                  <?php }?>
-	              </table>
-	            <?php }?>
-	       		<?php if (!empty($this->sellout)) {?>
-	       		<table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
-	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
-	                    <td align="right">&nbsp;</td>
-	                    <td align="left"><span class="border_bottom">&#8656; <strong><?php echo $tr->translate("លក់ចេញ");?></strong></span>&nbsp;</td>
-	                    <td >&nbsp;</td>
-	                     <td align="right">&nbsp;</td>
-	                 </tr>
-	                 <?php foreach ($this->sellout as $rs){?>
-	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
-	                    <td align="right">&nbsp;</td>
-	                    <td><?php echo $rs['toTxtType']."(".$row['toAmountType'].")"?></td>
-	                    <td align="right"><strong><?php echo number_format($rs['totalToAmount'],2)."(".$row['toAmountType'].")"?></strong></td>
-	                    <td align="right">&nbsp;</td>
-	                  </tr>
-	                  <?php }?>
-	              </table>
-	            <?php }?>
-	       		<br />
-	       		 <?php echo $this->footerReport;?>
-	    	</td>
-	    </tr>
-	</table>
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('REPORT_LOAN_XCHANGE');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form method="post">
+				<div class="card-box">
+					<div class="row g-3">
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("adv_search");?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("start_date");?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("end_date");?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					   </div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="card-body">
+		<div id="divPrint">
+			<style>
+				.style{
+					line-height: 20px; font-size: 12px !important;
+					font-family: 'Times New Roman','Khmer OS Battambang';
+				}
+				table tr td ul li{list-style: none;line-height: 25px; }
+				th{padding: 5px;}
+				#exportExcel tr td{ padding: 1px;}
+				.border_bottom {
+					border-bottom: 1px solid #000;
+				}
+			</style>
+			<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;"  >
+				<tr>
+					<td align="center">
+						<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang'; margin:0; padding:0;border:none;" >
+							<tr>
+								<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+								<td width="60%" valign="top">
+									 <ul>
+										<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+										<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_LOAN_XCHANGE");?></li>
+										<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
+									</ul>
+								</td>
+								<td width="20%"></td>
+							</tr> 
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td id="exportExcel">
+						<table border="1" style="border-collapse:collapse;border:1px solid #000; white-space: nowrap; " width="100%" cellspacing="0">
+							 <thead>
+							 <tr class="style" align="center" style="font-weight:bold; background:#ccd9ff; line-height: 24px;font-size:12px; font-family: 'Khmer OS Content'">
+								<td><?php echo $tr->translate("NUM");?></td>
+								<!-- 
+								<td><?php //echo $tr->translate("BRANCH_NAME");?></td>
+								<td><?php //echo $tr->translate("CUSTOMER_NAME");?></td>
+								 -->
+								<td><?php echo $tr->translate("RECIEPT_NO");?></td>
+								<td><?php echo $tr->translate("Exchage To");?></td>
+								<td><?php echo $tr->translate("Exchage Amount");?></td>
+								<td><?php echo $tr->translate("EXCHANGE_RATE");?></td>
+								<td><?php echo $tr->translate("Exchage Amount Received");?></td>
+								<td><?php echo $tr->translate("RECIEVED_AMOUNT");?></td>
+								<td><?php echo $tr->translate("RETURN_AMOUNT");?></td>
+								<td><?php echo $tr->translate("DATE");?></td>
+								<td><?php echo $tr->translate("IS_SPACIAL_CUSTOMER");?></td>   
+							</tr>
+							</thead>
+							<?php foreach ($xchange as $row){ $i=1;?>
+						   <tr  align="left" class=" context-menu-one" oncontextmenu="setrowdata(<?php echo $row['id'];?>);return false;">
+								<td style="text-align: center;"><?php echo $i++;?></td>
+								<!-- 
+								<td>&nbsp;<?php //echo $row['branch_name']?></td>
+								<td>&nbsp;<?php //echo $row['client_name']?>&nbsp;</td>
+								 -->
+								<td align="center">&nbsp;<?php echo $row['recieptNo']?>&nbsp;</td>
+								<td align="center">&nbsp;<?php echo $row['from_to']?>&nbsp;</td>
+								<td align="right">&nbsp;<?php echo $row['fromAmount'].$row['fromAmountType'];?>&nbsp;</td>
+								<td align="right">&nbsp;<?php echo $row['rate'].$row['toAmountType'];?>&nbsp;</td>
+								<td align="right">&nbsp;<?php echo $row['toAmount'].$row['toAmountType'];?>&nbsp;</td>
+								<td align="right">&nbsp;<?php echo $row['recievedAmount'].$row['fromAmountType'];?>&nbsp;</td>
+								<td align="right">&nbsp;<?php echo $row['changedAmount'].$row['fromAmountType'];?>&nbsp;</td>
+								<td align="center">&nbsp;<?php echo date('d-m-Y',strtotime($row['statusDate']))?>&nbsp;</td>
+								<td>&nbsp;<?php echo ($row['specail_customer']==1)?"Yes":"No"?>&nbsp;</td>
+						   </tr>
+						   <?php }?>
+						</table>
+						<br />
+						<?php if (!empty($this->buyin)) {?>
+						 <table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+								<td align="right">&nbsp;</td>
+								<td align="left"><span class="border_bottom">&#8658; <strong><?php echo $tr->translate("ទិញចូល");?></strong></span>&nbsp;</td>
+								<td >&nbsp;</td>
+								 <td align="right">&nbsp;</td>
+							 </tr>
+							 <?php foreach ($this->buyin as $rs){?>
+							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+								<td align="right">&nbsp;</td>
+								<td><?php echo $rs['fromTxtType']."(".$row['fromAmountType'].")"?></td>
+								<td align="right"><strong><?php echo number_format($rs['totalFromAmount'],2)."(".$row['fromAmountType'].")"?></strong></td>
+								<td align="right">&nbsp;</td>
+							  </tr>
+							  <?php }?>
+						  </table>
+						<?php }?>
+						<?php if (!empty($this->sellout)) {?>
+						<table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+								<td align="right">&nbsp;</td>
+								<td align="left"><span class="border_bottom">&#8656; <strong><?php echo $tr->translate("លក់ចេញ");?></strong></span>&nbsp;</td>
+								<td >&nbsp;</td>
+								 <td align="right">&nbsp;</td>
+							 </tr>
+							 <?php foreach ($this->sellout as $rs){?>
+							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+								<td align="right">&nbsp;</td>
+								<td><?php echo $rs['toTxtType']."(".$row['toAmountType'].")"?></td>
+								<td align="right"><strong><?php echo number_format($rs['totalToAmount'],2)."(".$row['toAmountType'].")"?></strong></td>
+								<td align="right">&nbsp;</td>
+							  </tr>
+							  <?php }?>
+						  </table>
+						<?php }?>
+						<br />
+						 <?php echo $this->footerReport;?>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </div>
 <?php $url_receipt=$this->url(array("module"=>'report',"controller"=>"exchanges","action"=>'exchangereceipt'))."?id=";?>

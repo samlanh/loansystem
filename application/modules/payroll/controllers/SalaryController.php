@@ -3,7 +3,7 @@
 class Payroll_SalaryController extends Zend_Controller_Action
 {
 	const REDIRECT_URL = '/payroll';
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	private $activelist = array('មិនប្រើប្រាស់', 'ប្រើប្រាស់');
 	
     public function init()
     {
@@ -65,12 +65,12 @@ class Payroll_SalaryController extends Zend_Controller_Action
    		try{
    			$db_salary->addSalary($_data);
    			if(!empty($_data['save_new'])){
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::message('INSERT_SUCCESS');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/salary/index');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/salary/index');
 				}
    		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+   			Application_Form_FrmMessage::message("INSERT_FAIL");
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    			}
@@ -97,9 +97,9 @@ class Payroll_SalaryController extends Zend_Controller_Action
    		$_data = $this->getRequest()->getPost();
    		try{
    			$db_salary->updateSalary($_data);
-   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/salary');
+   			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS !",'/payroll/salary');
    		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+   			Application_Form_FrmMessage::message("INSERT_FAIL");
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
@@ -107,7 +107,8 @@ class Payroll_SalaryController extends Zend_Controller_Action
    	$id = $this->getRequest()->getParam("id");
    	$row = $db_salary->getSalaryById($id);
    	if(empty($row)){
-   		$this->_redirect('payroll/salary');
+		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/payroll/salary',2);
+		exit();
    	}
      	$this->view->staff_id = $row['staff_id'];
 	   	$pructis=new Payroll_Form_FrmSalary();

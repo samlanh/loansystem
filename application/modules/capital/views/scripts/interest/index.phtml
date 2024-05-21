@@ -1,28 +1,15 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("Capital Transfer"));
+echo $this->headTitle($tr->translate("INTEREST"));
 $frm = $this->frm;
 ?>
-<div class="card pb-10 pt-10 pl-10 pr-10">
-	<div class="card-content collapse show">
-		<div class="card-box">
-			<form id="list" name="list" action="<?php echo $this->url(array('module'=>'capital','controller'=>'capitalresource','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
-			   <div class="form-group">
-   					<div class="col-md-2 col-sm-2 col-xs-12">
-   						<?php echo $frm->getElement("search");?>
-   					</div>
-   					<div class="col-md-2 col-sm-2 col-xs-12">
-   						<?php echo $frm->getElement('status');?>
-   					</div>
-   					<div class="col-md-2 col-sm-2 col-xs-12">
-   						<?php echo $frm->getElement("btn_search");?>
-   					</div>
-   				</div>
-			</form>
-		</div>
-		<div class="card-box">
-			<?php echo $this->list;?>
-		</div>
+<div class="card">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="ti ti-businessplan"></i>&nbsp;<?php echo $tr->translate('INTEREST');?></h5>
+		
+	</div>
+	<div class="card-body">
+		  <?php echo $this->list;?>
 	</div>
 </div>
 

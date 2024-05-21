@@ -8,16 +8,10 @@ dojo.require("dijit/form/NumberTextBox");
 </script>
 <?php  $holiday= $this->frm_holiday;?>
 <div class="card">
-	<div class="card-content collapse show">
-		<div class="card-box">
- 			<div class="col-sm-12 border-botom">
-		    	<div class="col-sm-8 pd-0">
-		    		<h4 class="m-b-0"><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('EDIT_HOLIDAY');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;<?php echo $tr->translate('EDIT_HOLIDAY');?></h5>
+	</div>
+	<div class="card-body">
 		<form  id='add_techer' action="<?php echo $this->url(array('module'=>'other','controller'=>'holiday','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			 <script type="dojo/method" event="onSubmit">			
 				if(this.validate()) {
@@ -28,7 +22,7 @@ dojo.require("dijit/form/NumberTextBox");
 			</script>
 			<div class="card-box">
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("HOLIDAY_NAME");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -36,49 +30,52 @@ dojo.require("dijit/form/NumberTextBox");
 							<?php  echo $holiday->getElement('id');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("START_DATE");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php  echo $holiday->getElement('start_date');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("AMOUNT_DAY");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php  echo $holiday->getElement('amount_day');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("END_DATE");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php  echo $holiday->getElement('end_date');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php  echo $holiday->getElement('note');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php  echo $holiday->getElement('status');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
-		                <div class="col-sm-12 border-top mt-20 ptb-10 text-center">
-		                	<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" id="" dojoType="dijit.form.Button"
-				                 iconClass="dijitIconClear" />
-							<input type="submit" value="" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submitButton" dojoType="dijit.form.Button" 
-								 iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			    		</div>
-		    		 </div>
+					 
+					 <!-- Button Save  -->
+					<div class="clearfix"></div>
+					<div class="card-box">
+						<div class="col-sm-12 border-top mt-2 py-2 text-center">
+							<input type="reset" class="button-class button-danger " iconClass="glyphicon glyphicon-repeat" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button" />
+							<input type="submit" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" value="" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submitButton" dojoType="dijit.form.Button"    />
+						</div>
+					</div>
+					<!--/. Button Save  -->
+					
 	            </div>
 	         </div>
 		</form>

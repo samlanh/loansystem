@@ -9,7 +9,7 @@
 	 dojo.require("dijit/form/CheckBox");
 	 dojo.require("dijit/form/NumberTextBox");
  </script>
- <div class="card">
+ <div class="card" id="mysetting">
 	<div class="card-content collapse show">
 		<div class="card-box">
         	<div class="col-sm-12 border-botom" style="text-align: left;">
@@ -30,7 +30,7 @@
 				</script>
 			<div class="card-box">
 				<div class="col-md-8 col-sm-8 col-xs-12">
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Saturday Working");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -38,7 +38,7 @@
  							<input type="radio" <?php if($data['work_saturday']==0)echo'checked="checked"'; ?>  data-dojo-type="dijit/form/RadioButton" name="work_saturday" id="radioTwo" value="0"/> <label for="radioTwo"><?php echo $tr->translate("Not Work");?></label>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Suday Working");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -46,7 +46,7 @@
  							<input type="radio" <?php if($data['work_sunday']==0)echo'checked="checked"'; ?> data-dojo-type="dijit/form/RadioButton" name="work_sunday" id="saturday_work2" value="0"/> <label for="saturday_work2"><?php echo $tr->translate("Not Work");?></label>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Admin Fee");?> (%)
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -55,7 +55,7 @@
 											class='fullside'/>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Penal Multiplier");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -64,7 +64,7 @@
 											require="true" class='fullside'/>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Graice Pariod Late");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -73,7 +73,7 @@
 											require="true" class='fullside'/>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Reschedule Postfix Label");?> (eg.PPL00004R)
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -82,14 +82,14 @@
 											require="true" class='fullside'/>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Prefix CO Staff");?> (eg.ST-001)
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<input type="text" name="co_prefix" dojoType="dijit.form.TextBox" value="<?php echo $this->data['co_prefix'];?>" require="true" class='fullside'/>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Theme Style");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -101,7 +101,7 @@
 							</select>
 	                   </div>
 	                </div>
-	                 <div class="form-group">
+	                 <div class="row g-3">
 	                   <div class="col-md-12 col-sm-12 col-xs-12 text-center">
 	                   		<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 
 	                   </div>

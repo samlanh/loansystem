@@ -236,13 +236,20 @@ class Report_GroupMemberController extends Zend_Controller_Action {
  	function calleteralLetterAction(){
  		$db  = new Report_Model_DbTable_DbLnClient();
  		$id =$this->getRequest()->getParam('id');
+		$id= empty($id) ? 0 : $id;
  		$rs = $db->getCalleteralByLoanID($id);
  		if (empty($rs)){
- 			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/report/groupmember/rpt-calleteral");
- 			exit();
- 		}
+			$inFrame = $this->getRequest()->getParam('inFrame');
+			$inFrame = empty($inFrame)?"":$inFrame;
+ 			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/report/groupmember/rpt-calleteral?inFrame=".$inFrame,2);
+			exit();
+		}
  		$this->view->calleteral_list = $rs;
- 		$client_id = ($rs[0]['client_id']);
+		$client_id = 0;
+		if (!empty($rs)){
+			$client_id = empty($rs[0]['client_id']) ? 0 : ($rs[0]['client_id']);
+		}
+ 		
  		$db = new Application_Model_DbTable_DbAgreement();
  		$this->view->client = $db->getClientLoanInfo($client_id);
  		//print_r($db->getClientLoanInfo($client_id));

@@ -71,7 +71,8 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$identify = $_data["identity"];
 			try {
 				if($identify==""){
-					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/loan/payment/");
+					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/loan/payment/",2);
+					exit();
 				}else {
 					$db->addILPayment($_data);
 					if(!empty($_data['save_close'])){
@@ -79,7 +80,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 					}else{
 						//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
 					}
-					//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/index");
 				}
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -92,12 +93,6 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
 		
-		$list = new Application_Form_Frmtable();
-		$collumns = array("ឈ្មោះមន្ត្រីឥណទាន","ថ្ងៃបង់ប្រាក់","ប្រាក់ត្រូវបង់","ប្រាក់ដើមត្រូវបង់","អាត្រាការប្រាក់","ប្រាក់ផាកពិន័យ","ប្រាក់បានបង់សរុប","សមតុល្យ","កំណត់សម្គាល់");
-		$link=array(
-				'module'=>'group','controller'=>'Client','action'=>'edit',
-		);
-		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 		
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
@@ -184,14 +179,15 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		$payment_il = $db->getLoanPaymentById($id);
 		if (!empty($payment_il)){
 			if ($payment_il['is_closed']==1){
-				Application_Form_FrmMessage::Sucessfull("Can not delete this record","/loan/payment");
+				Application_Form_FrmMessage::Sucessfull("Can not delete this record","/loan/payment",2);
+				exit();
 			}
 			
 			$sale_id = empty($payment_il['loan_id'])?0:$payment_il['loan_id'];
   			$lastPaymentRecord = $db->getLastPaymentRecord($sale_id);
   			$lastPayId = empty($lastPaymentRecord['id'])?0:$lastPaymentRecord['id'];
   			if ($lastPayId!=$id){
-  				Application_Form_FrmMessage::Sucessfull("Only Last Payment Receipt Can Delete","/loan/payment");
+  				Application_Form_FrmMessage::Sucessfull("Only Last Payment Receipt Can Delete","/loan/payment",2);
 				exit();
   			}
 		}
@@ -224,7 +220,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 				$db->deleteRecord($id);
 				Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/loan/payment/");exit();
 			}
-			Application_Form_FrmMessage::Sucessfull("You don't have permission to delete this record?","/loan/payment/");exit();
+			Application_Form_FrmMessage::Sucessfull("You don't have permission to delete this record","/loan/payment/",2);exit();
 			
 		}catch (Exception $e) {
 			Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -398,10 +394,14 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		$id =$this->getRequest()->getParam('id');
 		$id = empty($id)?0:$id;
 		$row = $db->getLoanPaymentById($id);
+		
 		if(empty($row)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/loan/payment');
+			$inFrame = $this->getRequest()->getParam('inFrame');
+			$inFrame = empty($inFrame)?"":$inFrame;
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/loan/payment?inFrame='.$inFrame,2);
 			exit();
 		}
+	
 		$this->view->loanPayment = $row ;
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();

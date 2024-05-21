@@ -44,7 +44,7 @@ class Pawnshop_PawnproductController extends Zend_Controller_Action
     		$db = new Pawnshop_Model_DbTable_DbPawnproduct();
     		try {
     			$db->addProduct($data);
-    			Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+    			Application_Form_FrmMessage::message('INSERT_SUCCESS');
     			if(isset($data['save_close'])){
     				Application_Form_FrmMessage::redirectUrl('/pawnshop/pawnproduct');
     			}

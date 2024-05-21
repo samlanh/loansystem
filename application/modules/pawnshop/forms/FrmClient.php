@@ -52,7 +52,7 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
-		$options=array(''=>"---Select Branch Name---");
+		$options=array(''=>$this->tr->translate("SELECT_BRANCH"));
 		if(!empty($rows))foreach($rows AS $row) $options[$row['br_id']]=$row['displayby']==1?$row['branch_namekh']:$row['branch_nameen'];
 		$_branch_id->setMultiOptions($options);
 		
@@ -139,7 +139,7 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		
 		$_commune = new Zend_Dojo_Form_Element_FilteringSelect('commune');
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>$this->tr->translate("SELECT_COMMUNE"),-1=>$this->tr->translate("ADD_NEW"));
 		$_commune->setMultiOptions($options);
 		$_commune->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -155,7 +155,7 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 				'onchange'=>'popupCheckVillage();'
 		));
 		$rows =  $db->getVillage();
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>$this->tr->translate("SELECT_VILLAGE"),-1=>$this->tr->translate("ADD_NEW"));
 		if(!empty($rows))foreach($rows AS $row) $options[$row['vill_id']]=$row['village_name'];
 		$_village->setMultiOptions($options);
 		

@@ -1,4 +1,7 @@
 <?php 
+	header('Cache-Control: no cache'); //no cache
+	session_cache_limiter('private_no_expire'); // works
+	
 	$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$request=Zend_Controller_Front::getInstance()->getRequest();
@@ -19,6 +22,7 @@
 	$db = new Application_Model_DbTable_DbUsers();
 	$CheckAccess = $db->getAccessUrl("pawnshop","index","index");
 	$CheckAccessSaleIns = $db->getAccessUrl("installment","index","index");
+	$userInfo = $db->getCurrentUserInfor();
 	
 	$rs = $vdgb->getCustomerNearlyPaymentLoan();
 	
@@ -31,88 +35,78 @@
 	if (!empty($CheckAccessSaleIns)){
 		$rsSaleIns = $vdgb->getCustomerNearlyPaymentSaleInstall();
 	}
+	
+	$inFrame = $request->getParam("inFrame");
+	$classShow = empty($inFrame) ? "" : "hiddenBlog";
+	$classContentInframe = empty($inFrame) ? "" : "content-inframe";
+	$padLeftContent = empty($inFrame) ? "" : "mrg-left-none";
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr" data-theme="theme-default" data-assets-path="<?php echo $this->baseUrl();?>/admin/assets/" data-template="vertical-menu-template">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+		<!-- Favicon -->
+		<link rel="icon" type="image/x-icon" href="<?php echo $this->baseUrl()."/images/icon.ico";?>" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $base_url;?>js/dojo-1.6.1/dijit/themes/<?php echo $them_style."/".$them_style?>.css" />
+    
+		<!-- Icons -->
+		<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/vendor/fonts/tabler-icons.css"/>
+	
+		<!-- Core CSS -->
+		<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/vendor/css/rtl/core.css" class="system-theme-skin-core-css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/vendor/css/rtl/theme-default.css" class="system-theme-skin-theme-css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/css/custom.css" />
+		
+		<!-- Vendors CSS -->
+		<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/node-waves/node-waves.css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
+		<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
+	
+		<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/sweetalert2/sweetalert2.css" />
+		<link href="<?php echo $this->baseUrl();?>/admin/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	
+		<!-- Helpers -->
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/js/helpers.js"></script>
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/js/system-theme.js"></script>
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/js/config.js"></script>
+		
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/jquery/jquery.js"></script>
+  		<!-- Core JS -->
+		
+		<!-- build:js assets/vendor/js/core.js -->
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/popper/popper.js"></script>
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/js/bootstrap.js"></script>
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/node-waves/node-waves.js"></script>
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/hammer/hammer.js"></script>
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/i18n/i18n.js"></script>
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/js/menu.js"></script>
+  
+		<!-- endbuild -->
+		<!-- Vendors JS -->
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+		<script src="<?php echo $this->baseUrl();?>/admin/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
 
-<html>
-<head>
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $base_url;?>js/dojo-1.6.1/dijit/themes/<?php echo $them_style."/".$them_style?>.css" />
-    <script src="<?php echo $this->baseUrl()."/contextMenu/1.11.3/"?>jquery.min.js"></script>
+  
+		<?php if ($module!=="home" AND ( $action=="index" OR $module=='report')){?>
+		<link href="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+		<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.js" type="text/javascript"></script>
+		<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.ui.position.min.js" type="text/javascript"></script>
 	
-	<?php 
-	if(($module!='report' AND $level==4) OR $action=='rpt-loan-income'){
-		if(($module=='default' and $controller=='index' and $action=='changepassword' ) OR $level==1){
-	    }else{
-			Application_Form_FrmMessage::redirectUrl("/report");	
-		}
-	?>
-	<?php }?>
-	
-	<!-- export library -->
-	<?php if($module=='report'){?>
-	 <script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/tableExport.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jquery.base64.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/html2canvas.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/sprintf.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/jspdf.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/base64.js"></script> 
-	<?php } ?>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap -->
-    <link href="<?php echo $base_url;?>admin/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="<?php echo $base_url;?>admin/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="<?php echo $base_url;?>admin/vendors/nprogress/nprogress.css" rel="stylesheet">
-    
-    <?php if ($module!=="home" AND ( $action=="index" OR $module=='report')){?>
-	<link href="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.css" rel="stylesheet" type="text/css" />
-	<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.js" type="text/javascript"></script>
-	<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.ui.position.min.js" type="text/javascript"></script>
-	<link href="<?php echo $this->baseUrl()."/datatable/"?>datatables.min.css" rel="stylesheet" type="text/css" />
-    <link href="<?php echo $this->baseUrl()."/datatable/"?>responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <script src="<?php echo $this->baseUrl()."/datatable/"?>datatables.min.js" type="text/javascript"></script>
-    <script src="<?php echo $this->baseUrl()."/datatable/"?>dataTables.responsive.min.js" type="text/javascript"></script>
-    
-    <script>
-    $(document).ready(function() {
-        $('#datatable-responsive').DataTable( {
-        	responsive: true,
-       	 "dom": '<"top"i>rt<"bottom"flp><"clear">',
-        	searching: false,
-        } );
-    } );
-    </script>
-	<?php }?>
-    <!-- Custom Theme Style -->
-    <link href="<?php echo $base_url;?>admin/build/css/custom.min.css" rel="stylesheet">
-     <!-- Favicon Icon -->
-    <style>
-		.fullside {
-		    width: 98%;
-		    height: 30px;
-		}
-		.dijitArrowButtonInner, .dijitIconSearch {
-		    margin-top: 6px !important;
-		}
-		.dijitTextBox, .dijitValidationTextBox, .dijitInputField, .dijitInputContainer, .dijitInputInner, dijitReset, .dijitRight, .dijitButtonNode, .dijitArrowButton, .dijitDownArrowButton, .dijitArrowButtonContainer {
-		    height: 28px;
-		}
-		div.reportblog {
-    		overflow-x: auto;
-		    overflow-y: hidden;
-			min-height:35cm; 
-			margin:0 auto; 
-			padding:0.5cm 0.5cm 0cm 0.5cm;
-			padding-bottom: 20px;
-		}
-    </style>
-    <?php if($module=='home' AND $controller=="index" AND $action=="index"){?>
+		<script>
+		$(document).ready(function() {
+			$('#datatable-responsive').DataTable( {
+				responsive: true,
+			 "dom": '<"top"i>rt<"bottom"flp><"clear">',
+				searching: false,
+				"pageLength": 50
+			} );
+		} );
+		</script>
+		<?php }?>
+  <?php if($module=='home' AND $controller=="index" AND $action=="index"){?>
 	
    <?php }else{?>   
    <script src="<?php echo $base_url;?>js/dojo-1.6.1/dojo/dojo.js"  djConfig="isDebug: true,parseOnLoad: true"></script>
@@ -120,310 +114,266 @@
 	    <script>
 			require(["dijit/form/Form","dijit/form/FilteringSelect","dijit/form/Button","dijit/Dialog"]);
       </script>
-	<?php }?>
-	 
-	<link rel="shortcut icon" href="<?php echo $base_url;?>images/icon.ico" type="image/x-icon"/>
-	<link href="<?php echo $this->baseUrl()."/datatable/bootstrap-custome.css"?>" media="screen" rel="stylesheet" type="text/css">
-	 
-</head>
-<body class="nav-md <?php echo $them_style;?> footer_fixed ">
-	<div class="container body">
-    	<div class="main_container">
-        	<div class="col-md-3 left_col ">
-          		<div class="left_col scroll-view">
-		            <div class="navbar nav_title">
-		              <a href="<?php echo $this->baseUrl()."/home";?>" class="site_title"><span><img src="<?php echo $this->baseUrl()?>/images/cam-app-logo.png" alt="CAM APP TECHNOLOGY"></span></a>
-		            </div>
-            		<div class="clearfix"></div>
-            		<?php echo $this->render('menuleft.phtml')?>
-            	</div>
-            </div>
-            <!-- top navigation -->
-		        <div class="top_nav">
-		          	<div class="nav_menu">
-		            	<nav>
-				              <div class="nav toggle">
-				                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-				              </div>
-              				  <ul class="nav navbar-nav navbar-right">
-			              	      <li>
-              							
-			              		     <a title="Khmer" href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				              			<img src="<?php echo $this->baseUrl()."/images/";?><?php if ($currentlang == 1){ echo "km.png";}else{ echo "en.jpg";}?>"> 
-				              		</a>
-	              		              	<ul class="dropdown-menu dropdown-usermenu pull-right lang-ul">
-		              			            <li class="lang">
-				                 				<a href="javascript:;" onclick="changeLange(1);"> 
-			                 						<img src="<?php echo $this->baseUrl()."/images/km.png";?>">
-			                 					</a>
-	                 						</li>
-	                 						<li class="lang">
-				                 				<a href="javascript:;" onclick="changeLange(2);"> 
-			                 						<img src="<?php echo $this->baseUrl()."/images/en.jpg";?>">
-			                 					</a>
-	                 						</li>
-	                	                </ul>
-              					</li>
-			                	<li class="">
-				                  	<a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                       	<img src="<?php echo $this->baseUrl()?>/images/user.png" alt="">
-				                    <?php echo $username;?> <span class=" fa fa-angle-down"></span>
-					                 </a>
-				                  <ul class="dropdown-menu dropdown-usermenu pull-right">
-					                    <li><a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'changepassword')); ?>"> <i class="fa fa-key pull-right"></i> <?php echo $tr->translate("Change Password");?></a></li>
-					                    <li><a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout','value'=>'1')); ?>">
-					                    <i class="fa fa-sign-out pull-right"></i> <?php echo $tr->translate("SIGN_OUT");?></a>
-					                    </li>
-				                  </ul>
-				                </li>
-				                
-				                <?php if (!empty($CheckAccessSaleIns)){ ?>
-				                <li role="presentation" class="dropdown">
-				                  <a title="<?php echo $tr->translate("CUSTOMER_PAYMENTLIST_SALEINS");?>" href="javascript:;"  class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="true">
-				                    <i class="fa fa-money"></i>
-				                    <span id="countNews" class="badge bg-green"><?php if (count($rsSaleIns)>0){ echo count($rsSaleIns);}?></span>
-				                  </a>
-				                  <ul id="menu1" class="dropdown-menu list-unstyled " role="menu">
-				                  	  <li class=" event title">
-					                  	<h4><?php echo $tr->translate("CUSTOMER_PAYMENTLIST_SALEINS");?></h4>
-					                  </li>
-					                   <?php if(!empty($rsSaleIns)){?>
-			                          <?php foreach($rsSaleIns as $key=> $resultSaleIn){
-			                          	$url = $this->url(array('module'=>'installment','controller'=>'payment','action'=>'add'), null, true)."/id/".$resultSaleIn['id'];
-			                          	$end_dat=date("Y-m-d");
-			                          	$total_day=strtotime($end_dat)-strtotime($resultSaleIn['date_payment']);
-			                          	$total_late_day=$total_day/(60*60*24);
-			                          	$total_payment = $resultSaleIn['total_payment_after'];
-			                          	?>
-			                          <li class=" event">
-			                         	 <a href="<?php echo $url;?>">
-				                            <div class="pull-left profile-list ">
-				                              <img src="<?php echo $this->baseUrl()."/images/no-profile.png";?>" />
-				                            </div>
-				                            <div class="media-body">
-				                            	<small><?php echo $resultSaleIn['branch_namekh'];?></small><br />
-				                              <span class="title" ><?php echo $resultSaleIn['name_kh'].' '.$resultSaleIn['loan_number'];?></span>
-				                              <br /><span class="title" ><?php echo $resultSaleIn['productTitle'];?></span>
-				                              <p style="white-space: nowrap;"><i class="fa fa-phone"></i> <?php echo $resultSaleIn['phone'];?></p>
-				                              <p><strong>$<?php echo number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$resultSaleIn['times'];?> </p>
-				                              <p> <small><?php echo $tr->translate("AMOUNT_LATE")." : ".$total_late_day."ថ្ងៃ";//@abs($interval->format('%R%a'))."ថ្ងៃ"; ?> <?php echo " / ".$resultSaleIn['amount_late']." លើក ";?></small>
-				                              </p>
-				                            </div>
-			                            </a>
-			                          </li>
-			                          <?php }?>
-			                          <?php }?>
-			                        </ul>
-				              </li>
-				              <?php }?>
-				              
-				                
-				                <?php if (!empty($CheckAccess)){ ?>
-				                <li role="presentation" class="dropdown">
-				                  <a title="<?php echo $tr->translate("CUSTOMER_PAYMENTLIST_PAWN");?>" href="javascript:;"  class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="true">
-				                    <i class="fa fa-money"></i>
-				                    <span id="countNews" class="badge bg-green"><?php if (count($rsPawn)>0){ echo count($rsPawn);}?></span>
-				                  </a>
-				                  <ul id="menu1" class="dropdown-menu list-unstyled " role="menu">
-				                  	  <li class=" event title">
-					                  	<h4><?php echo $tr->translate("CUSTOMER_PAYMENTLIST_PAWN");?></h4>
-					                  </li>
-					                   <?php if(!empty($rsPawn)){?>
-			                          <?php foreach($rsPawn as $key=> $resultPawn){
-			                          	$url = $this->url(array('module'=>'pawnshop','controller'=>'payment','action'=>'add'), null, true)."/id/".$resultPawn['id'];
-			                          	$end_dat=date("Y-m-d");
-			                          	$total_day=strtotime($end_dat)-strtotime($resultPawn['date_payment']);
-			                          	$total_late_day=$total_day/(60*60*24);
-			                          	$total_payment = $resultPawn['total_payment_after'];
-			                          	?>
-			                          <li class=" event">
-			                         	 <a href="<?php echo $url;?>">
-				                            <div class="pull-left profile-list ">
-				                              <img src="<?php echo $this->baseUrl()."/images/no-profile.png";?>" />
-				                            </div>
-				                            <div class="media-body">
-				                            	<small><?php echo $resultPawn['branch_namekh'];?></small><br />
-				                              <span class="title" ><?php echo $resultPawn['name_kh'].' '.$resultPawn['loan_number'];?></span>
-				                              <p style="white-space: nowrap;"><i class="fa fa-phone"></i> <?php echo $resultPawn['phone'];?></p>
-				                              <p><strong><?php echo $resultPawn['currency_type']." ".number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$resultPawn['times'];?> </p>
-				                              <p> <small><?php echo $tr->translate("AMOUNT_LATE")." : ".$total_late_day."ថ្ងៃ";//@abs($interval->format('%R%a'))."ថ្ងៃ"; ?> <?php echo " / ".$resultPawn['amount_late']." លើក ";?></small>
-				                              </p>
-				                            </div>
-			                            </a>
-			                          </li>
-			                          <?php }?>
-			                          <?php }?>
-			                        </ul>
-				              </li>
-				              <?php }?>
-				              
-				                <li role="presentation" class="dropdown">
-				                  <a title="<?php echo $tr->translate("CUSTOMER_PAYMENTLIST_LOAN");?>" href="javascript:;"  class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="true">
-				                    <i class="fa fa-money"></i>
-				                    <span id="countNews" class="badge bg-green"><?php if (count($rs)>0){ echo count($rs);}?></span>
-				                  </a>
-				                  <ul id="menu1" class="dropdown-menu list-unstyled " role="menu">
-				                  	  <li class=" event title">
-					                  	<h4><?php echo $tr->translate("CUSTOMER_PAYMENTLIST_LOAN");?></h4>
-					                  </li>
-					                   <?php if(!empty($rs)){?>
-			                          <?php foreach($rs as $key=> $result){
-			                          	$url = $this->url(array('module'=>'loan','controller'=>'payment','action'=>'add'), null, true)."/id/".$result['id'];
-			                          	$end_dat=date("Y-m-d");
-			                          	$total_day=strtotime($end_dat)-strtotime($result['date_payment']);
-			                          	$total_late_day=$total_day/(60*60*24);
-			                          	$total_payment = $result['total_payment_after'];
-			                          	?>
-			                          <li class=" event">
-			                         	 <a href="<?php echo $url;?>">
-				                            <div class="pull-left profile-list ">
-				                              <img src="<?php echo $this->baseUrl()."/images/no-profile.png";?>" />
-				                            </div>
-				                            <div class="media-body">
-				                            	<small><?php echo $result['branch_namekh'];?></small><br />
-				                              <span class="title" ><?php echo $result['name_kh'].' '.$result['loan_number'];?></span>
-				                              <p style="white-space: nowrap;"><i class="fa fa-phone"></i> <?php echo $result['phone'];?></p>
-				                              <p><strong><?php echo $result['currency_type']." ".number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$result['times'];?> </p>
-				                              <p> <small><?php echo $tr->translate("AMOUNT_LATE")." : ".$total_late_day."ថ្ងៃ";//@abs($interval->format('%R%a'))."ថ្ងៃ"; ?> <?php echo " / ".$result['amount_late']." លើក ";?></small>
-				                              </p>
-				                            </div>
-			                            </a>
-			                          </li>
-			                          <?php }?>
-			                          <?php }?>
-			                        </ul>
-				              </li>
-				              
-				              <li class="">
-				                  	<a onclick="dijit.byId('popupCalculator').show();" href="javascript:;" title="<?php echo $tr->translate("CALCULATOR");?>"  class="user-profile " >
-                                        <i class="fa fa-calculator"></i>
-					                 </a>
-				                </li>
-				                <!-- 
-				                <li class="">
-				                  	<a  href="<?php //echo $this->baseUrl()."/other/testsale/index"?>" title="<?php //echo $tr->translate("PREVIEW_INSTALLMENT_CALCUATE");?>"  class="user-profile " >
-                                        <i class="fa fa-keyboard-o"></i>
-					                 </a>
-				                </li>
-				                 -->
-             				</ul>
-            			</nav>
-          			</div>
-       			</div>
-       		 <!-- /top navigation -->
-            <!-- page content -->
-       		<div class="right_col" role="main" >
-       		 	<div class="right-conten" style="min-height: 570px;">
-       		 	<div style="clear:both;"></div>
-             	<?php if($module!='report' AND $module!='home' ){?>
-             		<div class="ptss-frame  js-ptss-frame "><!-- is-opened -->
-             				<div class="ptss__toggle-btnaddd  js-ptss-toggle-btn add-edit-action">
-								<?php if($action=='index' AND $module!='report' AND $module!='home'){?>
-									<a title="<?php echo $tr->translate('ADD_NEW');?>" class='add-edit' href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'add'),null,true); ?>">
-										<i class="fa fa-plus-circle" aria-hidden="true"></i>
-									</a>
-								<?php }elseif($action=='add' OR $action=='edit' OR $action=='quickchange' OR $action=='withdrawal' OR $module=='report' ){?>
-									<a title="<?php echo $tr->translate('GO_BACK');?>" class='add-edit' href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'index'),null,true); ?>">
-										<i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
-									</a>
-								<?php }?>
-							</div>
-							<div class="ptss__header add-edit-action">
-							<?php if($action=='index' AND $module!='report' AND $module!='home'){?>
-								<a  class='add-edit' href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'add'),null,true); ?>"><?php echo $tr->translate('ADD');?> 
-									<i class="fa fa-plus-circle" aria-hidden="true"></i>
+	<?php } ?>
+	
+	</head>
+	<body class="<?php echo $them_style;?>">
+		<!-- Layout wrapper -->
+		<div class="layout-wrapper layout-content-navbar  ">
+			<div class="layout-container">
+				<!-- Menu -->
+				<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme <?php echo $classShow;?>">
+					<div class="app-brand system-skin ">
+						<a href="<?php echo $this->baseUrl()."/home";?>" class="app-brand-link">
+						  
+						</a>
+						<a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+						  <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
+						  <i class="ti ti-x d-block d-xl-none ti-sm align-middle"></i>
+						</a>
+					</div>
+					<div class="menu-inner-shadow"></div>
+					<?php echo $this->render('menuleft.phtml')?>
+				</aside>
+				<!-- / Menu -->
+				<!-- Layout container -->
+				<div class="layout-page <?php echo $padLeftContent;?>">
+					<!-- Navbar -->
+					<nav class=" <?php echo $classShow;?> layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+						<div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
+							<a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+							  <i class="ti ti-menu-2 ti-sm"></i>
+							</a>
+						</div>
+						  
+						<div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+							
+							
+							<ul class="navbar-nav flex-row align-items-center ms-auto">
+							  
+							  <!-- Language -->
+							  <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
+								<a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+								  <i class='ti ti-language rounded-circle ti-md'></i>
 								</a>
-							<?php }elseif($action=='add' OR $action=='edit' OR $action=='quickchange' OR $action=='withdrawal' OR $module=='report' ){?>
-								<a class='add-edit' href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'index'),null,true); ?>">
-								<i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> <?php echo $tr->translate('GO_BACK');?>
+								<ul class="dropdown-menu dropdown-menu-end">
+								  <li>
+									<a class="dropdown-item" href="javascript:void(0);" onclick="changeLange(1);" data-language="kh" data-text-direction="ltr">
+									  <span class="align-middle">ភាសាខ្មែរ</span>
+									</a>
+								  </li>
+								  <li>
+									<a class="dropdown-item" href="javascript:void(0);" onclick="changeLange(2);" data-language="en" data-text-direction="ltr">
+									  <span class="align-middle">English</span>
+									</a>
+								  </li>
+								  
+								</ul>
+							  </li>
+							  <!--/ Language -->
+							  
+							  
+							  <!-- Style Switcher -->
+							  <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+								<a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+								  <i class='ti ti-md'></i>
 								</a>
-								<?php }?>
+								<ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+								  <li>
+									<a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+									  <span class="align-middle"><i class='ti ti-sun me-2'></i>Light</span>
+									</a>
+								  </li>
+								  <li>
+									<a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+									  <span class="align-middle"><i class="ti ti-moon me-2"></i>Dark</span>
+									</a>
+								  </li>
+								</ul>
+							  </li>
+							  <!-- / Style Switcher-->
+							  
+
+							  <?php 
+									echo $this->render('notificationbar.phtml');
+							  ?>
+							  <!-- User -->
+							  <li class="nav-item navbar-dropdown dropdown-user dropdown">
+								<a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+								  <div class="avatar avatar-online">
+									<img src="<?php echo $this->baseUrl()?>/images/user.png" alt class="h-auto rounded-circle">
+								  </div>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-end">
+								  <li>
+									<a class="dropdown-item" href="pages-account-settings-account.html">
+									  <div class="d-flex">
+										<div class="flex-shrink-0 me-3">
+										  <div class="avatar avatar-online">
+											<img src="<?php echo $this->baseUrl()?>/images/user.png" alt class="h-auto rounded-circle">
+										  </div>
+										</div>
+										<div class="flex-grow-1">
+										  <span class="fw-medium d-block"><?php echo $username;?></span>
+										  <small class="text-muted"><?php echo $userInfo["userTypeTitle"]; ?></small>
+										</div>
+									  </div>
+									</a>
+								  </li>
+								  <li>
+									<div class="dropdown-divider"></div>
+								  </li>
+								  <li>
+									<div id="systemModeClick">
+									<a class="dropdown-item system-theme-skin-open-btn" href="javascript:void(0)">
+									  <i class="ti ti-device-laptop me-2 ti-sm"></i>
+									  <span class="align-middle"><?php echo $tr->translate("settingMode");?></span>
+									</a>
+									</div>
+								  </li>
+								  <li>
+									<a class="dropdown-item" href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'changepassword')); ?>">
+									  <i class="ti ti-settings me-2 ti-sm"></i>
+									  <span class="align-middle"><?php echo $tr->translate("Change Password");?></span>
+									</a>
+								  </li>
+								  <li>
+									<div class="dropdown-divider"></div>
+								  </li>
+								  <li>
+									<a class="dropdown-item" href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout','value'=>'1')); ?>">
+									  <i class="ti ti-logout me-2 ti-sm"></i>
+									  <span class="align-middle"><?php echo $tr->translate("SIGN_OUT");?></span>
+									</a>
+								  </li>
+								</ul>
+							  </li>
+							  <!--/ User -->
+							</ul>
+						  </div>
+
+						  
+						  <!-- Search Small Screens -->
+						  <div class="navbar-search-wrapper search-input-wrapper  d-none">
+							<input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..." aria-label="Search...">
+							<i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
+						  </div>
+					</nav>
+					<!-- / Navbar -->
+					<!-- Content wrapper -->
+					<div class="content-wrapper">
+						<!-- Content -->
+						<div class="<?php if(empty($classShow)){ ?>container-xxl container-p-y<?php } ?> flex-grow-1 ">
+							<script>
+								window.isRtl = window.Helpers.isRtl(),
+								window.isDarkStyle = window.Helpers.isDarkStyle();
+								let menu, animate, isHorizontalLayout = !1;
+							 </script>
+							 <div id="tt" class="easyui-tabs  <?php echo $classContentInframe;?>" style="width:100%; ">
+								<div id="firstTabs" title="Home" >
+									<?php 
+										$rs = $db->getAccessUrl($module,$controller,$action);
+										if(!empty($rs) OR $action=='changepassword'){
+											echo $this->layout()->content;
+										}else{
+											echo $this->render('pagenotfund.phtml');
+										}
+									 ?>
+								</div>
 							</div>
 						</div>
-				<?php }?>
-       		 	
-	           		<?php 
-            			if($module=='report' AND $action!='index'){?>
-							<div class="ptss-frame  js-ptss-frame "><!-- is-opened -->
-								<div class="ptss__toggle-btn  js-ptss-toggle-btn ">
-									<i class="fa fa-print"></i>
-								</div>
-								<div class="ptss__header"><?php echo $tr->translate("PRINT");?></div>
-								<div class="ptss__settings">
-									<div class="ptss__single-setting" id="ptss__layout">
-										<div class="ptss__setting-control">
-											<div class="ptss__layout-wrapper">
-												<a class="qButton" title="<?php echo $tr->translate("Preview");?>" href="#" onclick="preview();"><i class="fa fa-search" aria-hidden="true"></i></a>
-												<a class="qButton print" href="#" title="<?php echo $tr->translate("PRINT");?>" onclick="doPrint();" ><i class="fa fa-print" aria-hidden="true"></i></a>
-												<a class="qButton excel" href="#"  title="<?php echo $tr->translate("Export");?>"  onclick="exportExcel();"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
-											</div>
-											
-										</div>
-									</div>
-								</div>
+						<!-- / Content -->
+						<!-- Footer -->
+						<footer class="content-footer footer bg-footer-theme <?php echo $classShow;?>">
+						  <div class="container-xxl">
+							<div class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
+							  <div>
+								©  All rights reserved & Developed By <a href="http://cam-app.com/" target="_blank" class="footer-link text-primary fw-medium">Cam App Technology</a>
+							  </div>
 							</div>
-							<div style="clear:both;"></div>
-							<?php }?>
-							<?php if($module!='home') {?>
-							<section class="inputmask">
-								<div class="row">
-							    	<div class="col-sm-12">
-							    	<?php }?>
-							<?php 
-								$db = new Application_Model_DbTable_DbUsers();
-	            				$rs = $db->getAccessUrl($module,$controller,$action);
-	            				echo $this->layout()->content;
-		            			if(!empty($rs) OR $action=='changepassword'){
-		            				//echo $this->layout()->content;
-		            			}else{
-		            				//echo $this->render('pagenotfund.phtml');
-		            			}
-            				 ?>
-            				 <?php if($module!='home') {?>
-			            			 </div>
-			            		</div>
-			            	</section>
-            			 <?php }?>
-	            			<?php
-				               	if($module=='report' AND $action!='rpt-paymentschedules'){
-				            ?>
-			                <?php }?>
-       		 	</div>
-       		</div>
-         </div>
-     </div>
-     <footer>
-          <div class="pull-right">
-           All rights reserved
-           & Developed By <a target="_blank" href="http://cam-app.com/">Cam App Technology</a>
-          </div>
-          <div class="clearfix"></div>
-     </footer>
-     <?php   echo $this->render('calculator.phtml'); ?>
-     <div class="overlay">
-		<div class="overlay-load">
-			<div class="overlay-msg">
-		    </div>
+						  </div>
+						</footer>
+						<!-- / Footer -->
+						 <div class="content-backdrop fade"></div>
+					</div>
+					<!-- / Content wrapper -->
+				</div>
+				<!-- / Layout container -->
+			</div>
+			<!-- Overlay -->
+			<div class="layout-overlay layout-menu-toggle"></div>
+			
+			
+			<!-- Drag Target Area To SlideIn Menu On Small Screens -->
+			<div class="drag-target"></div>
+		</div>
+		<!-- / Layout wrapper -->
+		
+		<?php if($module!='report' AND $module!='home' AND $module!='default' ){?>
+			<?php if(!empty($rs)){?>
+			<div class="global-action <?php echo $classShow;?>">
+				<?php if($action=='index' AND $module!='report' AND $module!='home'){?>
+					<a class="btn btn-primary btn-global-action" title="<?php echo $tr->translate('ADD_NEW');?>" class='add-edit' href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'add'),null,true); ?>">
+						
+						<?php echo $tr->translate('ADD_NEW');?>&nbsp;&nbsp;<i class="fa fa-plus-circle animate-create" aria-hidden="true"></i>
+					</a>
+				<?php }elseif($action=='add' OR $action=='edit' OR $action=='quickchange' OR $action=='withdrawal' OR $module=='report' ){?>
+					<a class="btn btn-primary btn-global-action" title="<?php echo $tr->translate('GO_BACK');?>" class='add-edit' href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'index'),null,true); ?>">
+						<i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>&nbsp;&nbsp;<?php echo $tr->translate('GO_BACK');?>
+					</a>
+				<?php }?>
+			</div>
+			<?php }?>
+		<?php }else if($module=='report' AND $action!='index'){?>
+			<div class="global-action">
+				<div class="btn-group">
+					<button type="button" class="btn btn-success dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false"><?php echo $tr->translate("ACTION");?> <i class="ti ti-dots-vertical"></i></button>
+					<ul class="dropdown-menu">
+					  <li><a href="javascript:void(0);" onclick="preview();" class="dropdown-item d-flex align-items-center"><i class="ti ti-file-search scaleX-n1-rtl"></i><?php echo $tr->translate("Preview");?></a></li>
+					  <li><a href="javascript:void(0);" onclick="doPrint();" class="dropdown-item d-flex align-items-center"><i class="ti ti-printer scaleX-n1-rtl"></i><?php echo $tr->translate("PRINT");?></a></li>
+					  <li><a href="javascript:void(0);" onclick="exportExcel();" class="dropdown-item d-flex align-items-center"><i class="ti ti-file-x scaleX-n1-rtl"></i><?php echo $tr->translate("Export");?></a></li>
+					  
+					</ul>
+				</div>
+			</div>
+		<?php }?>
+				
+	<div class="overlay">
+		<div class="d-flex align-items-center justify-content-center " style="height: 100vh;">
+			<div class="text-center">
+				<div class="sk-grid sk-primary">
+				  <div class="sk-grid-cube"></div>
+				  <div class="sk-grid-cube"></div>
+				  <div class="sk-grid-cube"></div>
+				  <div class="sk-grid-cube"></div>
+				  <div class="sk-grid-cube"></div>
+				  <div class="sk-grid-cube"></div>
+				  <div class="sk-grid-cube"></div>
+				  <div class="sk-grid-cube"></div>
+				  <div class="sk-grid-cube"></div>
+				</div>
+				<p class="text-primary">
+					<?php echo $tr->translate("Loading");?>...
+				</p>
+			</div>
 		</div>
 	</div>	
-		</div>
-	</div>	
-<style>
-.overlay {display: none;position: fixed;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
-.overlay-load {width: 350px;height: 100px;margin: auto;top: 0px;bottom: 0px;position: absolute;left: 0px;right: 0px;
-           text-align: center;
-           background: #fff url("<?php echo $this->baseUrl()?>/images/loading.gif") 50% 25%;
-           background-repeat: no-repeat;          
-}
-.overlay-msg{margin-bottom: 10px;bottom: 0px;position: absolute;font-style: italic;color: rgb(19, 19, 19);} 
-</style>
-<!-- Custom Theme Scripts -->
 <script>
-
-var url_changelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';
+$(document).ready(function() {
+	var currentTitle = $(document).attr('title');
+	$('#firstTabs').attr('title', currentTitle);
+	var currentTab = $('#tt').tabs();
+	$(".tabs-header ul.tabs" ).addClass( "hiddenBlog" );
+	messageAlert('<?php echo $base_url.$module."/".$controller."/".$action;?>');
+	
+	setTimeout(function () {
+		HideloadingBlock();
+	}, 600);
+});
 function changeLange(lang){
+	var urlChangelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';
 	jQuery.ajax({
-		url: url_changelang,
+		url: urlChangelang,
 		type: "post",
 		data:{'lange':lang},
 		success: function(data){
@@ -434,84 +384,17 @@ function changeLange(lang){
 		}
 	});
 }
+
+
+
+
+
 </script>
+  <!-- Main JS -->
+  <script src="<?php echo $this->baseUrl();?>/admin/assets/js/main.js"></script>
+  <!-- Easyui JS -->
+  <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl()?>/admin/easyui/easyui.css">
+  <script type="text/javascript" src="<?php echo $this->baseUrl()?>/admin/easyui/jquery.easyui.min.js"></script>
+  <script type="text/javascript" src="<?php echo $this->baseUrl()?>/admin/system-js/global-func.js"></script>
 
-<script type="text/javascript">
-
-
-function loadingBlock(){
-  document.getElementsByClassName("overlay")[0].style.display="block";
-}
-function HideloadingBlock(){
-  document.getElementsByClassName("overlay")[0].style.display="none";
-}
-jQuery(function () {
-	'use strict';
-	
-	jQuery(".ptss__toggle-btn").click(function () {	
-		jQuery('.js-ptss-frame').toggleClass('is-opened');
-	});
-	
-	jQuery('.ptss__layout-wrapper > div').click(function(){
-		
-		jQuery(this).closest('.ptss__setting-control').find('.ptss__layout-wrapper').removeClass('is-selected');
-		
-		jQuery(this).parent().addClass('is-selected');
-		
-		if( jQuery(this).hasClass('ptss__layout-box--wide') ) {
-			
-			jQuery('body').removeClass('boxed');
-			jQuery('#ptss__boxed-bg').hide();
-			
-			jQuery('body').removeClass('bg1').removeClass('bg2').removeClass('bg3').removeClass('bg4');
-			
-			jQuery('#ptss__boxed-backgrounds span').removeClass('is-selected');
-			
-		} else {
-			
-			jQuery('body').addClass('boxed');
-			jQuery('#ptss__boxed-bg').show();
-			
-		}
-		
-	});
-})
-<?php if($module=='report' AND $action!='index'){?>
-
-function doPrint() {
-	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
-    window.frames["print_frame"].window.focus();
-    window.frames["print_frame"].window.print();
-    hideDialog();
-}
-function hideleft(){
-	(dojo.style("leftmenu","display") == "none") ? 'show':'hide'();
-}
-function preview()
-{ 
-  var disp_setting="toolbar=no,status=no,resizable=no,location=no,directories=yes,menubar=no,"; 
-      disp_setting+="scrollbars=no,fullscreen=yes, height=700, left=100, top=25"; 
-  var content_vlue = document.getElementById("divPrint").innerHTML; 
-  var docprint=window.open("","",disp_setting); 
-   docprint.document.open(); 
-   docprint.document.write('<html><head>'); 
-   docprint.document.write('</head><div style=" font-size:16px !important; margin:0px; font-family:Verdana;"><style>table th {font-size:14px !important;} table td{font-size:12px !important;}</style><center>');          
-   docprint.document.write(content_vlue);          
-   docprint.document.write('</center></div></html>'); 
-   docprint.document.close(); 
-   docprint.focus(); 
-}
-function exportExcel(){
-	$('#exportExcel').tableExport({type:'excel',escape:'false'});
-}
-<?php }?>
-</script>
-<?php if($action!='index'){?>
-<?php if($module!="report"){?>
-        <script src="<?php echo $this->baseUrl()."/"?>dashboard/js/jquery-2.1.4.min.js"></script>
-<?php }?>
-<?php }?>
-<script src="<?php echo $this->baseUrl()?>/admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="<?php echo $this->baseUrl()?>/admin/build/js/custom.min.js"></script>
-<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 </body>

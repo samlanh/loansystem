@@ -16,9 +16,16 @@ public function init()
 		$this->view->AllClient = $CountAllClient;
 		$this->view->CountAllAgency = $CountAllAgency;
 		
-		$TotalExpense = $db->TotalExpense();
-		$TotalOtherIncome = $db->getTotalOtherIncome();
-		$loanCollect = $db->getTotalLoanCollectIncome();
+		$this->view->compareLoan = $db->compareLoanVsPreviousMonth();
+		
+		$filterData = array(
+			"currentMonthData"=>1
+		);
+		$TotalExpense = $db->TotalExpense($filterData);
+		$TotalOtherIncome = $db->getTotalOtherIncome($filterData);
+		$loanCollect = $db->getTotalLoanCollectIncome($filterData);
+		$loanFee = $db->getTotalFeeByCurrency($filterData);
+		
 		
 		$incomeOtherDollar=0;
 		$incomeOtherRiels=0;
@@ -47,6 +54,18 @@ public function init()
 			}
 				
 		}
+		
+		if (!empty($loanFee)) foreach ($loanFee as $rs){
+			if ($rs['currency_type']==1){
+				$incomeRiels = $incomeRiels + $rs['total'];
+			}else if ($rs['currency_type']==2){
+				$incomeDollar = $incomeDollar + $rs['total'];
+			}else if ($rs['currency_type']==3){
+				$incomeBath = $incomeBath + $rs['total'];
+			}
+			
+		}
+		
 		$totalIncomeDollar=$incomeOtherDollar + $incomeDollar;
 		$totalIncomeRiels=$incomeOtherRiels + $incomeRiels;
 		$totalIncomeBath=$incomeOtherBath + $incomeBath;
@@ -79,23 +98,21 @@ public function init()
 		$this->view->netIncomeBath = $netIncomeBath;
 		
 		
-		$countAllLoan = $db->CountAllLoan();
-		$this->view->countAllLoan = $countAllLoan;
+		$this->view->countAllLoan = $db->countAllLoan();
+		$this->view->allLoanComplete = $db->countAllLoanComplete();
+		$this->view->countBadLoan = $db->countAllBadLoan();
 		
-		$CountAllLoanComplete = $db->CountAllLoanComplete();
-		$this->view->allLoanComplete = $CountAllLoanComplete;
+		$this->view->allPawnShop = $db->getCountPawnShop();
+		$this->view->pawnShopCompleted = $db->getCountPawnShop(1);
+		$this->view->pawnShopDach = $db->getCountPawnShop(null,1);
 		
-		$badLoan = $db->CountAllBadLoan();
-		$this->view->countBadLoan = $badLoan;
-		
-		$AllPawnShop = $db->getCountPawnShop();
-		$this->view->allPawnShop = $AllPawnShop;
-		
-		$PawnShopCompleted = $db->getCountPawnShop(1);
-		$this->view->PawnShopCompleted = $PawnShopCompleted;
-		
-		$PawnShopDach = $db->getCountPawnShop(null,1);
-		$this->view->PawnShopDach = $PawnShopDach;
+		$arrFilter = array();
+		$this->view->allSale = $db->getCountSaleInstallment($arrFilter);
+		$arrFilter["saleType"] = 2;
+		$arrFilter["isCompleted"] = 0;
+		$this->view->installSale = $db->getCountSaleInstallment($arrFilter);
+		$arrFilter["isCompleted"] = 1;
+		$this->view->allSaleComplete = $db->getCountSaleInstallment($arrFilter);
 	}
 	
 }

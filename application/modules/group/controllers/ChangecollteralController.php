@@ -123,11 +123,13 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam('id');
 		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull($this->tr->translate('RECORD_NOT_EXIST'), self::REDIRECT_URL. '/index');
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), self::REDIRECT_URL. '/index',2);
+			exit();
 		}
 		$row  = $db->getChangeCollteralbyid($id);
 		if(empty($row)){
-			Application_Form_FrmMessage::Sucessfull($this->tr->translate('RECORD_NOT_EXIST'), self::REDIRECT_URL. '/index');
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), self::REDIRECT_URL. '/index',2);
+			exit();
 		}
 		$this->view->row = $row;
 		$this->view->rows = $db->getAllCollateralDetailById($id);

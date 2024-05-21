@@ -71,183 +71,192 @@ input.btn_borwse_image {
     cursor: pointer;
 }
 </style>
-<form action="" dojoType="dijit.form.Form" method="post"  enctype="multipart/form-data" >
-	<script type="dojo/method" event="onSubmit">				
-			if(this.validate()) {
-				return true;
-			}
-			return false;
-	</script>
-		
-	<table  style="margin: 0 auto; width: 100%">
-				<td>
-					<table width="100%">
-						<tr>
-							<td width="15%" ></td>
-							<td style=" vertical-align:top; margin: 0 auto; width: 70%; padding: 10px;" >
-								<fieldset><legend style=" font-weight: bold;"><?php echo $tr->translate('GENERAL_SETTING')?></legend>
-										<table cellspacing="5" width="100%" style="padding:10px;">
-											<tr>
-												<td valign="top">
-													<table cellspacing="5" width="100%" style="padding:10px;">
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Branch Address Client')?></td>
-															<td ><?php echo $frm->getElement('branchAddClient')?></td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Client Website')?></td>
-															<td ><?php echo $frm->getElement('client_website')?></td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Tel Client')?></td>
-															<td ><?php echo $frm->getElement('telClient')?></td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Email Client')?></td>
-															<td ><?php echo $frm->getElement('email_client')?></td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Branch Client')?></td>
-															<td>
-																<?php echo $frm->getElement('brand_client')?>
-															</td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Branch Holiday')?></td>
-															<td>
-																<?php echo $frm->getElement('brand_holiday')?>
-															</td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Branch Call')?></td>
-															<td>
-																<?php echo $frm->getElement('brand_call')?>
-															</td>
-														</tr>
-														<tr>
-															<td class="bold"  valign="top"><?php echo $tr->translate('Comment')?></td>
-															<td valign="top">
-																<?php echo $frm->getElement('comment')?>
-															</td>
-														</tr>
-													</table>
-												</td>
-												<td valign="top">
-													<table cellspacing="5" width="100%" style="padding:10px;">
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Company Name')?></td>
-															<td ><?php echo $frm->getElement('client_company_name')?></td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Label Animation')?></td>
-															<td ><?php echo $frm->getElement('label_animation')?></td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('SMS Warnning KH')?></td>
-															<td ><?php echo $frm->getElement('smsWarnningKH')?></td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Reciept KH')?></td>
-															<td>
-																<?php echo $frm->getElement('reciept_kh')?>
-															</td>
-														</tr>
-														<tr>
-														<td class="bold"><?php echo $tr->translate('Exchange Reciept')?></td>
-															<td>
-																<?php echo $frm->getElement('exchange_reciept')?>
-															</td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Exchange Rate Title')?></td>
-															<td>
-																<?php echo $frm->getElement('exchange_ratetitle')?>
-															</td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Transfer Title KH')?></td>
-															<td>
-																<?php echo $frm->getElement('rptTransferTitleKh')?>
-															</td>
-														</tr>
-														<tr>
-															<td colspan="2" style="  background: #eee;  padding: 20px;   border: solid 1px #d0cccc;  text-align: center;">
-																<img class="image_view" id="image_view" src="<?php echo $this->baseUrl().'/images/'.$profile;?>" alt=""  />
-																<div class="button_browse">
-																	<span>Change Logo<span><i class="fa fa-camera" aria-hidden="true"></i></span></span>
-																	<input class="btn_borwse_image"  type="file" id="photo" name="photo" onchange="loadImage()">
-																</div>
-															</td>
-														</tr>
-														<?php $eas=0; if ($eas==1){?>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Power By')?></td>
-															<td>
-																<?php echo $frm->getElement('power_by')?>
-															</td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Branch Email')?></td>
-															<td>
-																<?php echo $frm->getElement('branch_email')?>
-															</td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Branch Tel')?></td>
-															<td>
-																<?php echo $frm->getElement('branchTel')?>
-															</td>
-														</tr>
-														<tr>
-															<td class="bold"><?php echo $tr->translate('Branch Address')?></td>
-															<td>
-																<?php echo $frm->getElement('branch_add')?>
-															</td>
-														</tr>
-														<?php }?>
-													</table>
-												</td>
-											</tr>
-										</table>
-								</fieldset>
-							</td>
+<div class="card">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="ti ti-settings"></i>&nbsp;<?php echo $tr->translate('GENERAL_SETTING');?></h5>
+	</div>
+	<div class="card-body">
+		<form action="" dojoType="dijit.form.Form" method="post"  enctype="multipart/form-data" >
+			<script type="dojo/method" event="onSubmit">				
+					if(this.validate()) {
+						return true;
+					}
+					return false;
+			</script>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="card card-form mb-4">
+						<div class="card-header d-flex justify-content-between">
+							<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("BRANCH_INFO");?></h5>
+						</div>
+						<div class="card-body">				
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Branch Address Client");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('branchAddClient');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Client Website");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('client_website');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Tel Client");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('telClient');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Email Client");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('email_client');?>
+							   </div>
+							</div>
 							
-							<td width="15%" class="blog-right">
-								<!-- 
-								<table cellspacing="5" width="100%">
-									<tr>
-										<td><?php //echo $frm->getElement('product_code');?>
-											<table id="table_parent" class="set-style" style="margin: 0 auto; width: 100%;  " >
-												<thead>
-													<tr>
-														<td colspan="8">
-															<img class="image_view" id="image_view" src="<?php //echo $this->baseUrl().'/images/'.$profile;?>" alt=""  />
-															<div class="button_browse">
-																<span>Change Logo<span><i class="fa fa-camera" aria-hidden="true"></i></span></span>
-																<input class="btn_borwse_image"  type="file" id="photo" name="photo" onchange="loadImage()">
-															</div>
-														</td>
-													</tr>
-												</thead>
-											</table>
-										</td>
-									</tr>
-								</table>
-								 -->
-							</td>								
-						</tr>
-						<tr>
-							<td colspan="3" align="center">
-								<input type="button" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button" 
-								iconClass="dijitIconUndo" onclick="window.history.back();" />
-								<input class="button_success" type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVE');?>" id="save_close" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 	
-							</td>
-						</tr>
-					</table>	
-			</td>			
-		</tr>
-	</table>	
-</form>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Branch Client");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('brand_client');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Branch Holiday");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('brand_holiday');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Branch Call");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('brand_call');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Comment");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('comment');?>
+							   </div>
+							</div>							
+						</div>
+					</div>
+	            </div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="card card-form mb-4">
+						<div class="card-header d-flex justify-content-between">
+							<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("BRANCH_INFO");?></h5>
+						</div>
+						<div class="card-body">	
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Company Name");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('client_company_name');?>
+							   </div>
+							</div>	
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Label Animation");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('label_animation');?>
+							   </div>
+							</div>	
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("SMS Warnning KH");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('smsWarnningKH');?>
+							   </div>
+							</div>	
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Reciept KH");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('reciept_kh');?>
+							   </div>
+							</div>	
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Exchange Reciept");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('exchange_reciept');?>
+							   </div>
+							</div>	
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Exchange Rate Title");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('exchange_ratetitle');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Transfer Title KH");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('rptTransferTitleKh');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <img class="image_view" id="image_view" src="<?php echo $this->baseUrl().'/images/'.$profile;?>" alt=""  />
+									<div class="button_browse">
+										<span>Change Logo<span><i class="fa fa-camera" aria-hidden="true"></i></span></span>
+										<input class="btn_borwse_image"  type="file" id="photo" name="photo" onchange="loadImage()">
+									</div>
+							</div>
+							<?php $eas=0; if ($eas==1){?>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Power By");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('power_by');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Branch Email");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('branch_email');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Branch Tel");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('branchTel');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Branch Address");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('branch_add');?>
+							   </div>
+							</div>
+						<?php }?>
+						</div>		
+					</div>		
+				</div>		
+			</div>	
+
+			<div class="card-box">
+	         	<div class="col-sm-12 border-top mt-2 py-2 text-center">
+					<input type="button" class="button-class button-primary" iconClass="glyphicon glyphicon glyphicon-repeat" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button"  onclick="window.history.back();" />
+										<input class="button_success" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVE');?>" id="save_close" dojoType="dijit.form.Button" /> 
+				</div>
+	         </div>			
+		</form>
+	</div>
+</div>
+
 <script>
 dojo.require("dojo.data.ItemFileWriteStore");  
 dojo.require("dijit.form.DateTextBox");

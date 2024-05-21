@@ -100,7 +100,8 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
 		$row = $db->getPawnshopById($id);
 		
 		if ($id>0 AND empty($row)){
-			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/pawnshop");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/pawnshop");
+			exit();
 		}
 		
 		$this->view->datarow = $row;

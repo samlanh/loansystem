@@ -91,11 +91,11 @@ class Tellerandexchange_IncomeController extends Zend_Controller_Action
 		$id = empty($id)?0:$id;
 		$row  = $db->getexpensebyid($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull('NO_RECORD', self::REDIRECT_URL);
+			Application_Form_FrmMessage::Sucessfull('NO_RECORD', self::REDIRECT_URL,2);
 			exit();
 		}
 		if ($row['is_closed']==1){
-			Application_Form_FrmMessage::Sucessfull('Can not delete this record', self::REDIRECT_URL);
+			Application_Form_FrmMessage::Sucessfull('Can not delete this record', self::REDIRECT_URL,2);
 			exit();
 		}
     	$pructis=new Tellerandexchange_Form_FrmIncome();

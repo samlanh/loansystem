@@ -4,16 +4,13 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $this->headTitle($tr->translate('SENDER'));
 echo $this->headTitle();
 ?>
-<script>
-	dojo.require('dijit.form.Button');
-	dojo.require("dijit.form.DateTextBox");
-</script>
-<div class="card pb-10 pt-10 pl-10 pr-10">
-	<div class="card-content collapse show">
-		<div class="card-box">
-			<form id="list" name="list" action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'sender','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
-			  	<div class="form-group">
-   					<div class="col-md-2 col-sm-2 col-xs-12">
+<div class="card">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="ti ti-send"></i>&nbsp;<?php echo $tr->translate('SENDER');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+				<div class="row g-3">
+					<div class="col-md-2 col-sm-2 col-xs-12">
    						<?php echo $frm->getElement("adv_search");?>
    					</div>
    					<div class="col-md-2 col-sm-2 col-xs-12">
@@ -28,16 +25,20 @@ echo $this->headTitle();
    					<div class="col-md-2 col-sm-2 col-xs-12">
    						<?php echo $frm->getElement('status');?>
    					</div>
-   					<div class="col-md-2 col-sm-2 col-xs-12">
-   						<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-   					</div>
-   				</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					</div>
+				</div>
 			</form>
 		</div>
-		<div class="card-box">
-			<?php echo $this->list;?>
-		</div>
+	</div>
+	<div class="card-body">
+		  <?php echo $this->list;?>
 	</div>
 </div>
+<script>
+	dojo.require('dijit.form.Button');
+	dojo.require("dijit.form.DateTextBox");
+</script>
 
  

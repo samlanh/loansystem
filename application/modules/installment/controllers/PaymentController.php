@@ -166,7 +166,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		$db = new Installment_Model_DbTable_DbInstallmentPayment();
 		$payment_il = $db->getInstallPaymentBYId($id);
 		if (empty($payment_il)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/installment/payment');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/installment/payment',2);
 			exit();
 		}
 		if (!empty($payment_il)){
@@ -177,7 +177,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
   			$lastPaymentRecord = $db->getLastPaymentRecord($sale_id);
   			$lastPayId = empty($lastPaymentRecord['id'])?0:$lastPaymentRecord['id'];
   			if ($lastPayId!=$id){
-  				Application_Form_FrmMessage::Sucessfull("Only Last Payment Receipt Can Delete","/installment/payment");
+  				Application_Form_FrmMessage::Sucessfull("Only Last Payment Receipt Can Delete","/installment/payment",2);
 				exit();
   			}
 		}
@@ -210,7 +210,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 				$db->deleteRecord($id);
 				Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/installment/payment/");
 			}
-			Application_Form_FrmMessage::Sucessfull("You don't have permission to delete this record?","/installment/payment/");
+			Application_Form_FrmMessage::Sucessfull("You don't have permission to delete this record","/installment/payment/",2);
 		}catch (Exception $e) {
 			Application_Form_FrmMessage::message("INSERT_FAIL");
 			echo $e->getMessage();

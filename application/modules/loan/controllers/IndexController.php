@@ -137,7 +137,8 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$db = new Loan_Model_DbTable_DbLoandisburse();
 		$row = $db->getTranLoanByIdWithBranch($id,1);
 		if(empty($row)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index",2);
+			exit();
 		}
 		
 		$frm = new Loan_Form_FrmLoan();
@@ -164,9 +165,11 @@ class Loan_IndexController extends Zend_Controller_Action {
 	}
 	public function viewAction(){
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/loan/index/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index",2);
+			exit();
 		}
 		$db = new Loan_Model_DbTable_DbLoandisburse();
 		$row = $db->getLoanviewById($id);
