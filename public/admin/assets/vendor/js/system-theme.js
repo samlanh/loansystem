@@ -667,8 +667,7 @@
 								}
 								), 500)
 							};
-							a.addEventListener("click", n),
-							this._listeners.push([a, "click", n]);
+							a.addEventListener("click", n);
 							
 						}, 500);
 						
