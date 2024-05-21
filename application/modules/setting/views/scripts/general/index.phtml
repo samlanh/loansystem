@@ -149,6 +149,47 @@ input.btn_borwse_image {
 							</div>							
 						</div>
 					</div>
+					<div class="card card-form mb-4">
+						<div class="card-header d-flex justify-content-between">
+							<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("PENALTY_INFO");?></h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("graicePariod");?>
+							   </label>
+							   <div class="col-md-4 col-sm-4 col-xs-12">
+									<?php  echo $frm->getElement('graicePariod');?>
+							   </div>
+							   <div class="col-md-3 col-sm-3 col-xs-12">
+									<?php  echo $frm->getElement('penaltyCalculateDay');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("penaltyType");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php  echo $frm->getElement('penaltyType');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("penaltyValue");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<div class="row g-3">
+									   <div class="col-md-4 col-sm-4 col-xs-12">
+											R <?php  echo $frm->getElement('penaltyValue');?>
+									   </div>
+									   <div class="col-md-4 col-sm-4 col-xs-12">
+											USD <?php  echo $frm->getElement('penaltyValueDollar');?>
+									   </div>
+									   <div class="col-md-4 col-sm-4 col-xs-12">
+											BATH <?php  echo $frm->getElement('penaltyValueBath');?>
+									   </div>
+									</div>
+							   </div>
+							</div>
+						</div>
+					</div>
 	            </div>
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="card card-form mb-4">
@@ -268,5 +309,31 @@ dojo.require("dijit.form.Textarea");
 function loadImage(){
 	 var output = document.getElementById('image_view');
   output.src = URL.createObjectURL(event.target.files[0]);
+}
+
+function CheckPenalty(){
+	penaltyType = dijit.byId("penaltyType").get('value');
+	if(penaltyType==1){
+		penaltyValue = dijit.byId("penaltyValue").get('value');
+		if(penaltyValue>100){
+			alert("<?php echo $tr->translate('ប្រាក់ពិន័យជាភាគរយមិនអាចលើសពី ១០០%ឡើយ');?>");
+			dijit.byId('penaltyValue').attr('value',100);
+			return false;
+		}
+		
+		penaltyValueDollar = dijit.byId("penaltyValueDollar").get('value');
+		if(penaltyValueDollar>100){
+			alert("<?php echo $tr->translate('ប្រាក់ពិន័យជាភាគរយមិនអាចលើសពី ១០០%ឡើយ');?>");
+			dijit.byId('penaltyValueDollar').attr('value',100);
+			return false;
+		}
+		
+		penaltyValueBath = dijit.byId("penaltyValueBath").get('value');
+		if(penaltyValueBath>100){
+			alert("<?php echo $tr->translate('ប្រាក់ពិន័យជាភាគរយមិនអាចលើសពី ១០០%ឡើយ');?>");
+			dijit.byId('penaltyValueBath').attr('value',100);
+			return false;
+		}
+	}
 }
 </script>

@@ -2,7 +2,7 @@
 	$filter = $this->frm_search;
 	$dayin_khmer = $this->day_inkhmer;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();	
-	$db = new Report_Model_DbTable_DbLoan();
+	$db = new Report_Model_DbTable_Dbpawn();
 	$tran = $this->tran_schedule;
 	$client = $this->client;											
 ?>
@@ -142,7 +142,7 @@
 			                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PRODUCT");?>&nbsp;</td>
 			                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PHONE")." / ".$tr->translate("ADDRESS");?>&nbsp;</td>
 			                    <td rowspan="2">&nbsp;<?php echo $tr->translate("PAID_TIME");?>&nbsp;</td>
-			                    <td colspan="3">&nbsp;<?php echo $tr->translate("PAYMENT");?>&nbsp;</td>
+			                    <td colspan="4">&nbsp;<?php echo $tr->translate("PAYMENT");?>&nbsp;</td>
 			                    <td rowspan="2"><?php echo $tr->translate("TOTAL_PAYMENT");?></td>
 				                
 				                <td rowspan="2">&nbsp;<?php echo $tr->translate("LATE_DAY");?>&nbsp;</td>
@@ -153,6 +153,7 @@
 			                    <td><?php echo $tr->translate("OS_AMOUNT");?></td>
 			                    <td><?php echo $tr->translate("INTEREST");?></td>
 			                    <td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
+			                    <td><?php echo $tr->translate("AMIN_FEE");?></td>
 			                 </tr>
 			               </thead> 
 			                <?php $amt_r1 = 0;$tir = 0;
@@ -168,6 +169,11 @@
 		                	    $amn_b2 = 0;$amt_b1=0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;$total_d=0;
 		                	  
 		                	    $result=0;
+								
+								$pene_amr=0; $pene_amb=0;$pene_amd=0;
+								$adminFee_R = 0;
+								$adminFee_Dollar = 0;
+								$adminFee_Bath = 0;
 		
 		                	    $dbc = new Application_Model_DbTable_DbGlobal();
 				           ?>
@@ -198,6 +204,9 @@
 			                    <td align="center">&nbsp;<?php echo ($row['principle_after']); ?>&nbsp;</td>
 			                    <td align="center">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest_after'],2));?>&nbsp;</td>
 			                    <td align="center">&nbsp;<?php 
+								
+								
+									
 			                    $total_pay=($row['principle_after']+$row['total_interest_after']);
 			                    if($row['last_pay_date']==null or $row['last_pay_date']==""){
 			                    	$total_day=strtotime($end_dat)-strtotime($row['date_payment']);
@@ -216,11 +225,20 @@
 			                    else {
 			                    	$total_late=($row['principle_after']+$row['total_interest_after']);
 			                    }
+								
+								$currentScheduleId = empty($row['currentScheduleId']) ? 0 : $row['currentScheduleId'];
+								$lastScheduleId = empty($row['lastScheduleId']) ? 0 : $row['lastScheduleId'];
+								$adminFee = 0;
+								if($row['principle_after']>0 AND $currentScheduleId==$lastScheduleId){
+									$adminFee = empty($row['admin_fee']) ? 0 : $row['admin_fee'];
+								}
+								$total_payment =$row['principle_after']+$row['total_interest_after'];
+									
 			                    $penelize=0;
 			                    echo str_replace('.00', '', number_format($penelize,2));?>&nbsp;
 			                    </td>
-			                    <td><strong><?php $total_payment =$row['principle_after']+$row['total_interest_after'];
-			                    	echo str_replace('.00', '', number_format($total_payment,2))." ";?></strong><?php echo $row['currencyname'];?></td>
+			                    <td><strong><?php echo str_replace('.00', '', number_format($adminFee,2))." ";?></strong><?php echo $row['currencyname'];?></td>
+			                    <td><strong><?php echo str_replace('.00', '', number_format($total_payment,2))." ";?></strong><?php echo $row['currencyname'];?></td>
 			                    <td>&nbsp;0&nbsp;</td>
 			                    <td>&nbsp;&nbsp;</td>
 			                    <td>&nbsp;<?php echo date_format(date_create($row["date_payment"]),'d-m-Y');?>&nbsp;</td>
@@ -231,17 +249,26 @@
 						               		$amt_r2 = $amt_r2+$row['total_interest_after'];
 						               		$amt_r3 = $amt_r3+$penelize;
 						               		$amt_r4 = $amt_r4+$total_payment;
+											
+											$pene_amr=$pene_amr+$penelize;
+											$adminFee_R = $adminFee_R+$adminFee;
 						               		$total_r=$amt_r4;
 						               }elseif($row['currency_type']==2){
 											$amt_d1 = $amt_d1+$row['principle_after'];
 											$amt_d2 = $amt_d2+$row['total_interest_after'];
 											$amt_d3 = $amt_d3+$penelize;
 											$amt_d4 = $amt_d4+$total_payment;
+											
+											$pene_amd=$pene_amd+$penelize;
+											$adminFee_Dollar = $adminFee_Dollar+$adminFee;
 											$total_d=$amt_d4;
 						               }else{
 						               		$amn_b1 = $amn_b1+$row['principle_after'];
 											$amn_b2 = $amn_b2+$row['total_interest_after'];
 											$amn_b3 = $amn_b3+$penelize;
+											
+											$pene_amb= $pene_amb+$penelize;
+											$adminFee_Bath = $adminFee_Bath+$adminFee;
 											$amn_b4 = $amn_b4+$total_payment;
 											$total_b=$amn_b4;
 						               }
@@ -273,8 +300,24 @@
 			               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
 			               				$result=$total_pay*($interest_penalty*(($rs['interest_rate']/100)/30))*($amount_lateday);
 			               			}
-			               			$penelize=0;
-			               			$total_payment =$rs['principle_after']+$rs['total_interest_after'];
+			               			$currentScheduleId = empty($rs['currentScheduleId']) ? 0 : $rs['currentScheduleId'];
+									$lastScheduleId = empty($rs['lastScheduleId']) ? 0 : $rs['lastScheduleId'];
+									$adminFee = 0;
+									if($rs['principle_after']>0 AND $currentScheduleId==$lastScheduleId){
+										$adminFee = empty($rs['admin_fee']) ? 0 : $rs['admin_fee'];
+									}
+									$total_payment =$rs['principle_after']+$rs['total_interest_after'];
+									
+									$penelizeAmt = 0;
+									$arr = array(
+											'pawnId' =>$rs['pawnId'],
+											'endDate' =>$this->list_end_date['end_date'],
+											'curr_type' =>$rs['curr_type'],
+									);
+									$rowPenalty = $db->checkPawnPenalty($arr);
+									$penelizeAmt = empty($rowPenalty["penaltyAmount"]) ? 0 : $rowPenalty["penaltyAmount"];
+			               			$total_payment =$total_payment + $penelizeAmt + $adminFee;
+									$penelize = $db->roundhundred($penelizeAmt, $rs['curr_type']);
 		               			?>
 		               <?php if($currentlate>0){?>
 		               <tr class="style-rowdata hover" align="center">
@@ -297,7 +340,8 @@
 		               		<td align="center">&nbsp;&nbsp;<?php echo $rs['times']."/".$rs['total_duration'];?> &nbsp;</td>
 		               		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["principle_after"],2).' ';?><?php echo $rs['currency_type'];?>&nbsp;</td>
 		               		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_interest_after"],2).' ';?><?php echo $rs['currency_type'];?>&nbsp;</td>
-		               		<td align="right" style="white-space: nowrap;"><strong >&nbsp;<?php echo number_format($penelize,2).' ';?></strong><?php echo $rs['currency_type'];?>&nbsp;</td>
+		               		<td align="right" style="white-space: nowrap;"><strong >&nbsp;<?php echo $penelize.' ';?></strong><?php echo $rs['currency_type'];?>&nbsp;</td>
+		               		<td align="right" style="white-space: nowrap;"><strong >&nbsp;<?php echo number_format($adminFee,2).' ';?></strong><?php echo $rs['currency_type'];?>&nbsp;</td>
 		               		<td align="right" style="white-space: nowrap;"><strong >&nbsp;<?php echo number_format($total_payment,2).' ';?></strong><?php echo $rs['currency_type'];?>&nbsp;</td>
 		               		<td align="center">&nbsp;<?php echo number_format($total_late_day,0)." Days";?>&nbsp;</td>
 		               		<td align="center">&nbsp;<?php echo $rs["amount_late"]." ដង";?>&nbsp;</td>
@@ -309,13 +353,22 @@
 				               		$amt_r1 = $amt_r1+$rs['principle_after'];
 				               		$amt_r3 = $amt_r3+$rs['total_interest_after'];
 				               		$amt_r4 = $amt_r4+$total_payment;
+									
+									$pene_amr=$pene_amr+$penelizeAmt;
+									$adminFee_R = $adminFee_R+$adminFee;
 				               }elseif($rs['curr_type']==2){
 									$amt_d1 = $amt_d1+$rs['principle_after'];
 									$amt_d2 = $amt_d2+$rs['total_interest_after'];
+									
+									$pene_amd=$pene_amd+$penelizeAmt;
+									$adminFee_Dollar = $adminFee_Dollar+$adminFee;
 									$amt_d4 = $amt_d4+$total_payment;
 				               }else{
 									$amt_b1 = $amt_b1+$rs['principle_after'];
 									$amn_b3 = $amn_b3+$rs['total_interest_after'];
+									
+									$pene_amb= $pene_amb+$penelizeAmt;
+									$adminFee_Bath = $adminFee_Bath+$adminFee;
 									$amn_b4 = $amn_b4+$total_payment;
 				               }
 				               $amount_days = strtotime($this->list_end_dates)-strtotime($rs["date_payment"]);
@@ -335,6 +388,8 @@
                     <td></td>
                     <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PRINCIPLE");?></span>&nbsp;</td>
                     <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INTEREST");?></span></td>
+					<td align="right"><span class="border_bottom"><?php echo $tr->translate("PENALIZE AMOUNT");?></span></td>
+                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("AMIN_FEE");?></span></td>
                     <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_PAYMENT");?></span></td>
                     <td align="right">&nbsp;</td>
                  </tr>
@@ -343,6 +398,9 @@
                     <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
+					
+                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($pene_amd,2);?>&nbsp;</td>
+                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($adminFee_Dollar,2);?>&nbsp;</td>
                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d4,2);?>&nbsp;</td>
                     <td align="right">&nbsp;</td>
                  </tr>
@@ -351,6 +409,9 @@
                     <td align="right"><?php echo $tr->translate("REILS");?></td>
                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r3,2);?>&nbsp;</td>
+					
+                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($pene_amr,2);?>&nbsp;</td>
+                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($adminFee_R,2);?>&nbsp;</td>
                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r4,2);?>&nbsp;</td>
                     <td align="right">&nbsp;</td>
                  </tr>
@@ -359,6 +420,9 @@
                     <td align="right"><?php echo $tr->translate("DOLLAR");?></td>
                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_b1,2);?>&nbsp;</td>
                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
+					
+                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($pene_amb,2);?>&nbsp;</td>
+                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($adminFee_Bath,2);?>&nbsp;</td>
                     <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b4,2);?>&nbsp;</td>
                     <td align="right">&nbsp;</td>
                  </tr>

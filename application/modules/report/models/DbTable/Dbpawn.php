@@ -346,6 +346,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
 				(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
 				  c.`phone`,
+				  l.`id` AS pawnId,
 				  l.`release_amount` AS total_capital,
 				  l.`loan_number`,
 				  l.interest_rate  AS interest_rate,
@@ -353,6 +354,10 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				  l.`date_line`,
 				  l.`total_duration`,
 				  l.`currency_type` AS curr_type,
+				  l.`admin_fee`,
+				  l.`product_description`,
+				  d.id AS currentScheduleId,
+				  (SELECT shh.id FROM `ln_pawnshop_detail` AS shh  WHERE  shh.pawn_id = d.`pawn_id` ORDER BY shh.id DESC LIMIT 1 ) AS lastScheduleId,
 				  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
 				  (SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`term_type`)) LIMIT 1) AS `termborrow`,
 				  (SELECT `crm`.`date_input` FROM (`ln_pawn_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
@@ -384,6 +389,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       		$s_where[] = " b.branch_namekh LIKE '%{$s_search}%'";
       		$s_where[] = " l.`currency_type` LIKE '%{$s_search}%'";
       		$s_where[] = " l.loan_number LIKE '%{$s_search}%'";
+      		$s_where[] = " l.product_description LIKE '%{$s_search}%'";
       		$s_where[] = " c.client_number LIKE '%{$s_search}%'";
       		$s_where[] = " c.name_kh LIKE '%{$s_search}%'";
       		$s_where[] = " d.principle_after LIKE '%{$s_search}%'";
@@ -398,6 +404,9 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       	if($search['branch_id']>0){
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];
       	}
+		if(!empty($search['members'])){
+			$where.=" AND l.`customer_id`  = ".$search['members'];
+		}
       	$dbp = new Application_Model_DbTable_DbGlobal();
       	$where.=$dbp->getAccessPermission('l.`branch_id`');
         $group_by =" GROUP BY l.`id` ORDER BY d.`date_payment` ASC";
@@ -2618,5 +2627,96 @@ AND cl.client_id = $client_id )";
       	$where.=" GROUP BY ps.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
+	  
+	  
+	  function checkPawnPenalty($data){
+		
+		$pawnId= empty($data["pawnId"]) ? 0 : $data["pawnId"];
+		$endDate= empty($data["endDate"]) ? 0 : $data["endDate"];
+		$currType= empty($data["curr_type"]) ? 0 : $data["curr_type"];
+		
+		$key = new Application_Model_DbTable_DbKeycode();
+		$keyvalue=$key->getKeyCodeMiniInv();
+		$graicePariod = empty($keyvalue['graicePariod']) ? 0 : $keyvalue['graicePariod'];
+		$penaltyCalculateDay = empty($keyvalue['penaltyCalculateDay']) ? 1 : $keyvalue['penaltyCalculateDay'];
+	
+		$penaltyType = empty($keyvalue['penaltyType']) ? 1 : $keyvalue['penaltyType'];
+		$penaltyValue = empty($keyvalue['penaltyValue']) ? 0 : $keyvalue['penaltyValue'];
+		$penaltyValueDollar = empty($keyvalue['penaltyValueDollar']) ? 0 : $keyvalue['penaltyValueDollar'];
+		$penaltyValueBath = empty($keyvalue['penaltyValueBath']) ? 0 : $keyvalue['penaltyValueBath'];
+	
+	
+		$ps=0;
+		if($currType==1){
+			$ps=$penaltyValue;
+		}else if($currType==2){
+			$ps=$penaltyValueDollar;
+		}else{
+			$ps=$penaltyValueBath;
+		}
+										
+		
+		$db = $this->getAdapter();
+		
+		$sql="SELECT 
+				DATEDIFF('$endDate',sh.date_payment) AS total_latedate
+			FROM `ln_pawnshop_detail` AS sh 
+			WHERE sh.date_payment <= '$endDate 23:59:59' 
+			AND sh.pawn_id = $pawnId 
+			AND sh.is_completed=0
+			GROUP BY sh.pawn_id";
+		$total_latedate = $db->fetchOne($sql);
+		$latedate = $total_latedate - $graicePariod;
+		if($latedate<=0){
+			return 0;
+		}
+		
+		$deductAmtDay = 0;
+		if($total_latedate > $graicePariod){
+			if($penaltyCalculateDay==2){
+				$deductAmtDay=$graicePariod;
+			}
+		}
+		
+		if($penaltyType==1){
+		$sql="SELECT 
+				SUM(((($ps/100))*sh.total_payment_after*(DATEDIFF('$endDate',sh.date_payment)-$deductAmtDay))) AS penaltyAmount
+				,SUM(sh.`principle_after`) AS principleAmount
+				,CASE 
+					WHEN SUM(sh.`principle_after`) > 0 AND sh.id = (SELECT shh.id FROM `ln_pawnshop_detail` AS shh  WHERE  shh.pawn_id = sh.`pawn_id` ORDER BY shh.id DESC LIMIT 1 )
+						THEN l.admin_fee 
+					ELSE '0'
+				END AS adminFee
+			 FROM `ln_pawnshop_detail` AS sh 
+				JOIN `ln_pawnshop` AS l ON l.id = sh.`pawn_id`
+			WHERE sh.date_payment <= '$endDate 23:59:59' 
+			AND sh.pawn_id = $pawnId 
+			AND sh.is_completed=0
+			GROUP BY sh.pawn_id";
+		}else{
+			$sql="SELECT
+				SUM(($ps* (DATEDIFF('$endDate',sh.date_payment)-$deductAmtDay) )) AS penaltyAmount
+				,SUM(sh.`principle_after`) AS principleAmount
+				,CASE 
+					WHEN SUM(sh.`principle_after`) > 0 AND sh.id = (SELECT shh.id FROM `ln_pawnshop_detail` AS shh  WHERE  shh.pawn_id = sh.`pawn_id` ORDER BY shh.id DESC LIMIT 1 )
+						THEN l.admin_fee 
+					ELSE '0'
+				END AS adminFee
+			FROM `ln_pawnshop_detail` AS sh 
+				JOIN `ln_pawnshop` AS l ON l.id = sh.`pawn_id`
+			WHERE sh.date_payment <= '$endDate 23:59:59'
+			AND sh.pawn_id = $pawnId
+			AND sh.is_completed=0
+			GROUP BY sh.pawn_id
+			";
+		}
+		/*
+		 * sh.date_payment,
+			DATEDIFF('$end_date',sh.date_payment) AS defday
+		 * */
+		
+		$penalty = $db->fetchRow($sql);
+		return $penalty;
+	}
  }
 

@@ -412,5 +412,15 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		}
 		
 	 }
+	 
+	function getpenaltyandfeeAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Report_Model_DbTable_DbLoan();
+			$row = $db->checkLaonPenalty($_data);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
 }
 

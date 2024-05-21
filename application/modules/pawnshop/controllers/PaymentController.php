@@ -225,6 +225,16 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	function getpenaltyandfeeAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Report_Model_DbTable_Dbpawn();
+			$row = $db->checkPawnPenalty($_data);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
+	
 	
 }
 

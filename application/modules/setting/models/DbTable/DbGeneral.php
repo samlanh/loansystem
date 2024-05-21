@@ -111,6 +111,68 @@ class Setting_Model_DbTable_DbGeneral extends Zend_Db_Table_Abstract
 // 			$where=" keyName= 'branch_email'";
 // 			$this->update($arr, $where);
 			
+			$dbg = new Application_Model_DbTable_DbGlobal();
+			$rows = $this->geLabelByKeyName('penaltyType');
+			if (empty($rows)){
+				$arr = array('keyValue'=>$data['penaltyType'],'keyName'=>'penaltyType','user_id'=>$dbg->getUserId());
+				$this->insert($arr);
+			}else{
+				$arr = array('keyValue'=>$data['penaltyType'],);
+				$where=" keyName= 'penaltyType'";
+				$this->update($arr, $where);
+			}
+			
+			$rows = $this->geLabelByKeyName('penaltyValue');
+			if (empty($rows)){
+				$arr = array('keyValue'=>$data['penaltyValue'],'keyName'=>'penaltyValue','user_id'=>$dbg->getUserId());
+				$this->insert($arr);
+			}else{
+				$arr = array('keyValue'=>$data['penaltyValue'],);
+				$where=" keyName= 'penaltyValue'";
+				$this->update($arr, $where);
+			}
+			
+			$rows = $this->geLabelByKeyName('penaltyValueDollar');
+			if (empty($rows)){
+				$arr = array('keyValue'=>$data['penaltyValueDollar'],'keyName'=>'penaltyValueDollar','user_id'=>$dbg->getUserId());
+				$this->insert($arr);
+			}else{
+				$arr = array('keyValue'=>$data['penaltyValueDollar'],);
+				$where=" keyName= 'penaltyValueDollar'";
+				$this->update($arr, $where);
+			}
+			
+			$rows = $this->geLabelByKeyName('penaltyValueBath');
+			if (empty($rows)){
+				$arr = array('keyValue'=>$data['penaltyValueBath'],'keyName'=>'penaltyValueBath','user_id'=>$dbg->getUserId());
+				$this->insert($arr);
+			}else{
+				$arr = array('keyValue'=>$data['penaltyValueBath'],);
+				$where=" keyName= 'penaltyValueBath'";
+				$this->update($arr, $where);
+			}
+			
+			$rows = $this->geLabelByKeyName('graicePariod');
+			if (empty($rows)){
+				$arr = array('keyValue'=>$data['graicePariod'],'keyName'=>'graicePariod','user_id'=>$dbg->getUserId());
+				$this->insert($arr);
+			}else{
+				$arr = array('keyValue'=>$data['graicePariod'],);
+				$where=" keyName= 'graicePariod'";
+				$this->update($arr, $where);
+			}
+			
+			$rows = $this->geLabelByKeyName('penaltyCalculateDay');
+			if (empty($rows)){
+				$arr = array('keyValue'=>$data['penaltyCalculateDay'],'keyName'=>'penaltyCalculateDay','user_id'=>$dbg->getUserId());
+				$this->insert($arr);
+			}else{
+				$arr = array('keyValue'=>$data['penaltyCalculateDay'],);
+				$where=" keyName= 'penaltyCalculateDay'";
+				$this->update($arr, $where);
+			}
+			
+			
 		}catch(Exception $e){
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}

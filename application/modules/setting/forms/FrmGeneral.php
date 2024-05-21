@@ -143,6 +143,48 @@ Class Setting_Form_FrmGeneral extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'placeholder'=>$this->tr->translate("Branch Address")
 		));
+		
+		
+		$graicePariod = new Zend_Dojo_Form_Element_NumberTextBox('graicePariod');
+		$graicePariod->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'onKeyup'=>'CheckPenalty();',
+		));
+		$penaltyCalculateDay=  new Zend_Dojo_Form_Element_FilteringSelect('penaltyCalculateDay');
+		$penaltyCalculateDay->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside','onChange'=>'CheckPenalty();',));
+		$_penaltyCalculateDay_opt = array(
+				1=>$this->tr->translate("includeGraicePeriod"),
+				2=>$this->tr->translate("notIncludeGraicePeriod"));
+		$penaltyCalculateDay->setMultiOptions($_penaltyCalculateDay_opt);
+		
+		
+		$penaltyType=  new Zend_Dojo_Form_Element_FilteringSelect('penaltyType');
+		$penaltyType->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside','onChange'=>'CheckPenalty();',));
+		$_penalty_type_opt = array(
+				1=>$this->tr->translate("PERCENTAGES"),
+				2=>$this->tr->translate("CASH"));
+		$penaltyType->setMultiOptions($_penalty_type_opt);
+		
+		$penaltyValue = new Zend_Dojo_Form_Element_NumberTextBox('penaltyValue');
+		$penaltyValue->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'onKeyup'=>'CheckPenalty();',
+		));
+		$penaltyValueDollar = new Zend_Dojo_Form_Element_NumberTextBox('penaltyValueDollar');
+		$penaltyValueDollar->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'onKeyup'=>'CheckPenalty();',
+		));
+		$penaltyValueBath = new Zend_Dojo_Form_Element_NumberTextBox('penaltyValueBath');
+		$penaltyValueBath->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'onKeyup'=>'CheckPenalty();',
+		));
+		
 		if($data!=null){
 			$_client_company_name->setValue($data['client_company_name']['keyValue']);
 			$_label_animation->setValue($data['label_animation']['keyValue']);
@@ -165,6 +207,13 @@ Class Setting_Form_FrmGeneral extends Zend_Dojo_Form {
 			$_branch_add->setValue($data['branch_add']['keyValue']);
 			$_branchTel->setValue($data['branch-tel']['keyValue']);
 			$_power_by->setValue($data['power_by']['keyValue']);
+			
+			$graicePariod->setValue($data['graicePariod']['keyValue']);
+			$penaltyCalculateDay->setValue($data['penaltyCalculateDay']['keyValue']);
+			$penaltyType->setValue($data['penaltyType']['keyValue']);
+			$penaltyValue->setValue($data['penaltyValue']['keyValue']);
+			$penaltyValueDollar->setValue($data['penaltyValueDollar']['keyValue']);
+			$penaltyValueBath->setValue($data['penaltyValueBath']['keyValue']);
 		}
 		$this->addElements(array(
 				$_client_company_name,
@@ -186,6 +235,13 @@ Class Setting_Form_FrmGeneral extends Zend_Dojo_Form {
 				$_branch_add,
 				$_branchTel,
 				$_power_by,
+				
+				$penaltyType,
+				$penaltyValue,
+				$penaltyValueDollar,
+				$penaltyValueBath,
+				$graicePariod,
+				$penaltyCalculateDay,
 				));
 		
 		return $this;

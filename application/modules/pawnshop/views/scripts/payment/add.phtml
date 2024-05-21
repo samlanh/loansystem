@@ -608,6 +608,10 @@ dojo.ready(function(){
 				getAllLaonPayment(1);//tab2
 				getLaonHasPayByLoanNumber();//tab3
 				dijit.byId("amount_receive").focus();
+				setTimeout(function () {
+					getGetPenaltyInfo();
+				}, 600);
+				
 			}
 		}, "loan_number");
 		
@@ -691,6 +695,7 @@ function filterClient(){
 		dijit.byId('client_code').reset();
 	}
 	getbranchinfo();
+	getGetPenaltyInfo();
 }
 function print(){
 	window.frames["print_frame"].document.body.innerHTML=dojo.byId('rpt_print').innerHTML;
@@ -718,6 +723,7 @@ dojo.ready(function(){
 	dijit.byId('interest_rate').attr('readOnly','readOnly');
 	filterLoanNumber();
 	filterClient();
+	getGetPenaltyInfo();
 });
 function payOption(){
 	calculateTotal();
@@ -1210,6 +1216,57 @@ function getbranchinfo(){
   		load: function(data) {
   			dojo.byId('br_address').innerHTML=data.br_address;
 			dojo.byId('branch_tel').innerHTML=data.branch_tel;
+  		},
+  		error: function(err) {
+  			infoMessageAlert("eror receipt");
+  		}
+  	});
+ }
+ 
+ var urlGetPenaltyInfo = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'payment','action'=>'getpenaltyandfee')); ?>';
+function getGetPenaltyInfo(){
+  	branch_id = dijit.byId('branch_id').get('value');
+  	if(branch_id==''){
+  		infoMessageAlert('<?php echo $tr->translate("PLEASE_SELECT_BRANCH");?>!');
+  		dijit.byId('branch_id').focus();
+  		return false;
+  	}
+	var pawnId = dijit.byId('loan_number').get('value');
+  	var collect_date = dijit.byId('collect_date').get('value');
+	
+	var date = new Date(collect_date);
+	var month = date.getMonth()+1;
+	var noDate = date.getDate();
+	var year = date.getFullYear()
+	if(noDate<=9){
+		noDate="0"+noDate;
+	}
+	if(month<=9){
+		month="0"+month;
+	}
+	var endDate = year+'-'+month+'-'+noDate;
+	
+  	var currType = dijit.byId('currency_type').get('value');
+  	if(pawnId==''){
+  		pawnId = 0;
+		return false;
+  	}
+	
+  	dojo.xhrPost({
+  		url: urlGetPenaltyInfo,	
+  		content:{ 
+  			    'pawnId':pawnId,
+  			    'endDate':endDate,
+  			    'curr_type':currType,
+  		},		    
+  		handleAs:"json",
+  		load: function(data) {
+			var penaltyAmount = data.penaltyAmount;
+			var adminFee = data.adminFee;
+			dijit.byId('penalize_amount').attr('value',penaltyAmount);
+			dijit.byId('service_charge').attr('value',adminFee);
+			
+			calTotal();
   		},
   		error: function(err) {
   			infoMessageAlert("eror receipt");
