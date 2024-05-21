@@ -195,11 +195,26 @@ class Home_Model_DbTable_DbDashboard extends Zend_Db_Table_Abstract
 	
 	function getLoanDisbursPerMonth($yearMonth){
 		$db = $this->getAdapter();
-		$sql="SELECT COUNT(l.`id`) AS countLoan, SUM(l.`loan_amount`) AS total,l.`currency_type`
+		$sql="
+		SELECT 
+			COUNT(l.`id`) AS countLoan
+			, SUM(l.`loan_amount`) AS total
+			,l.`currency_type`
 		FROM `ln_loan` AS l 
 		WHERE l.`status`=1 AND
 		DATE_FORMAT(l.`date_release`, '%Y-%m')='$yearMonth'
-		GROUP BY l.`currency_type`";
+		";
+		
+		$dbGB = new Application_Model_DbTable_DbGlobal();
+		$userInfo = $dbGB->getUserInfo();
+		if(!empty($userInfo)){
+			$userLevel = empty($userInfo["level"]) ? 0: $userInfo["level"];
+			$userId = empty($userInfo["user_id"]) ? 0: $userInfo["user_id"];
+			if($userLevel!=1){
+				$sql.=" AND l.user_id=$userId ";
+			}
+		}
+		$sql.=" GROUP BY l.`currency_type`";
 		$row = $db->fetchAll($sql);
 		$reilsLoan = 0;
 		$dollarLoan = 0;
@@ -287,6 +302,17 @@ class Home_Model_DbTable_DbDashboard extends Zend_Db_Table_Abstract
 			WHERE l.`status`=1 
 		";
 		$sql.=" AND DATE_FORMAT(l.`date_release`, '%Y-%m')='$previousMonth' ";
+		
+		$dbGB = new Application_Model_DbTable_DbGlobal();
+		$userInfo = $dbGB->getUserInfo();
+		if(!empty($userInfo)){
+			$userLevel = empty($userInfo["level"]) ? 0: $userInfo["level"];
+			$userId = empty($userInfo["user_id"]) ? 0: $userInfo["user_id"];
+			if($userLevel!=1){
+				$sql.=" AND l.user_id=$userId ";
+			}
+		}
+		
 		$previousMonthLoan = $db->fetchOne($sql);
 		$previousMonthLoan = empty($previousMonthLoan) ? 0 : $previousMonthLoan;
 		
@@ -297,11 +323,21 @@ class Home_Model_DbTable_DbDashboard extends Zend_Db_Table_Abstract
 			WHERE l.`status`=1 
 		";
 		$sql.=" AND DATE_FORMAT(l.`date_release`, '%Y-%m')='$thisMonth' ";
+		if(!empty($userInfo)){
+			$userLevel = empty($userInfo["level"]) ? 0: $userInfo["level"];
+			$userId = empty($userInfo["user_id"]) ? 0: $userInfo["user_id"];
+			if($userLevel!=1){
+				$sql.=" AND l.user_id=$userId ";
+			}
+		}
 		$thisMonthLoan = $db->fetchOne($sql);
 		$thisMonthLoan = empty($thisMonthLoan) ? 0 : $thisMonthLoan;
 		
 		$different = $thisMonthLoan - $previousMonthLoan;
 		$percentage = 100;
+		if($thisMonthLoan<=0){
+			$percentage = 0;
+		}
 		if($previousMonthLoan>0){
 			$percentage = (($previousMonthLoan - $thisMonthLoan) / $previousMonthLoan) * 100;
 		}
