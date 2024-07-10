@@ -226,8 +226,8 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			   WHERE ((`ln_view`.`type` = 14)
 			          AND (`ln_view`.`key_code` = `l`.`term_type`))
 			   LIMIT 1) AS `termborrow`,
-			   (SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=l.product_id) AS product_name,
-			   product_description,
+			   COALESCE((SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=l.product_id LIMIT 1),'') AS product_name,
+			   l.product_description,
 			   est_amount,
 			  (SELECT
 			     SUM(`ln_pawn_receipt_money`.`principal_paid`)
@@ -246,23 +246,26 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       		$where.=" AND `l`.`branch_id` = ".$search['branch_id'];
       	}
       	if($search['members']>0){
-           		$where.=" AND client_id = ".$search['members'];
+           		$where.=" AND `l`.`customer_id`  = ".$search['members'];
       	}
       	if($search['product_id']>0){
-      		$where.=" AND pro_id = ".$search['product_id'];
+      		$where.=" AND l.product_id = ".$search['product_id'];
       	}
       	if($search['status_use']>-1){
-      		$where.=" AND is_dach = ".$search['status_use'];
+      		$where.=" AND l.is_dach = ".$search['status_use'];
       	}
       	if(!empty($search['adv_search'])){
-      		$s_where = array();
-      		$s_search = addslashes(trim($search['adv_search']));
-      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_number LIKE '%{$s_search}%'";
-      		$s_where[] = " name_en LIKE '%{$s_search}%'";
-      		$s_where[] = " name_kh LIKE '%{$s_search}%'";
-      		$s_where[] = " release_amount LIKE '%{$s_search}%'";
-      		$s_where[] = " total_duration LIKE '%{$s_search}%'";
+			$s_where = array();
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+      		
+      		$s_where[] = " REPLACE(l.loan_number,' ','')  LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(COALESCE((SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=l.product_id LIMIT 1),''),' ','')  LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(l.product_description,' ','')  LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(c.client_number,' ','')  LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(c.name_en,' ','')  LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(c.name_kh,' ','')  LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(l.release_amount,' ','')  LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(l.total_duration,' ','')  LIKE '%{$s_search}%'";
       	   $where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	$dbp = new Application_Model_DbTable_DbGlobal();
@@ -385,16 +388,18 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				  AND ((principle_after+total_interest_after)>0) ";
       	$where='';
       	if(!empty($search['adv_search'])){
-      		$s_search = addslashes(trim($search['adv_search']));
-      		$s_where[] = " b.branch_namekh LIKE '%{$s_search}%'";
-      		$s_where[] = " l.`currency_type` LIKE '%{$s_search}%'";
-      		$s_where[] = " l.loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " l.product_description LIKE '%{$s_search}%'";
-      		$s_where[] = " c.client_number LIKE '%{$s_search}%'";
-      		$s_where[] = " c.name_kh LIKE '%{$s_search}%'";
-      		$s_where[] = " d.principle_after LIKE '%{$s_search}%'";
-      		$s_where[] = " d.total_interest_after LIKE '%{$s_search}%'";
-      		$s_where[] = " d.total_payment_after LIKE '%{$s_search}%'";
+			$s_where = array();
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+      		
+      		$s_where[] = " REPLACE(b.branch_namekh,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(l.`currency_type`,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(l.loan_number,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(l.product_description,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(c.client_number,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(c.name_kh,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(d.principle_after,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(d.total_interest_after,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(d.total_payment_after,' ','') LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	  

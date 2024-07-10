@@ -87,6 +87,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		$s_where[] = "REPLACE(c.name_kh,' ','')  LIKE '%{$s_search}%'";
     		$s_where[]=" REPLACE(c.phone,' ','') LIKE '%{$s_search}%'";
     		$s_where[]=" REPLACE(c.tel,' ','') LIKE '%{$s_search}%'";
+    		$s_where[]=" REPLACE((SELECT colld.`number_collecteral` FROM `ln_client_callecteral` AS coll JOIN `ln_client_callecteral_detail` AS colld ON colld.`client_coll_id` = coll.id WHERE coll.`client_id` = l.`customer_id` AND l.id = coll.`loan_id` ORDER BY coll.`id` DESC LIMIT 1),' ','') LIKE '%{$s_search}%'";
     		
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     		

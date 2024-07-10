@@ -149,18 +149,26 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
       	$where.= "  AND ".$to_date;
 
-      	$sql="SELECT * FROM v_loanoutstanding WHERE 1 AND is_badloan=0 ";//IF BAD LOAN STILL GET IT
+      	$sql=" 
+			SELECT 
+				v.*
+				,cl.collecteralTitleKh
+				,cl.collecteralNumber
+			FROM v_loanoutstanding AS v 
+				LEFT JOIN v_loanCallecteral AS cl ON cl.loadId = v.id 
+			WHERE 1 AND v.is_badloan=0 
+			";//IF BAD LOAN STILL GET IT
       	if($search['branch_id']>0){
-      		$where.=" AND br_id = ".$search['branch_id'];
+      		$where.=" AND v.br_id = ".$search['branch_id'];
       	}
       	if($search['member']>0){
-           		$where.=" AND client_id = ".$search['member'];
+           		$where.=" AND v.client_id = ".$search['member'];
       	}
       	if($search['co_id']>0){
-      		$where.=" AND co_id = ".$search['co_id'];
+      		$where.=" AND v.co_id = ".$search['co_id'];
       	}
       	if($search['status_use']>-1){
-      		$where.=" AND is_badloan = ".$search['status_use'];
+      		$where.=" AND v.is_badloan = ".$search['status_use'];
       	}
       	
 		if(@$search['pay_every']>0){
@@ -171,23 +179,26 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		}else{
       			$pay='Month';
       		}
-      		$where.= " AND pay_term  LIKE '%{$pay}%'";
+      		$where.= " AND v.pay_term  LIKE '%{$pay}%'";
       	}
       	if(!empty($search['adv_search'])){
       		$s_where = array();
-      		$s_search = addslashes(trim($search['adv_search']));
-      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
-      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_kh LIKE '%{$s_search}%'";
-      		$s_where[] = " co_name LIKE '%{$s_search}%'";
-      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
-      		$s_where[] = " total_duration LIKE '%{$s_search}%'";
-      		$s_where[] = " loan_type LIKE '%{$s_search}%'";
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+      		$s_where[] = " REPLACE(v.branch_name,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(v.loan_number,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(v.client_number,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(v.client_kh,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(v.co_name,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(v.total_capital,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(v.total_duration,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(v.loan_type,' ','') LIKE '%{$s_search}%'";
+			$s_where[] = " REPLACE(cl.collecteralTitleKh,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(cl.collecteralNumber,' ','') LIKE '%{$s_search}%'";
       	   $where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	$dbp = new Application_Model_DbTable_DbGlobal();
-      	$where.= $dbp->getAccessPermission("br_id");
+      	$where.= $dbp->getAccessPermission("v.br_id");
+      	$where.= " ORDER BY v.`br_id` ASC, v.`co_id` ASC ";
       	
       	return $db->fetchAll($sql.$where);
       }
@@ -296,31 +307,34 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 					 `d`.`installment_amount`   AS `times`,
 					  COUNT(l.`id`) AS amount_late,
 					 l.`branch_id`
+					 ,cl.collecteralTitleKh
+					 ,cl.collecteralNumber
 				FROM
-					  `ln_loan_detail` AS d,
-					  `ln_loan` AS l,
-					  `ln_co` AS co,
-					  `ln_client` AS c 
-					
+					  (`ln_loan_detail` AS d  JOIN `ln_loan` AS l ON l.`id` = d.`loan_id`)
+					JOIN `ln_co` AS co ON co.`co_id` = l.`co_id` 
+					JOIN `ln_client` AS c ON c.`client_id` = l.`customer_id` 
+					LEFT JOIN v_loanCallecteral AS cl ON cl.loadId = l.`id`
 				WHERE 
 				  d.`is_completed` = 0 
 				  AND `l`.`is_badloan`=0
-				  AND l.`id` = d.`loan_id` 
+				 
 				  AND l.`status` = 1 
 				  AND d.`status`=1
-				  AND co.`co_id` = l.`co_id` 
-				  AND c.`client_id` = l.`customer_id` 
 				   ";
       	$where='';
       	if(!empty($search['adv_search'])){
-      		$s_search = addslashes(trim($search['adv_search']));
-      		$s_where[] = " l.`currency_type` LIKE '%{$s_search}%'";
-      		$s_where[] = " l.loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " c.client_number LIKE '%{$s_search}%'";
-      		$s_where[] = " c.name_kh LIKE '%{$s_search}%'";
-      		$s_where[] = " d.principle_after LIKE '%{$s_search}%'";
-      		$s_where[] = " d.total_interest_after LIKE '%{$s_search}%'";
-      		$s_where[] = " d.total_payment_after LIKE '%{$s_search}%'";
+			
+			$s_where = array();
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+      		$s_where[] = " REPLACE(l.`currency_type`,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(l.loan_number,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(c.client_number,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(c.name_kh,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(d.principle_after,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(d.total_interest_after,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(d.total_payment_after,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(cl.collecteralTitleKh,' ','') LIKE '%{$s_search}%'";
+      		$s_where[] = " REPLACE(cl.collecteralNumber,' ','') LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	if(($search['co_id']>0)){
@@ -336,6 +350,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 		}
       	if($search['branch_id']>0){
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];
+      	}
+		if(!empty($search['client_name'])){
+      		$where.=" AND l.`customer_id` = ".$search['client_name'];
       	}
       	if (!empty($search['province'])){
 	      	if($search['province']>0){
