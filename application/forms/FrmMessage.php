@@ -10,23 +10,69 @@ class Application_Form_FrmMessage extends Zend_Form
     	
     }
 	
-	public static function Sucessfull($msg,$url)
+	public static function Sucessfull($msg,$url,$typeMessage=1)
 	{
 		$tr= Application_Form_FrmLanguages::getCurrentlanguage();
 		$msg = $tr->translate($msg);
-		echo '<script language="javascript">	
-					alert("'.$msg.'");						           
-					window.location = "'.Zend_Controller_Front::getInstance()->getBaseUrl().$url.'";					
-			 </script>';
+		$msg = preg_replace( "/\r|\n/", "", addslashes(strip_tags(htmlspecialchars($msg))));
+		
+		$classMessage="success";//1=Success Message,2=Infomation Message
+		if($typeMessage!=1){
+			$classMessage="info";
+		}
+		
+		$stringScript ="<script language='javascript'>";
+		if($typeMessage!=1){
+			$signConnect = "?";
+			if(strpos($url, "?")){
+				$signConnect = "&";
+			}
+			$stringScript.="
+				window.location.href = '".Zend_Controller_Front::getInstance()->getBaseUrl().$url.$signConnect."alertmg=true&messsageTitle=$msg&classMessage=$classMessage';
+			";
+			//redirect first and show message later
+		}else{
+			$stringScript.="
+				Swal.fire({
+				  icon: '".$classMessage."',
+				  title: '".$msg."',
+				  showConfirmButton: false,
+				  timer: 1000,
+				  timerProgressBar: true,
+				  didOpen: (toast) => {
+					toast.addEventListener('mouseenter', Swal.stopTimer)
+					toast.addEventListener('mouseleave', Swal.resumeTimer)
+				  }
+				}).then((result) => {
+				  window.location.href = '".Zend_Controller_Front::getInstance()->getBaseUrl().$url."';
+				})
+			";
+		}
+		$stringScript.="</script>";
+		echo $stringScript;
 	}
 	
 	public static function message($msg)
 	{
 		$tr= Application_Form_FrmLanguages::getCurrentlanguage();
 		$msg = $tr->translate($msg);
-		echo '<script language="javascript">
-		         alert("'.$msg.'");						      
-		      </script>';
+		$msg = preg_replace( "/\r|\n/", "", addslashes(strip_tags(htmlspecialchars($msg))));
+		$stringScript ="<script language='javascript'>";
+		$stringScript.="
+				Swal.fire({
+				  icon: 'error',
+				  title: '".$msg."',
+				  showConfirmButton: false,
+				  timer: 1000,
+				  timerProgressBar: true,
+				  didOpen: (toast) => {
+					toast.addEventListener('mouseenter', Swal.stopTimer)
+					toast.addEventListener('mouseleave', Swal.resumeTimer)
+				  }
+				})
+		";
+		$stringScript.="</script>";
+		echo $stringScript;
 	}
 	
 	public static function redirectUrl($url)

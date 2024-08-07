@@ -1,0 +1,190 @@
+	<?php
+	$tr=Application_Form_FrmLanguages::getCurrentlanguage();
+	$request=Zend_Controller_Front::getInstance()->getRequest();
+	$action = $request->getActionName();
+	$baseurl  = $this->baseUrl();
+	
+	$session_user=new Zend_Session_Namespace(SYSTEM_SES);
+	$username = $session_user->first_name;
+	$level =  $session_user->level;
+	
+	
+	$db = new Application_Model_DbTable_DbUsers();
+	$dbGB = new Application_Model_DbTable_DbGlobal();
+	
+	$rs=array();
+	$checkAccess = $db->getAccessUrl("loan","payment","add");
+	if (!empty($checkAccess)){
+		$rs = $dbGB->getCustomerNearlyPaymentLoan();
+	}
+	
+	
+	$rsPawn=array();
+	$checkAccessPawn = $db->getAccessUrl("pawnshop","payment","add");
+	if (!empty($checkAccessPawn)){
+		$rsPawn = $dbGB->getCustomerNearlyPaymentPawn();
+	}
+	$rsSaleIns=array();
+	$checkAccessSaleIns = $db->getAccessUrl("installment","payment","add");
+	if (!empty($checkAccessSaleIns)){
+		$rsSaleIns = $dbGB->getCustomerNearlyPaymentSaleInstall();
+	}
+	
+	?>
+	<?php if (!empty($checkAccess)){ ?>
+	<li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+		<a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+		  <i class="ti ti-coins ti-md"></i>
+		  <span class="badge bg-danger rounded-pill badge-notifications"><?php if (count($rs)>0){ echo count($rs);}?></span>
+		</a>
+		<ul class="dropdown-menu dropdown-menu-end py-0">
+		  <li class="dropdown-menu-header border-bottom">
+			<div class="dropdown-header d-flex align-items-center py-2">
+			  <h6 class="text-body mb-0 me-auto"><i class="ti ti-coins ti-md"></i> <?php echo $tr->translate("CUSTOMER_PAYMENTLIST_LOAN");?></h6>
+			  
+			</div>
+		  </li>
+		  <li class="dropdown-notifications-list scrollable-container">
+			<ul class="list-group list-group-flush">
+			   <?php 
+				if(!empty($rs)) foreach($rs as $key=> $result){
+					
+					$url = $this->url(array('module'=>'loan','controller'=>'payment','action'=>'add'), null, true)."/id/".$result['id'];
+					$end_dat=date("Y-m-d");
+					$total_day=strtotime($end_dat)-strtotime($result['date_payment']);
+					$totalLateday=$total_day/(60*60*24);
+					$total_payment = $result['total_payment_after'];
+					if($totalLateday<0){
+						$totalLateday = 0;
+					}
+				?>
+			  <li class="list-group-item list-group-item-action dropdown-notifications-item">
+				<a href="<?php echo $url;?>">
+					<div class="d-flex">
+					  <div class="flex-shrink-0 me-3">
+						<div class="avatar">
+						  <span class="avatar-initial rounded-circle bg-label-success"><?php echo mb_substr($result['name_kh'], 0, 1,'UTF8');?></span>
+						</div>
+					  </div>
+					  <div class="flex-grow-1">
+						<small><?php echo $result['branch_namekh'];?></small>
+						<h6 class="mb-1"><?php echo $result['name_kh'].' '.$result['loan_number'];?></h6>
+						<p class="mb-0"><i class="fa fa-phone"></i> <?php echo $result['phone'];?></p>
+						<p class="mb-0"><strong><?php echo $result['currency_type']." ".number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$result['times'];?></p>
+						<small class="text-muted"><?php echo $tr->translate("AMOUNT_LATE")." : ".$totalLateday." ថ្ងៃ";?></small>
+					  </div>
+					</div>
+				</a>
+			  </li>
+			<?php } ?>
+			  
+			</ul>
+		  </li>
+		</ul>
+	</li>
+	<?php } ?>
+	<?php if (!empty($checkAccessPawn)){ ?>
+	<li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+		<a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+		  <i class="ti ti-cash ti-md"></i>
+		  <span class="badge bg-danger rounded-pill badge-notifications"><?php if (count($rsPawn)>0){ echo count($rsPawn);}?></span>
+		</a>
+		<ul class="dropdown-menu dropdown-menu-end py-0">
+		  <li class="dropdown-menu-header border-bottom">
+			<div class="dropdown-header d-flex align-items-center py-2">
+			  <h6 class="text-body mb-0 me-auto"><i class="ti ti-cash ti-md"></i> <?php echo $tr->translate("CUSTOMER_PAYMENTLIST_PAWN");?></h6>
+			  
+			</div>
+		  </li>
+		  <li class="dropdown-notifications-list scrollable-container">
+			<ul class="list-group list-group-flush">
+			   <?php 
+				if(!empty($rsPawn)) foreach($rsPawn as $key=> $resultPawn){
+					
+					$url = $this->url(array('module'=>'pawnshop','controller'=>'payment','action'=>'add'), null, true)."/id/".$resultPawn['id'];
+					$end_dat=date("Y-m-d");
+					$total_day=strtotime($end_dat)-strtotime($resultPawn['date_payment']);
+					$totalLatedayPw=$total_day/(60*60*24);
+					$total_payment = $resultPawn['total_payment_after'];
+					if($totalLatedayPw<0){
+						$totalLatedayPw = 0;
+					}
+				?>
+			  <li class="list-group-item list-group-item-action dropdown-notifications-item">
+				<a href="<?php echo $url;?>">
+					<div class="d-flex">
+					  <div class="flex-shrink-0 me-3">
+						<div class="avatar">
+						  <span class="avatar-initial rounded-circle bg-label-primary"><?php echo mb_substr($resultPawn['name_kh'], 0, 1,'UTF8');?></span>
+						</div>
+					  </div>
+					  <div class="flex-grow-1">
+						<small><?php echo $resultPawn['branch_namekh'];?></small>
+						<h6 class="mb-1"><?php echo $resultPawn['name_kh'].' '.$resultPawn['loan_number'];?></h6>
+						<p class="mb-0"><i class="fa fa-phone"></i> <?php echo $resultPawn['phone'];?></p>
+						<p class="mb-0"><strong><?php echo $resultPawn['currency_type']." ".number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$resultPawn['times'];?></p>
+						<small class="text-muted"><?php echo $tr->translate("AMOUNT_LATE")." : ".$totalLatedayPw." ថ្ងៃ";?></small>
+					  </div>
+					</div>
+				</a>
+			  </li>
+			<?php } ?>
+			  
+			</ul>
+		  </li>
+		</ul>
+	</li>
+	<?php } ?>
+	<?php if (!empty($checkAccessSaleIns)){ ?>
+	<li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+		<a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+		  <i class="ti ti-premium-rights ti-md"></i>
+		  <span class="badge bg-danger rounded-pill badge-notifications"><?php if (count($rsSaleIns)>0){ echo count($rsSaleIns);}?></span>
+		</a>
+		<ul class="dropdown-menu dropdown-menu-end py-0">
+		  <li class="dropdown-menu-header border-bottom">
+			<div class="dropdown-header d-flex align-items-center py-2">
+			  <h6 class="text-body mb-0 me-auto"><i class="ti ti-premium-rights ti-md"></i> <?php echo $tr->translate("CUSTOMER_PAYMENTLIST_SALEINS");?></h6>
+			  
+			</div>
+		  </li>
+		  <li class="dropdown-notifications-list scrollable-container">
+			<ul class="list-group list-group-flush">
+			   <?php 
+				if(!empty($rsSaleIns)) foreach($rsSaleIns as $key=> $resultSaleIn){
+					
+					$url = $this->url(array('module'=>'installment','controller'=>'payment','action'=>'add'), null, true)."/id/".$resultSaleIn['id'];
+					$end_dat=date("Y-m-d");
+					$total_day=strtotime($end_dat)-strtotime($resultSaleIn['date_payment']);
+					$totalLatedaySale=$total_day/(60*60*24);
+					$total_payment = $resultSaleIn['total_payment_after'];
+					if($totalLatedaySale<0){
+						$totalLatedaySale = 0;
+					}
+				?>
+			  <li class="list-group-item list-group-item-action dropdown-notifications-item">
+				<a href="<?php echo $url;?>">
+					<div class="d-flex">
+					  <div class="flex-shrink-0 me-3">
+						<div class="avatar">
+						  <span class="avatar-initial rounded-circle bg-label-warning"><?php echo mb_substr($resultSaleIn['name_kh'], 0, 1,'UTF8');?></span>
+						</div>
+					  </div>
+					  <div class="flex-grow-1">
+						<small><?php echo $resultSaleIn['branch_namekh'];?></small>
+						<h6 class="mb-1"><?php echo $resultSaleIn['name_kh'].' '.$resultSaleIn['loan_number'];?></h6>
+						<span class="title" ><i class="ti ti-diamond"></i><?php echo $resultSaleIn['productTitle'];?></span>
+						<p class="mb-0"><i class="fa fa-phone"></i> <?php echo $resultSaleIn['phone'];?></p>
+						<p class="mb-0"><strong>$<?php echo number_format($total_payment,2);?>. </strong> <?php echo $tr->translate("AMOUNT_COLLECT")." : ".$resultSaleIn['times'];?></p>
+						<small class="text-muted"><?php echo $tr->translate("AMOUNT_LATE")." : ".$totalLatedaySale." ថ្ងៃ";?></small>
+					  </div>
+					</div>
+				</a>
+			  </li>
+			<?php } ?>
+			  
+			</ul>
+		  </li>
+		</ul>
+	</li>
+	<?php } ?>

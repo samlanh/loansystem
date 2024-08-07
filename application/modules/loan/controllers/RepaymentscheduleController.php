@@ -34,7 +34,8 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 					'module'=>'loan','controller'=>'repaymentschedule','action'=>'view',
 			);
 			$link_info=array('module'=>'loan','controller'=>'repaymentschedule','action'=>'edit',);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('loan_number'=>$link,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array(),0);
+			//array('loan_number'=>$link,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info)
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -55,11 +56,19 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 			try {
 				$_dbmodel = new Loan_Model_DbTable_DbRepaymentSchedule();
 				$_dbmodel->addRepayMentSchedule($_data);
-				if(!empty($_data['saveclose'])){
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/repaymentschedule");
+				
+				if(!empty($_data["inFrame"])){
+					$loanId = empty($_data["get_laonnumber"]) ? 0 : $_data["get_laonnumber"];
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", "/report/loan/rpt-paymentschedules/id/".$loanId."?inFrame=true");
 				}else{
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/repaymentschedule/add");
+					if(!empty($_data['saveclose'])){
+						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/repaymentschedule");
+					}else{
+						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/repaymentschedule/add");
+					}
 				}
+				
+				
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
@@ -86,6 +95,10 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		$this->view->setting=$db->getAllSystemSetting();
 		
 		$id = $this->getRequest()->getParam('id');
+		
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+		
 		if(!empty($id)){
 			if(empty($id)){
 				$id=0;
@@ -94,10 +107,11 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 			$db = new Loan_Model_DbTable_DbLoandisburse();
 			$rs = $db->getTranLoanByIdWithBranch($id,1);
 			if(empty($rs)){
-				Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index");
+				Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index?inFrame=".$inFrame,2);
 			}
 			$this->view->rsloan = $rs;
 		}
+		$this->view->inFrame = $inFrame;
 	}	
 // 	public function addloanAction(){
 // 		if($this->getRequest()->isPost()){
@@ -112,9 +126,11 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 	public function viewAction(){
 		// 		$this->_helper->layout()->disableLayout();
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/loan/index/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index",2);
+			exit();
 		}
 		$db = new Loan_Model_DbTable_DbLoanIL();
 		$row = $db->getLoanviewById($id);
@@ -135,6 +151,8 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		}
 		
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
+		
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		$rs = $db_g->getLoanFundExist($id);
 		if($rs==true){
@@ -143,7 +161,7 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		
 		$db = new Loan_Model_DbTable_DbLoanIL();
 		$row = $db->getTranLoanByIdWithBranch($id,1,1);
-// 		if(empty($row)){ Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST","/loan/repaymentschedule/index"); }
+// 		if(empty($row)){ Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/repaymentschedule/index",2); }
 		
 		$frm = new Loan_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan($row);

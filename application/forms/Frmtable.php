@@ -163,102 +163,113 @@ class Application_Form_Frmtable
     public function getCheckList($delete=0, $columns,$rows,$link=null,$editLink="", $class='items', $textalign= "left", $report=false, $id = "exportExcel")
     {
     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-    	/*
-     	* Define string of pagination Sophen 27 June 2012
-     	*/
-    	$stringPagination = '<script type="text/javascript">
-		</script>
+		if(!empty($rows)){
+			/*
+			* Define string of pagination Sophen 27 June 2012
+			*/
+			$stringPagination = '<script type="text/javascript">
+			</script>
+				';
+			/* end define string*/
+			//$head='<form name="list"><div style="overflow:scroll; max-height:450px; overflow-x:hidden;" ><table class="collape tablesorter" id="'.$id.'" width="100%">';
+			
+			$head='<form name="list">
+						<div class="card-datatable dataTables_scrollBody table-responsive" style="position: relative;  width: 100%; ">
+							<table id="datatable-responsive" class=" nowrap dt-row-grouping table">
 			';
-    	/* end define string*/
-    	//$head='<form name="list"><div style="overflow:scroll; max-height:450px; overflow-x:hidden;" ><table class="collape tablesorter" id="'.$id.'" width="100%">';
+			$col_str='';
+			$col_str .='<thead><tr>';
+			if($delete== 1) {
+				$col_str .= '<th class="tdheader tdcheck"></td>';
+			}
+			$col_str .= '<th class="tdheader">'.$tr->translate("NUM").'</th>';
+			//add columns
+			foreach($columns as $column){
+				$col_str=$col_str.'<th class="tdheader">'.$tr->translate($column).'</th>';
+			}
+			if($editLink != "") {
+				$col_str .='<th class="tdheader tdedit">'.$tr->translate('EDIT_CAP').'</th>';
+			}
+			$col_str.='</tr></thead>';
+			$row_str='<tbody>';
+			//add element rows	
+			if($rows==NULL) return $head.$col_str.'</table></div><center style="font-size:18pt;"><label id="data_table">No record</label></center></form>';
+			$temp=0;
+			/*------------------------Check param id----------------------------------*/
+
+			/*------------------------End check---------------------------------------*/
+			$r=0;
+			foreach($rows as $row){
+				if($r%2==0)$attb='normal';
+				else $attb='alternate';
+				$r++;
+					//-------------------check select-----------------
+
+				//-------------------end check select-----------------
+				$row_str.='<tr class="'.$attb.'"> ';
+						$i=0;
+						foreach($row as $key=>$read) {
+							$clisc='';
+							if($read==null) $read='&nbsp';
+							if($i==0) {
+								$temp=$read;
+								if($delete== 10) {
+									$clisc='oncontextmenu="setrowdata('.$temp.');return false;" class="context-menu-one" ';
+								}
+								if($delete==1){
+									$row_str .= '<td><input type="checkbox" name="del[]" id="del[]" value="'.$temp.'" /></td>';
+								}
+								$row_str.='<td class="items-no">'.$r.'</td>';
+							} else {
+								if($link!=null){
+									foreach($link as $column=>$url)
+										if($key==$column){
+											$img='';
+											$array=array('tag'=>'a','attribute'=>array('href'=>Application_Form_FrmMessage::redirectorview($url).'/id/'.$temp));
+											$read=$this->formSubElement($array,$img.$read);
+										}
+								}
+								$text='';
+								if($i!=1){
+									$text=$this->textAlign($read);
+									$read=$this->checkValue($read);
+
+									if($textalign != 'left'){
+										$text  = " align=". $textalign;
+									}
+								}
+								if($delete== 10) {
+									$clisc='oncontextmenu="setrowdata('.$temp.');return false;" class="context-menu-one" ';
+								}
+								
+								$row_str.='<td '.$clisc.'>'.$read.'</td>';
+								if($i == count($columns)) {
+									if($editLink != "") {
+										$row_str.='<td '.$clisc.' ><a class="edit" href="'.$editLink.'/id/'.$temp.'">'.'</a></td>';
+									}
+								}
+							}
+							$i++;
+						}
+				$row_str.='</tr>';
+			}
+			$counter='<span class="row_num">'.$tr->translate('NUM-RECORD').count($rows).'</span>';
+			$row_str.='</tbody>';
+			$footer='</table></div></form>';
+			if(!$report){
+				$footer .= '<div class="footer_list">'.$stringPagination.$counter.'</div>';
+			}
+			return $head.$col_str.$row_str.$footer;
+		}else{
+			$str='
+			<div class="alert alert-secondary alert-dismissible" role="alert">
+			  <h5 class="alert-heading text-center mb-2">'.$tr->translate("EMPTY_RECORD").'</h5>
+			  <p class="mb-0 text-center">'.$tr->translate("EMPTY_RECORD_DESC").'</p>
+			</div>
+			';
+			return $str;
+		}
     	
-    	$head='<form name="list">
-    				<div class="dataTables_scrollBody" style="position: relative;  width: 100%; background:#fff;   ">
-    					<table border="1" id="datatable-responsive" style="  border-collapse: collapse;   border-color: #ddd;"  class="display nowrap dataTable dtr-inline collapsed" cellspacing="0" width="100%" >
-    	';
-    	$col_str='';
-    	$col_str .='<thead><tr>';
-    	if($delete== 1) {
-    		$col_str .= '<th class="tdheader tdcheck"></td>';
-    	}
-    	$col_str .= '<th class="tdheader">'.$tr->translate("NUM").'</th>';
-    	//add columns
-    	foreach($columns as $column){
-    		$col_str=$col_str.'<th class="tdheader">'.$tr->translate($column).'</th>';
-    	}
-    	if($editLink != "") {
-    		$col_str .='<th class="tdheader tdedit">'.$tr->translate('EDIT_CAP').'</th>';
-    	}
-    	$col_str.='</tr></thead>';
-    	$row_str='<tbody>';
-    	//add element rows	
-    	if($rows==NULL) return $head.$col_str.'</table></div><center style="font-size:18pt;"><label id="data_table">No record</label></center></form>';
-    	$temp=0;
-    	/*------------------------Check param id----------------------------------*/
-
-    	/*------------------------End check---------------------------------------*/
-    	$r=0;
-    	foreach($rows as $row){
-    		if($r%2==0)$attb='normal';
-    		else $attb='alternate';
-    		$r++;
-	    		//-------------------check select-----------------
-
-    		//-------------------end check select-----------------
-    		$row_str.='<tr class="'.$attb.'"> ';
-    				$i=0;
-		  			foreach($row as $key=>$read) {
-		  				$clisc='';
-		  				if($read==null) $read='&nbsp';
-		  				if($i==0) {
-		  					$temp=$read;
-		  					if($delete== 10) {
-		  						$clisc='oncontextmenu="setrowdata('.$temp.');return false;" class="context-menu-one" ';
-		  					}
-		  					if($delete==1){
-				    			$row_str .= '<td><input type="checkbox" name="del[]" id="del[]" value="'.$temp.'" /></td>';
-		  					}
-		  					$row_str.='<td class="items-no">'.$r.'</td>';
-		  				} else {
-    						if($link!=null){
-    							foreach($link as $column=>$url)
-    								if($key==$column){
-    									$img='';
-    									$array=array('tag'=>'a','attribute'=>array('href'=>Application_Form_FrmMessage::redirectorview($url).'/id/'.$temp));
-    									$read=$this->formSubElement($array,$img.$read);
-    								}
-    						}
-    						$text='';
-    						if($i!=1){
-	    						$text=$this->textAlign($read);
-	    						$read=$this->checkValue($read);
-
-	    						if($textalign != 'left'){
-	    							$text  = " align=". $textalign;
-	    						}
-    						}
-    						if($delete== 10) {
-    							$clisc='oncontextmenu="setrowdata('.$temp.');return false;" class="context-menu-one" ';
-    						}
-    						
-    						$row_str.='<td '.$clisc.'>'.$read.'</td>';
-			  				if($i == count($columns)) {
-	    						if($editLink != "") {
-									$row_str.='<td '.$clisc.' ><a class="edit" href="'.$editLink.'/id/'.$temp.'">'.'</a></td>';
-			    				}
-	    					}
-    					}
-    					$i++;
-		  			}
- 			$row_str.='</tr>';
-    	}
-    	$counter='<span class="row_num">'.$tr->translate('NUM-RECORD').count($rows).'</span>';
-    	$row_str.='</tbody>';
-    	$footer='</table></div></form>';
-    	if(!$report){
-    		$footer .= '<div class="footer_list">'.$stringPagination.$counter.'</div>';
-    	}
-    	return $head.$col_str.$row_str.$footer;
     }
     
     

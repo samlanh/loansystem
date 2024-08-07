@@ -17,67 +17,60 @@ $url_givereceive_letter = $this->baseUrl()."/report/loan/givereceive-letter/id/"
 $url_givereceive_doc_letter = $this->baseUrl()."/report/loan/givereceive-doc-letter/id/";
 $url_comfirm_letter = $this->baseUrl()."/report/loan/comfirm-letter/id/";
 ?>
+<div class="card">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;<?php echo $tr->translate('IL_DISBURSE');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+			   <div class="row g-3">
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement("adv_search");?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('branch_id');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement("client_name");?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement("repayment_method");?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('co_id');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('currency_type');?>
+					</div>
+				</div>
+				<div class="row g-3">
+					
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('pay_every');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('start_date');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('end_date');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('status');?>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+   <div class="card-body">
+	  <?php echo $this->list;?>
+	</div>
+</div>
 <script>
 	dojo.require("dijit.form.DateTextBox");
 </script>
-<div class="card pb-10 pt-10 pl-10 pr-10">
-	<div class="card-content collapse show">
- 		<div class="card-box">
- 			<div class="col-sm-12 border-botom">
-		   		<div class="col-sm-8 pd-0">
-		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('IL_DISBURSE');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
-        <div class="card-box">
-			<form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
-			   <div class="form-group">
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement("adv_search");?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('branch_id');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement("client_name");?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement("repayment_method");?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('co_id');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('currency_type');?>
-			   		</div>
-			   	</div>
-			   	<div class="form-group">
-			   		
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('pay_every');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('start_date');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('end_date');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<?php echo $frm->getElement('status');?>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-			   		</div>
-			   	</div>
-			</form>
-		</div>
-		<div class="card-box">
-			<?php echo $this->list;?>
-		</div>
-	</div>
-</div>
+
 
 <script>
 function getmemberIdGroup(){
@@ -95,33 +88,48 @@ $(function(){
 	$.contextMenu({
 		selector: '.context-menu-one', 
 		callback: function(key, options) {
-		
+			var newPageTitle="";
+			var actionType=1;
 			var m = "clicked: " + key;
-			 if(key=="payment"){
+			if(key=="payment"){
 				url='<?php echo $url_Payment;?>';
-			 }else if(key=="edit"){
-					url='<?php echo $url_edit;?>';
+				actionType=2;
+			}else if(key=="edit"){
+				url='<?php echo $url_edit;?>';
+				actionType=2;
 			}else if(key=="agreement"){
 				url='<?php echo $url_agreement;?>';
+				newPageTitle="<?php echo $tr->translate("AGREEMENT");?>";
 			}else if(key=="calleteral-letter"){
 				url='<?php echo $url_Callateral;?>';
+				newPageTitle="<?php echo $tr->translate("CALLETERAL_LETTER");?>";
 			}else if(key=="comfirm-letter"){
 				url='<?php echo $url_comfirm_letter;?>';
+				newPageTitle="<?php echo $tr->translate("COMFIRM_LETTER");?>";
 			}else if(key=="givereceive-letter"){
 				url='<?php echo $url_givereceive_letter;?>';
+				newPageTitle="<?php echo $tr->translate("GIVE_RECEIVE_LETTER");?>";
 			}else if(key=="givereceive-doc-letter"){
 				url='<?php echo $url_givereceive_doc_letter;?>';
+				newPageTitle="<?php echo $tr->translate("GIVE_RECEIVE_DOC_LETTER");?>";
 			}else if(key=="schedulePay"){
 				url='<?php echo $url_schedule;?>';
+				newPageTitle="<?php echo $tr->translate("SCHEDULE_PAYMENT");?>";
 			}else if(key=="reschedule"){
 				url='<?php echo $url_reschedule;?>';
+				newPageTitle="<?php echo $tr->translate("REPAYMENTSCHEDULE");?>";
 			}else if(key=="badloan"){
 				url='<?php echo $url_badloan;?>';
+				actionType=2;
 			}else if(key=="PaymenHistory"){
 				url='<?php echo $url_PaymenHistory;?>';
+				newPageTitle="<?php echo $tr->translate("PAYMENT_HISTORY");?>";
 			}
-			gotoAction();
-			//window.console && console.log(m) || alert(m); 
+			if(actionType==1){
+				addTab(newPageTitle,url+row+'?inFrame=true');
+			}else{
+				gotoAction();
+			}
 		},
 		items: {
 			"payment": {name: "<?php echo $tr->translate("ADD_PAYMENT");?>", icon: "fa-money", accesskey: "c o p y"},
@@ -144,6 +152,6 @@ function setrowdata(index){
 
 var recordid ='';
 function gotoAction(){
-	 window.open(url+row, '_blank');
+	 window.open(url+row, '_self');
 }
 </script>

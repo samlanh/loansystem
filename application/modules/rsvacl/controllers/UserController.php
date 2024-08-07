@@ -4,7 +4,7 @@ class Rsvacl_UserController extends Zend_Controller_Action
 {
 	const REDIRECT_URL = '/rsvacl';
 	const MAX_USER = 20;
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	private $activelist = array('មិនប្រើប្រាស់', 'ប្រើប្រាស់');
 	private $user_typelist = array();
 	
     public function init()
@@ -80,7 +80,7 @@ class Rsvacl_UserController extends Zend_Controller_Action
 			$db_user=new Application_Model_DbTable_DbUsers();
 			 
 			if ($db_user->getMaxUser() > self::MAX_USER) {
-				Application_Form_FrmMessage::Sucessfull('អ្នក​ប្រើ​ប្រាស់​របស់​អ្នក​បាន​ត្រឹម​តែ '.self::MAX_USER.' នាក់ ទេ!', self::REDIRECT_URL);
+				Application_Form_FrmMessage::Sucessfull('អ្នកប្រើប្រាស់របស់អ្នកបានត្រឹមតែ '.self::MAX_USER.' នាក់ ទេ!', self::REDIRECT_URL);
 			}
 			 
 			$this->view->user_typelist =$this->user_typelist;
@@ -89,9 +89,9 @@ class Rsvacl_UserController extends Zend_Controller_Action
 				$userdata=$this->getRequest()->getPost();
 				try {
 					$db = $db_user->insertUser($userdata);
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
+					Application_Form_FrmMessage::Sucessfull('ការបញ្ចូលជោគជ័យ', self::REDIRECT_URL);
 				} catch (Exception $e) {
-					$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+					$this->view->msg = 'ការបញ្ចូលមិនជោគជ័យ';
 				}
 			}
 			$db  = new Application_Model_DbTable_DbGlobal();
@@ -115,7 +115,7 @@ class Rsvacl_UserController extends Zend_Controller_Action
 					$db = $db_user->updateUser($userdata);				
 					Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS', self::REDIRECT_URL);		
 				} catch (Exception $e) {
-					$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+					$this->view->msg = 'ការបញ្ចូលមិនជោគជ័យ';
 				}
 			}
 			$us_id = $this->getRequest()->getParam('id');
@@ -124,7 +124,8 @@ class Rsvacl_UserController extends Zend_Controller_Action
 			$rsUser = $db_user->getUserEdit($us_id);
 			
 			if(empty($rsUser)){
-				Application_Form_FrmMessage::Sucessfull("NO_RECORD",self::REDIRECT_URL);
+				Application_Form_FrmMessage::Sucessfull("NO_RECORD",self::REDIRECT_URL,2);
+				exit();
 			}
 			
 			$this->view->user_edit = $rsUser;

@@ -9,28 +9,52 @@
 	$url_agreement = $this->baseUrl()."/report/installments/agreement/id/";
 	$url_receipt = $this->baseUrl()."/report/installments/generalsaleinvoice/id/";
 ?>
+<div class="card">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="fa fa-motorcycle"></i>&nbsp;<?php echo $tr->translate('GENERALSALES');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+			   <div class="row g-3">
+					<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement("adv_search");?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('branch_id');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('shop_id');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement("member");?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement("status");?>
+			   		</div>
+				</div>
+				<div class="row g-3">
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('start_date');?>
+			   		</div>
+			   		<div class="col-md-2 col-sm-2 col-xs-12">
+			   			<?php echo $frm->getElement('end_date');?>
+			   		</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="card-body">
+		  <?php echo $this->list;?>
+	</div>
+</div>
+
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script>
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dojo.data.ItemFileWriteStore"); 
-</script>
-<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
-   <table width="100%">
-	   <tr>  
-	        <td><?php echo $frm->getElement("adv_search");?></td>
-	   		<td> <?php echo $frm->getElement('branch_id');?></td>
-	   		<td><?php echo $frm->getElement("member");?></td>
-	   </tr>
-	   <tr>
-	   		<td><?php echo $frm->getElement('start_date');?></td>
-	   		<td><?php echo $frm->getElement('end_date');?></td>
-	   		<td><?php echo $frm->getElement('status');?></td>
-	   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-	   </tr>
-	</table>
-</form>
-	<?php echo $this->list;?>
-<script>
+
 	function getmemberIdGroup(){
 		customer_code= dijit.byId('customer_code').get('value');
 		dijit.byId('member').attr('value',customer_code);

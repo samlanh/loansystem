@@ -33,19 +33,12 @@ table.history-record a.btn.btn-danger.btn-xs {
     margin: 0;
 }
 </style>
-<div class="card" style="min-height: 400px;">
-	<div class="card-content collapse show">
-		<div class="card-box">
-        	<div class="col-sm-12 border-botom" style="text-align: left;">
-		    	<div class="col-sm-8 pd-0">
-		    		<h4 class="m-b-0"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('DATABASE_INFO');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
-    	<div class="card-box">
-    		<form action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<div class="card">
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="fa fa-database" aria-hidden="true"></i>&nbsp;<?php echo $tr->translate('DATABASE_INFO');?></h5>
+	</div>
+	<div class="card-body">
+		<form action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 				<script type="dojo/method" event="onSubmit">				
 						if(this.validate()) {
 							loadingBlock();
@@ -53,71 +46,72 @@ table.history-record a.btn.btn-danger.btn-xs {
 						}
 						return false;
 				</script>
+			<div class="row">
 				<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Click Button Below To​  Backup Database");?> 
 	                   </label>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <div class="col-md-12 col-sm-12 col-xs-12 ">
 	                   		<button type="submit" name="submit" value="<?php echo $tr->translate("BACKUP_NOW");?>" class="btn btn-success" onclick="return confirm('<?php echo $tr->translate("You Want to Backup Now");?>');" ><i class="fa fa-arrow-circle-down" aria-hidden="true"></i> <?php echo $tr->translate("BACKUP_NOW");?></button>
 	                   </div>
 	                </div>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-12">
-            	<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("File Backup List");?> 
-	                   </label>
-	                </div>
-            	<div class="form-group">
-                   <div class="col-md-12 col-sm-12 col-xs-12">
-                   		<div class="backup_list">
-                   			<?php $downloads=getDownloads($part);
-                   			if(count($downloads)>0){ ?>
-                   			<table class="history-record">
-		                		<thead>
-		                			<tr>
-		                				<th><?php echo $tr->translate("NUM")?></th>
-		                				<th><?php echo $tr->translate("DATE")?></th>
-		                				<th><?php echo $tr->translate("FILE_NAME")?></th>
-		                				<th><?php echo $tr->translate("SIZE")?></th>
-		                				<th><?php echo $tr->translate("DOWNLOAD")?></th>
-		                				<th><?php echo $tr->translate("REMOVE")?></th>
-		                			</tr>
-		                		</thead>
-		                		<tbody>
-		                		<?php foreach ($downloads as $k => $v) {
-		                			?>
-	                				<tr>
-		                				<td align="center">&nbsp;<?php echo $k+1;?>&nbsp;</td>
-		                				<td align="center">&nbsp;<?php echo date("F d Y H:i:s.", filectime($part.'/'.$v));?>&nbsp;</td>
-		                				<td align="center">&nbsp;<?php echo $v;?>&nbsp;</td>
-		                				<td align="center">&nbsp;<?php echo get_file_size_unit(filesize($part.'/'.$v));?>&nbsp;</td>
-		                				<td align="center">&nbsp;
-		                					<a class="btn btn-primary btn-xs" href="<?php echo $url.$v;?>" target="_blank">
-		                					<span><i class="fa fa-download"></i> <?php echo $tr->translate("DOWNLOAD")?></span>
-		                					</a>
-		                					&nbsp;</td>
-		                				<td align="center">
-		                					&nbsp;
-			                				<a onclick="return confirm('Are you sure want to remove this file');" class="btn btn-danger btn-xs" href="?task=clear&file=<?php echo $v;?>">
-			                					<span><i class="fa fa-times"></i> <?php echo $tr->translate("REMOVE")?></span>
-			                				</a>
-		                					&nbsp;
-		                				</td>
-	                				</tr>
-	                				<?php }?>
-	                			</tbody>
-	                		</table>
-                   			<?php }
-                   			?>
-					    </div> 
-                   </div>
-                </div>
-            </div>
-            </form>
-         </div>   
-                
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-12">
+					<div class="row g-3">
+						   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("File Backup List");?> 
+						   </label>
+						</div>
+					<div class="row g-3">
+					   <div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="backup_list">
+								<?php $downloads=getDownloads($part);
+								if(count($downloads)>0){ ?>
+								<table class="history-record">
+									<thead>
+										<tr>
+											<th><?php echo $tr->translate("NUM")?></th>
+											<th><?php echo $tr->translate("DATE")?></th>
+											<th><?php echo $tr->translate("FILE_NAME")?></th>
+											<th><?php echo $tr->translate("SIZE")?></th>
+											<th><?php echo $tr->translate("DOWNLOAD")?></th>
+											<th><?php echo $tr->translate("REMOVE")?></th>
+										</tr>
+									</thead>
+									<tbody>
+									<?php foreach ($downloads as $k => $v) {
+										?>
+										<tr>
+											<td align="center">&nbsp;<?php echo $k+1;?>&nbsp;</td>
+											<td align="center">&nbsp;<?php echo date("F d Y H:i:s.", filectime($part.'/'.$v));?>&nbsp;</td>
+											<td align="center">&nbsp;<?php echo $v;?>&nbsp;</td>
+											<td align="center">&nbsp;<?php echo get_file_size_unit(filesize($part.'/'.$v));?>&nbsp;</td>
+											<td align="center">&nbsp;
+												<a class="btn btn-primary btn-xs" href="<?php echo $url.$v;?>" target="_blank">
+												<span><i class="fa fa-download"></i> <?php echo $tr->translate("DOWNLOAD")?></span>
+												</a>
+												&nbsp;</td>
+											<td align="center">
+												&nbsp;
+												<a onclick="return confirm('Are you sure want to remove this file');" class="btn btn-danger btn-xs" href="?task=clear&file=<?php echo $v;?>">
+													<span><i class="fa fa-times"></i> <?php echo $tr->translate("REMOVE")?></span>
+												</a>
+												&nbsp;
+											</td>
+										</tr>
+										<?php }?>
+									</tbody>
+								</table>
+								<?php }
+								?>
+							</div> 
+					   </div>
+					</div>
+				</div>
+           
+			</div>    
+		</form>		 
     </div>
  </div>
 <?php 

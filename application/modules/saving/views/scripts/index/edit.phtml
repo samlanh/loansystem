@@ -397,7 +397,7 @@ function addPreviewLoan(){
 			handleAs:"json", 
 			load: function(data) {
 				//alert(data);
-				document.getElementsByClassName("overlay")[0].style.display="none";
+				HideloadingBlock();
 				temp='';	fund_title=0;thead='';fund_title=0;
 				 		temp='<table class="collape tablesorter" style="font-size:13px; width:1000px !important; " id="table">'
 						temp+='<tr style="background:#ccc;"><th><?php echo $tr->translate("NUM");?></th>';
@@ -421,7 +421,7 @@ function addPreviewLoan(){
 			},
 			error: function(err) {
 				alert(err);
-			document.getElementsByClassName("overlay")[0].style.display="none";
+			HideloadingBlock();
 			alert("You can not preview this loan number!");
 			}
 	   });
@@ -490,7 +490,7 @@ function popupCheckCO(){
   
 }
 function loading(){
-    document.getElementsByClassName("overlay")[0].style.display="block";
+    loadingBlock()
 }
 </script>
 <style>

@@ -18,188 +18,183 @@ table.tb-footer tr.style-head {
    font-weight: bold !important;
 }
 </style>
-<div class="reportblog">
-	<div class="card-box">
-		<div class="col-sm-12 border-botom">
-			<div class="col-sm-8 pd-0">
-				<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('REPORT_OTHER_INCOME');?></h4>
-			</div>
-			<div class="col-sm-4 text-right">
-			</div>
-		</div>
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('REPORT_OTHER_INCOME');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form method="post">
+				<div class="row g-3">
+				  <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement("adv_search");?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement("branch_id");?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frmex->getElement('category_id');?>
+					</div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('currency_type');?>
+				   </div>
+				</div>
+				<div class="row g-3">
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('start_date');?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<?php echo $frm->getElement('end_date');?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+				   </div>
+				</div>
+			</form>
+		</div>	
 	</div>
-	<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
-		<div class="card-box">
-			<div class="form-group">
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("adv_search");?>
-               </div>
-			   <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("branch_id");?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-   					<?php echo $frmex->getElement('category_id');?>
-   				</div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement('currency_type');?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement('start_date');?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement('end_date');?>
-               </div>
-                <div class="col-md-2 col-sm-2 col-xs-12">
-               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		
-               </div>
-            </div>
-        </div>
-	</form>
-	<div id="divPrint" style="width: 100%;">
-		<style>
-			.style{
-				line-height: 20px;font-size: 12px !important;
-				font-family: 'Times New Roman','Khmer OS Battambang';
-			}
-			.styleover:hover{ background: #ccc; }
-			table tr td ul li{list-style: none;line-height: 25px; }
-			ul li{list-style: none;line-height: 25px; }
-			th{padding: 5px;}
-			
-			table.content-data { page-break-inside:auto }
-			table.content-data tr{ page-break-inside:avoid; page-break-after:auto; }
-			#header {
-			  display: table-header-group;
-			  page-break-inside:avoid; page-break-after:auto;
-			}
-			
-			table.content-data{
-				border-collapse:collapse;
-				width:100%;
-				border:1px solid #000; 
-				font-family:'Times New Roman','Khmer OS Battambang';
-				font-size:13px;
-				white-space: nowrap;
-				margin:0 auto;
-			}
-			table.content-data thead tr.style-head {
-			   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
-				background: #ccd9ff;
-				text-align: center;
-			}
-			table.content-data tr.style-rowdata {
-				font-size:12px; 
-				height: 23px;
-			}
-			
-			table.tb-footer{
-				font-family: 'Times New Roman','Khmer OS Battambang'; 
-				border-collapse:collapse;
-				border:1px solid #000; 
-				font-size:12px;
-				width:100%;
-			}
-			table.tb-footer tr.style-head{
-				line-height: 24px; 
-				text-align: center; 
-				background: #ccd9ff;
-			}
-		</style>
-	<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
-		<tr>
-	    	<td align="center">
-	        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';margin:0; padding:0;border:none;">
-	            	<tr>
-	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
-	                	<td width="60%" valign="top">
-	                		<ul>
-	                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-	                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_OTHER_INCOME");?></li>
-	                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
-	                		</ul>
-	                </td>
-	                    <td width="20%"></td>
-	                </tr> 
-	            </table>
-	        </td>
-	    </tr>
-	    <tr>
-	    	<td id="exportExcel">
-	            <table class="content-data" border="1"​  width="100%" cellspacing="0">
-	                 <thead>
-	                  	<tr class="style-head" >
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("RECIEPT_NO");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("CATEGORY");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("DESCRIPTION");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></td>
-							<td style="padding:5px 0px;"><?php echo $tr->translate("INVOICE");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("TOTAL_INCOME");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("DATE");?></td>
-		                    <td style="padding:5px 0px;"><?php echo $tr->translate("NOTE");?></td>
-		                </tr>
-	                </thead>
-	                <?php $amt_r = 0;$amt_d = 0;$amt_b3 = 0;
-	                ?>
-	                <?php if(!empty($this->rs)) foreach ($this->rs as $key => $rs){ ?>
-	                <?php 
-		                if($rs['curr_type']==1){
-		                	$amt_r = $amt_r+$rs["total_amount"];
-		                }elseif($rs['curr_type']==2){
-		                	$amt_d = $amt_d+$rs["total_amount"];
-		                }else{
-		                	$amt_b3 = $amt_b3+$rs["total_amount"];
-		                }
-	               ?>
-	                <tr class="style-rowdata hover" align="center">
-	               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["reciept_no"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["category"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["account_id"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo $rs["currency_type"];?>&nbsp;</td>
-						<td>&nbsp;<?php echo $rs["invoice"];?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo number_format($rs["total_amount"],2);?>&nbsp;</td>
-	               		<td>&nbsp;<?php echo date("d-M-Y",strtotime($rs["date"]));?>&nbsp;</td>
-	               		<td align="left">&nbsp;<?php echo $rs["disc"];?>&nbsp;</td>
-	                </tr>
-	                <?php }?>
-	            </table>
-	            <br />
-	            <table style=" font-size:11px;width:50%;margin:0 auto;" cellspacing="0">
-	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
-	                    <td align="right">&nbsp;</td>
-	                    <td align="right">&nbsp;</td>
-	                    <td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INCOME");?></span>&nbsp;</td>
-	                    <td align="right">&nbsp;</td>
-	                 </tr>
-	                 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
-	                 	<td align="right">&nbsp;</td>
-	                    <td align="left"><?php echo $tr->translate("DOLLAR");?></td>
-	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
-	                    <td align="right">&nbsp;</td>
-	                 </tr>
-	                  <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
-	                  	<td align="right">&nbsp;</td>
-	                    <td align="left"><?php echo $tr->translate("REILS");?></td>
-	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
-	                    <td align="right">&nbsp;</td>
-	                 </tr>
-	                  <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
-	                  	<td align="right">&nbsp;</td>
-	                    <td align="left"><?php echo $tr->translate("BATH");?></td>
-	                    <td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_b3,2);?>&nbsp;</td>
-	                    <td align="right">&nbsp;</td>
-	                 </tr>
-	            </table>
-	    	</td>
-	    </tr>
-	</table>
-	<br />
-	 <?php echo $this->footerReport;?> 
+	<div class="card-body">
+		<div id="divPrint" style="width: 100%;">
+			<style>
+				.style{
+					line-height: 20px;font-size: 12px !important;
+					font-family: 'Times New Roman','Khmer OS Battambang';
+				}
+				.styleover:hover{ background: #ccc; }
+				table tr td ul li{list-style: none;line-height: 25px; }
+				ul li{list-style: none;line-height: 25px; }
+				th{padding: 5px;}
+				
+				table.content-data { page-break-inside:auto }
+				table.content-data tr{ page-break-inside:avoid; page-break-after:auto; }
+				#header {
+				  display: table-header-group;
+				  page-break-inside:avoid; page-break-after:auto;
+				}
+				
+				table.content-data{
+					border-collapse:collapse;
+					width:100%;
+					border:1px solid #000; 
+					font-family:'Times New Roman','Khmer OS Battambang';
+					font-size:13px;
+					white-space: nowrap;
+					margin:0 auto;
+				}
+				table.content-data thead tr.style-head {
+				   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+					background: #ccd9ff;
+					text-align: center;
+				}
+				table.content-data tr.style-rowdata {
+					font-size:12px; 
+					height: 23px;
+				}
+				
+				table.tb-footer{
+					font-family: 'Times New Roman','Khmer OS Battambang'; 
+					border-collapse:collapse;
+					border:1px solid #000; 
+					font-size:12px;
+					width:100%;
+				}
+				table.tb-footer tr.style-head{
+					line-height: 24px; 
+					text-align: center; 
+					background: #ccd9ff;
+				}
+			</style>
+			<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
+				<tr>
+					<td align="center">
+						<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';margin:0; padding:0;border:none;">
+							<tr>
+								<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+								<td width="60%" valign="top">
+									<ul>
+										<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+										<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_OTHER_INCOME");?></li>
+										<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
+									</ul>
+							</td>
+								<td width="20%"></td>
+							</tr> 
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td id="exportExcel">
+						<table class="content-data" border="1" width="100%" cellspacing="0">
+							 <thead>
+								<tr class="style-head" >
+									<td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></td>
+									<td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></td>
+									<td style="padding:5px 0px;"><?php echo $tr->translate("RECIEPT_NO");?></td>
+									<td style="padding:5px 0px;"><?php echo $tr->translate("CATEGORY");?></td>
+									<td style="padding:5px 0px;"><?php echo $tr->translate("DESCRIPTION");?></td>
+									<td style="padding:5px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></td>
+									<td style="padding:5px 0px;"><?php echo $tr->translate("INVOICE");?></td>
+									<td style="padding:5px 0px;"><?php echo $tr->translate("TOTAL_INCOME");?></td>
+									<td style="padding:5px 0px;"><?php echo $tr->translate("DATE");?></td>
+									<td style="padding:5px 0px;"><?php echo $tr->translate("NOTE");?></td>
+								</tr>
+							</thead>
+							<?php $amt_r = 0;$amt_d = 0;$amt_b3 = 0;
+							?>
+							<?php if(!empty($this->rs)) foreach ($this->rs as $key => $rs){ ?>
+							<?php 
+								if($rs['curr_type']==1){
+									$amt_r = $amt_r+$rs["total_amount"];
+								}elseif($rs['curr_type']==2){
+									$amt_d = $amt_d+$rs["total_amount"];
+								}else{
+									$amt_b3 = $amt_b3+$rs["total_amount"];
+								}
+						   ?>
+							<tr class="style-rowdata hover" align="center">
+								<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+								<td>&nbsp;<?php echo $rs["branch_name"];?>&nbsp;</td>
+								<td>&nbsp;<?php echo $rs["reciept_no"];?>&nbsp;</td>
+								<td>&nbsp;<?php echo $rs["category"];?>&nbsp;</td>
+								<td>&nbsp;<?php echo $rs["account_id"];?>&nbsp;</td>
+								<td>&nbsp;<?php echo $rs["currency_type"];?>&nbsp;</td>
+								<td>&nbsp;<?php echo $rs["invoice"];?>&nbsp;</td>
+								<td>&nbsp;<?php echo number_format($rs["total_amount"],2);?>&nbsp;</td>
+								<td>&nbsp;<?php echo date("d-M-Y",strtotime($rs["date"]));?>&nbsp;</td>
+								<td align="left">&nbsp;<?php echo $rs["disc"];?>&nbsp;</td>
+							</tr>
+							<?php }?>
+						</table>
+						<br />
+						<table style=" font-size:11px;width:50%;margin:0 auto;" cellspacing="0">
+							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+								<td align="right">&nbsp;</td>
+								<td align="right">&nbsp;</td>
+								<td align="right"><span class="border_bottom"><?php echo $tr->translate("TOTAL_INCOME");?></span>&nbsp;</td>
+								<td align="right">&nbsp;</td>
+							 </tr>
+							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+								<td align="right">&nbsp;</td>
+								<td align="left"><?php echo $tr->translate("DOLLAR");?></td>
+								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
+								<td align="right">&nbsp;</td>
+							 </tr>
+							  <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+								<td align="right">&nbsp;</td>
+								<td align="left"><?php echo $tr->translate("REILS");?></td>
+								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
+								<td align="right">&nbsp;</td>
+							 </tr>
+							  <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
+								<td align="right">&nbsp;</td>
+								<td align="left"><?php echo $tr->translate("BATH");?></td>
+								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_b3,2);?>&nbsp;</td>
+								<td align="right">&nbsp;</td>
+							 </tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<br />
+			 <?php echo $this->footerReport;?> 
+		</div>
 	</div>
 </div>

@@ -63,7 +63,7 @@ Class Installment_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
-		$options=array(''=>"---Select Branch Name---");
+		$options=array(''=>$this->tr->translate("SELECT_BRANCH"));
 		if(!empty($rows))foreach($rows AS $row) $options[$row['br_id']]=$row['displayby']==1?$row['branch_namekh']:$row['branch_nameen'];
 		$_branch_id->setMultiOptions($options);
 	
@@ -205,7 +205,7 @@ Class Installment_Form_FrmClient extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 		));
 		$jobrs = $db->getJobName();
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>$this->tr->translate("SELECT_JOB"),-1=>$this->tr->translate("ADD_NEW"));
 		if(!empty($jobrs))foreach($jobrs AS $row) $options[$row['job']]=$row['job'];
 		$job->setMultiOptions($options);
 		

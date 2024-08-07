@@ -48,11 +48,13 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$s_search = addslashes(trim($search['adv_search']));
-    		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-    		$s_where[] = " receipt_num LIKE '%{$s_search}%'";
-    		$s_where[] = " release_amount LIKE '%{$s_search}%'";
-    		$s_where[] = " interest_rate LIKE '%{$s_search}%'";
-    		$s_where[] = " total_duration LIKE '%{$s_search}%'";
+    		$s_where[] = " REPLACE(loan_number,' ','') LIKE '%{$s_search}%'";
+    		$s_where[] = " REPLACE(receipt_num,' ','') LIKE '%{$s_search}%'";
+    		$s_where[] = " REPLACE(release_amount,' ','') LIKE '%{$s_search}%'";
+    		$s_where[] = " REPLACE(interest_rate,' ','') LIKE '%{$s_search}%'";
+    		$s_where[] = " REPLACE(total_duration,' ','') LIKE '%{$s_search}%'";
+    		$s_where[] = " REPLACE(product_description,' ','') LIKE '%{$s_search}%'";
+    		$s_where[] = " REPLACE((SELECT name_kh FROM `ln_clientsaving` WHERE client_id = ln_pawnshop.customer_id LIMIT 1),' ','') LIKE '%{$s_search}%'";
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
 

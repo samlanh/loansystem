@@ -808,7 +808,7 @@ function addPreviewLoan(){
 			form: dojo.byId("frm_add_tran"),		    
 			handleAs:"json", 
 			load: function(data) {
-				document.getElementsByClassName("overlay")[0].style.display="none";
+				HideloadingBlock();
 				temp='';	fund_title=0;thead='';fund_title=0;
 				 		temp='<table class="collape tablesorter" style="font-size:13px;" id="table" width="100%">'
 						temp+='<tr style="background:#ccc;"><th><?php echo $tr->translate("NUM");?></th>';
@@ -843,7 +843,7 @@ function addPreviewLoan(){
 	}
 }
 function loading(){
-    document.getElementsByClassName("overlay")[0].style.display="block";
+    loadingBlock()
 }
 </script>
 <style>

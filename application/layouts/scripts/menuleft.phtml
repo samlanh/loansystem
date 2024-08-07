@@ -1,4 +1,4 @@
-	<?php
+<?php
 	$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 	$request=Zend_Controller_Front::getInstance()->getRequest();
 	$action = $request->getActionName();
@@ -37,99 +37,73 @@ $newarray=array();
 	$arr_param_menu = $menu;   
 	$module = $request->getModuleName();
 	$controller = $request->getControllerName();
-?>
-<?php 
+
 	$array_icon = array(
-      		'home'=>'<i class="fa fa-home" aria-hidden="true"></i>',
-			'other'=>'<i class="fa fa-bookmark" aria-hidden="true"></i>',
-			'group'=>'<i class="fa fa-users" aria-hidden="true"></i>',
-			'loan'=>'<i class="fa fa-money" aria-hidden="true"></i>',
-			'pawnshop'=>'<i class="fa fa-money" aria-hidden="true"></i>',
-			'installment'=>'<i class="fa fa-money" aria-hidden="true"></i>',
-      		'tellerandexchange'=>'<i class="fa fa-desktop" aria-hidden="true"></i>',
-      		'capital'=>'<i class="fa fa-usd" aria-hidden="true"></i>',
-      		'report'=>'<i class="fa  fa-file-text" aria-hidden="true"></i>',
-      		'rsvacl'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
-      		'setting'=>'<i class="fa  fa-cogs" aria-hidden="true"></i>',
+      		'home'=>'<i class="menu-icon tf-icons ti ti-smart-home"></i>',
+			'other'=>'<i class="menu-icon tf-icons ti ti-forms"></i>',
+			'group'=>'<i class="menu-icon tf-icons ti ti-users-group"></i>',
+			'loan'=>'<i class="menu-icon tf-icons ti ti-coins" ></i>',
+			'pawnshop'=>'<i class="menu-icon tf-icons ti ti-cash" ></i>',
+			'installment'=>'<i class="menu-icon tf-icons ti ti-cash" ></i>',
+      		'tellerandexchange'=>'<i class="menu-icon tf-icons ti ti-text-wrap-disabled"></i>',
+      		'capital'=>'<i class="menu-icon tf-icons ti ti-businessplan" ></i>',
+      		'report'=>'<i class="menu-icon tf-icons ti ti-file-description"></i>',
+      		'rsvacl'=>'<i class="menu-icon tf-icons ti ti-user-cog" ></i>',
+      		'setting'=>'<i class="menu-icon tf-icons ti ti-settings"></i>',
 			
-      		'property'=>'<i class="fa  fa-cogs" aria-hidden="true"></i>',
+      		'property'=>'<i class="menu-icon tf-icons ti ti-map"></i>',
       );
 	
 	$arr_module = $session_user->arr_module;
 	$arr_acl = $session_user->arr_acl;
-	?>
-<!-- sidebar menu -->
-<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-	<div class="menu_section">
-		<?php 
-			$db = new Application_Model_DbTable_DbUsers();
-			$rs = $db->getAccessUrl("loan","index","add");
-			if(!empty($rs)){
-		?>
-		&nbsp;
-		<div class="button-make-loan mb-10">
-			<a href="<?php echo $this->baseUrl()."/loan/index/add"?>"  class="closebtn-makesale"  ><i class="fa fa-plus" aria-hidden="true"></i> <?php echo $tr->translate("Make Loan Disburse");?> </a>
-		</div>
-		<?php }?>
-		<ul class="nav side-menu">
-     	<?php if(!empty($arr_module)){ foreach ($arr_module as $rs){
-             		$url =$this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true);
-            		if ($rs=="project"){
-                			$title=$tr->translate("JOBS");
-                		}else{
-                			$title=$tr->translate(strtoupper($rs));
-                		}
-                	?>
-                	<li <?php if ($rs==$module ){ echo 'class="active"';}?>>
-                		<?php //if ($rs=="report"){?>
-                			<!--
-							<a href="<?php //echo $this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true);;?>">
-                			<?php //echo $array_icon[$rs];?> <?php //echo $title;?> 
-	                		</a>
-							-->
-                		<?php //}else{?>
-                		
-                			<?php if (count($arr_param_menu[$rs])>1){?>
-                		<a><?php echo $array_icon[$rs];?> <?php echo $title;?> 
-                		<?php if (!empty($arr_param_menu[$rs])){?><span class="fa fa-chevron-down"></span><?php }?>
-                		</a>
-                		<?php if (!empty($arr_param_menu[$rs])){?>
-                    <ul class="nav child_menu" <?php if ($rs==$module ){ echo 'style="display: block;"';}?>>
-                       <?php  foreach ($arr_param_menu[$rs] as $key => $sub){
-                       	$urlsub = $this->url(array('module'=>$rs,'controller'=>$key,'action'=>'index'), null, true);
-                       	?>
-                      <li <?php if ($rs==$module AND $key==$controller){ echo 'class="current-page"';}?>><a href="<?php echo $urlsub;?>"><?php echo $sub;?></a></li>
-                       <?php }?>
-                    </ul>
-                    <?php }?>
-                    <?php }else{?>
-                    	<?php  foreach ($arr_param_menu[$rs] as $key => $sub){
-                       	$urlsub = $this->url(array('module'=>$rs,'controller'=>$key,'action'=>'index'), null, true);
-                       	$title=$tr->translate(strtoupper($key));
-                       	if ($rs=="home" and $key=="index" ){
-                       		$title=$tr->translate(strtoupper($rs));
-                       	}
-                       	?>
-                    <a href="<?php echo $urlsub;?>">
-                			<?php echo $array_icon[$rs];?> <?php echo $title;?> 
-                		</a>
-                		<?php }?>
-                    <?php }?>
-                    <?php //}?>
-                 	 </li>
-            <?php }
-            }?>
-        </ul>
-    </div>
- </div>
- <!-- /sidebar menu -->
+?>
+<ul class="menu-inner py-1">
 
- <!-- /menu footer buttons -->
- <div class="sidebar-footer hidden-small">
- 	<a data-toggle="tooltip" data-placement="top" onClick="toggleFullScreen(document.body)" title="<?php echo $tr->translate("FullScreen");?>">
-    	<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-    </a>
-    <a data-toggle="tooltip" data-placement="top" title="<?php echo $tr->translate("SIGN_OUT");?>" href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout','value'=>'1')); ?>">
-    	<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-    </a>
-</div>
+	<?php if(!empty($arr_module)){ foreach ($arr_module as $rs){
+			$url =$this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true);
+			if ($rs=="project"){
+					$title=$tr->translate("JOBS");
+				}else{
+					$title=$tr->translate(strtoupper($rs));
+				}
+			?>
+			<li class="menu-item <?php if ($rs==$module ){ echo 'active open';}?> " >
+				<?php if (count($arr_param_menu[$rs])>1){?>
+					<a href="javascript:void(0);" class="menu-link menu-toggle">
+						<?php echo $array_icon[$rs];?>
+						<div data-i18n="<?php echo $title;?>"><?php echo $title;?></div>
+					</a>
+					<?php if (!empty($arr_param_menu[$rs])){?>
+					<ul class="menu-sub">
+					   <?php  foreach ($arr_param_menu[$rs] as $key => $sub){
+						$urlsub = $this->url(array('module'=>$rs,'controller'=>$key,'action'=>'index'), null, true);
+						?>
+						<li class="menu-item <?php if ($rs==$module AND $key==$controller){ echo 'active';}?>">
+							<a href="<?php echo $urlsub;?>" class="menu-link">
+								<div data-i18n="<?php echo $sub;?>"><?php echo $sub;?></div>
+							</a>
+						</li>
+					   <?php }?>
+					</ul>
+					<?php }?>
+				<?php }else{?>
+					<?php  foreach ($arr_param_menu[$rs] as $key => $sub){
+					$urlsub = $this->url(array('module'=>$rs,'controller'=>$key,'action'=>'index'), null, true);
+					$title=$tr->translate(strtoupper($key));
+					if ($rs=="home" and $key=="index" ){
+						$title=$tr->translate(strtoupper($rs));
+					}
+					?>
+					<a href="<?php echo $urlsub;?>" class="menu-link">
+						<?php echo $array_icon[$rs];?>
+						<div data-i18n="<?php echo $title;?> "><?php echo $title;?> </div>
+					  </a>
+					<?php }?>
+				<?php }?>
+				<?php //}?>
+			</li>
+	<?php }
+	}?>
+			
+    
+  </ul>

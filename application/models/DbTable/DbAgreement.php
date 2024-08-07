@@ -135,7 +135,7 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 			(SELECT SUM(rep.extra_loan) FROM `ln_pawnshop_reschedule` AS rep WHERE rep.pawnshop_id = s.`id` LIMIT 1) AS extra_loan
 		 FROM $this->_name AS s
 		WHERE s.`id` = $pawnID ";
-		
+		$where="";
 		$dbp = new Application_Model_DbTable_DbGlobal();
 		$where.= $dbp->getAccessPermission("s.branch_id");
 		

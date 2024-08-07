@@ -46,11 +46,11 @@ div.blogForm {
 			</script>
 			<div class="card-box">
 	    		<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("CLIENT_INFO");?> 
 	                   </label>
 	                </div>
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("BRANCH_NAME");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -58,28 +58,28 @@ div.blogForm {
 					    	<input type="hidden" id="id" name="id" value="<?php echo $this->rs['id'];?>"/>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PAWN_CODE");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('loan_code');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("LOAN_LEVEL");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('level');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_NAME");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<input id="member" />
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_CODE");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -88,25 +88,25 @@ div.blogForm {
 	                </div>
 	             </div>
 	             <div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("PRODUCT_DESCRIPTION");?> 
 	                   </label>
 	                </div>
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PRODUCT_NAME");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<input id="product_id" /><?php //echo $frm->getElement('product_id');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PRODUCT_DESCRIPTION");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('description');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("EST_VALUE");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -115,32 +115,32 @@ div.blogForm {
 	                </div>
 	             </div>
 	             <div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("ILLOAN_INFO");?> 
 	                   </label>
 	                </div>
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CURRENCY");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('currency_type');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("LOAN_AMOUNT");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('total_amount');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TERM_BORROW");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('period');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("INTEREST RATE");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -151,24 +151,24 @@ div.blogForm {
 	        </div>
 	        <div class="card-box">
 	        	<div class="col-md-8 col-sm-8 col-xs-12 blogForm">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​");?> 
 	                   </label>
 	                </div>
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label bold col-md-12 col-sm-12 col-xs-12" for="first-name"><?php echo $tr->translate("DATE_DACH");?> 
 	                   </label>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <div class="col-md-12 col-sm-12 col-xs-12">
 	                   		<input dojoType="dijit.form.DateTextBox" required="true" class="fullside"  constraints="{datePattern:'dd/MM/yyyy'}" id="date_date" name="date_date" value="<?php echo date("Y-m-d");?>" type="text">
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label bold col-md-12 col-sm-12 col-xs-12" for="first-name"><?php echo $tr->translate("NOTE_DACH");?> 
 	                   </label>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <div class="col-md-12 col-sm-12 col-xs-12">
 	                   		<input dojoType="dijit.form.Textarea" class="fullside height200" rows="200" id="noted" name="noted"  type="text">
 	                   </div>
@@ -176,32 +176,32 @@ div.blogForm {
 	
 	             </div>
 	    		<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("INFO_FUND");?> 
 	                   </label>
 	                </div>
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PAWN_DATE");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('release_date');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("FIRST_PAYMENT");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('first_payment');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PAWN_ENDDATE");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $frm->getElement('date_line');?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់");?> 
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -467,7 +467,7 @@ function getDayName(day){
 	    return weekday[day];
 }
 function loading(){
-    document.getElementsByClassName("overlay")[0].style.display="block";
+    loadingBlock()
 }
 </script>
 <style>

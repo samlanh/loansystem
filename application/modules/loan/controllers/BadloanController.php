@@ -73,6 +73,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 		$this->view->allclient_number = $db->getAllClientNumber();
 		
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
 		if(!empty($id)){
 			if(empty($id)){
 				$id=0;
@@ -81,7 +82,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			$db = new Loan_Model_DbTable_DbLoandisburse();
 			$rs = $db->getTranLoanByIdWithBranch($id,1);
 			if(empty($rs)){
-				Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index");
+				Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index",2);
 			}
 			
 			$this->view->rsloan =  $rs;
@@ -105,7 +106,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 		}
 		$row=$_dbmodel->getLoanedit($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/badloan/");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/badloan/",2);
 			exit();
 		}
 		$this->view->row = $row;

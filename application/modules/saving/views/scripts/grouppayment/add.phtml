@@ -412,7 +412,7 @@ function submitDataClose(){
 		    url: url_submit,	
 			form: dojo.byId("frm_add_group_pay"),		    
 			load: function(data) {
-				document.getElementsByClassName("overlay")[0].style.display="none";		
+				HideloadingBlock();		
 				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
 				window.location.href ="<?php echo $this->baseUrl();?>/loan/grouppayment";
 			},
@@ -428,7 +428,7 @@ function submitData(){
 		    url: url_submit,	
 			form: dojo.byId("frm_add_group_pay"),		    
 			load: function(data) {
-				document.getElementsByClassName("overlay")[0].style.display="none";	
+				HideloadingBlock();	
 				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
 				dijit.byId("frm_add_group_pay").reset();
 			},
@@ -1285,7 +1285,7 @@ function getPayOption(){
 	getLaonPayment();
 }
 function loading(){
-    document.getElementsByClassName("overlay")[0].style.display="block";
+    loadingBlock()
 }
 </script>
 <style>

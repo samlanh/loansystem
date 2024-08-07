@@ -7,81 +7,79 @@
 	echo $this->headTitle();
 ?>
 <div class="card">
-	<div class="card-content collapse show">
-		<div class="card-box">
-        	<div class="col-sm-12 border-botom">
-		    	<div class="col-sm-8 pd-0">
-		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('Despite Capital Agent');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="ti ti-moneybag"></i>&nbsp;<?php echo $tr->translate('Despite Capital Agent');?></h5>
+	</div>
+	<div class="card-body">
 		<form id='frm_add_exch' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if($('#identity').val()==""){
-					alert('<?php echo $tr->translate("Empty Capital Currency To Input")?>');
+					infoMessageAlert('<?php echo $tr->translate("Empty Capital Currency To Input")?>');
 					return false;
 				}
 				dijit.byId("savenew").set("disabled",true);
 				dijit.byId("saveclose").set("disabled",true);
+				loadingBlock();
 				return true;
 			} else {
 				return false;
 			}
 			</script>
-			<div class="card-box">
+			<div class="row">
 				<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Agent Information");?> 
-	                   </label>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Agent Name");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php echo $frm->getElement('agent_id');?>
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Currency");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php echo $frm->getElement('currency');?>
-	                   </div>
-	                </div>
+					<div class="card card-form mb-4">
+						<div class="card-header d-flex justify-content-between">
+							<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("Agent Information");?></h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Agent Name");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php echo $frm->getElement('agent_id');?>
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Currency");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<?php echo $frm->getElement('currency');?>
+							   </div>
+							</div>
+						</div>
+					</div>
 	           </div>
 	           <div class="col-md-8 col-sm-8 col-xs-12">
-					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("Despite Capital Information");?> 
-	                   </label>
-	                </div>
-	                <div class="form-group">
-						 	<table style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;" >
-						 		<thead>
-						 			<tr id="head-title" class="head-td">
-						 				<th><?php echo $tr->translate("NUM")?></th>
-										 <th><?php echo $tr->translate("Currency")?></th>
-										 <th><?php echo $tr->translate("Amount")?></th>
-										 <th><?php echo $tr->translate("DELETE")?></th>
-									</tr>
-						 		</thead>
-								<tbody id="table_row" >
-								</tbody>
-						</table>
-						<input type="hidden" name="identity" id="identity"  value="" >
-	                </div>
+					<div class="card card-form mb-4">
+						<div class="card-header d-flex justify-content-between">
+							<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("Despite Capital Information");?></h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+								<table style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;" >
+									<thead>
+										<tr id="head-title" class="head-td">
+											<th><?php echo $tr->translate("NUM")?></th>
+											 <th><?php echo $tr->translate("Currency")?></th>
+											 <th><?php echo $tr->translate("Amount")?></th>
+											 <th><?php echo $tr->translate("DELETE")?></th>
+										</tr>
+									</thead>
+									<tbody id="table_row" >
+									</tbody>
+								</table>
+								<input type="hidden" name="identity" id="identity"  value="" >
+							</div>
+						</div>
+					</div>
 	           </div>
 	       </div>
 	       <div class="card-box">
-				<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
-	    			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
-					 iconClass="dijitIconClear"/>
-					<input type="submit"  label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
-					 iconClass="dijitIconDelete"/>
-					<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"
-					 iconClass="dijitIconNewTask"/>
+				<div class="col-sm-12 border-top mt-2 py-2 text-center">
+	    			<input type="reset" class="button-class button-danger " iconClass="glyphicon glyphicon-repeat" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"/>
+					<input type="submit"  class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-remove" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button" />
+					<input type="submit" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button" />
 	    		</div>
 			</div>
 		</form>
@@ -92,8 +90,8 @@
 		<div style=" text-align: center;">
 			<h4><?php echo $tr->translate("DO_YOU_WANT_TO_DEL")?></h4>
 			<input type="hidden" name="recorddelete" id="recorddelete" dojoType="dijit.form.TextBox" />
-			<button onclick="dijit.byId('deleteForm').hide();" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("CANCEL");?></button>
-			<button onclick="newdeleteRecord('',1);" iconclass="dijitIconDelete" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("DELETE");?></button>
+			<button class="button-class button-danger " iconClass="glyphicon glyphicon-remove" onclick="dijit.byId('deleteForm').hide();" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("CANCEL");?></button>
+			<button class="button-class button-primary" iconClass="glyphicon glyphicon-ok" onclick="newdeleteRecord('',1);" iconclass="dijitIconDelete" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("DELETE");?></button>
 		</div>
 	</div>
 </div>
@@ -133,10 +131,10 @@
 					var arrays = iden.split(',');
 					 if(arrays!=""){
 						 for(var i=0;i< arrays.length;i++) {
-								///alert(arrays[i]+" "+currency)
+								///infoMessageAlert(arrays[i]+" "+currency)
 							 readychoose = dijit.byId('currency_id'+arrays[i]).get('value');
 							 if(readychoose==currency){
-									alert("<?php echo $tr->translate("Choosen ready")?>");
+									infoMessageAlert("<?php echo $tr->translate("Choosen ready")?>");
 								 return false;
 							 }
 						}
@@ -158,7 +156,7 @@
 				}
 			},
 			error: function(err) {
-				alert(err);
+				infoMessageAlert(err);
 			}
 		});
 	}

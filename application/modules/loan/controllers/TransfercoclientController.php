@@ -77,7 +77,8 @@ class Loan_TransfercoClientController extends Zend_Controller_Action {
 		$data = $db->getAllinfoTransfer($id);
 		$fm = new Loan_Form_FrmTransferCoClient();
 		if(empty($data)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/transfercoclient/");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/transfercoclient/",2);
+			exit();
 		}
 		$frm = $fm->FrmTransfer($data);
 		Application_Model_Decorator::removeAllDecorator($frm);

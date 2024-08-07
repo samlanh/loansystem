@@ -3,48 +3,50 @@
 	$this->headTitle($tr->translate("XCHANGES"));
 	echo $this->headTitle();
 ?>
-<div class="card pb-10 pt-10 pl-10 pr-10">
-	<div class="card-content collapse show">
-		<div class="card-box">
-			<form name="frmlist_mt" action="" dojoType="dijit.form.Form" method="post">
-				<div class="form-group">
-   					<div class="col-md-2 col-sm-2 col-xs-12">
-   						<select class="fullside" style="text-align: left;"  name="user_id" id="select_user_id" dojoType="dijit.form.FilteringSelect" required="true">
-							<option value="-1" <?php echo (-1 == $this->user_id)?"selected":"";?>>All</option> 
-							<?php foreach ($this->users as $key => $u) : ?>
-								<option value="<?php echo $u['id'];?>" <?php echo ($u['id'] == $this->list_search['user_id'])?"selected":"";?>><?php echo  $u['name'];?></option>
-							<?php endforeach;?> 
-						</select><!-- onchange="document.frmlist_mt.submit();" -->
-   					</div>
-   					<div class="col-md-2 col-sm-2 col-xs-12">
-							<input class="fullside" type="text" name="from_date" id="from_date" value="<?php echo date_format(date_create($this->list_search['from_date']), "Y-m-d");?>"
-								dojoType="dijit.form.DateTextBox" 
-								rangeMessage="កាល​បរិច្ឆេទ  ពី មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ ដល់"
-								constraints="{datePattern:'dd/MM/yyyy', max:'<?php echo  date_format(date_create($this->list_search['to_date']), "Y-m-d");?>'}" 
-								onchange="dijit.byId('to_date').constraints.min = arguments[0]; " /><!-- document.frmlist_mt.submit(); -->
+<div class="card">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="ti ti-replace"></i>&nbsp;<?php echo $tr->translate('XCHANGES');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+				<div class="row g-3">
+					<div class="row g-3">
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<select class="fullside" style="text-align: left;"  name="user_id" id="select_user_id" dojoType="dijit.form.FilteringSelect" required="true">
+								<option value="-1" <?php echo (-1 == $this->user_id)?"selected":"";?>><?php echo $tr->translate('ALL');?></option> 
+								<?php foreach ($this->users as $key => $u) : ?>
+									<option value="<?php echo $u['id'];?>" <?php echo ($u['id'] == $this->list_search['user_id'])?"selected":"";?>><?php echo  $u['name'];?></option>
+								<?php endforeach;?> 
+							</select><!-- onchange="document.frmlist_mt.submit();" -->
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+								<input class="fullside" type="text" name="from_date" id="from_date" value="<?php echo date_format(date_create($this->list_search['from_date']), "Y-m-d");?>"
+									dojoType="dijit.form.DateTextBox" 
+									rangeMessage="កាលបរិច្ឆេទ  ពី មិនអាចតូចជាង កាលបរិច្ឆេទ ដល់"
+									constraints="{datePattern:'dd/MM/yyyy', max:'<?php echo  date_format(date_create($this->list_search['to_date']), "Y-m-d");?>'}" 
+									onchange="dijit.byId('to_date').constraints.min = arguments[0]; " /><!-- document.frmlist_mt.submit(); -->
+								
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<input class="fullside" type="text" name="to_date" id="to_date" value="<?php echo  date_format(date_create($this->to_date), "Y-m-d");?>" 
+									dojoType="dijit.form.DateTextBox" 
+									rangeMessage='កាលបរិច្ឆេទ  ដល់ មិនអាចតូចជាង កាលបរិច្ឆេទ ពី' 
+									constraints="{min:'<?php echo date_format(date_create($this->from_date), "Y-m-d");?>', datePattern:'dd/MM/yyyy'}" 
+									onChange="dijit.byId('from_date').constraints.max = arguments[0]; " /><!--  document.frmlist_mt.submit();-->
 							
-   					</div>
-   					<div class="col-md-2 col-sm-2 col-xs-12">
-   						<input class="fullside" type="text" name="to_date" id="to_date" value="<?php echo  date_format(date_create($this->to_date), "Y-m-d");?>" 
-								dojoType="dijit.form.DateTextBox" 
-								rangeMessage='កាល​បរិច្ឆេទ  ដល់ មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ ពី' 
-								constraints="{min:'<?php echo date_format(date_create($this->from_date), "Y-m-d");?>', datePattern:'dd/MM/yyyy'}" 
-								onChange="dijit.byId('from_date').constraints.max = arguments[0]; " /><!--  document.frmlist_mt.submit();-->
-   						
-   					</div>
-   					<div class="col-md-2 col-sm-2 col-xs-12">
-   						<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-   					</div>
-   					<div class="col-md-2 col-sm-2 col-xs-12">
-   					</div>
-   				</div>
-				</form>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+						</div>
+					</div>
+				</div>
+			</form>
 		</div>
-    	<div class="card-box">
-    	<?php echo $this->list;?>
-    	</div>
-    </div>
+	</div>
+	<div class="card-body">
+		  <?php echo $this->list;?>
+	</div>
 </div>
+
 
 <style>
 	#grid{

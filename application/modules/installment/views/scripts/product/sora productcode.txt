@@ -42,7 +42,7 @@ $form=$this->form;
 								<div class="portlet-body form">
 									 
 										<div class="form-body">
-													<div class="form-group">
+													<div class="row g-3">
 														<label class="col-md-2 control-label"><?php echo $tr->translate("PRODUCT_NAME");?></label>
 														<div class="col-md-4">
 															<?php echo $form->getElement('name');?>
@@ -54,7 +54,7 @@ $form=$this->form;
 														</div>	
 													</div>
 														
-													<div class="form-group">
+													<div class="row g-3">
 														
 																		
 														<label class="col-md-2 control-label"><?php echo $tr->translate("BARCODE");?></label>
@@ -68,7 +68,7 @@ $form=$this->form;
 														</div>
 													</div>
 																
-													<div class="form-group">
+													<div class="row g-3">
 														<label class="col-md-2 control-label"><?php echo $tr->translate("BRAND_NAME");?></label>
 														<div class="col-md-4">
 															<?php echo $form->getElement('brand');?>
@@ -79,7 +79,7 @@ $form=$this->form;
 															<?php echo $form->getElement('model');?>
 														</div>
 													</div>
-													<div class="form-group">
+													<div class="row g-3">
 														<label class="col-md-2 control-label"><?php echo $tr->translate("CATEGORY");?></label>
 														<div class="col-md-4">
 															<?php echo $form->getElement('category');?>
@@ -92,7 +92,7 @@ $form=$this->form;
 														
 													</div>
 													
-													<div class="form-group">
+													<div class="row g-3">
 														<label class="col-md-2 control-label"><?php echo $tr->translate("COLOR");?></label>
 														<div class="col-md-4">
 															<?php echo $form->getElement('color');?>
@@ -103,7 +103,7 @@ $form=$this->form;
 															<?php echo $form->getElement('description');?>
 														</div>
 													</div>
-													<div class="form-group">
+													<div class="row g-3">
 														<label class="col-md-2 control-label"><?php echo $tr->translate("MEASURE");?></label>
 														<div class="col-md-2">
 															<?php echo $form->getElement('measure');?>
@@ -124,7 +124,7 @@ $form=$this->form;
 														</div>
 														
 													</div>
-													<div class="form-group">
+													<div class="row g-3">
 														<label class="col-md-2 control-label"><?php //echo $tr->translate("COLOR");?></label>
 														<div class="col-md-4">
 															<?php //echo $form->getElement('color');?>
@@ -199,7 +199,7 @@ $form=$this->form;
 											</div>
 												<input type="hidden" name="identity_price" id="identity_price" value="<?php //echo $identity;?>" >
 										</div>
-										<div class="form-group">
+										<div class="row g-3">
 											<label  class="col-md-12 col-md-offset-4 col-md-8">
 												<a href="<?php echo $this->baseUrl();?>/sales/saleagent"><button type="button" class="btn red"><i class="fa fa-times"></i> <?php echo $tr->translate("GO_BACK")?></button></a>
 												<button type="submit" name="save_close" value="saveclose" class="btn btn-primary" ><i class="glyphicon glyphicon-log-in"></i> <?php echo $tr->translate("GO_EDIT")?></button>

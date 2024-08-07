@@ -43,7 +43,8 @@ public function init()
 				'style'=>'color:red; font-weight: bold;',
 				'readonly'=>'true'
 		));
-		$loan_number = $db->getGeneralSaleNumber($currentBranch);
+		//$loan_number = $db->getGeneralSaleNumber($currentBranch);
+		$loan_number = $db->getGeneralSaleNumber(0);
 		$_saleNO->setValue($loan_number);
 		
 		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');

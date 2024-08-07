@@ -48,6 +48,7 @@ public function getAllSale($search,$reschedule =null){
 	$to_date = (empty($search['end_date']))? '1': "l.date_sold <= '".$search['end_date']." 23:59:59'";
 	$where = " AND ".$from_date." AND ".$to_date;
 	 
+	 $search['shop_id'] = empty($search['shop_id']) ? 0 : $search['shop_id'];
 	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
 	$complete = $tr->translate("COMPLETED_PAYMENT");
 	$not_complete = $tr->translate("NOT_COMPLETED_PAYMENT");

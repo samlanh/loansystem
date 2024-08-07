@@ -95,9 +95,11 @@ class Saving_IndexController extends Zend_Controller_Action {
 	}
 	public function viewAction(){
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/loan/index/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index",2);
+			exit();
 		}
 		$db = new Loan_Model_DbTable_DbLoanIL();
 		$row = $db->getLoanviewById($id);

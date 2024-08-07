@@ -16,170 +16,164 @@ table.tb-footer tr.style-head {
    font-weight: bold !important;
 }
 </style>
-<div class="reportblog">
-	<div class="card-box">
-       	<div class="col-sm-12 border-botom">
-		   	<div class="col-sm-8 pd-0">
-	    		<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('RPT_TRASFER_LOAN');?></h4>
-    		</div>
-    		<div class="col-sm-4 text-right">
-    		</div>
-    	</div>
-    </div>
-	<form method="post">
-		<div class="card-box">
-			<div class="form-group">
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $filter->getElement('adv_search');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $filter->getElement('branch_id');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $filter->getElement('client_name');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $filter->getElement('co_id');?>
-               </div>
-            </div>
-            <div class="form-group">
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $filter->getElement('start_date');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<?php echo $filter->getElement('end_date');?>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-               </div>
-               <div class="col-md-3 col-sm-3 col-xs-12">
-               </div>
-            </div>
-        </div>
-	</form>
-	<div id="divPrint" style="width: 100%;">
-		<style>
-			.style{
-				line-height: 20px;font-size: 12px !important;
-				font-family: 'Times New Roman','Khmer OS Battambang';
-			}
-			th{padding: 5px;}
-			table tr td ul li{list-style: none;line-height: 25px; }
-			table.content-data { page-break-inside:auto }
-			table.content-data  tr{ page-break-inside:avoid; page-break-after:auto; }
-			#header {
-			  display: table-header-group;
-			  page-break-inside:avoid; page-break-after:auto;
-			}
-			table.content-data{
-				border-collapse:collapse;
-				width:100%;
-				border:1px solid #000; 
-				font-family:'Times New Roman','Khmer OS Battambang';
-				font-size:13px;
-				white-space: nowrap;
-				margin:0 auto;
-			}
-			table.content-data thead tr.style-head {
-			   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
-				background: #ccd9ff;
-				text-align: center;
-			}
-			table.content-data tr.style-rowdata {
-				font-size:12px; 
-				height: 23px;
-			}
-			
-			table.tb-footer{
-				font-family: 'Times New Roman','Khmer OS Battambang'; 
-				border-collapse:collapse;
-				border:1px solid #000; 
-				font-size:12px;
-				width:100%;
-			}
-			table.tb-footer tr.style-head{
-				line-height: 24px; 
-				text-align: center; 
-				background: #ccd9ff;
-			}
-		</style>
-	<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
-		<tr>
-	    	<td align="center">
-	        	<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';margin:0; padding:0;border:none;">
-	            	<tr>
-	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
-	                	<td width="60%" valign="top">
-	                	      <ul>
-	                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-	                			<li style="text-align:center; font-size:13px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("RPT_TRASFER_LOAN");?></li>
-	                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
-	                		 </ul>
-	                	</td>
-	                    <td width="20%"></td>
-	                </tr> 
-	               
-	            </table>
-	        </td>
-	    </tr>
-	    <tr>
-	    	<td id="exportExcel">
-	            <table class="content-data" border="1"​ cellspacing="0">
-	               <thead>
-	               	<tr class="style-head" >
-	                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
-	                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-	                    <td><?php echo $tr->translate("FROM_CO");?></td>
-	                    <td><?php echo $tr->translate("TO_CO");?></td>
-	                    <td><?php echo $tr->translate("CLIENT_NO");?></td>
-	                    <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-	                    <td><?php echo $tr->translate("LOAN_NO");?></td>
-	                    <td><?php echo $tr->translate("NOTE");?></td>
-	                    <td><?php echo $tr->translate("TYPE");?></td>
-	                    <td><?php echo $tr->translate("DATE");?></td>
-	                </tr>
-	                </thead>
-	               <?php 
-	               $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
-	               $other_fee_r=0; $other_fee_b=0; $other_fee_d=0;$total_r=0;$total_b=0;$total_d=0;
-	               if(!empty($this->loantrasfer)){foreach($this->loantrasfer as $key =>$row){?>
-					<tr class="style-rowdata hover" align="center">
-						<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-						<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['from_coname'];?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['to_coname'];?>&nbsp;</td>
-						<td align="center">&nbsp;<?php
-							if($row['type']==1){
-								echo "-";
-							}else{
-								echo $row['client_number'];
-							}
-						?>&nbsp;</td>
-						<td align="center" style="line-height:15px;">&nbsp;
-							<?php 
-							if($row['type']==1){
-								echo "-";
-							}else{
-								echo $row['client_name'];
-							}?>&nbsp;
-						</td>	
-						<td align="center">&nbsp;
-						<?php 
-							if($row['type']==1){
-								echo "-";
-							}else{
-								echo $row['loan_number'];
-							}?>&nbsp;</td>
-						<td align="left"><span style="line-height:15px;">&nbsp;<?php echo $row['note']; ?></span>&nbsp;</td>	
-						<td align="left">&nbsp;<?php echo $type[$row['type']]; ?>&nbsp;</td>				
-						<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date']));?>&nbsp;</td>
-						</tr>
-					<?php }}?>
-	            </table>
-	            <br />
-	              <?php echo $this->footerReport;?> 
-	    	</td>
-	    </tr>
-	</table>
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('RPT_TRASFER_LOAN');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form method="post">
+				<div class="row g-3">
+				   <div class="col-md-3 col-sm-3 col-xs-12">
+						<?php echo $filter->getElement('adv_search');?>
+				   </div>
+				   <div class="col-md-3 col-sm-3 col-xs-12">
+						<?php echo $filter->getElement('branch_id');?>
+				   </div>
+				   <div class="col-md-3 col-sm-3 col-xs-12">
+						<?php echo $filter->getElement('client_name');?>
+				   </div>
+				   <div class="col-md-3 col-sm-3 col-xs-12">
+						<?php echo $filter->getElement('co_id');?>
+				   </div>
+				</div>
+				<div class="row g-3">
+				   <div class="col-md-3 col-sm-3 col-xs-12">
+						<?php echo $filter->getElement('start_date');?>
+				   </div>
+				   <div class="col-md-3 col-sm-3 col-xs-12">
+						<?php echo $filter->getElement('end_date');?>
+				   </div>
+				   <div class="col-md-2 col-sm-2 col-xs-12">
+						<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+				   </div>
+				</div>
+			</form>
+		</div>	
+	</div>
+	<div class="card-body">
+		<div id="divPrint" style="width: 100%;">
+			<style>
+				.style{
+					line-height: 20px;font-size: 12px !important;
+					font-family: 'Times New Roman','Khmer OS Battambang';
+				}
+				th{padding: 5px;}
+				table tr td ul li{list-style: none;line-height: 25px; }
+				table.content-data { page-break-inside:auto }
+				table.content-data  tr{ page-break-inside:avoid; page-break-after:auto; }
+				#header {
+				  display: table-header-group;
+				  page-break-inside:avoid; page-break-after:auto;
+				}
+				table.content-data{
+					border-collapse:collapse;
+					width:100%;
+					border:1px solid #000; 
+					font-family:'Times New Roman','Khmer OS Battambang';
+					font-size:13px;
+					white-space: nowrap;
+					margin:0 auto;
+				}
+				table.content-data thead tr.style-head {
+				   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
+					background: #ccd9ff;
+					text-align: center;
+				}
+				table.content-data tr.style-rowdata {
+					font-size:12px; 
+					height: 23px;
+				}
+				
+				table.tb-footer{
+					font-family: 'Times New Roman','Khmer OS Battambang'; 
+					border-collapse:collapse;
+					border:1px solid #000; 
+					font-size:12px;
+					width:100%;
+				}
+				table.tb-footer tr.style-head{
+					line-height: 24px; 
+					text-align: center; 
+					background: #ccd9ff;
+				}
+			</style>
+			<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;">
+				<tr>
+					<td align="center">
+						<table width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';margin:0; padding:0;border:none;">
+							<tr>
+								<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+								<td width="60%" valign="top">
+									  <ul>
+										<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+										<li style="text-align:center; font-size:13px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("RPT_TRASFER_LOAN");?></li>
+										<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
+									 </ul>
+								</td>
+								<td width="20%"></td>
+							</tr> 
+						   
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td id="exportExcel">
+						<table class="content-data" border="1" cellspacing="0">
+						   <thead>
+							<tr class="style-head" >
+								<td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
+								<td><?php echo $tr->translate("BRANCH_NAME");?></td>
+								<td><?php echo $tr->translate("FROM_CO");?></td>
+								<td><?php echo $tr->translate("TO_CO");?></td>
+								<td><?php echo $tr->translate("CLIENT_NO");?></td>
+								<td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
+								<td><?php echo $tr->translate("LOAN_NO");?></td>
+								<td><?php echo $tr->translate("NOTE");?></td>
+								<td><?php echo $tr->translate("TYPE");?></td>
+								<td><?php echo $tr->translate("DATE");?></td>
+							</tr>
+							</thead>
+						   <?php 
+						   $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
+						   $other_fee_r=0; $other_fee_b=0; $other_fee_d=0;$total_r=0;$total_b=0;$total_d=0;
+						   if(!empty($this->loantrasfer)){foreach($this->loantrasfer as $key =>$row){?>
+							<tr class="style-rowdata hover" align="center">
+								<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+								<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
+								<td>&nbsp;<?php echo $row['from_coname'];?>&nbsp;</td>
+								<td>&nbsp;<?php echo $row['to_coname'];?>&nbsp;</td>
+								<td align="center">&nbsp;<?php
+									if($row['type']==1){
+										echo "-";
+									}else{
+										echo $row['client_number'];
+									}
+								?>&nbsp;</td>
+								<td align="center" style="line-height:15px;">&nbsp;
+									<?php 
+									if($row['type']==1){
+										echo "-";
+									}else{
+										echo $row['client_name'];
+									}?>&nbsp;
+								</td>	
+								<td align="center">&nbsp;
+								<?php 
+									if($row['type']==1){
+										echo "-";
+									}else{
+										echo $row['loan_number'];
+									}?>&nbsp;</td>
+								<td align="left"><span style="line-height:15px;">&nbsp;<?php echo $row['note']; ?></span>&nbsp;</td>	
+								<td align="left">&nbsp;<?php echo $type[$row['type']]; ?>&nbsp;</td>				
+								<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date']));?>&nbsp;</td>
+								</tr>
+							<?php }}?>
+						</table>
+						<br />
+						  <?php echo $this->footerReport;?> 
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </div>

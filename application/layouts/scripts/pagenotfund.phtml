@@ -2,33 +2,32 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $file = PUBLIC_PATH."/images/logo.png";
 if (file_exists($file)) {
-	
+	$file = $this->baseUrl()."/images/logo.png";
 } else {
 $file = $this->baseUrl()."/images/logo.jpg";
 }
+echo $this->headTitle(" - ".$tr->translate('Page Not Found'));
 ?>
-<html>
-<head>
-<link rel="shortcut icon" href="<?php echo $this->baseUrl();?>/images/icon.ico" type="image/x-icon"/>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
-<link href="<?php echo $this->baseUrl()."/"?>dashboard/notFoundPage/style.css" rel="stylesheet">
-<title><?php echo  $tr->translate("Page Not Found");?></title>
-</head>
-	<body>
-		<div class="wrapper row2">
-		  <div id="container" class="clear">
-		    <section id="fof" class="clear">
-		      <div class="hgroup">
-		      	<img src="<?php echo $file;?>" style="width: 140px;"/>
-		      	 <?php $ise = 0; if ($ise==1){?>
-		        <h1><span><strong>4</strong></span><span><strong>0</strong></span><span><strong>4</strong></span></h1>
-		        <?php }?>
-		        <h2><?php echo  $tr->translate("Sorry");?> ! <span><?php echo $tr->translate("This page is not found in our site");?></span></h2>
-		      </div>
-		      <p><?php echo $tr->translate("Please Try Again");?> !</p>
-		      <p><a href="javascript:history.go(-1)">&laquo; <?php echo $tr->translate("GO_BACK");?></a> / <a href="<?php echo $this->baseUrl();?>"><?php echo $tr->translate("Go Home");?> &raquo;</a></p>
-		    </section>
-		  </div>
+
+<div class="card h-100">
+	<div class="card-body">
+		<div class="d-flex align-items-center justify-content-center h-px-500">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12 text-center">
+					<div class="pageNotFoundLogo"></div>
+					 <?php $ise = 0; if ($ise==1){?>
+					<h1><span><strong>4</strong></span><span><strong>0</strong></span><span><strong>4</strong></span></h1>
+					<?php }?>
+					<h2 class="py-3 mb-4"><?php echo  $tr->translate("Sorry");?> ! <span><?php echo $tr->translate("This page is not found in our site");?></span></h2>
+					<p><?php echo $tr->translate("Please Try Again");?> !</p>
+					<p><a href="javascript:history.go(-1)">&laquo; <?php echo $tr->translate("GO_BACK");?></a> / <a href="<?php echo $this->baseUrl();?>"><?php echo $tr->translate("Go Home");?> &raquo;</a></p>
+		   
+				</div>
+			</div>
+		     
 		</div>
-	</body>
-</html>
+	
+		
+		</div>
+	</div>
+</div>

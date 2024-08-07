@@ -28,8 +28,9 @@ class Installment_RescheduleController extends Zend_Controller_Action {
 			$db = new Installment_Model_DbTable_DbInstallment();
 			$rs_rows= $db->getAllSale($search);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","SALE_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
-					"SOLD_DATE","INVOICE_NO","SALE_TYPE","STATUS","SCHEDULE_PAYMENT","COMPLETED","BY","STATUS");
+			$collumns = array("BRANCH_NAME","SHOP_NAME","INSTALLMENT_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
+					"SOLD_DATE","INVOICE_NO","SALE_TYPE","REPAYMENT_TYPE","INSTALLMENT_DURATION","COMPLETED","BY","STATUS");
+		
 			$link=array(
 					'module'=>'installment','controller'=>'index','action'=>'view',
 			);
@@ -37,7 +38,8 @@ class Installment_RescheduleController extends Zend_Controller_Action {
 			$link_schedule=array('module'=>'report','controller'=>'loan','action'=>'rpt-paymentschedules',);
 				
 			$link_payment=array('module'=>'installment','controller'=>'payment','action'=>'add',);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('បោះពុម្ភ'=>$link_schedule,'Click Here'=>$link_payment,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
+			//array('បោះពុម្ភ'=>$link_schedule,'Click Here'=>$link_payment,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info)
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array(),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -78,7 +80,7 @@ class Installment_RescheduleController extends Zend_Controller_Action {
   	$row = $db->getSaleinstallbyid($id);
   	
   	if (empty($row)){
-  		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment");exit();
+  		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment",2);exit();
   	}
   	
   	$frm = new Installment_Form_FrmLoan();
@@ -164,9 +166,11 @@ class Installment_RescheduleController extends Zend_Controller_Action {
 // 	}
 	public function viewAction(){
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/installment/index/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/index/index",2);
+			exit();
 		}
 		$db = new Loan_Model_DbTable_DbLoandisburse();
 		$row = $db->getLoanviewById($id);

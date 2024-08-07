@@ -79,13 +79,14 @@ class Loan_TransfercoloandController extends Zend_Controller_Action {
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transfercoloand/");
 			}
 		}
-		$data = $db->getAllinfoTransfer($id);
+		$row = $db->getAllinfoTransfer($id);
 		
-		if(empty($data)){
-			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/transfercoloand/");
+		if(empty($row)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/transfercoloand/",2);
+			exit();
 		}
 		$fm = new Loan_Form_FrmTransferCoClient();
-		$frm = $fm->FrmTransfer($data);
+		$frm = $fm->FrmTransfer($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_transfer = $frm;
 

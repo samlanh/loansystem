@@ -522,7 +522,7 @@ function addPreviewLoan(){
 			form: dojo.byId("frm_add_tran"),		    
 			handleAs:"json", 
 			load: function(data) {
-				document.getElementsByClassName("overlay")[0].style.display="none";
+				HideloadingBlock();
 				temp='';	
 			     fund_title=0;thead='';fund_title=0;
 				 		temp='<table class="collape tablesorter" style="font-size:13px; width:970px !important; " id="table">'
@@ -549,7 +549,7 @@ function addPreviewLoan(){
 				dijit.byId("lbl_schedule").show();
 			},
 			error: function(err) {
-			document.getElementsByClassName("overlay")[0].style.display="none";
+			HideloadingBlock();
 			alert("You can not preview this loan number!");
 			}
 	   });
@@ -962,7 +962,7 @@ function popupCheckCO(){
   
 }
 function loading(){
-    document.getElementsByClassName("overlay")[0].style.display="block";
+    loadingBlock()
 }
 </script>
 <style>

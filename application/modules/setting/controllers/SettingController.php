@@ -18,7 +18,7 @@ public function init()
 				$db = $db->updateKeyCode($post, $data);
 				Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS','/setting/setting');
 			} catch (Exception $e) {
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				$this->view->msg = 'ការបញ្ចូលមិនជោគជ័យ';
 			}
 		}
 	}
