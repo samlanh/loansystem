@@ -4,16 +4,10 @@
 ?>
 <?php  $province= $this->frm_province;?>
 <div class="card">
-	<div class="card-content collapse show">
-		<div class="card-box">
- 			<div class="col-sm-12 border-botom">
-		    	<div class="col-sm-8 pd-0">
-		    		<h4 class="m-b-0"><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('EDIT_PROVINCE');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;<?php echo $tr->translate('EDIT_PROVINCE');?></h5>
+	</div>
+	<div class="card-body">
 		<form id="add_province" action="<?php echo $this->url(array('module'=>'other','controller'=>'province','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			 <script type="dojo/method" event="onSubmit">			
 				if(this.validate()) {
@@ -23,47 +17,40 @@
 					return false;
 				}
 			</script>
-			<div class="card-box">
+			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="form-group">
+					<div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PROVINCE_CODE");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $province->getElement("code");?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("PROVINCE_NAME");//$tr->translate("KH_PROVINCE");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $province->getElement("kh_province");?>
 	                   </div>
 	                </div>
-	                <!-- 
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php //echo $tr->translate("EN_PROVINCE");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<?php //echo $province->getElement("en_province");?>
-	                   </div>
-	                </div>
-	                 -->
-	                <div class="form-group">
+	                <div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?>
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
 	                   		<?php echo $province->getElement("status");?>
 	                   </div>
 	                </div>
-	                <div class="form-group">
-		                <div class="col-sm-12 border-top mt-20 ptb-10 text-center">
-		                	 <input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"
-                           iconClass="dijitIconClear" />
-							<input type="submit" iconClass="dijitEditorIcon dijitEditorIconSave" value="<?php echo $tr->translate("GO_EDIT");?>" label="<?php echo $tr->translate("SAVECLOSE");?>" 
-							id="submitButton" dojoType="dijit.form.Button" 
-							 iconClass=""/>
-			    		</div>
-		    		 </div>
+					
+					<!-- Button Save  -->
+					<div class="clearfix"></div>
+					<div class="card-box">
+						<div class="col-sm-12 border-top mt-2 py-2 text-center">
+							<input type="reset" class="button-class button-danger " iconClass="glyphicon glyphicon-repeat" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button" />
+							<input type="submit" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" label="<?php echo $tr->translate("GO_EDIT")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  />
+						</div>
+					</div>
+					<!--/. Button Save  -->
+					
 	            </div>
 	         </div>
 		</form>

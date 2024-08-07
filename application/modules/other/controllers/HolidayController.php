@@ -26,7 +26,7 @@ class Other_HolidayController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("HOLIDAY_NAME","AMOUNT_DAY","START_DATE","END_DATE","NOTE","STATUS","BY");
+			$collumns = array("HOLIDAY","AMOUNT_DAY","START_DATE","END_DATE","NOTE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'holiday','action'=>'edit',
 			);
@@ -81,9 +81,12 @@ class Other_HolidayController extends Zend_Controller_Action {
 			}
 		}
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
+		
 		$row = $db->getHolidayById($id);
 		if(empty($row)){
-			$this->_redirect('/other/holiday');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/other/holiday',2);
+			exit();
 		}
 		$frm = new Other_Form_FrmHoliday();
 		$frm_holiday=$frm->FrmAddHoliday($row);

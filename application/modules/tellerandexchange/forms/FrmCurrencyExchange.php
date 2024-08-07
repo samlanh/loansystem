@@ -69,6 +69,7 @@ class Tellerandexchange_Form_FrmCurrencyExchange extends Zend_Dojo_Form
     		$rate_in->setValue($data['rate_in']);
     		$spread->setValue($data['spread']);
     		$rate_out->setValue($data['rate_out']);
+			$data['active'] = empty($data['active']) ? 0 : $data['active'];
     		$_active->setValue($data['active']);
     	}
     	

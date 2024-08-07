@@ -3,6 +3,7 @@
 	$client = $this->client;
 	$filter = $this->form_filter;
 	$dayin_khmer = $this->day_inkhmer;
+	
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$url_barcode = $this->url(array("module"=>"loan","controller"=>"ilpayment","action"=>"generatebarcode","loan_code"=>$client['loan_number']),null,true);																							
 
@@ -16,18 +17,37 @@ table.tb-footer tr.style-head {
    font-weight: bold !important;
 }
 </style>
-<div style=" width:26cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('REPORT WEEK');?></h5>
+		<label class="switch switch-square">
+			<input type="checkbox" class="switch-input" id="stamp" name="stamp" onclick="stampDisplay()" checked />
+			<span class="switch-toggle-slider">
+				<span class="switch-on"></span>
+				<span class="switch-off"></span>
+			</span>
+			<span class="switch-label"><?php echo $tr->translate("SHOW_HEADER"); ?></span>
+		</label>
+	</div>
 	<div id="divPrint">
 		<style type="text/css">
+			table tr,
+			table tr h2,
+			table tr p,
 			.style{
-				line-height: 20px;font-size: 13px;
+				line-height: 20px;
+				font-size: 13px;
 				font-family: 'Times New Roman','Khmer OS Battambang';
+				color: #000;
 			}
 			.font_bold{
 				font-family:'Khmer MEF2';
 				font-size: 12px;
 			}
 			td p{ margin-top:-12px;}
+			img.reportLogo{
+				height:75px;
+			}
 			p{margin: 0 00px !important;}
 			table.content-data{	
 				border-collapse:collapse;
@@ -41,6 +61,10 @@ table.tb-footer tr.style-head {
 			table.content-data  tr.style-head {
 			   line-height: 25px; padding:1px 0px; white-space: nowrap;height: 22px; 
 				text-align: center;
+			}
+			table.content-data tr th,
+			table.content-data tr td{
+				border:1px solid #000; 
 			}
 			table.content-data tr.style-rowdata {
 				font-size:12px; 
@@ -61,19 +85,21 @@ table.tb-footer tr.style-head {
 		</style>
 	<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;"  >
 		<tr>
-	    	<td align="center">
+	    	<td align="center" >
 	        	<table width="100%" style="font-family:'Times New Roman','Khmer OS Muol Light';margin:0 auto;padding:0px; border:none;">
-					<tr style="display: none;">
-	                	  <td style=" " valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" /> </td>
+					<tr id="header">
+	                	  <td style=" " valign="top">
+							<img class="reportLogo" src="<?php echo $this->baseUrl();?>/images/logo.jpg" /> 
+							</td>
 	                	  <td colspan="2" align="left" >
-	                	  <h2 style="font-weight:normal; text-align:left; font-size:12px; font-family:'Khmer os battambang';"><?php //echo $tr->translate("ADDRESS_COMPANY");?>
-	                	  	<br /><?php //echo $tr->translate("TEL_COMPANY");?>
+	                	  <h2 style="font-weight:normal; text-align:left; font-size:12px; font-family:'Khmer os battambang';"><?php echo $client['branchAddress'];//$tr->translate("ADDRESS_COMPANY");?>
+	                	  	<br /><?php echo $tr->translate("PHONE")." : ".$client['branchTel'];//$tr->translate("TEL_COMPANY");?>
 	                	  </h2>
 	                	  </td>
 	                </tr >
 	                <tr >
 	                	<td colspan="3" align="center">
-	                		<h2 style="font-weight:normal; text-align:center; font-size:16px; font-family:'Khmer OS Muol Light'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
+	                		<h2 style="font-weight:normal; text-align:center; font-size:14px; font-family:'Khmer OS Muol Light'"><?php echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
 	               		</td>
 	                </tr> 
 	                <?php 
@@ -101,7 +127,7 @@ table.tb-footer tr.style-head {
 				                      <p><?php echo $tr->translate("LEVEL");?> : <?php echo $client['level'];?></p>
 				                    </td>
 				                </tr>
-				                <tr style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'" >
+				                <tr style="font-size:12px;font-family:'Times New Roman','Khmer OS Battambang'" >
 				                	<td colspan="2">
 				                		<p style="padding-top:8px;"><span><?php echo $tr->translate("ADDRESS");?></span>:<?php echo $row['village_name'];?> ,<?php echo $row['commune_name'];?> <?php echo $row['district_name'];?> ,  <?php echo $row['province_en_name'];?>
 				                	</td>
@@ -163,7 +189,7 @@ table.tb-footer tr.style-head {
 		                    <td><?php echo number_format($row['total_interest'],2);?></td>
 							<?php } ?>
 		                    <td style="font-family:'arial';font-size:12px;font-weight: bold;"><?php echo number_format($row['total_payment'],2); ?></td>
-		                    <td style="font-family:'arial';font-size:12px;font-weight: bold;"><?php if($row['is_penalty']==1){ echo number_format($row['total_interest'],2);}?></td>
+		                    <!--<td style="font-family:'arial';font-size:12px;font-weight: bold;"><?php //if($row['is_penalty']==1){ echo number_format($row['total_interest'],2);}?></td>-->
 		                    <td><?php echo ($row['is_completed']==1)?"បង់ដាច់":""?></td>
 		                </tr>
 	               <?php }}
@@ -200,12 +226,12 @@ table.tb-footer tr.style-head {
 	            		<td height="40px">&nbsp;</td>
 	            	</tr>
 	            	<tr class="font_bold">
-	            		<td align="center" height="80px" valign="bottom" style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'"><?php echo $client['user_name'];?></td>
+	            		<td align="center" height="80px" valign="bottom" style="font-size:14px;font-family:'Times New Roman','Khmer OS Battambang'"><?php echo $client['user_name'];?></td>
 	            		<td align="center"  valign="bottom" style="font-size:15px;line-height: 30px;font-family:'Times New Roman','Khmer OS Battambang'" >
 	            			<?php echo $client['co_khname'];?>
 	            			<p><?php echo $tr->translate("TEL");?>  : <?php echo $client['tel'];?></p>   
 	            		</td>
-	            		<td align="center" height="75px" valign="bottom" style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'">
+	            		<td align="center" height="75px" valign="bottom" style="font-size:14px;font-family:'Times New Roman','Khmer OS Battambang'">
 	            			<?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
 	            	</tr>
 	            </table>
@@ -213,4 +239,21 @@ table.tb-footer tr.style-head {
 	    </tr>
 	</table>
 	</div>
+	
 </div>
+<script src="<?php echo $this->baseUrl(); ?>/js/help.js"></script>
+  <script type="text/javascript">
+  	dojo.require("dojo.NodeList-manipulate");
+  	dojo.require("dojo.data.ItemFileWriteStore");
+  
+  	function stampDisplay() {
+  		var checkBox = document.getElementById("stamp");
+  		var header = document.getElementById("header");
+
+  		if (checkBox.checked == true) {
+			header.style.display = "block";
+  		} else {
+			header.style.display = "none";
+  		}
+  	}
+  </script>

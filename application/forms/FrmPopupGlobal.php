@@ -531,7 +531,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		$data=$key->getKeyCodeMiniInv(TRUE);
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$str='<table align="center" width="100%">
-				<tr style="font-size: 14px;">
+				<tr style="font-size: 12px;">
 					<td style="width:20%;text-align:center;  font-family:'."'Times New Roman'".','."'Khmer OS Muol Light'".'">'.$tr->translate('APPROVED BY').'</td>
 					<td></td>
 					<td style="width:20%;text-align:center; font-family:'."'Times New Roman'".','."'Khmer OS Muol Light'".'">'.$tr->translate('VERIFYED BY').'</td>
@@ -584,8 +584,11 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 					padding: 1px;
 				}
 		         table table tr td ul li{text-align: center;list-style: none;line-height: 20px; }
+				 #projectlogo img{
+					 max-height:90px;
+				 }
 			</style>
-			    		<table  cellspacing="0" style=" color: #133b84 !important; width:25cm; max-height:14.85cm; white-space:nowrap; font-family:'."'Times New Roman'".','."'Khmer OS Battambang'".'; font-size: 10px; ">
+			    		<table  cellspacing="0" style=" color: #133b84 !important; width:25cm; max-height:14.85cm; white-space:nowrap; font-family:'."'Times New Roman'".','."'Khmer OS Battambang'".'; font-size: 10px; margin: 0 auto;">
 							 <tr valign="top">
 								<td align="center" colspan="6" valign="top" height="80">
 									<table  cellpadding="0" cellspacing="0" style="font-family: :'."'Times New Roman'".','."'Khmer OS Battambang'".';padding:0; width:100%;white-space:nowrap;">

@@ -402,7 +402,7 @@ function submitData(){
 		    url: url_submit,	
 			form: dojo.byId("frm_add_group_pay"),		    
 			load: function(data) {
-				document.getElementsByClassName("overlay")[0].style.display="none";	
+				HideloadingBlock();	
 				alert('<?php echo $tr->translate('UPDATE_SUCCESS');?> !');
 				dijit.byId("frm_add_group_pay").reset();
 				window.location.href ="<?php echo $this->baseUrl();?>/loan/grouppayment";
@@ -420,7 +420,7 @@ function submitDataClose(){
 		    url: url_submit,	
 			form: dojo.byId("frm_add_group_pay"),		    
 			load: function(data) {
-				document.getElementsByClassName("overlay")[0].style.display="none";		
+				HideloadingBlock();		
 				alert('<?php echo $tr->translate('UPDATE_SUCCESS');?> !');
 				window.location.href ="<?php echo $this->baseUrl();?>/loan/grouppayment";
 			},
@@ -436,7 +436,7 @@ function submitNew(){
 		    url: url_submit,	
 			form: dojo.byId("frm_add_group_pay"),		    
 			load: function(data) {
-				document.getElementsByClassName("overlay")[0].style.display="none";	
+				HideloadingBlock();	
 				alert('<?php echo $tr->translate('UPDATE_SUCCESS');?> !');
 				dijit.byId("frm_add_group_pay").reset();
 				window.location.href ="<?php echo $this->baseUrl();?>/loan/grouppayment/add";
@@ -455,7 +455,7 @@ function cancelPayment(){
 			    url: url_submit,	
 				form: dojo.byId("frm_add_group_pay"),		    
 				load: function(data) {
-					document.getElementsByClassName("overlay")[0].style.display="none";	
+					HideloadingBlock();	
 					alert('<?php echo $tr->translate('CANCEL_SUCCESS');?> !');
 					dijit.byId("frm_add_group_pay").reset();
 					window.location.href ="<?php echo $this->baseUrl();?>/loan/grouppayment";
@@ -1387,7 +1387,7 @@ function getPayOption(){
 	}
 }
 function loading(){
-document.getElementsByClassName("overlay")[0].style.display="block";
+loadingBlock()
 }
 </script>
 <style>

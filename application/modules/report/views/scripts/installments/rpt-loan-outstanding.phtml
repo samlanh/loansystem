@@ -15,57 +15,54 @@ table.tb-footer tr.style-head {
 }
 </style>
 <title><?php echo $tr->translate("LOAN_INSTALMENT_OUTSTADING");?></title>
-<div class="reportblog">
-	<div class="card-box">
-       	<div class="col-sm-12 border-botom">
-		   	<div class="col-sm-8 pd-0">
-	    		<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('LOAN_INSTALMENT_OUTSTADING');?></h4>
-    		</div>
-    		<div class="col-sm-4 text-right">
-    		</div>
-    	</div>
-    </div>
-	 <form method="post">
-		<div class="card-box">
-			<div class="form-group">
-				 <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('adv_search');?>
-				 </div>
-				 <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('branch_id');?>
-				 </div>
-				 <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('shop_id');?>
-				 </div>
-				 <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('members');?>
-				 </div>
-				 <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frms->getElement('category');?>
-				 </div>
-			</div>
-			<div class="form-group">
-				 <div class="col-md-2 col-sm-2 col-xs-12">
-					<select dojoType="dijit.form.FilteringSelect" class="fullside"  name="product_type" id="product_type" >
-						<option value="-1"><?php echo $tr->translate('PRODUCT_TYPE');?></option>
-						<?php if (!empty($this->producttype)) foreach ($this->producttype as $pt){?>
-						<option value="<?php echo $pt['id'];?>" <?php if ($this->search['product_type']==$pt['id']){ echo 'selected="selected"';}?>><?php echo $pt['name'];?></option>
-						<?php }?>
-					</select>
-				 </div>
-				 <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('start_date');?>
-				 </div>
-				 <div class="col-md-2 col-sm-2 col-xs-12">
-					<?php echo $frm->getElement('end_date');?>
-				 </div>
-				 <div class="col-md-2 col-sm-2 col-xs-12">
-					<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-				 </div>
-			</div>
-		</div>
-	</form>
-	<div id="divPrint" style="width: 100%;">
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('LOAN_INSTALMENT_OUTSTADING');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form method="post">
+				<div class="card-box">
+					<div class="row g-3">
+						 <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('adv_search');?>
+						 </div>
+						 <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('branch_id');?>
+						 </div>
+						 <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('shop_id');?>
+						 </div>
+						 <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('members');?>
+						 </div>
+						 <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frms->getElement('category');?>
+						 </div>
+					</div>
+					<div class="row g-3">
+						 <div class="col-md-2 col-sm-2 col-xs-12">
+							<select dojoType="dijit.form.FilteringSelect" class="fullside"  name="product_type" id="product_type" >
+								<option value="-1"><?php echo $tr->translate('PRODUCT_TYPE');?></option>
+								<?php if (!empty($this->producttype)) foreach ($this->producttype as $pt){?>
+								<option value="<?php echo $pt['id'];?>" <?php if ($this->search['product_type']==$pt['id']){ echo 'selected="selected"';}?>><?php echo $pt['name'];?></option>
+								<?php }?>
+							</select>
+						 </div>
+						 <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('start_date');?>
+						 </div>
+						 <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('end_date');?>
+						 </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					   </div>
+					</div>
+				</div>
+			</form>
+		</div>	
+	</div>
+	<div class="card-body">
+		<div id="divPrint" style="width: 100%;">
 		<style>
 			.style{
 				line-height: 20px;font-size: 12px !important;
@@ -218,5 +215,6 @@ table.tb-footer tr.style-head {
 			    	</td>
 			    </tr>
 			</table>
+		</div>
 	</div>
 </div>

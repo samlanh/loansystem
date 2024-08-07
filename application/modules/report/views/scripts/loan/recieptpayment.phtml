@@ -14,12 +14,14 @@ $showreceipt = empty($this->data['showreceipt'])?2:$this->data['showreceipt'];
      dojo.require("dijit.form.DateTextBox");
 </script>
 
-<div style="min-height:35cm; margin:0 auto; padding:0.5cm 0.5cm 0cm 0.5cm">
-	
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('PAYMENT_RECEIPT');?></h5>
+	</div>	
 	<div id="divPrint">
-			<div id="divPrint1" style="width: 100%; height: 14.8cm ; padding: 0px; margin: 0px;">
-				<?php echo $this->loanReceipt;?>
-			</div>
+		<div id="divPrint1" style="width: 100%; height: 14.8cm ; padding: 0px; margin: 0px;">
+			<?php echo $this->loanReceipt;?>
+		</div>
 		<?php if($showreceipt>1){?>
 			<div id="divPrint2" style="width: 100%;height: 14.8cm ; padding: 0px; margin: 0px;">
 				<div style="border:2px dashed #000; vertical-align: middle; margin:70px 0px 40px 0px"></div>

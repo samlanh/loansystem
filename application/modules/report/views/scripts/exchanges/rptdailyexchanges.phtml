@@ -8,100 +8,96 @@ $frm = $this->frm_search;
 <script>
 dojo.require("dijit.form.DateTextBox");
 </script>
-<div class="reportblog">
-	<div class="card-box">
-       	<div class="col-sm-12 border-botom">
-		   	<div class="col-sm-8 pd-0">
-	    		<h4 class="m-b-0"><i class="fa fa-file-text " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('Report Exchange Current Capital');?></h4>
-    		</div>
-    		<div class="col-sm-4 text-right">
-    		</div>
-    	</div>
-    </div>
-    <form dojoType="dijit.form.Form" method="post">
-		<div class="card-box">
-			<div class="form-group">
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<select class="fullside" style="text-align: left;"  name="agent_id" id="select_user_id" dojoType="dijit.form.FilteringSelect" required="true">
-						<option value="-1" <?php echo (-1 == $this->user_id)?"selected":"";?>><?php echo $tr->translate("All Agent");?></option> 
-						<?php foreach ($this->users as $key => $u) : ?>
-							<option value="<?php echo $u['id'];?>" <?php echo ($u['id'] == $this->list_search['agent_id'])?"selected":"";?>><?php echo  $u['name'];?></option>
-						<?php endforeach;?> 
-					</select><!-- onchange="document.frmlist_mt.submit();" -->
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("start_date");?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("end_date");?>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button>
-               </div>
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               </div>
-            </div>
-        </div>
-    </form>
-    <div id="divPrint">
-		<style>
-		.style{
-			line-height: 20px;
-			font-family: 'Times New Roman','Khmer OS Battambang';
-		}
-		table tr td ul li{list-style: none;line-height: 25px; }
-		th{padding: 5px;}
-			a.repLink.btn {
-			    color: #008;
-			    font-weight: 600;
-			}
-		#exportExcel tr td{ padding: 1px;}
-		</style>
-		<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;"  >
-			<tr>
-		    	<td align="center">
-		        	<table width="100%" style="font-family:'Times New Roman','Khmer OS Battambang'; padding:0; border:none;" >
-		            	<tr>
-		                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
-		                	<td width="60%" valign="top">
-		                	     <ul>
-		                			<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-		                			<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("Report Exchange Current Capital");?></li>
-		                			<li style="text-align:center; font-size:13px; font-family: 'Times New Roman','Times New Roman','Khmer OS Battambang';"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
-		                		</ul>
-		                	</td>
-		                	
-		                    <td width="20%"></td>
-		                </tr> 
-		            </table>
-		        </td>
-		    </tr>
-		    <tr>
-		    	<td id="exportExcel">
-		            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; white-space: nowrap; " width="100%" cellspacing="0">
-		                 <thead>
-						 <tr class="style" align="center" style="font-weight:bold; background:#ccd9ff; line-height: 24px;font-size:12px; font-family: 'Times New Roman','Khmer OS Battambang';">
-		                    <td><?php echo $tr->translate("NUM");?></td>
-		                    <td><?php echo $tr->translate("DATE");?></td>
-		                    <td><?php echo $tr->translate("Agent Name");?></td>
-		                    <td><?php echo $tr->translate("Amount");?></td>
-		                    <td><?php echo $tr->translate("Currency");?></td>
-		                </tr>
-						</thead>
-		                <?php $i=0; foreach ($dailyCurrentCapital as $row){ $i++;?>
-		               <tr style="font-size: 12px;" align="left">
-		               		<td style="text-align: center;"><?php echo $i;?></td>
-		               		<td align="center">&nbsp;<?php echo date("d/M/Y",strtotime($row['for_date']));?></td>
-		               		<td>&nbsp;<?php echo $row['agentName']?>&nbsp;</td>
-		               		<td align="right">&nbsp;<?php echo number_format($row['amount'],2);?>&nbsp;</td>
-		               		<td align="center">&nbsp;<?php echo $row['currTitleKH']." (".$row['symbol'].")"?>&nbsp;</td>
-		               </tr>
-		               <?php }?>
-		            </table>
-		       		<br />
-		       		 <?php echo $this->footerReport;?>
-		    	</td>
-		    </tr>
-		</table>
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('Report Exchange Current Capital');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form method="post">
+				<div class="card-box">
+					<div class="row g-3">
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<select class="fullside" style="text-align: left;"  name="agent_id" id="select_user_id" dojoType="dijit.form.FilteringSelect" required="true">
+								<option value="-1" <?php echo (-1 == $this->user_id)?"selected":"";?>><?php echo $tr->translate("All Agent");?></option> 
+								<?php foreach ($this->users as $key => $u) : ?>
+									<option value="<?php echo $u['id'];?>" <?php echo ($u['id'] == $this->list_search['agent_id'])?"selected":"";?>><?php echo  $u['name'];?></option>
+								<?php endforeach;?> 
+							</select><!-- onchange="document.frmlist_mt.submit();" -->
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("start_date");?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("end_date");?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					   </div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="card-body">
+		<div id="divPrint">
+			<style>
+				.style{
+					line-height: 20px;
+					font-family: 'Times New Roman','Khmer OS Battambang';
+				}
+				table tr td ul li{list-style: none;line-height: 25px; }
+				th{padding: 5px;}
+					a.repLink.btn {
+						color: #008;
+						font-weight: 600;
+					}
+				#exportExcel tr td{ padding: 1px;}
+			</style>
+			<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;"  >
+				<tr>
+					<td align="center">
+						<table width="100%" style="font-family:'Times New Roman','Khmer OS Battambang'; padding:0; border:none;" >
+							<tr>
+								<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+								<td width="60%" valign="top">
+									 <ul>
+										<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+										<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("Report Exchange Current Capital");?></li>
+										<li style="text-align:center; font-size:13px; font-family: 'Times New Roman','Times New Roman','Khmer OS Battambang';"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
+									</ul>
+								</td>
+								
+								<td width="20%"></td>
+							</tr> 
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td id="exportExcel">
+						<table border="1" style="border-collapse:collapse;border:1px solid #000; white-space: nowrap; " width="100%" cellspacing="0">
+							 <thead>
+							 <tr class="style" align="center" style="font-weight:bold; background:#ccd9ff; line-height: 24px;font-size:12px; font-family: 'Times New Roman','Khmer OS Battambang';">
+								<td><?php echo $tr->translate("NUM");?></td>
+								<td><?php echo $tr->translate("DATE");?></td>
+								<td><?php echo $tr->translate("Agent Name");?></td>
+								<td><?php echo $tr->translate("Amount");?></td>
+								<td><?php echo $tr->translate("Currency");?></td>
+							</tr>
+							</thead>
+							<?php $i=0; foreach ($dailyCurrentCapital as $row){ $i++;?>
+						   <tr style="font-size: 12px;" align="left">
+								<td style="text-align: center;"><?php echo $i;?></td>
+								<td align="center">&nbsp;<?php echo date("d/M/Y",strtotime($row['for_date']));?></td>
+								<td>&nbsp;<?php echo $row['agentName']?>&nbsp;</td>
+								<td align="right">&nbsp;<?php echo number_format($row['amount'],2);?>&nbsp;</td>
+								<td align="center">&nbsp;<?php echo $row['currTitleKH']." (".$row['symbol'].")"?>&nbsp;</td>
+						   </tr>
+						   <?php }?>
+						</table>
+						<br />
+						 <?php echo $this->footerReport;?>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </div>

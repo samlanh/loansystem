@@ -1,6 +1,6 @@
 <?php
 class tellerandexchange_indexController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	private $activelist = array('មិនប្រើប្រាស់', 'ប្រើប្រាស់');
 const REDIRECT_URL='/tellerandexchange/index';
 	public function init()
 	{
@@ -84,9 +84,9 @@ const REDIRECT_URL='/tellerandexchange/index';
 			$db_exc=new Tellerandexchange_Model_DbTable_DbxChangeMoney();	
 			try {
 				$id = $db_exc->save($formdata);
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/add');
+				Application_Form_FrmMessage::Sucessfull('ការបញ្ចូលជោគជ័យ', self::REDIRECT_URL . '/add');
 			} catch (Exception $e) {
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				$this->view->msg = 'ការបញ្ចូលមិនជោគជ័យ';
 			}
 		}
 		$dbEx = new Tellerandexchange_Model_DbTable_Dbexchange();
@@ -104,9 +104,9 @@ const REDIRECT_URL='/tellerandexchange/index';
 //  			$db_exc=new Tellerandexchange_Model_DbTable_DbxChangeMoney();
 //  			try {
 //  				$id = $db_exc->save($formdata);
-//  				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/index/add');
+//  				Application_Form_FrmMessage::Sucessfull('ការបញ្ចូលជោគជ័យ', self::REDIRECT_URL . '/index/add');
 //  			} catch (Exception $e) {
-//  				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+//  				$this->view->msg = 'ការបញ្ចូលមិនជោគជ័យ';
 //  			}
 //  		}
  		
@@ -141,10 +141,9 @@ const REDIRECT_URL='/tellerandexchange/index';
  		try {
 //  			$formdata['id']=$id;
  				$id = $db_exc->editExchange($formdata);
- 				Application_Form_FrmMessage::message("EDIT_SUCESS");
- 				$this->_redirect(self::REDIRECT_URL);
+				Application_Form_FrmMessage::Sucessfull("EDIT_SUCESS",self::REDIRECT_URL);
  		} catch (Exception $e) {
- 			$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+ 			$this->view->msg = 'ការបញ្ចូលមិនជោគជ័យ';
  			echo $e->getMessage();exit();
  		}
  	}

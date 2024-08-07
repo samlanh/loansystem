@@ -79,13 +79,10 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 		}
 		
 		$id = $this->getRequest()->getParam('id');
-		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), self::REDIRECT_URL);
-			exit();
-		}
+		$id = empty($id) ? 0 : $id;
 		$row  = $db->getReturnCollteralbyid($id);
 		if(empty($row)){
-			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), self::REDIRECT_URL);
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), self::REDIRECT_URL,2);
 			exit();
 		}
 		$this->view->row = $row;

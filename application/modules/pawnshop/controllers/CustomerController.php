@@ -119,11 +119,13 @@ class Pawnshop_CustomerController extends Zend_Controller_Action {
 			}
 		}
 		$id = $this->getRequest()->getParam("id");
+		$id = empty($id) ? 0 : $id;
 		$row = $db->getClientById($id);
-	        $this->view->row=$row;
+	    $this->view->row=$row;
 		$this->view->photo = $row['photo_name'];
 		if(empty($row)){
-			$this->_redirect("/pawnshop/customer");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/pawnshop/customer',2);
+			exit();
 		}
 		$fm = new Pawnshop_Form_FrmClient();
 		$frm = $fm->FrmAddClient($row);

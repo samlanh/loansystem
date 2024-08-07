@@ -14,7 +14,20 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		$row=$this->fetchRow($select);		
 		if(!$row) return NULL;
 		return $row;
-	}	
+	}
+	function getCurrentUserInfor(){
+		$db = $this->getAdapter();
+		$dbgb = new Application_Model_DbTable_DbGlobal();
+		$userId = $dbgb->getUserId();
+		$userId = empty($userId) ? 0 : $userId;
+		$sql="
+		SELECT 
+			s.*,
+			(SELECT ut.user_type FROM `rms_acl_user_type` AS ut WHERE ut.user_type_id = s.user_type LIMIT 1) AS userTypeTitle 
+		FROM `rms_users` AS s
+		WHERE s.id = $userId LIMIT 1";
+		return $db->fetchRow($sql);
+	}
 	public function getThemeByUserId($user_id){
 		$db = $this->getAdapter();
 		$sql = "SELECT theme_name FROM `ln_theme_user` WHERE user_id =$user_id LIMIT 1";
@@ -250,7 +263,7 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		}
 			
 		$_user_data=array(
-			'branch_id'=>empty($data['branch_id'])?0:$data['branch_id'],
+			//'branch_id'=>empty($data['branch_id'])?0:$data['branch_id'],
 	    	'last_name'=>$data['last_name'],
 			'first_name'=>$data['first_name'],
 			'user_name'=>$data['user_name'],
@@ -275,13 +288,12 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 			if (!empty($data['selector'])){
 				$branchList = implode(',', $data['selector']);
 			}
-				
+			$data['active'] = empty($data['active']) ? 0 : $data['active'];	
 			$_user_data=array(
 				'last_name'=>$data['last_name'],
 				'first_name'=>$data['first_name'],
 				'user_name'=>$data['user_name'],
-				'branch_id'=>empty($data['branch_id'])?0:$data['branch_id'],
-	// 			'password'=> MD5($data['password']),
+				//'branch_id'=>empty($data['branch_id'])?0:$data['branch_id'],
 				'user_type'=> $data['user_type'],
 				'active'=> $data['active'],
 				'branch_list'=>$branchList,			

@@ -269,7 +269,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 					(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
 					(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
 					(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
+					  
 					  c.`phone`,
+					  l.`id` AS loanId,
 					  l.`loan_amount` as total_capital,
 					  l.`loan_number`,
 					  l.interest_rate  AS interest_rate,
@@ -279,6 +281,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 					  l.`time_collect`,
 					  l.`currency_type` AS curr_type,
 					  l.`collect_typeterm`,
+					  l.admin_fee,
+					  d.id AS currentScheduleId,
+					  (SELECT shh.id FROM `ln_loan_detail` AS shh  WHERE  shh.loan_id = d.`loan_id` ORDER BY shh.id DESC LIMIT 1 ) AS lastScheduleId,
 					  (SELECT pm.payment_nameen FROM ln_payment_method as pm WHERE pm.id = l.`payment_method`) as payment_method_title,
 					  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
 					  (SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`pay_term`)) LIMIT 1) AS `Term Borrow`,
@@ -1543,7 +1548,7 @@ public function getLoanadminFeeIcome($search=null){
       	 
       	$where.= " AND ".$from_date." AND ".$to_date;
       
-      	if(!empty($search['branch_id'])){
+      	if($search['branch_id']>0){
       		$where.=" AND v.branch_id = ".$search['branch_id'];
       	}
       	
@@ -1553,7 +1558,7 @@ public function getLoanadminFeeIcome($search=null){
       	
       	$dbp = new Application_Model_DbTable_DbGlobal();
       	$where.= $dbp->getAccessPermission("v.branch_id");
-      	
+		
       	$order = ' GROUP BY v.`curr_type` ORDER BY v.co_name ';
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -2495,6 +2500,97 @@ function getAllOtherIncomeReport($search=null,$group_by=null){
 		$where.=" LIMIT 1";
       	return $db->fetchRow($sql.$where);
     }
+	
+	
+	function checkLaonPenalty($data){
+		
+		$loanId= empty($data["loanId"]) ? 0 : $data["loanId"];
+		$endDate= empty($data["endDate"]) ? 0 : $data["endDate"];
+		$currType= empty($data["curr_type"]) ? 0 : $data["curr_type"];
+		
+		$key = new Application_Model_DbTable_DbKeycode();
+		$keyvalue=$key->getKeyCodeMiniInv();
+		$graicePariod = empty($keyvalue['graicePariod']) ? 0 : $keyvalue['graicePariod'];
+		$penaltyCalculateDay = empty($keyvalue['penaltyCalculateDay']) ? 1 : $keyvalue['penaltyCalculateDay'];
+	
+		$penaltyType = empty($keyvalue['penaltyType']) ? 1 : $keyvalue['penaltyType'];
+		$penaltyValue = empty($keyvalue['penaltyValue']) ? 0 : $keyvalue['penaltyValue'];
+		$penaltyValueDollar = empty($keyvalue['penaltyValueDollar']) ? 0 : $keyvalue['penaltyValueDollar'];
+		$penaltyValueBath = empty($keyvalue['penaltyValueBath']) ? 0 : $keyvalue['penaltyValueBath'];
+	
+	
+		$ps=0;
+		if($currType==1){
+			$ps=$penaltyValue;
+		}else if($currType==2){
+			$ps=$penaltyValueDollar;
+		}else{
+			$ps=$penaltyValueBath;
+		}
+										
+		
+		$db = $this->getAdapter();
+		
+		$sql="SELECT 
+				DATEDIFF('$endDate',sh.date_payment) AS total_latedate
+			FROM `ln_loan_detail` AS sh 
+			WHERE sh.date_payment <= '$endDate 23:59:59' 
+			AND sh.loan_id = $loanId 
+			AND sh.is_completed=0
+			GROUP BY sh.loan_id";
+			
+		$total_latedate = $db->fetchOne($sql);
+		$latedate = $total_latedate - $graicePariod;
+		if($latedate<=0){
+			return 0;
+		}
+		
+		$deductAmtDay = 0;
+		if($total_latedate > $graicePariod){
+			if($penaltyCalculateDay==2){
+				$deductAmtDay=$graicePariod;
+			}
+		}
+		
+		if($penaltyType==1){
+		$sql="SELECT 
+				SUM(((($ps/100))*sh.total_payment_after*(DATEDIFF('$endDate',sh.date_payment)-$deductAmtDay))) AS penaltyAmount
+				,SUM(sh.`principle_after`) AS principleAmount
+				,CASE 
+					WHEN SUM(sh.`principle_after`) > 0 AND sh.id = (SELECT shh.id FROM `ln_loan_detail` AS shh  WHERE  shh.loan_id = sh.`loan_id` ORDER BY shh.id DESC LIMIT 1 )
+						THEN l.admin_fee 
+					ELSE '0'
+				END AS adminFee
+			 FROM `ln_loan_detail` AS sh 
+			WHERE sh.date_payment <= '$endDate 23:59:59' 
+			AND sh.loan_id = $loanId 
+			AND sh.is_completed=0
+			GROUP BY sh.loan_id";
+		}else{
+			$sql="SELECT
+				SUM(($ps* (DATEDIFF('$endDate',sh.date_payment)-$deductAmtDay) )) AS penaltyAmount
+				,SUM(sh.`principle_after`) AS principleAmount
+				,CASE 
+					WHEN SUM(sh.`principle_after`) > 0 AND sh.id = (SELECT shh.id FROM `ln_loan_detail` AS shh  WHERE  shh.loan_id = sh.`loan_id` ORDER BY shh.id DESC LIMIT 1 )
+						THEN l.admin_fee 
+					ELSE '0'
+				END AS adminFee
+			FROM `ln_loan_detail` AS sh
+				JOIN `ln_loan` AS l ON l.id = sh.`loan_id`
+			WHERE sh.date_payment <= '$endDate 23:59:59'
+			AND sh.loan_id = $loanId
+			AND sh.is_completed=0
+			GROUP BY sh.loan_id
+			";
+		}
+		/*
+		 * sh.date_payment,
+			DATEDIFF('$end_date',sh.date_payment) AS defday
+		 * */
+		
+		$penalty = $db->fetchRow($sql);
+		return $penalty;
+	}
       
  }
 

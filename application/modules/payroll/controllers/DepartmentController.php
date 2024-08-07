@@ -1,6 +1,6 @@
 <?php
 class Payroll_DepartmentController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	private $activelist = array('មិនប្រើប្រាស់', 'ប្រើប្រាស់');
 	const REDIRECT_URL = '/payroll';
     public function init()
     {    	
@@ -48,13 +48,13 @@ class Payroll_DepartmentController extends Zend_Controller_Action {
 	  	try {
 	  	        $db->addDepartment($_data);
 	  			if(!empty($_data['save_close'])){
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/department/index');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/department/index');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/department/add');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/department/add');
 				}
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/department/add');
+				Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/department/add');
 	  	}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message("INSERT_FAIL");
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}
@@ -77,9 +77,9 @@ class Payroll_DepartmentController extends Zend_Controller_Action {
 	   		$_data = $this->getRequest()->getPost();
 	   		try{
 	   			$db->upDateDepartment($_data);
-	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/department');
+	   			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS !",'/payroll/department');
 	   		}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message("INSERT_FAIL");
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}
@@ -87,7 +87,8 @@ class Payroll_DepartmentController extends Zend_Controller_Action {
 	   	$id = $this->getRequest()->getParam("id");//ចាប់ id from ln_position ;
 	   	$row = $db->getDepartmemtById($id);
 	   	if(empty($row)){
-	   		$this->_redirect('payroll/department');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/payroll/department',2);
+			exit();
 	   	}
 		 $frm = new Payroll_Form_FrmDepartment();
 		 $frm_partment=$frm->FrmAddDepartment($row);

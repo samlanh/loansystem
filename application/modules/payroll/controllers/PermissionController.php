@@ -1,6 +1,6 @@
 <?php
 class Payroll_PermissionController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	private $activelist = array('មិនប្រើប្រាស់', 'ប្រើប្រាស់');
 	const REDIRECT_URL = '/payroll';
     public function init()
     {    	
@@ -55,12 +55,12 @@ class Payroll_PermissionController extends Zend_Controller_Action {
    		try{
    			$db_permission->addPermission($_data);
    			if(!empty($_data['save_new'])){
-   				Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+   				Application_Form_FrmMessage::message('INSERT_SUCCESS');
    			}else{
-   				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/permission/index');
+   				Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/permission/index');
    			}
    		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+   			Application_Form_FrmMessage::message("INSERT_FAIL");
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
@@ -77,9 +77,9 @@ class Payroll_PermissionController extends Zend_Controller_Action {
    		$_data = $this->getRequest()->getPost();
    		try{
    			$db_permission->addPermission($_data);
-   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/permission');
+   			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS !",'/payroll/permission');
    		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+   			Application_Form_FrmMessage::message("INSERT_FAIL");
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
@@ -87,7 +87,8 @@ class Payroll_PermissionController extends Zend_Controller_Action {
    	$id = $this->getRequest()->getParam("id");
    	$row = $db_permission->getPermissionById($id);
    	if(empty($row)){
-   		$this->_redirect('payroll/permission');
+		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/payroll/permission',2);
+		exit();
    	}
    	$frm = new Payroll_Form_FrmPermission();
    	$frm_permission=$frm->frmPermission($row);

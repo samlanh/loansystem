@@ -27,12 +27,12 @@
 	width: 200px !important;
   }
   </style>
-  <div class="card">
-		<div class="card-content collapse show">
-			<div class="card-box report-list">
-			<h3 style="font-family:'khmer os muol light';font-size:14px;text-align: center; color: #666;padding:2px 0;"><?php echo $tr->translate("LIST_LOAN_XCHANGE");?></h3><hr>
-				<!--border-bottom:2px solid #F1F1F1;-->
-				<div class="row top_tiles">
+<div class="card">
+	<div class="card-header text-center">
+		<h5 class="card-title mb-0"><i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;<?php echo $tr->translate('LIST_LOAN_XCHANGE');?></h5>
+    </div>
+	<div class="card-body">
+		<div class="row  report-list">
 			<?php
 				$db_user=new Application_Model_DbTable_DbUsers();
 				$url_report=$db_user->getAclReport(1,'exchanges');
@@ -40,20 +40,24 @@
 					foreach($url_report as $rs){
 						if($rs['action']=='exchangereceipt' || $rs['action']=='index'){continue;}
 					?>
-				   <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-						<a href="<?php echo $this->url(array("module"=>'report',"controller"=>'exchanges','action'=>$rs['action']));?>">
-						<div title="<?php echo $tr->translate(strtoupper($rs['label']));?>" class="tile-stats report-list">
-							<div class="icon"><i class="fa fa-book"></i></div>
-							<div class="count">&nbsp;</div>
-			                 	<h3><?php echo $tr->translate(strtoupper($rs['label']));?></h3>
-						</div>
+					<div class="col-xs-12 col-sm-6 col-lg-3 mb-1 px-2">
+						<a title="<?php echo $tr->translate(strtoupper($rs['label']));?>" href="<?php echo $this->url(array("module"=>'report',"controller"=>'exchanges','action'=>$rs['action']));?>">
+							<div class="card card-border-shadow-primary">
+							  <div class="card-body">
+								<div class="d-flex align-items-center mb-2 pb-1">
+								  <div class="avatar me-2">
+									<span class="avatar-initial rounded bg-label-primary"><i class="ti ti-license ti-md"></i></span>
+								  </div>
+								  <h4 class="ms-1 mb-0"><?php echo $tr->translate(strtoupper($rs['label']));?></h4>
+								</div>
+							  </div>
+							</div>
 						</a>
-			        </div>
-					<?php 
-					}	
-				}	?>
-				</div>
-			</div>
+					</div>
+			<?php 
+				}	
+			}	?>
 		</div>
 	</div>
+</div>
   <div style="clear: both;"></div>

@@ -1,211 +1,177 @@
 <?php
-	$this->headTitle('Edit Exchange Money'); 
-	echo $this->headTitle();
+	
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$row = $this->dataedit;
+	$this->headTitle($tr->translate('Edit Exchange Money')); 
+	echo $this->headTitle();
 ?>	
-<style>
-
-	.panel{
-		min-height: 444px;
-		border:1px solid #6464d6;
-	}
-	.tbtable{	
-		 text-align: center;
-	    font-size: 20px;
-	    color: #fff;
-	    line-height: 37px;
-	    font-weight: bolder;
-		/*text-align: center;
-		font-size: 2em;	
-		color: #fff;
-		line-height: 90px;
-		font-weight: bolder;  */
-	}
-	.tbtable .tbheader{
-		background-color: #dddddd;
-		height: 60px; 
-		color: #000;
-	}
-	.tbtable .first{
-		background-color: #008 ; 
-	}
-	.tbtable .second{
-		background-color: #E5A909 ; 
-	}
-	.special_cus{
-		color: RED;
-	}
-
-</style>
 <div class="card">
-	<div class="card-content collapse show">
-		<div class="card-box">
-        	<div class="col-sm-12 border-botom">
-		    	<div class="col-sm-8 pd-0">
-		    		<h4 class="m-b-0"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('Add Exchange Money');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="fa fa-edit"></i>&nbsp;<?php echo $tr->translate('Edit Exchange Money');?></h5>
+	</div>
+	<div class="card-body">
 		<form id='frm_add_exch' action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'index','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			<script type="dojo/method" event="onSubmit">			
 				if(this.validate()) {
 					if(dijit.byId('recieve_money').get('value') < dijit.byId('from_amount').get('value') || dijit.byId('return_money').get('value') < 0){
-						alert('សូម​ពិនិត្រ ទឹកប្រាក់​ដែល​​ទទួល​បាន​ម្តង ​ទៀត..');
+						infoMessageAlert('សូមពិនិត្រ ទឹកប្រាក់ដែលទទួលបានម្តង ទៀត..');
 						dijit.byId('recieve_money').focus();
 						return false;
 					}
+					loadingBlock();
 					return true;
 				} else {
 					return false;
 				}
 			</script>
-			<div class="card-box">
+			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("ព៌ត័មាន ទាក់​ទង នឹង​ អត្រាប្តូរប្រាក់");?> 
-	                   </label>
-	                </div>
-	                <div class="form-group">
-	                   <div class="col-md-12 col-sm-12 col-xs-12">
-	                   		<table class="tbtable" style="margin:10px auto; width: 90%;border-collapse: collapse;border:2px solid #d2d2d2;" border="2" cellspacing='0'>																		
-								<tr class="tbheader">
-									<th>និមិត្តសញ្ញា</th>
-									<th>ទិញចូល</th>
-									<th>លក់ចេញ</th>
-								</tr>
-								<?php $i=1;if (!empty($this->allExchangeRate)) foreach ($this->allExchangeRate as $rs){
-									$class="second";
-									if ($i==1){
-										$i=0;
-										$class="first";
-									}else {
-										$i = 1;
-									}
-									?>
-								<tr class="<?php echo $class;?>">
-									<td><?php echo $rs['fromCurr']." - ".$rs['toCurr']?></td>
-									<td><label id="DB"><?php echo number_format($rs['rate_in'],2)?></label></td>
-									<td><label id="BD"><?php echo number_format($rs['rate_out'],2)?></label></td>
-								</tr>
-								<?php }?>
-							</table>
-	                   </div>
-	                </div>
+					<div class="card card-form mb-4">
+						<div class="card-header d-flex justify-content-between">
+							<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("ព៌ត័មាន ទាក់ទង នឹង អត្រាប្តូរប្រាក់");?></h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+							   <div class="col-md-12 col-sm-12 col-xs-12">
+									<table class="tbtable" style="margin:10px auto; width: 90%;border-collapse: collapse;border:2px solid #d2d2d2;" border="2" cellspacing='0'>																		
+										<tr class="tbheader">
+											<th>និមិត្តសញ្ញា</th>
+											<th>ទិញចូល</th>
+											<th>លក់ចេញ</th>
+										</tr>
+										<?php $i=1;if (!empty($this->allExchangeRate)) foreach ($this->allExchangeRate as $rs){
+											$class="second";
+											if ($i==1){
+												$i=0;
+												$class="first";
+											}else {
+												$i = 1;
+											}
+											?>
+										<tr class="<?php echo $class;?>">
+											<td><?php echo $rs['fromCurr']." - ".$rs['toCurr']?></td>
+											<td><label id="DB"><?php echo number_format($rs['rate_in'],2)?></label></td>
+											<td><label id="BD"><?php echo number_format($rs['rate_out'],2)?></label></td>
+										</tr>
+										<?php }?>
+									</table>
+							   </div>
+							</div>
+						</div>
+					</div>
 	            </div>
 	             <div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name"><i class="fa fa-hand-o-right" aria-hidden="true"></i> <?php echo $tr->translate("ព៌ត័មាន ទាក់​ទង នឹង​ ទឹកប្រាក់");?> 
-	                   </label>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<input dojoType="dijit.form.DateTextBox" constraints="{datePattern:'dd/MM/yyyy'}" required="true" class="fullside" id="statusDate" name="statusDate" value="<?php echo date("Y-m-d",strtotime($row['statusDate']));?>" type="text">
-							<input type="hidden" value="<?php echo $row['status_in'];?>" class="fullside" readonly="readonly" required="required" id="statusinout" name="statusinout" dojoType="dijit.form.TextBox" />
-							<input type="hidden" value="<?php echo $row['id'];?>" class="fullside" readonly="readonly" required="required" id="id" name="id" dojoType="dijit.form.TextBox" />
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ពីប្រភេទ​លុយ");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<input id="from_amount_type" >
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ទៅជាប្រភេទ​លុយ");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<input id="to_amount_type" >
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("អត្រាប្តូរប្រាក់");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   	<input type="text" name="rate"  id="rate"  data-dojo-type="dijit.form.NumberTextBox" value="<?php echo $row['rate'];?>"
-									data-dojo-props="required:true, readOnly:true,	name:'rate',class:'fullside',constraints:{pattern:'#,###.##'},
-									missingMessage:'អ្នក​ភ្លេច​បំពេញ​  អត្រាប្តូរប្រាក់!',
-									invalidMessage:'អត្រាប្តូរប្រាក់ មិន​ត្រឹម​ត្រូវ!'">
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 special_cus" for="first-name"><?php echo $tr->translate("អតិថិជនពិសេស");?>
-	                   <input style=" padding: 0; margin: 0; height: auto;" id="special_cus" name="special_cus" dojoType="dijit.form.CheckBox" value="1"
-									 onChange="changRateTextbox();">
-	                   </label>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ចំនួន​ទឹក​ប្រាក់");?>
-	                   <span id="lbl_from_amount" class="special_cus"></span>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<input type="text" onKeyup="return_money();" name="from_amount" id="from_amount" value="<?php echo $row['fromAmount'];?>"  data-dojo-type="dijit.form.NumberTextBox"
-									data-dojo-props="required:true,																		
-									name:'from_amount',
-									class:'fullside',
-									constraints:{pattern:'#,###.##'},
-									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
-									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
-	                   </div>
-	                </div>
-	                
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ចំនួន​ទឹក​ប្រាក់");?>
-	                   		<span id="lbl_to_amount" class="special_cus"></span>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<input type="text" name="to_amount" id="to_amount"  data-dojo-type="dijit.form.NumberTextBox" value="<?php echo $row['toAmount'];?>"
-									data-dojo-props="required:true,																		
-									name:'to_amount',
-									class:'fullside',
-									constraints:{pattern:'#,###.##'},
-									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
-									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ប្រាក់​ទទួល​បាន");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<input type="text" name="recieve_money" id="recieve_money"  data-dojo-type="dijit.form.NumberTextBox" value="<?php echo $row['recievedAmount'];?>"
-									data-dojo-props="required:true,									
-									name:'recieve_money',
-									class:'fullside',
-									constraints:{pattern:'#,###.##'},
-									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ប្រាក់​ទទួល​បាន​!',
-									invalidMessage:'ប្រាក់​ទទួល​បាន​​ មិន​ត្រឹម​ត្រូវ!'">
-	                   </div>
-	                </div>
-	                <div class="form-group">
-	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ប្រាក់​អាប់");?>
-	                   </label>
-	                   <div class="col-md-7 col-sm-7 col-xs-12">
-	                   		<input type="text" name="return_money" id="return_money"  data-dojo-type="dijit.form.NumberTextBox" value="<?php echo $row['changedAmount'];?>"
-									data-dojo-props="								
-									name:'return_money',
-									class:'fullside',
-									constraints:{pattern:'#,###.##'},
-									value:'0',	
-									readOnly:true,
-									invalidMessage:'ប្រាក់​ទទួល​បាន​​ មិន​ត្រឹម​ត្រូវ!'">
-	                   </div>
-	                </div>	
+					<div class="card card-form mb-4">
+						<div class="card-header d-flex justify-content-between">
+							<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("ព៌ត័មាន ទាក់ទង នឹង ទឹកប្រាក់");?></h5>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("DATE");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<input dojoType="dijit.form.DateTextBox" constraints="{datePattern:'dd/MM/yyyy'}" required="true" class="fullside" id="statusDate" name="statusDate" value="<?php echo date("Y-m-d",strtotime($row['statusDate']));?>" type="text">
+									<input type="hidden" value="<?php echo $row['status_in'];?>" class="fullside" readonly="readonly" required="required" id="statusinout" name="statusinout" dojoType="dijit.form.TextBox" />
+									<input type="hidden" value="<?php echo $row['id'];?>" class="fullside" readonly="readonly" required="required" id="id" name="id" dojoType="dijit.form.TextBox" />
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ពីប្រភេទលុយ");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<input id="from_amount_type" >
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ទៅជាប្រភេទលុយ");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<input id="to_amount_type" >
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("អត្រាប្តូរប្រាក់");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+								<input type="text" name="rate"  id="rate"  data-dojo-type="dijit.form.NumberTextBox" value="<?php echo $row['rate'];?>"
+											data-dojo-props="required:true, readOnly:true,	name:'rate',class:'fullside',constraints:{pattern:'#,###.##'},
+											missingMessage:'អ្នកភ្លេចបំពេញ  អត្រាប្តូរប្រាក់!',
+											invalidMessage:'អត្រាប្តូរប្រាក់ មិនត្រឹមត្រូវ!'">
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-12 col-sm-12 col-xs-12 special_cus" for="first-name"><?php echo $tr->translate("អតិថិជនពិសេស");?>
+							   <input style=" padding: 0; margin: 0; height: auto;" id="special_cus" name="special_cus" dojoType="dijit.form.CheckBox" value="1"
+											 onChange="changRateTextbox();">
+							   </label>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ចំនួនទឹកប្រាក់");?>
+							   <span id="lbl_from_amount" class="special_cus"></span>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<input type="text" onKeyup="return_money();" name="from_amount" id="from_amount" value="<?php echo $row['fromAmount'];?>"  data-dojo-type="dijit.form.NumberTextBox"
+											data-dojo-props="required:true,																		
+											name:'from_amount',
+											class:'fullside',
+											constraints:{pattern:'#,###.##'},
+											missingMessage:'អ្នកភ្លេចបំពេញ ចំនួនទឹកប្រាក់!',
+											invalidMessage:'ចំនួនទឹកប្រាក់ មិនត្រឹមត្រូវ!'">
+							   </div>
+							</div>
+							
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ចំនួនទឹកប្រាក់");?>
+									<span id="lbl_to_amount" class="special_cus"></span>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<input type="text" name="to_amount" id="to_amount"  data-dojo-type="dijit.form.NumberTextBox" value="<?php echo $row['toAmount'];?>"
+											data-dojo-props="required:true,																		
+											name:'to_amount',
+											class:'fullside',
+											constraints:{pattern:'#,###.##'},
+											missingMessage:'អ្នកភ្លេចបំពេញ ចំនួនទឹកប្រាក់!',
+											invalidMessage:'ចំនួនទឹកប្រាក់ មិនត្រឹមត្រូវ!'">
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ប្រាក់ទទួលបាន");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<input type="text" name="recieve_money" id="recieve_money"  data-dojo-type="dijit.form.NumberTextBox" value="<?php echo $row['recievedAmount'];?>"
+											data-dojo-props="required:true,									
+											name:'recieve_money',
+											class:'fullside',
+											constraints:{pattern:'#,###.##'},
+											missingMessage:'អ្នកភ្លេចបំពេញ ប្រាក់ទទួលបាន!',
+											invalidMessage:'ប្រាក់ទទួលបាន មិនត្រឹមត្រូវ!'">
+							   </div>
+							</div>
+							<div class="row g-3">
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("ប្រាក់អាប់");?>
+							   </label>
+							   <div class="col-md-7 col-sm-7 col-xs-12">
+									<input type="text" name="return_money" id="return_money"  data-dojo-type="dijit.form.NumberTextBox" value="<?php echo $row['changedAmount'];?>"
+											data-dojo-props="								
+											name:'return_money',
+											class:'fullside',
+											constraints:{pattern:'#,###.##'},
+											value:'0',	
+											readOnly:true,
+											invalidMessage:'ប្រាក់ទទួលបាន មិនត្រឹមត្រូវ!'">
+							   </div>
+							</div>	
+						</div>	
+					</div>	
 	             </div>
 	        </div>	 
 	        <input type="hidden" name="inv_no" value="<?php echo $row['recieptNo'];?>">
 			<div class="clearfix"></div>
-			    <div class="card-box">
-               		<div class="col-sm-12 border-top mt-20 ptb-10 text-center">
-		    			<input type="button" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button" 
-						 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId('frm_add_exch').submit();"/>
-						<input type="button" value="រក្សាទុក & បោះពុម្ព" label="រក្សាទុក & បោះពុម្ព" id="busyButton" dojoType="dijit.form.Button" 
-							iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="printSave();"/> 
+			<div class="card-box">
+				<div class="col-sm-12 border-top mt-2 py-2 text-center">
+					<input type="button" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" value="រក្សាទុក" label="<?php echo $tr->translate("SAVE");?>" id="submitButton" dojoType="dijit.form.Button"   onclick="dijit.byId('frm_add_exch').submit();"/>
+					<input type="button" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate("SAVE_PRINT");?>" id="busyButton" dojoType="dijit.form.Button" onclick="printSave();"/> 
 	    		</div>
 	    	</div>
 		</form>
@@ -253,7 +219,7 @@
 				  </tr>
 				   <tr style="border-bottom:1px solid #000; font-size:8px;">
 						<td class="pleft" style="border-bottom:1px solid #000;">
-							<label id="lblinvioice" style="font-size:10px;font-family:'Khmer MEF2';"><?php echo $this->keycode['exchange_reciept']; ?>​</label>
+							<label id="lblinvioice" style="font-size:10px;font-family:'Khmer MEF2';"><?php echo $this->keycode['exchange_reciept']; ?></label>
 						</td>
 						<td align="right" colspan="2" style="font-size: 8pt;border-bottom:1px solid #000;" class='font_khmer'>
 							ឈ្មោះបុគ្គលិក៖ <?php print($this->user_name);?>
@@ -261,7 +227,7 @@
 				   </tr>
 				   <tr>
 						<td class="font_khmer">
-							ចំនួន​ទឹក​ប្រាក់ប្តូរ
+							ចំនួនទឹកប្រាក់ប្តូរ
 						</td>
 						<td>:</td>
 						<td align="right" style="white-space: nowrap;">
@@ -279,7 +245,7 @@
 				   </tr>
 				   <tr>
 						<td class="font_khmer">
-							ចំនួន​ទឹក​ប្រាក់ប្តូរសរុប
+							ចំនួនទឹកប្រាក់ប្តូរសរុប
 						</td>
 						<td>:</td>
 						<td align="right" style="white-space: nowrap;">
@@ -288,7 +254,7 @@
 				   </tr>
 				   <tr>
 						<td class="font_khmer">
-							ចំនួន​ទឹក​ប្រាក់ទទួល
+							ចំនួនទឹកប្រាក់ទទួល
 						</td>
 						<td>:</td>
 						<td align="right">
@@ -297,7 +263,7 @@
 				   </tr>
 				   <tr>
 						<td class="font_khmer"> 
-							ចំនួន​ទឹក​ប្រាក់អាប់
+							ចំនួនទឹកប្រាក់អាប់
 						</td>
 						<td>:</td>
 						<td align="right">
@@ -321,15 +287,45 @@
 			</table>
 		</div>
 		<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>	
-		<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
-				showLabel="false" type="button" onclick="doPrint();">Print</button>
-		<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconCancel"
-				showLabel="false" type="button" onclick="hidePopup();">Cancel</button>
-			
+		<button class="button-class button-danger" iconClass="glyphicon glyphicon-remove" dojoType="dijit.form.Button" showLabel="false" type="button" onclick="hidePopup();"><?php echo $tr->translate("CANCEL");?></button>
+		<button class="button-class button-primary" iconClass="glyphicon glyphicon-print" dojoType="dijit.form.Button" showLabel="false" type="button" onclick="doPrint();"><?php echo $tr->translate("PRINT");?></button>
 
 	</div>
 </div>
+<style>
 
+	.panel{
+		min-height: 444px;
+		border:1px solid #6464d6;
+	}
+	.tbtable{	
+		 text-align: center;
+	    font-size: 20px;
+	    color: #fff;
+	    line-height: 37px;
+	    font-weight: bolder;
+		/*text-align: center;
+		font-size: 2em;	
+		color: #fff;
+		line-height: 90px;
+		font-weight: bolder;  */
+	}
+	.tbtable .tbheader{
+		background-color: #dddddd;
+		height: 60px; 
+		color: #000;
+	}
+	.tbtable .first{
+		background-color: #008 ; 
+	}
+	.tbtable .second{
+		background-color: #E5A909 ; 
+	}
+	.special_cus{
+		color: RED;
+	}
+
+</style>
 <script type="text/javascript">
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dijit.form.ValidationTextBox");
@@ -362,7 +358,7 @@ queryExpr: "*${0}*",
 	        name: "to_amount_type",
 	        class: 'fullside',
 	        searchAttr: "name",
-	        missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ប្រភេទ​លុយ!",
+	        missingMessage:"អ្នកភ្លេចបំពេញ ប្រភេទលុយ!",
 	        onChange: function() {
 	        	getRateValue();
 	        }
@@ -377,7 +373,7 @@ queryExpr: "*${0}*",
 	        class: 'fullside',
 	        searchAttr: "name",
 	        value:'<?php echo $row['fromAmountType'];?>',
-	        missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ប្រភេទ​លុយ!",
+	        missingMessage:"អ្នកភ្លេចបំពេញ ប្រភេទលុយ!",
 	        onChange: function() {
 	        	clearText(true);
 	        	getExchangeFromTypeToType();
@@ -484,7 +480,7 @@ queryExpr: "*${0}*",
 	function printSave(){		
 		if(dijit.byId('frm_add_exch').validate()) {
 			if(dijit.byId('recieve_money').get('value') < dijit.byId('from_amount').get('value') || dijit.byId('return_money').get('value') < 0){
-				alert('សូម​ពិនិត្រ ទឹក​ដែល​​ទទួល​បាន​ម្តង ​ទៀត..');
+				infoMessageAlert('សូមពិនិត្រ ទឹកដែលទទួលបានម្តង ទៀត..');
 				dijit.byId('recieve_money').focus();
 				return false;
 			}
@@ -553,7 +549,7 @@ queryExpr: "*${0}*",
 			    }
 			},
 			error: function(err) {
-				alert(err);
+				infoMessageAlert(err);
 			}
 		});
 	}
@@ -585,7 +581,7 @@ queryExpr: "*${0}*",
 				dojo.byId("lbl_to_amount").innerHTML = dijit.byId('to_amount_type').attr('displayedValue');
 			},
 			error: function(err) {
-				alert(err);
+				infoMessageAlert(err);
 			}
 		});
 	}

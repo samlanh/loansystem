@@ -5,74 +5,86 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$frm = $this->frm;
 ?>	
-<form id='frm_add_exch' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-	<script type="dojo/method" event="onSubmit">			
-			if(this.validate()) {
-				if($('#identity').val()==""){
-					alert('<?php echo $tr->translate("Empty Capital Currency To Input")?>');
-					return false;
-				}
-				dijit.byId("savenew").set("disabled",true);
-				dijit.byId("saveclose").set("disabled",true);
-				return true;
-			} else {
-				return false;
-			}
-	</script>
-	
-	<fieldset>
-		<table cellspacing="10" class='fullside' >
-			<legend class="mainblog" align="center"><strong><?php echo $tr->translate('Add Capital Agent');?></strong></legend>
-			<tr>
-				<td width="25%" valign="top">
-					<fieldset>
-					     <legend align="center"><strong><?php echo $tr->translate('Agent Information');?></strong></legend>
-							<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
-							    <tr>
-									<td><?php echo $tr->translate("Agent Name")?></td>
-									<td><?php echo $frm->getElement('agent_id');?></td>
-							    </tr>
-						    	<tr >
-									 <td><?php echo $tr->translate("Currency")?></td>
-									 <td><?php echo $frm->getElement('currency');?></td>
-								</tr>
-							</table>
-					</fieldset>	
-				</td>
-				<td width="75%" valign="top">
-					<fieldset style="    padding: 10px;">
-					     <legend align="center"><strong><?php echo $tr->translate('Capital Information');?></strong></legend>
-						 	<table style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;" >
-						 		<thead>
-						 			<tr id="head-title" class="head-td">
-						 				<th><?php echo $tr->translate("NUM")?></th>
-										 <th><?php echo $tr->translate("Currency")?></th>
-										 <th><?php echo $tr->translate("Amount")?></th>
-										 <th><?php echo $tr->translate("DELETE")?></th>
-									</tr>
-						 		</thead>
-								<tbody id="table_row" >
-									
-								</tbody>
-							
-						</table>
-					</fieldset>
-					<input type="hidden" name="identity" id="identity"  value="" >
-				</td>
-			</tr>
-			<tr>
-				<td align="center" colspan="3">
-					<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
-					 iconClass="dijitIconClear"/>
-					<input type="submit"  label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
-					 iconClass="dijitIconDelete"/>
-					<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"
-					 iconClass="dijitIconNewTask"/>
-				</td>
-			</tr>	
-</table>
-</fieldset>
-</form>
+<div class="card">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="ti ti-moneybag"></i>&nbsp;<?php echo $tr->translate('Despite Capital Agent');?></h5>
+	</div>
+	<div class="card-body">
+			<form id='frm_add_exch' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			<script type="dojo/method" event="onSubmit">			
+					if(this.validate()) {
+						if($('#identity').val()==""){
+							infoMessageAlert('<?php echo $tr->translate("Empty Capital Currency To Input")?>');
+							return false;
+						}
+						dijit.byId("savenew").set("disabled",true);
+						dijit.byId("saveclose").set("disabled",true);
+						loadingBlock();
+						return true;
+					} else {
+						return false;
+					}
+			</script>
+			
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12">
+						<div class="card card-form mb-4">
+							<div class="card-header d-flex justify-content-between">
+								<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("Agent Information");?></h5>
+							</div>
+							<div class="card-body">
+								<div class="row g-3">
+								   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Agent Name");?>
+								   </label>
+								   <div class="col-md-7 col-sm-7 col-xs-12">
+										<?php echo $frm->getElement('agent_id');?>
+								   </div>
+								</div>
+								<div class="row g-3">
+								   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Currency");?>
+								   </label>
+								   <div class="col-md-7 col-sm-7 col-xs-12">
+										<?php echo $frm->getElement('currency');?>
+								   </div>
+								</div>
+							</div>
+						</div>
+				   </div>
+				   <div class="col-md-8 col-sm-8 col-xs-12">
+						<div class="card card-form mb-4">
+								<div class="card-header d-flex justify-content-between">
+									<h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> <?php echo $tr->translate("Despite Capital Information");?></h5>
+								</div>
+								<div class="card-body">
+									<div class="row g-3">
+										<table style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;" >
+											<thead>
+												<tr id="head-title" class="head-td">
+													<th><?php echo $tr->translate("NUM")?></th>
+													 <th><?php echo $tr->translate("Currency")?></th>
+													 <th><?php echo $tr->translate("Amount")?></th>
+													
+												</tr>
+											</thead>
+											<tbody id="table_row" >
+											</tbody>
+										</table>
+										<input type="hidden" name="identity" id="identity"  value="" >
+									</div>
+								</div>
+							</div>
+				        </div>
+				    </div> 
+					<div class="card-box">
+						<div class="col-sm-12 border-top mt-2 py-2 text-center">
+							<input type="reset" class="button-class button-danger " iconClass="glyphicon glyphicon-repeat" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"/>
+							<input type="submit" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" label="<?php echo $tr->translate("GO_EDIT")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button" />
+						</div>
+					</div>
+
+		</form>
+	</div>
+</div>
 <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'<?php echo $tr->translate("DO_YOU_WANT_TO_DEL")?>'"  id="deleteForm" style="width:350px;" >
 		<div style=" text-align: center;">
@@ -85,18 +97,16 @@
 </div>
 <script type="text/javascript">
 	dojo.require("dijit.form.DateTextBox");
-	dojo.require("dijit.form.ValidationTextBox");
-	dojo.require('dijit.form.Form');
+	
+	
 	dojo.require('dijit.form.FilteringSelect');	
-	dojo.require('dijit.form.Button');
+	
 	dojo.require('dijit.form.NumberTextBox');
-	dojo.require("dojo.store.Memory");
-	dojo.require("dojo.data.ObjectStore");
-	dojo.require("dijit.form.CheckBox");     
+	
 	dojo.require("dojo.number");
 	
 	dojo.require("dijit.Dialog");
-	dojo.require("dojo.parser");
+	
 	dojo.require("dojo.NodeList-manipulate");
 	var record_no=1;
 	var urlCurrencyRow ='<?php echo $this->baseUrl()."/tellerandexchange/capitalexchange/getcurrencyrowedit";?>'
@@ -115,19 +125,7 @@
 			handleAs:"json",
 			load: function(data) {
 				record_no=record_no+1;
-				/*
-				var iden = $("#identity").val();
-				var arrays = iden.split(',');
-				 if(arrays!=""){
 				
-					 for(var i=0;i< arrays.length;i++) {
-						 if(arrays[i]==currency){
-								alert("<?php //echo $tr->translate("Choosen ready")?>");
-							 return false;
-						 }
-					}
-				}
-				*/
 				tmp='<tr id="row'+data.newrowid+'" style="background: #fff; border: solid 1px #bac;">';
 				tmp+="</tr>";
 					dojo.query("#table_row").append(tmp);
@@ -144,7 +142,7 @@
 				}
 			},
 			error: function(err) {
-				alert(err);
+				infoMessageAlert(err);
 			}
 		});
 	}
@@ -175,10 +173,10 @@
 		template+='<td align="center">'+record_no+'</td>';
 			template+='<td align="center">';
 		template+='<label><strong><?php echo $row['currencyKH'];?></strong></label>';
-		template+='<input type="hidden" class="fullside" dojoType="dijit.form.TextBox" required="required"  name="currency_id'+record_no+'" id="currency_id'+record_no+'" value="<?php echo $row['currency_id'];?>" style="text-align: center;" >';
+		template+='<input type="hidden" class="fullside" dojoType="dijit.form.TextBox" required="required"  name="currency_id'+record_no+'" id="currency_id'+record_no+'" value="<?php echo $row['currency_id'];?>" >';
 		template+='</td>';
 		template+='<td><input type="text" class="fullside" dojoType="dijit.form.NumberTextBox" required="required"  name="amount'+record_no+'" id="amount'+record_no+'" value="<?php echo $row['amount'];?>" style="text-align: center;" ></td>';
-		template+='<td width="30px" align="center"><input type="hidden" class="fullside" dojoType="dijit.form.TextBox" required="required"  name="detailid'+record_no+'" id="detailid'+record_no+'" value="<?php echo $row['id'];?>" style="text-align: center;" ><img style="cursor: pointer;" onclick="newdeleteRecord('+record_no+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+		template+='<td width="30px" align="center"><input type="hidden" class="fullside" dojoType="dijit.form.TextBox" required="required"  name="detailid'+record_no+'" id="detailid'+record_no+'" value="<?php echo $row['id'];?>"><input type="hidden" class="fullside" dojoType="dijit.form.TextBox" required="required"  name="old_amount'+record_no+'" id="old_amount'+record_no+'" value="<?php echo $row['amount'];?>"></td>';
 		template+='';
 		tmp='<tr id="row'+record_no+'" style="background: #fff; border: solid 1px #bac;">';
 		tmp+="</tr>";
@@ -196,6 +194,8 @@
 	require(["dojo/ready"], function(ready){
 			ready(function(){
 				initailize();
+				dijit.byId('agent_id').set('readOnly',true);
+				dijit.byId('currency').set('readOnly',true);
 			});
 	});
 </script>

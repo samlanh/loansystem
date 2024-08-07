@@ -1,15 +1,12 @@
 <?php 
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle('SRMS | '.$tr->translate("User Type List"));
+	echo $this->headTitle('SRMS | '.$tr->translate('USER_TYPE'));
 ?>
-<div class="card pb-10 pt-10 pl-10 pr-10">
-	<div class="card-content collapse show">
-		<div class="card-box">
-			<form name="frmlist" action="" dojoType="dijit.form.Form" method="post">
-			</form>
-		</div>
-		<div class="card-box">
-			<?php echo $this->list;?>
-		</div>
+<div class="card">
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;<?php echo $tr->translate('USER_TYPE');?></h5>
+	</div>
+	<div class="card-body">
+		<?php echo $this->list;?>
 	</div>
 </div>

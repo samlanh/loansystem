@@ -1,9 +1,11 @@
 <?php
 class Pawnshop_IndexController extends Zend_Controller_Action {
-    public function init()
+    protected $tr;
+	public function init()
     {    	
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
+		$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function indexAction(){
 		try{
@@ -74,7 +76,7 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 		$product = $db->getAllProduct();
 		array_unshift($product,array(
 		        'id' => -1,
-		        'name' => '---Add New ---',
+		        'name' => $this->tr->translate('ADD_NEW'),
 		) );
 	    $this->view->product_store=$product;
 	    
@@ -108,15 +110,18 @@ public function editAction(){
 	}
 	$db_g = new Application_Model_DbTable_DbGlobal();
 	$id = $this->getRequest()->getParam('id');
+	$id = empty($id) ? 0 : $id;
+	
 	$db = new Pawnshop_Model_DbTable_DbPawnshop();
 	$haspayment = $db->getPawnshopDetailByIdHaspaid($id);
 	if (!empty($haspayment)){
-		Application_Form_FrmMessage::Sucessfull("This pawn has some payment can not edit","/pawnshop");
+		Application_Form_FrmMessage::Sucessfull("This pawn has some payment can not edit","/pawnshop",2);
+		exit();
 	}
 	$row = $db->getPawnshopById($id);
-	
-	if (empty($$row)){
-		Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/pawnshop");
+	if (empty($row)){
+		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/pawnshop",2);
+		exit();
 	}
 	
 	$this->view->rs = $row;
@@ -135,7 +140,7 @@ public function editAction(){
 	$product = $db->getAllProduct();
 	array_unshift($product,array(
 	        'id' => -1,
-	        'name' => '---Add New ---',
+	        'name' => $this->tr->translate('ADD_NEW'),
 	) );
     $this->view->product_store=$product;
     
@@ -159,9 +164,11 @@ public function addloanAction(){
 }
 public function viewAction(){
 	$id = $this->getRequest()->getParam('id');
+	$id = empty($id) ? 0 : $id;
 	$db_g = new Application_Model_DbTable_DbGlobal();
 	if(empty($id)){
-		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/loan/index/index");
+		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index",2);
+		exit();
 	}
 	$db = new Loan_Model_DbTable_DbLoanIL();
 	$row = $db->getLoanviewById($id);

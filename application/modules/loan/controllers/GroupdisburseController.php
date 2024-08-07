@@ -90,9 +90,11 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 	}
 	function viewAction(){
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/loan/index/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index/index",2);
+			exit();
 		}
 		$db = new Loan_Model_DbTable_DbLoanGroup();
 		$row = $db->getLoanGroupviewById($id);
@@ -101,7 +103,8 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 		$rows = $db->getAllMemberLoanById($id);
 		$this->view->list_members = $rows;
 		if(empty($rows)){
-			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST","/loan/groupdisburse/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/groupdisburse/index",2);
+			exit();
 		}
 	
 	}
@@ -123,6 +126,8 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 			}
 		}
 		$id = $this->getRequest()->getParam('id');
+		$id = empty($id) ? 0 : $id;
+		
 		$db = new Loan_Model_DbTable_DbLoanIL();
 		$row = $db->getTranLoanByIdWithBranch($id,2);
 		
@@ -139,7 +144,8 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 		$rows = $db->getAllMemberLoanById($id);
 		$this->view->list_members = $rows;
 		if(empty($rows)){
-			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST","/loan/groupdisburse/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/groupdisburse/index",2);
+			exit();
 		}
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;

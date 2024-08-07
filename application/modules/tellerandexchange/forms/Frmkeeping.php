@@ -54,7 +54,7 @@ Class Tellerandexchange_Form_Frmkeeping extends Zend_Dojo_Form {
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
-		$options=array(''=>'---Select Branch---');
+		$options=array(''=>$this->tr->translate("SELECT_BRANCH"));
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}
@@ -68,7 +68,7 @@ Class Tellerandexchange_Form_Frmkeeping extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$options= array(1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
+		$options= array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DEACTIVE"));
 		$_stutas->setMultiOptions($options);
 		
 		$_Description = new Zend_Dojo_Form_Element_Textarea('Description');

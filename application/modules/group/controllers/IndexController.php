@@ -139,8 +139,10 @@ class Group_indexController extends Zend_Controller_Action {
 	        $this->view->row=$row;
 		$this->view->photo = $row['photo_name'];
 		if(empty($row)){
-			$this->_redirect("/group/index");
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), "/group/index",2);
+			exit();	
 		}
+		
 		$fm = new Group_Form_FrmClient();
 		$frm = $fm->FrmAddClient($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
@@ -164,10 +166,13 @@ class Group_indexController extends Zend_Controller_Action {
 	
 	function viewAction(){
 		$id = $this->getRequest()->getParam("id");
+		$id = empty($id) ? 0 : $id;
+		
 		$db = new Group_Model_DbTable_DbClient();
 		$result = $db->getClientDetailInfo($id);
 		if(empty($result)){
-			$this->_redirect("/group/index");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/group/index",2);
+			exit();
 		}
 		$this->view->client_list = $result;
 	}

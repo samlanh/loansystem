@@ -237,14 +237,16 @@ function rptPaymentschedulesAction(){
 	$row = $db->getPaymentSchedule($id);
 	$this->view->tran_schedule=$row;
 	if(empty($row)){
-		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/pawn/rpt-loan-disburse');
+		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/pawn/rpt-loan-disburse',2);
+		exit();
 	}
 	$db = new Application_Model_DbTable_DbGlobal();
 
 	$row = $db->getClientPawnshop($id);
 	
 	if (empty($row)){
-		Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/report/pawn/rpt-loan-disburse");
+		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/report/pawn/rpt-loan-disburse",2);
+		exit();
 	}
 	$this->view->client =$row;
 	
@@ -644,7 +646,8 @@ function rptPaymentHistoryAction(){
  	$row = $db->getPawnShopInfo($id);
  	$this->view->pawnShop = $row;
  	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/pawn/rpt-loan-disburse');
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/pawn/rpt-loan-disburse',2);
+		exit();
  	}
  
  	$rs = $db->getClientPawnShopInfo($row['customer_id']);
@@ -664,7 +667,8 @@ function rptPaymentHistoryAction(){
  	$row = $db->getPawnShopRescheduleInfo($id);
  	$this->view->pawnShop = $row;
  	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/pawnshop/reschedule');
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/pawnshop/reschedule',2);
+		exit();
  	}
  
  	$rs = $db->getClientPawnShopInfo($row['customer_id']);
@@ -684,7 +688,7 @@ function rptPaymentHistoryAction(){
  	$db  = new Report_Model_DbTable_Dbpawn();
  	$row = $db->getPawnShopByID($id);
  	if (empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/pawn/rpt-loan-disburse');
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/pawn/rpt-loan-disburse',2);
  		exit();
  	}
  	$this->view->pawnshop =$row;
@@ -700,7 +704,7 @@ function rptPaymentHistoryAction(){
  	$id = empty($id)?0:$id;
  	$row = $db->getPawnShopPaymentBYId($id);
  	if (empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/pawnshop/payment');
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/pawnshop/payment',2);
  		exit();
  	}
  	$this->view->loanPayment = $row;
@@ -759,11 +763,13 @@ function rptPaymentHistoryAction(){
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	$id =$this->getRequest()->getParam('id');
  	$id = empty($id)?0:$id;
+	
 	$row =$db->getPaymentListPawnByID($id);
 	if (empty($row)){
-		Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/pawnshop/index");exit();
+		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/pawnshop/index",2);exit();
 	}
 	$this->view->rs = $row;
+	
 		
 	$this->view->LoanFee_list =$db->getTotalAdminFeeByPawn($id);
 	$this->view->rescheduleFee = $db->getTotalAdminFeeByReschedule($id);

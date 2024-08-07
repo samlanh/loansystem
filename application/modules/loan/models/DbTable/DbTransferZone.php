@@ -106,9 +106,9 @@ class Loan_Model_DbTable_DbTransferZone extends Zend_Db_Table_Abstract
     		$db->commit();
 	    	
     	}catch (Exception $e){
-    		$db->rollBack();
-    		Application_Form_FrmMessage::message("INSERT_FAIL");
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+			Application_Form_FrmMessage::message("INSERT_FAIL");
+			$db->rollBack();
     	}
     }
     public function updatTransfer($data,$id){

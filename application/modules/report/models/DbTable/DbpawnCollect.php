@@ -22,6 +22,8 @@ class Report_Model_DbTable_DbpawnCollect extends Zend_Db_Table_Abstract
 		  `l`.`currency_type`        AS `currency_type`,
 		  `l`.`customer_id`          AS `client_id`,
 		  `l`.`interest_rate`        AS `interest_rate`,
+		  `l`.`admin_fee`        AS `admin_fee`,
+		  `l`.`product_description`        AS `product_description`,
 		  `l`.`total_duration`       AS `total_duration`,
 		  `l`.`date_release`         AS `date_release`,
 		  `d`.`date_payment`         AS `date_payment`,
@@ -30,6 +32,9 @@ class Report_Model_DbTable_DbpawnCollect extends Zend_Db_Table_Abstract
 		  `d`.`total_interest_after` AS `total_interest_after`,
 		  `d`.`total_payment`        AS `total_payment`,
 		  `d`.`installment_amount`   AS `times`,
+		  d.id AS currentScheduleId,
+		  (SELECT shh.id FROM `ln_pawnshop_detail` AS shh  WHERE  shh.pawn_id = d.`pawn_id` ORDER BY shh.id DESC LIMIT 1 ) AS lastScheduleId,
+				 
 		  (SELECT
 		     `ln_view`.`name_en`
 		   FROM `ln_view`

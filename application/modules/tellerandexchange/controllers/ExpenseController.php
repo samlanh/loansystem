@@ -91,11 +91,11 @@ class Tellerandexchange_ExpenseController extends Zend_Controller_Action
 		$db = new Tellerandexchange_Model_DbTable_DbExpense();
 		$row  = $db->getexpensebyid($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull('NO_RECORD', self::REDIRECT_URL);
+			Application_Form_FrmMessage::Sucessfull('NO_RECORD', self::REDIRECT_URL,2);
 			exit();
 		}
 		if ($row['is_closed']==1){
-			Application_Form_FrmMessage::Sucessfull('Can not delete this record', self::REDIRECT_URL);
+			Application_Form_FrmMessage::Sucessfull('Can not delete this record', self::REDIRECT_URL,2);
 			exit();
 		}
     	$pructis=new Tellerandexchange_Form_Frmexpense();

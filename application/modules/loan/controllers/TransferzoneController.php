@@ -75,20 +75,13 @@ class Loan_TransferzoneController extends Zend_Controller_Action {
 		$data = $db->getAllinfoTransfer($id);
 		$fm = new Loan_Form_FrmTransferzone();
 		if(empty($data)){
-			Application_Form_FrmMessage::Sucessfull("NO_DATA","/loan/transferzone");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/transferzone",2);
+			exit();
 		}
 		$frm = $fm->FrmTransfer($data);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_transfer = $frm;
 	}
-// 	public function getLoaninfoAction(){
-// 		if($this->getRequest()->isPost()){
-// 			$data=$this->getRequest()->getPost();
-// 			$db=new Loan_Model_DbTable_DbBadloan();
-// 			$row=$db->getLoanInfo($data['loan_id']);
-// 			print_r(Zend_Json::encode($row));
-// 			exit();
-// 		}
-// 	}
+
 }
 

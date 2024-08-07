@@ -1,6 +1,6 @@
 <?php
 class Loan_DepartmentController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	private $activelist = array('មិនប្រើប្រាស់', 'ប្រើប្រាស់');
 	const REDIRECT_URL = '/loan';
     public function init()
     {    	
@@ -83,9 +83,10 @@ class Loan_DepartmentController extends Zend_Controller_Action {
 	   	}
 	   	$id = $this->getRequest()->getParam("id");//ចាប់ id from ln_position ;
 	   	$row = $db->getDepartmemtById($id);
-	   	if(empty($row)){
-	   		$this->_redirect('loan/department');
-	   	}
+		if(empty($row)){
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), '/loan/department',2);
+			exit();
+		}
 		 $frm = new Payroll_Form_FrmDepartment();
 		 $frm_partment=$frm->FrmAddDepartment($row);
 		 Application_Model_Decorator::removeAllDecorator($frm_partment);

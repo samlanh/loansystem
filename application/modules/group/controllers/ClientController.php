@@ -75,7 +75,10 @@ class Group_ClientController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
-		if(empty($row)){$this->_redirect("/group/client");}
+		if(empty($row)){
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('NO_RECORD'), "/group/client",2);
+			exit();	
+		}
 		$fm = new Group_Form_FrmClient();
 		$frm = $fm->FrmAddClient($row);
 		Application_Model_Decorator::removeAllDecorator($frm);

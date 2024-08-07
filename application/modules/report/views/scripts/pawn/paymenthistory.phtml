@@ -20,16 +20,10 @@
 		display: table-cell !important; 
 	}
 </style>
-<div class="reportblog">
-	<div class="card-box">
-       	<div class="col-sm-12 border-botom">
-		   	<div class="col-sm-8 pd-0">
-	    		<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate("RPT_PAYMENT_HISTORY")." (".$tr->translate("PAWN").")";?></h4>
-    		</div>
-    		<div class="col-sm-4 text-right">
-    		</div>
-    	</div>
-    </div>	
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('RPT_PAYMENT_HISTORY');?></h5>
+	</div>		
 	<div id="divPrint">
 		<style type="text/css">
 			.style{
@@ -286,7 +280,7 @@ $(function(){
 			if(key=="reciept"){
 				url='<?php echo $url_receipt;?>';
 			}
-			gotoAction();
+			addTab("<?php echo $tr->translate("PAYMENT_RECEIPT");?>",url+row+'&inFrame=true');
 		},
 		items: {
 			"reciept": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-file-text", accesskey: "c"},
@@ -298,6 +292,6 @@ function setrowdata(index){
 }
 var recordid ='';
 function gotoAction(){
-	 window.open(url+row, '_blank');
+	 window.open(url+row, '_self');
 }
  </script>

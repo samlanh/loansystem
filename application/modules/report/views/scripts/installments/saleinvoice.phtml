@@ -14,8 +14,11 @@ $gender=array(
 <style>
 #printfooter{display: none !important;}
 </style>
-<div style="width:100%; margin:0 auto;">
-	<div style=" width:26cm; height:25cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('Report Inventory Purchase Detail');?></h5>
+	</div>
+	<div style=" ">
 		<div id="divPrint" class="print" style="text-align:center; widht:100% ">
 			<style>
 				.style {
@@ -55,6 +58,7 @@ $gender=array(
 				    font-size: inherit;
 				    font-family: inherit;
 				    line-height: inherit;
+					overflow: hidden;
 				}
 				.labelValue{font-weight: bolder;}
 				@page  

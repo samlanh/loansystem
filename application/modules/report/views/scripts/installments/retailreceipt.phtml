@@ -12,9 +12,12 @@ $gender=array(
 <script>
 	dojo.require("dijit.form.DateTextBox");
 </script>
-<div style="width:100%; margin:0 auto;">
-	<div style=" width:25cm; height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
-			<div id="divPrint" class="print" style="text-align:center; widht:100% ">
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('PAYMENT_HISTORY');?></h5>
+	</div>	
+	<div class="card-body">
+		<div id="divPrint" class="print" style="text-align:center; widht:100% ">
 			<style>
 				.style {
 					line-height: 18px;
@@ -81,10 +84,10 @@ $gender=array(
 									<td>ខ្ញុំបាទ-នាងខ្ញុំឈ្មោះ</td>
 									<td width="60%" align="left"><span class="labelBorderBottom" style="min-width:100%;"><span class="labelValue" id="LBclientName"><?php echo $purchase['supplier_name'];?></span></span></td>
 									<td>&nbsp;ភេទ&nbsp;</td>
-									<td width="10%">​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientGender"><?php echo $gender[$purchase['supplierSex']];?>&nbsp;</span></span></td>
+									<td width="10%"><span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientGender"><?php echo $gender[$purchase['supplierSex']];?>&nbsp;</span></span></td>
 									<td>&nbsp;អាយុ&nbsp;</td>
 									<td width="10%">
-									​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientAge">&nbsp;<?php echo $purchase['supplierAge'];?>&nbsp;</span></span>
+									<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" id="LBclientAge">&nbsp;<?php echo $purchase['supplierAge'];?>&nbsp;</span></span>
 									</td>
 									<td>ឆ្នាំ</td>
 								</tr>

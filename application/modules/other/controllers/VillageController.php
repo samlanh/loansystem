@@ -81,10 +81,13 @@ class Other_VillageController extends Zend_Controller_Action {
 			}
 		}
 		$id = $this->getRequest()->getParam("id");
+		$id = empty($id) ? 0 : $id;
+		
 		$row = $db->getVillageById($id);
 		$this->view->row=$row;
 		if(empty($row)){
-			$this->_redirect('other/village');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/other/village',2);
+			exit();
 		}		
 		$fm = new Other_Form_FrmVillage();
 		$frm = $fm->FrmAddVillage($row);

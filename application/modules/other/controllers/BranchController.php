@@ -22,7 +22,7 @@ class Other_BranchController extends Zend_Controller_Action {
            	$rs_rows= $db->getAllBranch($search);
            
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_KH","SHOPNAME","PREFIX_CODE","CODE","ADDRESS","TEL","OTHER","STATUS");
+			$collumns = array("BRANCH","SHOPNAME","PREFIX_CODE","CODE","ADDRESS","TEL","OTHER","STATUS");
 			$link=array(
 					      'module'=>'other','controller'=>'branch','action'=>'edit',
 			);
@@ -42,7 +42,7 @@ class Other_BranchController extends Zend_Controller_Action {
 	{
 		$_dbmodel = new Other_Model_DbTable_DbBranch();
 		$allbranch = $_dbmodel->countBranch();
-		if ($allbranch>=1){
+		if ($allbranch>=3){
 			$this->_redirect("/other/branch");
 		}
 		if($this->getRequest()->isPost()){//check condition return true click submit button
@@ -73,6 +73,7 @@ class Other_BranchController extends Zend_Controller_Action {
 			//$this->_redirect("/other/branch");
 		}
 		$id=$this->getRequest()->getParam("id");
+		$id = empty($id) ? 0 : $id;
 		if($this->getRequest()->isPost())
 		{
 			$data = $this->getRequest()->getPost();
@@ -88,6 +89,12 @@ class Other_BranchController extends Zend_Controller_Action {
 		}
 		$db=new Other_Model_DbTable_DbBranch();
 		$row=$db->getBranchById($id);
+		
+		if(empty($row)){
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",self::REDIRECT_URL."/branch/index",2);
+			exit();
+		}
+		
 		$this->view->row = $row;
 		$frm= new Other_Form_Frmbranch();
 		$update=$frm->FrmBranch($row);

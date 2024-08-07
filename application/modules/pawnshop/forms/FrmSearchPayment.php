@@ -86,9 +86,10 @@ Class Pawnshop_Form_FrmSearchPayment extends Zend_Dojo_Form {
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}"));
 		$_date = $request->getParam("start_date");
 		if(empty($_date)){
-			$_date = date('Y-m-d');
+			//$_date = date('Y-m-d');
 		}
 		$start_date->setValue($_date);
+		
 		$date = date("y-m-d");
 		$end_date = new Zend_Dojo_Form_Element_DateTextBox("end_date");
 		$end_date->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.DateTextBox',

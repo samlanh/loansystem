@@ -11,18 +11,11 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 		try{
 			$db = new Pawnshop_Model_DbTable_DbPayment();
 		if($this->getRequest()->isPost()){
-				$formdata=$this->getRequest()->getPost();
+				$search=$this->getRequest()->getPost();
+				$search['advance_search'] = $search['advance_search'];
+			}else{
 				$search = array(
-						'advance_search' => $formdata['advance_search'],
-						'client_name'=>$formdata['client_name'],
-						'start_date'=>$formdata['start_date'],
-						'end_date'=>$formdata['end_date'],
-						'branch_id'		=>	$formdata['branch_id'],
-						);
-			}
-			else{
-				$search = array(
-						'adv_search' => '',
+						'advance_search' => '',
 						'client_name' => -1,
 						'start_date'=> date('Y-m-d'),
 						'end_date'=>date('Y-m-d'),
@@ -114,7 +107,7 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
   			$lastPaymentRecord = $db->getLastPaymentRecord($sale_id);
   			$lastPayId = empty($lastPaymentRecord['id'])?0:$lastPaymentRecord['id'];
   			if ($lastPayId!=$id){
-  				Application_Form_FrmMessage::Sucessfull("Only Last Payment Receipt Can Delete","/pawnshop/payment");
+  				Application_Form_FrmMessage::Sucessfull("Only Last Payment Receipt Can Delete","/pawnshop/payment",2);
 				exit();
   			}
 		}
@@ -148,7 +141,7 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 				$db->deletePawnpayment($id);
 				Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/pawnshop/payment/");
 			}else{
-				Application_Form_FrmMessage::Sucessfull("NO_PERMISSION","/pawnshop/payment/");
+				Application_Form_FrmMessage::Sucessfull("NO_PERMISSION","/pawnshop/payment/",2);
 			}
 		}catch (Exception $e) {
 			Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -232,6 +225,16 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	function getpenaltyandfeeAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Report_Model_DbTable_Dbpawn();
+			$row = $db->checkPawnPenalty($_data);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
+	
 	
 }
 

@@ -10,12 +10,23 @@ $dbgb = new Application_Model_DbTable_DbGlobal();
 <meta charset="utf-8">
 <title><?php echo $tr->translate("AGREEMENT")?></title>
 
-	<div  id="exportword" style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('AGREEMENT');?></h5>
+	</div>	
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
 		<tr>
 	    	<td align="center">
 	    		<div id="divPrint">
-		    	 	<style>		
+		    	 	<style>	
+						table tr,
+						table tr h2,
+						table tr p,
+						table tr span,
+						.style{
+							font-family: 'Times New Roman','Khmer OS Battambang';
+							color: #000;
+						}
 					    #padding-left-p-2{
 						 padding-left: 105px !important;	
 						}

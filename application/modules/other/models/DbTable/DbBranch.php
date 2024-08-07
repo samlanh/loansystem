@@ -131,7 +131,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	$sql.=$dbp->caseStatusShowImage("b.`status`");
     	$sql.=" FROM ln_branch AS b ";
     	
-    	$where = ' WHERE b.branch_namekh!="" AND b.branch_nameen !="" ';
+    	$where = ' WHERE (b.branch_namekh!="" OR b.branch_nameen !="") ';
     	if($search['status_search']>-1){
     		$where.= " AND b.status = ".$search['status_search'];
     	}

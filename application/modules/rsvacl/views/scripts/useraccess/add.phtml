@@ -10,6 +10,9 @@ fieldset.fifthy table{
 table.user td{
 	vertical-align: top;   
 }
+table tr td{
+	border:solid 1px #e4e4e4;
+}
 </style>       
 
 <?php $rs=$this->rs;
@@ -31,20 +34,14 @@ table.user td{
 	  		'library'=>'LIBRARY',
 	  );
 ?>
-<div class="card pb-10 pt-10 pl-10 pr-10">
-	<div class="card-content collapse show">
-		<div class="card-box">
-               	<div class="col-sm-12 border-botom">
-		    		<div class="col-sm-8 pd-0">
-		    			<h4 class="m-b-0"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('USER_ACCESS_EDIT');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
+<div class="card ">
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-settings" aria-hidden="true"></i>&nbsp;<?php echo $tr->translate('USERACCESS');?></h5>
+	</div>
+	<div class="card-body">
     	<div class="card-box">
     		<div class="col-md-6 col-sm-6 col-xs-12">
-    			<div class="form-group">
+    			<div class="row g-3">
                    <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("USER_TYPE");?> :
                    </label>
                    <div class="col-md-7 col-sm-7 col-xs-12">
@@ -57,16 +54,16 @@ table.user td{
 	   		 </div>
     	</div>
     	<form name="frmsearch" action="" method="post">
-	    	<div class="card-box">
+	    	<div class="row">
 	    		<div class="col-md-12 col-sm-12 col-xs-12">
-	    			 <div class="form-group">
+	    			 <div class="row g-3">
 	                   <label class="control-label col-md-12 col-sm-12 col-xs-12 title-blog bold" for="first-name">
 	                   <?php echo $tr->translate("SEARCH");?> <i class="fa fa-search" aria-hidden="true"></i> 
 	                   </label>
 	                </div>
 	    		</div>
 	    		<div class="col-md-4 col-sm-4 col-xs-12">
-	    			<div class="form-group">
+	    			<div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("MODULE");?> :
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -77,7 +74,7 @@ table.user td{
 	                </div>
 	    		</div>
 	    		<div class="col-md-4 col-sm-4 col-xs-12">
-	    			<div class="form-group">
+	    			<div class="row g-3">
 	                   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Controller");?> :
 	                   </label>
 	                   <div class="col-md-7 col-sm-7 col-xs-12">
@@ -90,14 +87,14 @@ table.user td{
 	                </div>
 	    		</div>
 	    		<div class="col-md-4 col-sm-4 col-xs-12">
-	    			<div class="form-group">
+	    			<div class="row g-3">
 	    				<input type="submit" value="Search" name="btsave" label="<?php echo $tr->translate("SEARCH");?>" title="Search" dojoType="dijit.form.Button"/>
 	    			</div>
 	    		</div>
 	    	</div>
     	</form>
     	<?php $show =0; if ($show==1){?>
-    		<div class="form-group">
+    		<div class="row g-3">
                    <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("Action");?> :
                    </label>
                    <div class="col-md-7 col-sm-7 col-xs-12">
@@ -106,7 +103,7 @@ table.user td{
 						</select>
                    </div>
 	        </div>
-	        <div class="form-group">
+	        <div class="row g-3">
                    <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("STATUS");?> :
                    </label>
                    <div class="col-md-7 col-sm-7 col-xs-12">

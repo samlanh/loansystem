@@ -11,16 +11,10 @@
 <meta charset="utf-8">
 <title><?php echo $tr->translate('AGREEMENT');?></title>
 
-<div class="reportblog">
-	<div class="card-box">
-    	<div class="col-sm-12 border-botom">
-	    	<div class="col-sm-8 pd-0">
-	   			<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('AGREEMENT');?></h4>
-    		</div>
-    		<div class="col-sm-4 text-right">
-    		</div>
-    	</div>
-    </div>	
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('AGREEMENT');?></h5>
+	</div>	
 	<style>
 		.reff{ font-size: 20px !important; line-height:34px !important;}
 		#divPrint tr td h2, #divPrint p,#divPrint pre,#divPrint span,#divPrint td span,#divPrint td{ font-size: 20px !important; line-height:34px !important;}
@@ -314,7 +308,7 @@
 				 </tr>
 				 <tr>
 				 	<td align="center">
-				 		<button iconclass="dijitIconPrint" onclick="printAgreement(1);" dojoType="dijit.form.Button" showLabel="true" type="submit">បោះពុម្ភ កិច្ចសន្យាដាក់បញ្ចាំ</button>
+				 		<button class="button-class button-primary " iconclass="glyphicon glyphicon-print" onclick="printAgreement(1);" dojoType="dijit.form.Button" showLabel="true" type="submit">បោះពុម្ភ កិច្ចសន្យាដាក់បញ្ចាំ</button>
 				 	</td>
 				 </tr>
 				 <tr>
@@ -591,7 +585,7 @@
 				 </tr>	
 				 <tr>
 				 	<td align="center">
-				 		<button iconclass="dijitIconPrint" onclick="printAgreement(2);" dojoType="dijit.form.Button" showLabel="true" type="submit">បោះពុម្ភ ពាក្យសុំខ្ចីចងការប្រាក់</button>
+				 		<button class="button-class button-primary " iconclass="glyphicon glyphicon-print" onclick="printAgreement(2);" dojoType="dijit.form.Button" showLabel="true" type="submit">បោះពុម្ភ ពាក្យសុំខ្ចីចងការប្រាក់</button>
 				 	</td>
 				 </tr>
 				 <tr>
@@ -797,9 +791,19 @@
 <script>
 									    			
 function printAgreement(index){
-	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint'+index).innerHTML;
-    window.frames["print_frame"].window.focus();
-    window.frames["print_frame"].window.print();
+	
+	var currentTitle = $(document).attr('title');
+	var w = 1000;
+	var h = 600;
+	var left = Number((screen.width/2)-(w/2));
+	var tops = Number((screen.height/2)-(h/2));
+
+	var winPrint = window.open('', '', 'toolbar=0,scrollbars=0,status=0,width='+w+', height='+h+', top='+tops+', left='+left);
+	winPrint.document.write('<title>'+currentTitle+index+'</title>'+dojo.byId('divPrint'+index).innerHTML);
+	winPrint.document.close();
+	winPrint.focus();
+	winPrint.print();
+	winPrint.close();
 }
 </script>
         	

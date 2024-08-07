@@ -1,6 +1,6 @@
 <?php
 class Payroll_PositionController extends Zend_Controller_Action {
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	private $activelist = array('មិនប្រើប្រាស់', 'ប្រើប្រាស់');
 	const REDIRECT_URL = '/payroll';
     public function init()
     {    	
@@ -49,13 +49,13 @@ class Payroll_PositionController extends Zend_Controller_Action {
 	  	try {
 	  	        $db->addPosition($_data);
 	  			if(!empty($_data['save_close'])){
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/index');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/position/index');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/add');
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/position/add');
 				}
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/add');
+				Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS', self::REDIRECT_URL . '/position/add');
 	  	}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message("INSERT_FAIL");
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}
@@ -81,23 +81,20 @@ class Payroll_PositionController extends Zend_Controller_Action {
 	   		$_data = $this->getRequest()->getPost();
 	   		try{
 	   			$db->upDatePosition($_data);
-	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/position');
+	   			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS !",'/payroll/position');
 	   		}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message("INSERT_FAIL");
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}
 	   	}
 	   	$id = $this->getRequest()->getParam("id");//ចាប់ id from ln_position ;
+		$id = empty($id) ? 0 : $id;
 	   	$row = $db->getPositionById($id);
 	   	if(empty($row)){
-	   		$this->_redirect('payroll/co');
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/payroll/co',2);
+			exit();
 	   	}
-// 	   	if(!empty($row['save_new'])){
-// 	   		Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
-// 	   	}else{
-// 	   		Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/index');
-// 	   	}
         $frm = new Other_Form_FrmPosition();
 		$frm_co=$frm->FrmAddPosition($row);
 		Application_Model_Decorator::removeAllDecorator($frm_co);

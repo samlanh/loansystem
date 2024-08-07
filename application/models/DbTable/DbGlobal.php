@@ -196,7 +196,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
     public function getDayInkhmerBystr($str){
     	
     	$rs=array(
-    			'Mon'=>'ច័ន្ទ',
+    			'Mon'=>'ចន្ទ',
     			'Tue'=>'អង្គារ',
     			'Wed'=>'ពុធ',
     			'Thu'=>"ព្រហ",
@@ -656,7 +656,9 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 			l.pay_term,
 			l.payment_method,
 			l.loan_type,
-	  		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
+	  		(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id =l.branch_id LIMIT 1) AS branch_name,
+	  		(SELECT b.br_address FROM `ln_branch` AS b WHERE b.br_id =l.branch_id LIMIT 1) AS branchAddress,
+	  		(SELECT b.branch_tel FROM `ln_branch` AS b WHERE b.br_id =l.branch_id LIMIT 1) AS branchTel,
 	  		(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_khname,
 	  		(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
 	  		(SELECT displayby FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS displayby,

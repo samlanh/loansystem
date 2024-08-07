@@ -13,26 +13,20 @@
 <script src="<?php echo $this->baseUrl();?>/js/pdbs_js.js"  type="text/javascript"></script>
 <title><?php echo $tr->translate("CALLETERAL_LETTER");?></title>
 
-<div class="reportblog">
-		<div class="card-box">
-       		<div class="col-sm-12 border-botom">
-		    	<div class="col-sm-8 pd-0">
-	    			<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('CALLETERAL_LETTER');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>	
-		<style>
-		.noneprint{
-			display: table-cell !important; 
-		}
-.reff{ font-size: 20px !important; line-height:34px !important;}
-		#divPrint tr td h2, #divPrint p,#divPrint pre,#divPrint span,#divPrint td span,#divPrint td{ font-size: 20px !important; line-height:34px !important;}
-		#padding-left-p-2{
-		 padding-left: 105px !important;	
-		}
-		</style>
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('CALLETERAL_LETTER');?></h5>
+	</div>	
+	<style>
+	.noneprint{
+		display: table-cell !important; 
+	}
+	.reff{ font-size: 20px !important; line-height:34px !important;}
+	#divPrint tr td h2, #divPrint p,#divPrint pre,#divPrint span,#divPrint td span,#divPrint td{ font-size: 20px !important; line-height:34px !important;}
+	#padding-left-p-2{
+	 padding-left: 105px !important;	
+	}
+	</style>
 		<div id="divPrint" style="width: 100%;">
 			<style>
 			.style{

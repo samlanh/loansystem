@@ -13,41 +13,38 @@ table.tb-footer tr.style-head {
    font-weight: bold !important;
 }
 </style>
-<div class="reportblog">
-	<div class="card-box">
-       	<div class="col-sm-12 border-botom">
-		   	<div class="col-sm-8 pd-0">
-	    		<h4 class="m-b-0"><i class="fa fa-server " aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('Report Inventory');?></h4>
-    		</div>
-    		<div class="col-sm-4 text-right">
-    		</div>
-    	</div>
-    </div>
-	<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
-		<div class="card-box">
-			<div class="form-group">
-               <div class="col-md-2 col-sm-2 col-xs-12">
-               		<?php echo $frm->getElement("adv_search");?>
-               </div>
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                	<?php echo $frm->getElement('branch_id');?>
-               </div>
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                	<?php echo $frm->getElement("product_type");?>
-               </div>
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                	<?php echo $frm->getElement("category");?>
-               </div>
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                	<?php echo $frm->getElement('status');?>
-               </div>
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                	<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-               </div>
-            </div>
-        </div>
-	</form>
-	<div id="divPrint">
+<div class="card report-page" >
+	<div class="card-header ">
+		<h5 class="card-title mb-0"><i class="ti ti-receipt"></i>&nbsp;<?php echo $tr->translate('Report Inventory');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form method="post">
+				<div class="card-box">
+					<div class="row g-3">
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("adv_search");?>
+					   </div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('branch_id');?>
+					   </div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("product_type");?>
+					   </div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement("category");?>
+					   </div>
+						<div class="col-md-2 col-sm-2 col-xs-12">
+							<?php echo $frm->getElement('status');?>
+					   </div>
+					   <div class="col-md-2 col-sm-2 col-xs-12">
+							<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					   </div>
+					</div>
+				</div>
+			</form>
+		</div>	
+	</div>
+	<div class="card-body">
+		<div id="divPrint">
 			<style>
 				.style{
 					line-height: 20px;font-size: 12px !important;
@@ -180,5 +177,6 @@ table.tb-footer tr.style-head {
 			</table>
 			<br />
 			<?php echo $this->footerReport;?>
+		</div>
 	</div>
 </div>

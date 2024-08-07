@@ -3,24 +3,14 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("VIEW_LOAN_RESCHEDULE"));
 $frm = $this->frm_search;
 ?>
-<script>
-dojo.require("dijit.form.DateTextBox");
-</script>
-<div class="card pb-10 pt-10 pl-10 pr-10">
-   	<div class="card-content collapse show">
-   		<div class="card-box">
-           	<div class="col-sm-12 border-botom">
-	    		<div class="col-sm-8 pd-0">
-	    			<h4 class="m-b-0"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<?php echo $tr->translate('VIEW_LOAN_RESCHEDULE');?></h4>
-    			</div>
-    			<div class="col-sm-4 text-right">
-    			</div>
-    		</div>
-    	</div>
-        <div class="card-box">
-			<form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'repaymentschedule','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
-			    <div class="form-group">
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
+
+<div class="card">
+	<div class="card-header">
+		<h5 class="card-title mb-0"><i class="ti ti-calendar"></i>&nbsp;<?php echo $tr->translate('VIEW_LOAN_RESCHEDULE');?></h5>
+		<div class="justify-content-between align-items-center ">
+			<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+			    <div class="row g-3">
+					<div class="col-md-2 col-sm-2 col-xs-12">
 			   			<?php echo $frm->getElement("adv_search");?>
 			   		</div>
 			   		<div class="col-md-2 col-sm-2 col-xs-12">
@@ -38,9 +28,9 @@ dojo.require("dijit.form.DateTextBox");
 			   		<div class="col-md-2 col-sm-2 col-xs-12">
 			   			<?php echo $frm->getElement('currency_type');?>
 			   		</div>
-			   	</div>
-			   	<div class="form-group">
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
+				</div>
+				<div class="row g-3">
+					<div class="col-md-2 col-sm-2 col-xs-12">
 			   			<?php echo $frm->getElement('pay_every');?>
 			   		</div>
 			   		<div class="col-md-2 col-sm-2 col-xs-12">
@@ -52,21 +42,20 @@ dojo.require("dijit.form.DateTextBox");
 			   		<div class="col-md-2 col-sm-2 col-xs-12">
 			   			<?php echo $frm->getElement('status');?>
 			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   			<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-			   		</div>
-			   		<div class="col-md-2 col-sm-2 col-xs-12">
-			   		</div>
-			   	</div>
+					<div class="col-md-2 col-sm-2 col-xs-12">
+						<button class="button-class button-primary " iconclass="glyphicon glyphicon-search" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+					</div>
+				</div>
 			</form>
 		</div>
-		<div class="card-box">
-			<?php echo $this->list;?>
-		</div>
+	</div>
+	<div class="card-body">
+		<?php echo $this->list;?>
 	</div>
 </div>
 
 <script>
+dojo.require("dijit.form.DateTextBox");
 function getmemberIdGroup(){
 	customer_code= dijit.byId('customer_code').get('value');
 	dijit.byId('member').attr('value',customer_code);

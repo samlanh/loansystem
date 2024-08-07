@@ -522,16 +522,26 @@ public function exportFileToExcel($table,$data,$thead){
 function rptPaymentschedulesAction(){
 	$db = new Report_Model_DbTable_DbRptPaymentSchedule();
 	$id =$this->getRequest()->getParam('id');
+	$id = empty($id)?0:$id;
+	
 	$row = $db->getPaymentSchedule($id);
 	$this->view->tran_schedule=$row;
+	
 	if(empty($row)){
-		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/rpt-loan-disburse?inFrame='.$inFrame,2);
+		exit();
 	}
 	$db = new Application_Model_DbTable_DbGlobal();
 	$rs = $db->getClientByMemberId($id);
 	if(empty($rs)){
-		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/rpt-loan-disburse?inFrame='.$inFrame,2);
+		exit();
 	}
+	
 	$this->view->client =$rs;
 	$frm = new Application_Form_FrmSearchGlobal();
 	$form = $frm->FrmSearchLoadSchedule();
@@ -558,11 +568,18 @@ function rptPaymentschedulesAction(){
  	}
  	$db = new Report_Model_DbTable_DbRptPaymentSchedule();
  	$id =$this->getRequest()->getParam('id');
+	$id = empty($id)?0:$id;
+	
  	$row = $db->getPaymentSchedule($id);
  	$this->view->tran_schedule=$row;
- 	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/paymentschedule-list');
- 	}
+	
+	if(empty($row)){
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/paymentschedule-list?inFrame='.$inFrame,2);
+		exit();
+	}
+	
  	$db = new Application_Model_DbTable_DbGlobal();
  	$rs = $db->getClientByMemberId($id);
  	
@@ -582,11 +599,18 @@ function rptPaymentschedulesAction(){
  function rptMemberschedulesAction(){//for schedule member
  	$db = new Report_Model_DbTable_DbRptPaymentSchedule();
  	$id =$this->getRequest()->getParam('id');
+	$id = empty($id)?0:$id;
+	
  	$row = $db->getPaymentSchedule($id);
  	$this->view->tran_schedule=$row;
- 	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/paymentschedule-list');
- 	}
+ 	
+	if(empty($row)){
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/paymentschedule-list?inFrame='.$inFrame,2);
+		exit();
+	}
+	
  	$db = new Application_Model_DbTable_DbGlobal();
  	$rs = $db->getClientByMemberId(@$row[0]['member_id']);
  	$this->view->client =$rs;
@@ -605,11 +629,17 @@ function rptPaymentschedulesAction(){
  function rptGroupschedulesAction(){//for schedule member
  	$db = new Report_Model_DbTable_DbRptPaymentSchedule();
  	$id =$this->getRequest()->getParam('id');
+	$id = empty($id)?0:$id;
+	
  	$row = $db->getPaymentScheduleGroupById($id);
  	$this->view->tran_schedule=$row;
- 	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/paymentschedule-list');
- 	}
+	if(empty($row)){
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/paymentschedule-list?inFrame='.$inFrame,2);
+		exit();
+	}
+	
  	$db = new Application_Model_DbTable_DbGlobal();
  	$rs = $db->getClientGroupByMemberId(@$row[0]['member_id']);
  	$this->view->client =$rs;
@@ -628,10 +658,13 @@ function rptPaymentschedulesAction(){
  function rptGroupchedulesAction(){//for schedule member
  	$db = new Report_Model_DbTable_DbRptPaymentSchedule();
  	$id =$this->getRequest()->getParam('id');
+	$id = empty($id) ? 0 : $id;
+	
  	$row = $db->getPaymentSchedule($id);
  	$this->view->tran_schedule=$row;
  	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/paymentschedule-list');
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/paymentschedule-list',2);
+		exit();
  	}
  	$db = new Application_Model_DbTable_DbGlobal();
  	$rs = $db->getClientByMemberId(@$row[0]['member_id']);
@@ -1185,7 +1218,6 @@ function rptLoanTrasferzoneAction(){//release all loan
  			}
  		}
  	}
- 	
 	$saleInstall=$db->getTotalSaleInstallmentIncome($search);
 	if(!empty($saleInstall)){
  		$income['saleTotalPrincipalPaid']	= $saleInstall['totalPrincipalPaid'];
@@ -1422,17 +1454,20 @@ function rptLoanTrasferzoneAction(){//release all loan
  
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
- 
- 	//  	print_r($db->getALLLoanPayment($search));
  }
  
  function agreementAction(){
  	$db = new Application_Model_DbTable_DbAgreement();
 	$id =$this->getRequest()->getParam('id');
+	$id = empty($id)?0:$id;
+	
 	$row = $db->getLoanById($id);
 	$this->view->loanInfo=$row;
+	
 	if(empty($row)){
-		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/rpt-loan-disburse?inFrame='.$inFrame,2);
 		exit();
 	}
 	
@@ -1459,10 +1494,14 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$id =$this->getRequest()->getParam('id');
  	$id = empty($id)?0:$id;
  	$row = $db->getLoanPaymentById($id);
- 	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/loan/payment');
- 		exit();
+ 	
+	if(empty($row)){
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/loan/payment?inFrame='.$inFrame,2);
+		exit();
  	}
+	
  	$this->view->loanPayment = $row ;
  	
  	$frmpopup = new Application_Form_FrmPopupGlobal();
@@ -1647,7 +1686,10 @@ function rptLoanTrasferzoneAction(){//release all loan
  	
  	$rs =$rs=$db->getPaymentByCustomer($id);
  	if (empty($rs)){
- 		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index");
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+			
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD","/loan/index?inFrame=".$inFrame,2);
  		exit();
  	}
  	
@@ -1660,11 +1702,16 @@ function rptLoanTrasferzoneAction(){//release all loan
  function givereceiveLetterAction(){
  	$db = new Application_Model_DbTable_DbAgreement();
  	$id =$this->getRequest()->getParam('id');
+	$id = empty($id)?0:$id;
+	
  	$row = $db->getLoanById($id);
  	$this->view->loanInfo=$row;
  	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
- 	}
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/rpt-loan-disburse?inFrame='.$inFrame,2);
+		exit();
+	}
  
  	$rs = $db->getClientLoanInfo($row['customer_id']);
  	$this->view->client =$rs;
@@ -1683,11 +1730,17 @@ function rptLoanTrasferzoneAction(){//release all loan
  function givereceiveDocLetterAction(){
  	$db = new Application_Model_DbTable_DbAgreement();
  	$id =$this->getRequest()->getParam('id');
+	$id = empty($id)?0:$id;
+	
  	$row = $db->getLoanById($id);
  	$this->view->loanInfo=$row;
- 	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
- 	}
+	
+	if(empty($row)){
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/rpt-loan-disburse?inFrame='.$inFrame,2);
+		exit();
+	}
  
  	$rs = $db->getClientLoanInfo($row['customer_id']);
  	$this->view->client =$rs;
@@ -1707,11 +1760,17 @@ function rptLoanTrasferzoneAction(){//release all loan
  function comfirmLetterAction(){
  	$db = new Application_Model_DbTable_DbAgreement();
  	$id =$this->getRequest()->getParam('id');
+	$id = empty($id)?0:$id;
+	
  	$row = $db->getLoanById($id);
  	$this->view->loanInfo=$row;
- 	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
- 	}
+ 	
+	if(empty($row)){
+		$inFrame = $this->getRequest()->getParam('inFrame');
+		$inFrame = empty($inFrame)?"":$inFrame;
+ 		Application_Form_FrmMessage::Sucessfull("NO_RECORD",'/report/loan/rpt-loan-disburse?inFrame='.$inFrame,2);
+		exit();
+	}
  
  	$rs = $db->getClientLoanInfo($row['customer_id']);
  	$this->view->client =$rs;

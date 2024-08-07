@@ -45,6 +45,14 @@ public function init()
 		$row['branch_add'] = $db_gs->geLabelByKeyName('branch_add');
 		$row['branch_email'] = $db_gs->geLabelByKeyName('branch_email');
 		
+		
+		$row['graicePariod'] = $db_gs->geLabelByKeyName('graicePariod');
+		$row['penaltyCalculateDay'] = $db_gs->geLabelByKeyName('penaltyCalculateDay');
+		$row['penaltyType'] = $db_gs->geLabelByKeyName('penaltyType');
+		$row['penaltyValue'] = $db_gs->geLabelByKeyName('penaltyValue');
+		$row['penaltyValueDollar'] = $db_gs->geLabelByKeyName('penaltyValueDollar');
+		$row['penaltyValueBath'] = $db_gs->geLabelByKeyName('penaltyValueBath');
+		
 		$this->view->logo = $db_gs->geLabelByKeyName('logo');
 		$fm = new Setting_Form_FrmGeneral();
 		$frm = $fm->FrmGeneral($row);

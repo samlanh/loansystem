@@ -1,10 +1,12 @@
 <?php
 class Installment_CustomerController extends Zend_Controller_Action {
-	const REDIRECT_URL = '/group/index';
+	const REDIRECT_URL = '/installment/customer';
+	protected $tr;
 	public function init()
 	{
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
+		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function indexAction(){
 		try{
@@ -74,9 +76,9 @@ class Installment_CustomerController extends Zend_Controller_Action {
 					$id= $db->addClient($data);
 					if (!empty($data['save_close'])){
 							Application_Form_FrmMessage::redirectUrl("/installment/customer");
-							Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+							Application_Form_FrmMessage::message("INSERT_SUCCESS !");
 					}
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​ជោគ​ជ័យ !',"/installment/customer/add");
+					Application_Form_FrmMessage::Sucessfull('INSERT_SUCCESS !',"/installment/customer/add");
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("Application Error");
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -86,7 +88,7 @@ class Installment_CustomerController extends Zend_Controller_Action {
 		$client_type = $db->getclientdtype();
 		array_unshift($client_type,array(
 		'id' => -1,
-		'name' => '---Add New ---',
+		'name' => $this->tr->translate("ADD_NEW"),
 		 ) );
 		$this->view->clienttype = $client_type;
 		$fm = new Installment_Form_FrmClient();
@@ -114,11 +116,14 @@ class Installment_CustomerController extends Zend_Controller_Action {
 			}
 		}
 		$id = $this->getRequest()->getParam("id");
+		$id = empty($id) ? 0 : $id;
+		
 		$row = $db->getClientById($id);
-	        $this->view->row=$row;
+		$this->view->row=$row;
 		$this->view->photo = $row['photo_name'];
 		if(empty($row)){
-			$this->_redirect("/installment/customer");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/customer",2);
+			exit();
 		}
 		$fm = new Installment_Form_FrmClient();
 		$frm = $fm->FrmAddClient($row);
@@ -135,17 +140,20 @@ class Installment_CustomerController extends Zend_Controller_Action {
 		$client_type = $db->getclientdtype();
 		array_unshift($client_type,array(
 				'id' => -1,
-				'name' => '---Add New ---',
+				'name' => $this->tr->translate("ADD_NEW"),
 		) );
 		$this->view->clienttype = $client_type;
 	}
 	
 	function viewAction(){
 		$id = $this->getRequest()->getParam("id");
+		$id = empty($id) ? 0 : $id;
+		
 		$db = new Installment_Model_DbTable_DbClient();
 		$row = $db->getClientDetailInfo($id);
 		if(empty($row)){
-			$this->_redirect("/installment/customer");
+			Application_Form_FrmMessage::Sucessfull("NO_RECORD","/installment/customer",2);
+			exit();
 		}
 		$this->view->salebyCus = $db->getAllOutstadingLoan($id);
 		$this->view->client_list = $row;
