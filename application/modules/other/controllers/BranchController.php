@@ -42,7 +42,7 @@ class Other_BranchController extends Zend_Controller_Action {
 	{
 		$_dbmodel = new Other_Model_DbTable_DbBranch();
 		$allbranch = $_dbmodel->countBranch();
-		if ($allbranch>=5){
+		if ($allbranch>=3){
 			$this->_redirect("/other/branch");
 		}
 		if($this->getRequest()->isPost()){//check condition return true click submit button

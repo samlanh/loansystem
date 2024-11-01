@@ -74,7 +74,7 @@ table.tb-footer tr.style-head {
 								<td width="20%"><span id="projectlogo"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" style="height: 85px;max-width: 100%;"></span></td>
 								<td width="60%" valign="top">
 									<ul>
-										<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+										<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
 										<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("REPORT_LOANINCOMESTAEMENT");?></li>
 										<li style="text-align:center; font-size:14px;">
 											<span id="projectName"></span>
@@ -100,8 +100,6 @@ table.tb-footer tr.style-head {
 									$expenseD = 0;
 									$expenseR = 0;
 									$expenseB = 0;
-									
-									
 							?>
 							<thead style="font-family:'Times New Roman','Khmer OS Muol Light'">
 								<tr style="background:#ccd9ff">
@@ -242,7 +240,7 @@ table.tb-footer tr.style-head {
 							</tr>
 							
 							<tr class="styleover">
-								<td>&nbsp;&nbsp;<span style="font-family:'Times New Roman','Khmer OS Muol Light';font-size: 16px;">ចំណូលសរុបរួមទាំងអស់</span></td>
+								<td>&nbsp;&nbsp;<span style="font-family:'Times New Roman','Khmer OS Muol Light';font-size: 14px;">ចំណូលសរុបរួមទាំងអស់</span></td>
 								<td>&nbsp;&nbsp;</td>
 								<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang'; ">&nbsp;$&nbsp;<?php echo number_format($incomed,2);?></span></td>
 								<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang'; ">&nbsp;៛&nbsp;<?php echo number_format($incomer,2);?></span></td>
@@ -298,7 +296,7 @@ table.tb-footer tr.style-head {
 								$expenseB = $expenseB+$rsincome['expense_b'];
 							?>
 							<tr class="styleover">
-								<td>&nbsp;&nbsp;<span style="font-family:'Times New Roman','Khmer OS Muol Light';font-size: 16px;">Net Income/Lost ចំណេញ/ខាត សរុប</span></td>
+								<td>&nbsp;&nbsp;<span style="font-family:'Times New Roman','Khmer OS Muol Light';font-size: 14px;">Net Income/Lost ចំណេញ/ខាត សរុប</span></td>
 								<td>&nbsp;&nbsp;</td>
 								<td><span style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;$&nbsp;<?php echo number_format($incomed-$expenseD,2);?></span></td>
 								<td><span style="border-bottom: 1px double #000;font-family:'Arial','Times New Roman','Khmer OS Battambang';background:#ccc;padding:5px;">&nbsp;៛&nbsp;<?php echo number_format($incomer-$expenseR,2);?></span></td>

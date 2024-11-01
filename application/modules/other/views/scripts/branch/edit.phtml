@@ -30,9 +30,9 @@
 		<form action="<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data" >
 			 <script type="dojo/method" event="onSubmit">			
 				if(this.validate()) {
-					branch_namekh = dijit.byId('prefix_code').get('value');
-					if (branch_namekh=='' || branch_namekh==-1){
-						infoMessageAlert('Please prefix_code Client Name !');
+					prefix_code = dijit.byId('prefix_code').get('value');
+					if (prefix_code=='' || prefix_code==-1){
+						infoMessageAlert('Please add prefix code');
 						dijit.byId('prefix_code').focus();
 						return false;
 					}
@@ -309,7 +309,6 @@
 	</div>
 </div>
 <script>
-// A $( document ).ready() block.
 $( document ).ready(function() {
    let e = document.getElementById("uploadedAvatar");
         const l = document.querySelector(".account-file-input")
@@ -326,6 +325,4 @@ $( document ).ready(function() {
             }
         }
 });
-
-
 </script>

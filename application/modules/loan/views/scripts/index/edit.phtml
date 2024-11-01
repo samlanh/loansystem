@@ -40,7 +40,8 @@
 				alert('<?php echo $tr->translate("Please Select Client Name");?> !');
 				dijit.byId('member').focus();
 				return false;
-			}if(co_id=='' || co_id==-1){
+			}
+			/*if(co_id=='' || co_id==-1){
 				alert('<?php echo $tr->translate("Please Select CO Name");?> !');
 				dijit.byId('co_id').focus();
 				return false;
@@ -48,7 +49,7 @@
 				alert('<?php echo $tr->translate("Please Select Zone");?> !');
 				dijit.byId('zone').focus();
 				return false;
-			}
+			}*/
 			rs = checkValidateDate();
 			if(rs==false){
               return false;			
@@ -96,7 +97,7 @@
 							   </div>
 							</div>
 							<div class="row g-3">
-							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("CUSTOMER_NAME");?> :
+							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><strong><?php echo $tr->translate("CUSTOMER_NAME");?></strong> :
 							   </label>
 								<div class="col-md-7 col-sm-7 col-xs-12">
 									<div class="row ">
@@ -150,7 +151,7 @@
 						</div>
 						<div class="card-body">
 							<div class="row g-3">
-							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("LOAN_AMOUNT");?> :
+							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><strong><?php echo $tr->translate("LOAN_AMOUNT");?></strong> :
 							   </label>
 								<div class="col-md-7 col-sm-7 col-xs-12">
 									<?php echo $frm->getElement('total_amount');?>
@@ -179,28 +180,29 @@
 							   </div>
 							</div>
 							<div class="row g-3">
-							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("REPAYMENT_TYPE");?> :
+							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><strong><?php echo $tr->translate("REPAYMENT_TYPE");?></strong> :
 							   </label>
 								<div class="col-md-7 col-sm-7 col-xs-12">
 									<?php echo $frm->getElement('repayment_method');?>
 							   </div>
 							</div>
 							<div class="row g-3">
-							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("INTEREST_RATE");?> :
-							   </label>
-								<div class="col-md-7 col-sm-7 col-xs-12">
-									<?php echo $frm->getElement('interest_rate');?>
-							   </div>
-							</div>
-							<div class="row g-3">
-							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TERM_INSTALL");?> :
+							   <label class="control-label col-md-5 col-sm-5 col-xs-12" for="first-name"><strong><?php echo $tr->translate("TERM_INSTALL");?></strong> :
 							   </label>
 								<div class="col-md-7 col-sm-7 col-xs-12">
 									<?php echo $frm->getElement('pay_every');?>
 							   </div>
 							</div>
 							<div class="row g-3">
-							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><?php echo $tr->translate("TERM_BORROW");?> :
+							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><strong><?php echo $tr->translate("INTEREST_RATE");?></strong> :
+							   </label>
+								<div class="col-md-7 col-sm-7 col-xs-12">
+									<?php echo $frm->getElement('interest_rate');?>
+							   </div>
+							</div>
+							
+							<div class="row g-3">
+							   <label class="control-label bold col-md-5 col-sm-5 col-xs-12" for="first-name"><strong><?php echo $tr->translate("TERM_BORROW");?></strong> :
 							   </label>
 								<div class="col-md-7 col-sm-7 col-xs-12">
 									<?php echo $frm->getElement('period');?>
@@ -311,7 +313,7 @@
             	<div class="col-sm-12 border-top mt-2 py-2 text-center">
 		    		<input type="reset" class="button-class button-danger " iconClass="glyphicon glyphicon-repeat" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button" />
 					<input type="submit" class="button-class button-primary" iconClass="glyphicon glyphicon-floppy-disk" label="<?php echo $tr->translate("GO_EDIT");?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button" />
-					<input type="button" class="button-class button-primary" iconClass="glyphicon glyphicon-print" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button" />
+					<input type="button" class="button-class button-primary" iconClass="glyphicon glyphicon-zoom-in" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button" />
     			</div>
     		</div>
 	    	<!--/. Button Save  -->
@@ -552,7 +554,7 @@ function zone(){
 		if(dijit.byId("currency_type").get('value')==1){
 			amount_payment = amount_payment%100 > 0 ? (amount_payment-(amount_payment%100)+100) : amount_payment;
 		}
-		dijit.byId('amount_collect_pricipal').attr('value',amount_payment);
+		dijit.byId('amount_collect_pricipal').attr('value',parseFloat(amount_payment).toFixed(2));
 	}
 	function hideDialog() {		
 		dijit.byId("recript_dialog").hide();
@@ -971,7 +973,8 @@ function addPreviewLoan(){
 			alert('Please Select Client Name !');
 			dijit.byId('member').focus();
 			return false;
-		}if(co_id=='' || co_id==-1){
+		}
+		/*if(co_id=='' || co_id==-1){
 			alert('Please Select CO Name !');
 			dijit.byId('co_id').focus();
 			return false;
@@ -979,7 +982,7 @@ function addPreviewLoan(){
 			alert('Please Select Zone !');
 			dijit.byId('zone').focus();
 			return false;
-		}
+		}*/
 		rs = checkValidateDate();
 		if(rs==false){
           return false;			
@@ -1040,7 +1043,7 @@ function addPreviewLoan(){
 function getDayName(day){
 	 var weekday = new Array(7);
 	    weekday[0] = "អាទិត្យ";
-	    weekday[1] = "ច័ន្ទ";
+	    weekday[1] = "ចន្ទ";
 	    weekday[2] = "អង្គារ";
 	    weekday[3] = "ពុធ";
 	    weekday[4] = "ព្រហ";

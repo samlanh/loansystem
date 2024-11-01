@@ -115,6 +115,14 @@ table.content-data thead tr.style-head {
 				.border_bottom {
 					border-bottom: 1px solid #000;
 				}
+				span.cl-info {
+					text-align: left;
+					display: block;
+					width: 130px;
+					white-space: pre-line;
+					font-size: 90%;
+					padding: 2px 0;
+				}
 			</style>
 			<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%;"  >
 				<tr>
@@ -148,6 +156,9 @@ table.content-data thead tr.style-head {
 								
 								<td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
 								<td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PHONE")." / ".$tr->translate("ADDRESS");?></td>
+								
+								<td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("Collateral");?></td>
+								<td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("NUMBER_COLLTERAL");?></td>
 								<!-- <th rowspan="2" style="padding:0px 2px;"><?php //echo $tr->translate("RELEASE_DATE");?></td>
 								<td rowspan="2" style="padding:0px 2px;"><?php //echo $tr->translate("LIFE_LOAN");?></td>
 								<th rowspan="2" style="padding:0px 2px;"><?php //echo $tr->translate("TOTAL_AMOUNT");?></td>
@@ -247,6 +258,7 @@ table.content-data thead tr.style-head {
 							<td>&nbsp;<?php echo $rs["branch_namekh"];?>&nbsp;</td>
 							<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
 							<td style="white-space: nowrap;">&nbsp;<?php echo $rs["name_kh"];?>&nbsp;</td>
+							
 							<td style="line-height: 18px; white-space: normal !important;max-width: 150px;width: 150px;padding: 5px;overflow-wrap: break-word;">
 								<?php 
 									echo $rs["phone"];
@@ -256,6 +268,8 @@ table.content-data thead tr.style-head {
 									echo empty($rs['province_en_name'])?"":",".$rs['province_en_name'];
 								?>
 							</td>
+							<td style="white-space: nowrap;"><span class="cl-info"><?php echo $rs["collecteralTitleKh"];?></span></td>
+							<td style="white-space: nowrap;"><span class="cl-info"><?php echo $rs["collecteralNumber"];?></span></td>
 							<!-- <td align="right" style="white-space: nowrap;">&nbsp;<?php //echo date("d/m/Y",strtotime($rs["date_release"]));?>&nbsp;</td>
 							<td align="right" style="white-space: nowrap;">&nbsp;<?php //echo number_format($rs["total_capital"],2).' '.$rs['currency_type'];?>&nbsp;</td>
 							<td>&nbsp;<?php //echo $rs["interest_rate"];?>&nbsp;</td>

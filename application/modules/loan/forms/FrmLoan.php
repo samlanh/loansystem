@@ -421,7 +421,10 @@ public function init()
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$options= array(2=>"After",1=>"Before",3=>"Normal");
+		$options= array(
+		2=>$this->tr->translate("After"),
+		1=>$this->tr->translate("Before"),
+		3=>$this->tr->translate("Normal"));
 		$_every_payamount->setMultiOptions($options);
 		
 		$_time= new Zend_Dojo_Form_Element_TextBox('time');

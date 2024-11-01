@@ -1218,7 +1218,6 @@ function rptLoanTrasferzoneAction(){//release all loan
  			}
  		}
  	}
- 	
 	$saleInstall=$db->getTotalSaleInstallmentIncome($search);
 	if(!empty($saleInstall)){
  		$income['saleTotalPrincipalPaid']	= $saleInstall['totalPrincipalPaid'];

@@ -64,7 +64,7 @@ dojo.require("dijit.form.DateTextBox");
 		<div id="divPrint" style="width: 100%; ">
 			<style>
 				.style{
-					line-height: 20px;font-size: 13px !important;
+					line-height: 20px;font-size: 12px !important;
 					font-family: 'Times New Roman','Khmer OS Battambang';
 				}
 				table tr td ul li{list-style: none;line-height: 25px;}
@@ -81,7 +81,7 @@ dojo.require("dijit.form.DateTextBox");
 					width:100%;
 					border:1px solid #000; 
 					font-family:'Times New Roman','Khmer OS Battambang';
-					font-size:13px;
+					font-size:12px;
 					white-space: nowrap;
 					margin:0 auto;
 				}
@@ -110,6 +110,13 @@ dojo.require("dijit.form.DateTextBox");
 				.border_bottom {
 						border-bottom: 1px solid #000;
 					}
+					@media print{
+							@page{
+								margin:0.7cm 0.7cm 0cm 0.7cm;
+								page:A4;
+								page-break-before: avoid;
+							}
+						}
 			</style>
 			<table style="font-family: 'Times New Roman','Khmer OS Battambang'; width:100%; max-width: 100%">
 				<tr>
@@ -119,9 +126,9 @@ dojo.require("dijit.form.DateTextBox");
 								<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
 								<td width="60%" valign="top">
 									<ul>
-										<li style="text-align:center; font-size:16px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-										<li style="text-align:center; font-size:14px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("LOAN_DISBURSE");?></li>
-										<li style="text-align:center; font-size:14px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
+										<li style="text-align:center; font-size:12px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+										<li style="text-align:center; font-size:12px; font-family:'Times New Roman','Khmer OS Muol Light'"><?php echo $tr->translate("LOAN_DISBURSE");?></li>
+										<li style="text-align:center; font-size:12px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
 									</ul>
 								</td>
 								<td width="20%"></td>
@@ -137,8 +144,8 @@ dojo.require("dijit.form.DateTextBox");
 									<td rowspan="2">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
 									<td rowspan="2">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
 									<td rowspan="2">&nbsp;<?php echo $tr->translate("LOAN_NO");?>&nbsp;</td>
-									<td rowspan="2">&nbsp;<?php echo $tr->translate("CLIENT_NO");?>&nbsp;</td>
 									<td rowspan="2">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
+									<td rowspan="2">&nbsp;<?php echo $tr->translate("TEL");?>&nbsp;</td>
 									<td rowspan="2">&nbsp;<?php echo $tr->translate("LOAN_LEVEL");?>&nbsp;</td>
 									<td rowspan="2">&nbsp;<?php echo $tr->translate("CO_NAME");?>&nbsp;</td>
 									
@@ -227,10 +234,10 @@ dojo.require("dijit.form.DateTextBox");
 								<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 								<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 								<td>&nbsp;<strong><?php echo $row['loan_number'];?></strong>&nbsp;</td>
-								<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
 								<td align="left" style="line-height:15px;min-width:90px; ">&nbsp;
 								<a target="_blank" title="click here to preview payment schedule" style="color:#000; text-decoration: none;" href="<?php echo $url_client."/id/".$row['id'];?>">&nbsp;<?php echo $row['client_khname']; ?></a>&nbsp;
-								</td>	
+								</td>
+								<td align="left">&nbsp;<?php echo $row['phone'];?>&nbsp;</td>
 								<td>&nbsp;<?php echo $row['loan_level'];?>&nbsp;</td>
 								<td align="left" style="min-width:75px;"><span style="line-height:15px;">&nbsp;<?php echo $row['co_name']; ?></span>&nbsp;</td>	
 								<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
@@ -246,7 +253,7 @@ dojo.require("dijit.form.DateTextBox");
 							<?php }?>
 						</table>
 						<br />
-						<table style=" font-size:11px;width:70%;margin:0 auto;" cellspacing="0">
+						<table style=" font-size:12px;width:70%;margin:0 auto;" cellspacing="0">
 							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
 								 <td rowspan="2" align="right">&nbsp;</td>
 								 <td rowspan="2">&nbsp;</td>
@@ -257,7 +264,7 @@ dojo.require("dijit.form.DateTextBox");
 								 <td rowspan="2" align="right"><span class="border_bottom"><?php echo $tr->translate("OTHER_FEE");?></span></td>
 								 <td rowspan="2" align="right">&nbsp;</td>
 							 </tr>
-							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:14px; padding:2px 0px; height: 25px;">
+							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; font-size:12px; padding:2px 0px; height: 25px;">
 								<td align="center"><span class="border_bottom"><?php echo $tr->translate("MONTH");?></span></td>
 								<td align="center"><span class="border_bottom"><?php echo $tr->translate("WEEK");?></span></td>
 								<td align="center"><span class="border_bottom"><?php echo $tr->translate("DAY");?></span></td>
@@ -289,19 +296,21 @@ dojo.require("dijit.form.DateTextBox");
 								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($other_fee_r,2);?>&nbsp;</td>
 								<td align="right">&nbsp;</td>
 							 </tr>
+							 <?php if ($count_lb > 0) { ?>
 							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px; padding:2px 0px; height: 25px;">
 								<td align="right"></td>
-								<td align="right"><?php echo $tr->translate("BATH");?></td>
-								<td align="center"><?php echo $monthBath;?></td>
-								<td align="center"><?php echo $weekBath;?></td>
-								<td align="center"><?php echo $dayBath;?></td>
-								<td align="center" style="font-weight:bold;">&nbsp;<?php echo $count_lb;?>&nbsp;</td>
+								<td align="right"><?php echo $tr->translate("BATH"); ?></td>
+								<td align="center"><?php echo $monthBath; ?></td>
+								<td align="center"><?php echo $weekBath; ?></td>
+								<td align="center"><?php echo $dayBath; ?></td>
+								<td align="center" style="font-weight:bold;">&nbsp;<?php echo $count_lb; ?>&nbsp;</td>
 								<td>&nbsp;</td>
-								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
-								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b,2);?>&nbsp;</td>
-								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($other_fee_b,2);?>&nbsp;</td>
+								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amt_b, 2); ?>&nbsp;</td>
+								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($amn_b, 2); ?>&nbsp;</td>
+								<td align="right" style="font-weight:bold;">&nbsp;<?php echo number_format($other_fee_b, 2); ?>&nbsp;</td>
 								<td align="right">&nbsp;</td>
 							 </tr>
+							 <?php } ?>
 							 <tr bgcolor="#a0baf5" class="style" style="line-height: 14px;padding:2px 0px;height: 25px; border-top: 4px double #000 !important;">
 								<td align="right"></td>
 								<td align="right"></td>

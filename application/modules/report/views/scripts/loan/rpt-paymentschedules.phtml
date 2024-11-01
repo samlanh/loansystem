@@ -99,7 +99,7 @@ table.tb-footer tr.style-head {
 	                </tr >
 	                <tr >
 	                	<td colspan="3" align="center">
-	                		<h2 style="font-weight:normal; text-align:center; font-size:16px; font-family:'Khmer OS Muol Light'"><?php echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
+	                		<h2 style="font-weight:normal; text-align:center; font-size:14px; font-family:'Khmer OS Muol Light'"><?php echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
 	               		</td>
 	                </tr> 
 	                <?php 
@@ -127,7 +127,7 @@ table.tb-footer tr.style-head {
 				                      <p><?php echo $tr->translate("LEVEL");?> : <?php echo $client['level'];?></p>
 				                    </td>
 				                </tr>
-				                <tr style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'" >
+				                <tr style="font-size:12px;font-family:'Times New Roman','Khmer OS Battambang'" >
 				                	<td colspan="2">
 				                		<p style="padding-top:8px;"><span><?php echo $tr->translate("ADDRESS");?></span>:<?php echo $row['village_name'];?> ,<?php echo $row['commune_name'];?> <?php echo $row['district_name'];?> ,  <?php echo $row['province_en_name'];?>
 				                	</td>
@@ -226,12 +226,12 @@ table.tb-footer tr.style-head {
 	            		<td height="40px">&nbsp;</td>
 	            	</tr>
 	            	<tr class="font_bold">
-	            		<td align="center" height="80px" valign="bottom" style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'"><?php echo $client['user_name'];?></td>
+	            		<td align="center" height="80px" valign="bottom" style="font-size:14px;font-family:'Times New Roman','Khmer OS Battambang'"><?php echo $client['user_name'];?></td>
 	            		<td align="center"  valign="bottom" style="font-size:15px;line-height: 30px;font-family:'Times New Roman','Khmer OS Battambang'" >
 	            			<?php echo $client['co_khname'];?>
 	            			<p><?php echo $tr->translate("TEL");?>  : <?php echo $client['tel'];?></p>   
 	            		</td>
-	            		<td align="center" height="75px" valign="bottom" style="font-size:15px;font-family:'Times New Roman','Khmer OS Battambang'">
+	            		<td align="center" height="75px" valign="bottom" style="font-size:14px;font-family:'Times New Roman','Khmer OS Battambang'">
 	            			<?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
 	            	</tr>
 	            </table>
@@ -245,33 +245,7 @@ table.tb-footer tr.style-head {
   <script type="text/javascript">
   	dojo.require("dojo.NodeList-manipulate");
   	dojo.require("dojo.data.ItemFileWriteStore");
-  	dojo.ready(function() {
-  		//dutySetting();
-  	});
- 
-
-  	// function dutySetting() {
-
-  	// 	<?php //if ($footerScoreDocument == 0) { ?>
-
-  	// 		document.getElementById("stamp").checked = false;
-  	// 		stampDisplay();
-  	// 		var hideStampSetting = document.getElementById("hideStampSetting");
-	// 		var teacher = document.getElementById("teachersigature");
-	// 		var administrator = document.getElementById("administrator");
-
-	// 		teacher.style.display = "block";
-	// 		administrator.style.display = "block";
-
-  	// 		hideStampSetting.style.display = "none";
-
-  	// 	<?php //} else { ?>
-  	// 		document.getElementById("stamp").checked = true;
-  	// 		stampDisplay();
-  	// 	<?php //} ?>
-
-  	// }
-
+  
   	function stampDisplay() {
   		var checkBox = document.getElementById("stamp");
   		var header = document.getElementById("header");

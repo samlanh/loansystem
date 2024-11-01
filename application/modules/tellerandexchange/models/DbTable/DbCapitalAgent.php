@@ -54,7 +54,7 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 				$amount = $data['amount'.$i];
 				$arrs = array(
 						'currency_id'=>$data['currency_id'.$i],
-						'for_date'=>date("Y-m-d"),
+						'for_date'=>date("Y-m-d h:i"),
 						'amount'=>$amount,
 						'agent_id'=>$data['agent_id'],
 						'user_id'=>$useId,
@@ -62,7 +62,7 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 				$this->_name ='ln_exchange_capital_detail';
 				$this->insert($arrs);
 				
-				$this->addCurrentCapital($amount, $data['agent_id'], $data['currency_id'.$i]);
+				$this->addCurrentCapital($amount,$data['agent_id'], $data['currency_id'.$i]);
 			}
 			return  $db->commit();
     	} catch (Exception $e) {
@@ -81,10 +81,11 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 	function getCapitalByAgentIDAndDate($row){
 		$date = date("Y-m-d",strtotime($row['for_date']));
 		$agentId = $row['agent_id'];
+		$Id = $row['id'];
 		$db = $this->getAdapter();
 		$sql="SELECT c.*, (SELECT CONCAT(u.last_name,' ',u.first_name) FROM `rms_users` AS u WHERE u.id = c.`agent_id` LIMIT 1) AS agency,
 		(SELECT CONCAT(c.curr_namekh,' ',c.symbol ) FROM `ln_currency` AS c WHERE c.id = c.`currency_id` LIMIT 1) AS currencyKH
-		FROM `ln_exchange_capital_detail` AS c WHERE DATE_FORMAT(c.`for_date`,'%Y-%m-%d') = '$date' AND  c.`agent_id` =$agentId ORDER BY c.id DESC";
+		FROM `ln_exchange_capital_detail` AS c WHERE DATE_FORMAT(c.`for_date`,'%Y-%m-%d') = '$date' AND  c.`agent_id` =$agentId AND c.id=$Id ORDER BY c.id DESC";
 		return $db->fetchAll($sql);
 	}
 	function getCurrencyRowEdit($data){
@@ -96,7 +97,7 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 		$baseurl= Zend_Controller_Front::getInstance()->getBaseUrl();
 		$tem='';
 		$newrowid='';
-		if (!empty($row)) {
+		if(!empty($row)) {
 			$newrowid = $data['record_no'];
 			$tem.='
 			<td align="center">'.$data['record_no'].'</td>
@@ -132,20 +133,20 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 					}
 				}
 			}
-// 			echo $iddetail;exit();
 			$this->_name="ln_exchange_capital_detail";
 			$where1=" ";
 			if (!empty($iddetail)){
-				$where1.=" id NOT IN (".$iddetail.")";
-				$this->delete($where1);
+				//$where1.=" id NOT IN (".$iddetail.")";
+				//$this->delete($where1);
 			}
-			
 			
 			foreach ($ids as $i){
 				if (!empty($data['detailid'.$i])){
+					$amount = $data['amount'.$i]-$data['old_amount'.$i];
+					
+			
 					$arrs = array(
 							'currency_id'=>$data['currency_id'.$i],
-// 							'for_date'=>date("Y-m-d"),
 							'amount'=>$data['amount'.$i],
 							'agent_id'=>$data['agent_id'],
 							'user_id'=>$useId,
@@ -153,16 +154,20 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 					$this->_name ='ln_exchange_capital_detail';
 					$where = "id = ".$data['detailid'.$i];
 					$this->update($arrs, $where);
+					
+					$amount = $data['amount'.$i]-$data['old_amount'.$i];
+					
+					$this->addCurrentCapital($amount,$data['agent_id'], $data['currency_id'.$i]);
 				}else{
-					$arrs = array(
+					/*$arrs = array(
 							'currency_id'=>$data['currency_id'.$i],
-							'for_date'=>date("Y-m-d"),
+							'for_date'=>date("Y-m-d h:i"),
 							'amount'=>$data['amount'.$i],
 							'agent_id'=>$data['agent_id'],
 							'user_id'=>$useId,
 					);
 					$this->_name ='ln_exchange_capital_detail';
-					$this->insert($arrs);
+					$this->insert($arrs);*/
 				}
 			}
 			return  $db->commit();
@@ -183,7 +188,7 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 				$amount = "-".$data['amount'.$i];
 				$arrs = array(
 						'currency_id'=>$data['currency_id'.$i],
-						'for_date'=>date("Y-m-d"),
+						'for_date'=>date("Y-m-d h:i"),
 						'amount'=>$amount,
 						'agent_id'=>$data['agent_id'],
 						'user_id'=>$useId,
@@ -206,10 +211,8 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 			if (!empty($capital)){
 				$totalAmount = $amount+$capital['amount'];
 				$arr = array(
-// 						'currency_id'=>$currency,
-						'for_date'=>date("Y-m-d"),
+						'for_date'=>date("Y-m-d h:i"),
 						'amount'=>$totalAmount,
-// 						'agent_id'=>$agency,
 				);
 				$this->_name ='ln_exchange_current_capital';
 				$where=" currency_id = $currency AND agent_id=$agency";
@@ -217,7 +220,7 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 			}else{
 				$arr = array(
 						'currency_id'=>$currency,
-						'for_date'=>date("Y-m-d"),
+						'for_date'=>date("Y-m-d h:i"),
 						'amount'=>$amount,
 						'agent_id'=>$agency,
 				);

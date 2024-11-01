@@ -196,7 +196,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
     public function getDayInkhmerBystr($str){
     	
     	$rs=array(
-    			'Mon'=>'ច័ន្ទ',
+    			'Mon'=>'ចន្ទ',
     			'Tue'=>'អង្គារ',
     			'Wed'=>'ពុធ',
     			'Thu'=>"ព្រហ",

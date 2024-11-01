@@ -531,7 +531,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		$data=$key->getKeyCodeMiniInv(TRUE);
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$str='<table align="center" width="100%">
-				<tr style="font-size: 14px;">
+				<tr style="font-size: 12px;">
 					<td style="width:20%;text-align:center;  font-family:'."'Times New Roman'".','."'Khmer OS Muol Light'".'">'.$tr->translate('APPROVED BY').'</td>
 					<td></td>
 					<td style="width:20%;text-align:center; font-family:'."'Times New Roman'".','."'Khmer OS Muol Light'".'">'.$tr->translate('VERIFYED BY').'</td>

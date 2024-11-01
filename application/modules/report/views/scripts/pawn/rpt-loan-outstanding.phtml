@@ -95,6 +95,7 @@ dojo.require("dijit.form.DateTextBox");
 								<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</th>
 								<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</th>
 								<th><?php echo $tr->translate("PRODUCT_NAME");?></th>
+								<th><?php echo $tr->translate("PRODUCT_DESCRIPTION");?></th>
 								<th><?php echo $tr->translate("EST_VALUE");?></th>
 								<th style="padding:2px 0px;"> &nbsp;<?php echo $tr->translate("RELEASE_DATE");?>&nbsp;</th>
 								<th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
@@ -188,6 +189,7 @@ dojo.require("dijit.form.DateTextBox");
 									<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
 									<td align="left" style="font-size:12px; line-height: 13px; white-space: nowrap;">&nbsp;<?php echo $row['client_khname']; ?>&nbsp;</td>
 									<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_name']; ?>&nbsp;</td>
+									<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_description']; ?>&nbsp;</td>
 									<td style="white-space:nowrap;">&nbsp;<?php echo $row['est_amount']; ?>&nbsp;</td>
 									<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_release']));?>&nbsp;</td>
 									<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_line']));?>&nbsp;</td>

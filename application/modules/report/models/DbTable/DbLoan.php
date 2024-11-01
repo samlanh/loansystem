@@ -1565,7 +1565,7 @@ public function getLoanadminFeeIcome($search=null){
       	 
       	$where.= " AND ".$from_date." AND ".$to_date;
       
-      	if(!empty($search['branch_id'])){
+      	if($search['branch_id']>0){
       		$where.=" AND v.branch_id = ".$search['branch_id'];
       	}
       	
@@ -1575,7 +1575,7 @@ public function getLoanadminFeeIcome($search=null){
       	
       	$dbp = new Application_Model_DbTable_DbGlobal();
       	$where.= $dbp->getAccessPermission("v.branch_id");
-      	
+		
       	$order = ' GROUP BY v.`curr_type` ORDER BY v.co_name ';
       	return $db->fetchAll($sql.$where.$order);
       }
